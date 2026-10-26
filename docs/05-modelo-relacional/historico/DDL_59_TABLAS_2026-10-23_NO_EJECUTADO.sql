@@ -1,0 +1,1003 @@
+-- ALE MILANESAS - DDL REFERENCIAL PRELIMINAR / ACTUALIZADO 23-10-2026 (PostgreSQL)
+-- Esqueleto tipado e íntegro en PK/FK para comenzar el diagrama.
+-- NO certifica integridad interrelacional, triggers, temporalidad ni políticas pendientes.
+-- AJUSTES IMPRESCINDIBLES ANTES DE PRODUCCION: ver Esquema_Maestro_*.md y Pendientes_Integracion.md
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+CREATE TABLE "UNIDAD_MEDIDA" (
+    "codigoUnidad" VARCHAR(20) NOT NULL,
+    "nombre" VARCHAR(100) NOT NULL,
+    CONSTRAINT "pk_unidad_medida" PRIMARY KEY ("codigoUnidad"),
+    CONSTRAINT "uq_unidad_medida_0" UNIQUE ("nombre")
+);
+
+CREATE TABLE "PRODUCTO" (
+    "idProducto" BIGINT NOT NULL,
+    "nombre" VARCHAR(150) NOT NULL,
+    "nombreNormalizado" VARCHAR(150) NOT NULL,
+    "descripcion" TEXT,
+    "tipoProducto" VARCHAR(20) NOT NULL,
+    "codigoUnidadVenta" VARCHAR(20) NOT NULL,
+    "activo" BOOLEAN NOT NULL,
+    "stockActualReventa" NUMERIC(18,3),
+    "costoPromedioActualReventa" NUMERIC(18,4),
+    CONSTRAINT "pk_producto" PRIMARY KEY ("idProducto"),
+    CONSTRAINT "uq_producto_0" UNIQUE ("nombreNormalizado"),
+    CONSTRAINT "ck_producto_0" CHECK ("tipoProducto" IN ('ELABORADO','REVENTA')),
+    CONSTRAINT "ck_producto_1" CHECK ("stockActualReventa" IS NULL OR "stockActualReventa">=0),
+    CONSTRAINT "ck_producto_2" CHECK ("costoPromedioActualReventa" IS NULL OR "costoPromedioActualReventa">=0)
+);
+
+CREATE TABLE "INSUMO" (
+    "idInsumo" BIGINT NOT NULL,
+    "nombre" VARCHAR(150) NOT NULL,
+    "codigoUnidadMedida" VARCHAR(20) NOT NULL,
+    "stockActual" NUMERIC(18,3) NOT NULL,
+    "umbralMinimo" NUMERIC(18,3) NOT NULL,
+    "nivelObjetivoReposicion" NUMERIC(18,3) NOT NULL,
+    "automatizacionCompraActiva" BOOLEAN NOT NULL,
+    "activo" BOOLEAN NOT NULL,
+    CONSTRAINT "pk_insumo" PRIMARY KEY ("idInsumo"),
+    CONSTRAINT "ck_insumo_0" CHECK ("stockActual">=0),
+    CONSTRAINT "ck_insumo_1" CHECK ("umbralMinimo">=0),
+    CONSTRAINT "ck_insumo_2" CHECK ("nivelObjetivoReposicion">"umbralMinimo")
+);
+
+CREATE TABLE "RECETA" (
+    "idReceta" BIGINT NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    CONSTRAINT "pk_receta" PRIMARY KEY ("idReceta"),
+    CONSTRAINT "uq_receta_0" UNIQUE ("idProducto")
+);
+
+CREATE TABLE "VERSION_RECETA" (
+    "idReceta" BIGINT NOT NULL,
+    "numeroVersion" INTEGER NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    "cantidadRendimientoBase" NUMERIC(18,3) NOT NULL,
+    "codigoUnidadRendimiento" VARCHAR(20) NOT NULL,
+    CONSTRAINT "pk_version_receta" PRIMARY KEY ("idReceta", "numeroVersion"),
+    CONSTRAINT "ck_version_receta_0" CHECK ("numeroVersion">0),
+    CONSTRAINT "ck_version_receta_1" CHECK ("cantidadRendimientoBase">0),
+    CONSTRAINT "ck_version_receta_2" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "DETALLE_VERSION_RECETA" (
+    "idReceta" BIGINT NOT NULL,
+    "numeroVersion" INTEGER NOT NULL,
+    "idInsumo" BIGINT NOT NULL,
+    "cantidadNecesaria" NUMERIC(18,3) NOT NULL,
+    "codigoUnidadCantidad" VARCHAR(20) NOT NULL,
+    CONSTRAINT "pk_detalle_version_receta" PRIMARY KEY ("idReceta", "numeroVersion", "idInsumo"),
+    CONSTRAINT "ck_detalle_version_receta_0" CHECK ("cantidadNecesaria">0)
+);
+
+CREATE TABLE "PREPARACION" (
+    "idPreparacion" BIGINT NOT NULL,
+    "idPedido" BIGINT NOT NULL,
+    "numeroDetalle" INTEGER NOT NULL,
+    "idReceta" BIGINT NOT NULL,
+    "numeroVersion" INTEGER NOT NULL,
+    "fechaHoraPreparacion" TIMESTAMPTZ NOT NULL,
+    "cantidadPreparada" NUMERIC(18,3) NOT NULL,
+    CONSTRAINT "pk_preparacion" PRIMARY KEY ("idPreparacion"),
+    CONSTRAINT "ck_preparacion_0" CHECK ("cantidadPreparada">0)
+);
+
+CREATE TABLE "COSTO_INSUMO_HISTORICO" (
+    "idInsumo" BIGINT NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    "costoUnitario" NUMERIC(18,4) NOT NULL,
+    "fuenteCosto" VARCHAR(30) NOT NULL,
+    "referenciaOrigen" VARCHAR(100),
+    "idRecepcionCompra" BIGINT,
+    CONSTRAINT "pk_costo_insumo_historico" PRIMARY KEY ("idInsumo", "vigenteDesde"),
+    CONSTRAINT "uq_costo_insumo_historico_0" UNIQUE ("idRecepcionCompra"),
+    CONSTRAINT "ck_costo_insumo_historico_0" CHECK ("costoUnitario">0),
+    CONSTRAINT "ck_costo_insumo_historico_1" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "MOVIMIENTO_INSUMO" (
+    "idMovimientoInsumo" BIGINT NOT NULL,
+    "idInsumo" BIGINT NOT NULL,
+    "numeroSecuenciaInsumo" BIGINT NOT NULL,
+    "idPreparacion" BIGINT,
+    "idRecepcionCompra" BIGINT,
+    "vigenteDesdeCosto" TIMESTAMPTZ NOT NULL,
+    "idUsuarioResponsable" BIGINT NOT NULL,
+    "tipoMovimiento" VARCHAR(30) NOT NULL,
+    "cantidad" NUMERIC(18,3) NOT NULL,
+    "fechaHora" TIMESTAMPTZ NOT NULL,
+    "stockResultante" NUMERIC(18,3) NOT NULL,
+    "origen" VARCHAR(30) NOT NULL,
+    "referenciaOrigen" VARCHAR(100),
+    "motivo" TEXT,
+    "observacion" TEXT,
+    CONSTRAINT "pk_movimiento_insumo" PRIMARY KEY ("idMovimientoInsumo"),
+    CONSTRAINT "uq_movimiento_insumo_0" UNIQUE ("idInsumo", "numeroSecuenciaInsumo"),
+    CONSTRAINT "uq_movimiento_insumo_1" UNIQUE ("idRecepcionCompra"),
+    CONSTRAINT "ck_movimiento_insumo_0" CHECK ("numeroSecuenciaInsumo">0),
+    CONSTRAINT "ck_movimiento_insumo_1" CHECK ("cantidad">0),
+    CONSTRAINT "ck_movimiento_insumo_2" CHECK ("stockResultante">=0),
+    CONSTRAINT "ck_movimiento_insumo_3" CHECK ("tipoMovimiento" IN ('INGRESO_COMPRA','CONSUMO_PRODUCCION','AJUSTE_POSITIVO','AJUSTE_NEGATIVO'))
+);
+
+CREATE TABLE "PEDIDO" (
+    "idPedido" BIGINT NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "idUsuarioCreador" BIGINT,
+    "idSesionOnline" UUID,
+    "fechaHoraCarga" TIMESTAMPTZ NOT NULL,
+    "fechaReparto" DATE NOT NULL,
+    "canalOrigen" VARCHAR(10) NOT NULL,
+    "estado" VARCHAR(15) NOT NULL,
+    "categoriaComercialAplicada" VARCHAR(20) NOT NULL,
+    "idPoliticaComercialAplicada" BIGINT NOT NULL,
+    "tipoAjuste" VARCHAR(15) NOT NULL,
+    "porcentajeAjuste" NUMERIC(5,2) NOT NULL,
+    "totalOriginal" NUMERIC(18,2) NOT NULL,
+    "motivoCancelacion" TEXT,
+    "fechaHoraCancelacion" TIMESTAMPTZ,
+    "idOperacionOrigen" UUID,
+    "direccionEntregaCalle" VARCHAR(150) NOT NULL,
+    "direccionEntregaNumero" VARCHAR(20),
+    "direccionEntregaPiso" VARCHAR(10),
+    "direccionEntregaUnidadFuncional" VARCHAR(20),
+    "direccionEntregaLocalidad" VARCHAR(100) NOT NULL,
+    "direccionEntregaProvincia" VARCHAR(100),
+    "direccionEntregaReferencia" VARCHAR(250),
+    "direccionEntregaZona" VARCHAR(100),
+    CONSTRAINT "pk_pedido" PRIMARY KEY ("idPedido"),
+    CONSTRAINT "uq_pedido_0" UNIQUE ("idOperacionOrigen"),
+    CONSTRAINT "uq_pedido_1" UNIQUE ("idPedido", "idCliente"),
+    CONSTRAINT "ck_pedido_0" CHECK ("canalOrigen" IN ('INTERNO','ONLINE')),
+    CONSTRAINT "ck_pedido_1" CHECK ("estado" IN ('PENDIENTE','ENTREGADO','CANCELADO')),
+    CONSTRAINT "ck_pedido_2" CHECK ("tipoAjuste" IN ('DESCUENTO','RECARGO','SIN_AJUSTE')),
+    CONSTRAINT "ck_pedido_3" CHECK ("porcentajeAjuste" BETWEEN 0 AND 100),
+    CONSTRAINT "ck_pedido_4" CHECK ("totalOriginal">=0),
+    CONSTRAINT "ck_pedido_5" CHECK (("canalOrigen"='ONLINE' AND "idSesionOnline" IS NOT NULL AND "idUsuarioCreador" IS NULL) OR ("canalOrigen"='INTERNO' AND "idSesionOnline" IS NULL AND "idUsuarioCreador" IS NOT NULL))
+);
+
+CREATE TABLE "DETALLE_PEDIDO" (
+    "idPedido" BIGINT NOT NULL,
+    "numeroDetalle" INTEGER NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    "codigoUnidadVenta" VARCHAR(20) NOT NULL,
+    "cantidadOriginal" NUMERIC(18,3) NOT NULL,
+    "precioUnitarioOriginal" NUMERIC(18,4),
+    "porcentajePromocionOriginal" NUMERIC(5,2) NOT NULL,
+    "idPromocionAplicada" BIGINT,
+    CONSTRAINT "pk_detalle_pedido" PRIMARY KEY ("idPedido", "numeroDetalle"),
+    CONSTRAINT "uq_detalle_pedido_0" UNIQUE ("idPedido", "idProducto"),
+    CONSTRAINT "uq_detalle_pedido_1" UNIQUE ("idPedido", "numeroDetalle", "idProducto"),
+    CONSTRAINT "ck_detalle_pedido_0" CHECK ("numeroDetalle">0),
+    CONSTRAINT "ck_detalle_pedido_1" CHECK ("cantidadOriginal">=0),
+    CONSTRAINT "ck_detalle_pedido_2" CHECK ("porcentajePromocionOriginal" BETWEEN 0 AND 100),
+    CONSTRAINT "ck_detalle_pedido_3" CHECK (("cantidadOriginal"=0 AND "precioUnitarioOriginal" IS NULL AND "porcentajePromocionOriginal"=0 AND "idPromocionAplicada" IS NULL) OR ("cantidadOriginal">0 AND "precioUnitarioOriginal" IS NOT NULL AND "precioUnitarioOriginal">0))
+);
+
+CREATE TABLE "ASIGNACION_REPARTO" (
+    "idPedido" BIGINT NOT NULL,
+    "numeroAsignacion" INTEGER NOT NULL,
+    "idUsuarioRepartidor" BIGINT NOT NULL,
+    "idUsuarioVendedor" BIGINT NOT NULL,
+    "fechaHoraInicio" TIMESTAMPTZ NOT NULL,
+    "fechaHoraFin" TIMESTAMPTZ,
+    "motivoReasignacion" TEXT,
+    CONSTRAINT "pk_asignacion_reparto" PRIMARY KEY ("idPedido", "numeroAsignacion"),
+    CONSTRAINT "ck_asignacion_reparto_0" CHECK ("numeroAsignacion">0),
+    CONSTRAINT "ck_asignacion_reparto_1" CHECK ("fechaHoraFin" IS NULL OR "fechaHoraFin">="fechaHoraInicio")
+);
+
+CREATE TABLE "ENTREGA" (
+    "idPedido" BIGINT NOT NULL,
+    "fechaHoraEntrega" TIMESTAMPTZ NOT NULL,
+    "idUsuarioRepartidor" BIGINT NOT NULL,
+    CONSTRAINT "pk_entrega" PRIMARY KEY ("idPedido")
+);
+
+CREATE TABLE "DETALLE_ENTREGA" (
+    "idPedido" BIGINT NOT NULL,
+    "numeroDetalle" INTEGER NOT NULL,
+    "cantidadEntregada" NUMERIC(18,3) NOT NULL,
+    "costoHistoricoElaboradoVendido" NUMERIC(18,4),
+    CONSTRAINT "pk_detalle_entrega" PRIMARY KEY ("idPedido", "numeroDetalle"),
+    CONSTRAINT "ck_detalle_entrega_0" CHECK ("cantidadEntregada">=0),
+    CONSTRAINT "ck_detalle_entrega_1" CHECK ("costoHistoricoElaboradoVendido" IS NULL OR "costoHistoricoElaboradoVendido">=0)
+);
+
+CREATE TABLE "EXCEDENTE" (
+    "idExcedente" BIGINT NOT NULL,
+    "idPedidoOrigen" BIGINT NOT NULL,
+    "numeroDetalleOrigen" INTEGER NOT NULL,
+    "origenGeneracion" VARCHAR(15) NOT NULL,
+    "fechaHoraGeneracion" TIMESTAMPTZ NOT NULL,
+    "cantidadInicial" NUMERIC(18,3) NOT NULL,
+    "cantidadDisponible" NUMERIC(18,3) NOT NULL,
+    "costoHistoricoInicial" NUMERIC(18,4) NOT NULL,
+    "costoHistoricoDisponible" NUMERIC(18,4) NOT NULL,
+    "idMovimientoExcedenteOrigen" BIGINT,
+    CONSTRAINT "pk_excedente" PRIMARY KEY ("idExcedente"),
+    CONSTRAINT "ck_excedente_0" CHECK ("origenGeneracion" IN ('ENTREGA','CANCELACION')),
+    CONSTRAINT "ck_excedente_1" CHECK ("cantidadInicial">0),
+    CONSTRAINT "ck_excedente_2" CHECK ("cantidadDisponible">=0),
+    CONSTRAINT "ck_excedente_3" CHECK ("cantidadDisponible"<="cantidadInicial"),
+    CONSTRAINT "ck_excedente_4" CHECK ("costoHistoricoInicial">0),
+    CONSTRAINT "ck_excedente_5" CHECK ("costoHistoricoDisponible">=0),
+    CONSTRAINT "ck_excedente_6" CHECK ("costoHistoricoDisponible"<="costoHistoricoInicial")
+);
+
+CREATE TABLE "OFERTA_EXCEDENTE" (
+    "idOfertaExcedente" BIGINT NOT NULL,
+    "idExcedente" BIGINT NOT NULL,
+    "idPedidoReceptor" BIGINT NOT NULL,
+    "idUsuarioVendedor" BIGINT NOT NULL,
+    "fechaHoraOferta" TIMESTAMPTZ NOT NULL,
+    "cantidadOfrecida" NUMERIC(18,3) NOT NULL,
+    "importeInformado" NUMERIC(18,2) NOT NULL,
+    "respuesta" VARCHAR(15) NOT NULL,
+    "fechaHoraRespuesta" TIMESTAMPTZ,
+    "cantidadAceptada" NUMERIC(18,3),
+    "importeAceptado" NUMERIC(18,2),
+    CONSTRAINT "pk_oferta_excedente" PRIMARY KEY ("idOfertaExcedente"),
+    CONSTRAINT "uq_oferta_excedente_0" UNIQUE ("idOfertaExcedente", "idExcedente"),
+    CONSTRAINT "ck_oferta_excedente_0" CHECK ("cantidadOfrecida">0),
+    CONSTRAINT "ck_oferta_excedente_1" CHECK ("importeInformado">0),
+    CONSTRAINT "ck_oferta_excedente_2" CHECK ("respuesta" IN ('PENDIENTE','ACEPTADA','RECHAZADA')),
+    CONSTRAINT "ck_oferta_excedente_3" CHECK (("respuesta"='PENDIENTE' AND "fechaHoraRespuesta" IS NULL AND "cantidadAceptada" IS NULL AND "importeAceptado" IS NULL) OR ("respuesta"='RECHAZADA' AND "fechaHoraRespuesta" IS NOT NULL AND "cantidadAceptada" IS NULL AND "importeAceptado" IS NULL) OR ("respuesta"='ACEPTADA' AND "fechaHoraRespuesta" IS NOT NULL AND "cantidadAceptada" IS NOT NULL AND "cantidadAceptada">0 AND "cantidadAceptada"<="cantidadOfrecida" AND "importeAceptado" IS NOT NULL AND "importeAceptado">0))
+);
+
+CREATE TABLE "MOVIMIENTO_EXCEDENTE" (
+    "idMovimientoExcedente" BIGINT NOT NULL,
+    "idExcedente" BIGINT NOT NULL,
+    "idOfertaExcedente" BIGINT,
+    "tipoMovimiento" VARCHAR(15) NOT NULL,
+    "cantidad" NUMERIC(18,3) NOT NULL,
+    "costoHistoricoSalida" NUMERIC(18,4) NOT NULL,
+    "fechaHoraMovimiento" TIMESTAMPTZ NOT NULL,
+    "motivoDescarte" TEXT,
+    CONSTRAINT "pk_movimiento_excedente" PRIMARY KEY ("idMovimientoExcedente"),
+    CONSTRAINT "uq_movimiento_excedente_0" UNIQUE ("idOfertaExcedente"),
+    CONSTRAINT "ck_movimiento_excedente_0" CHECK ("tipoMovimiento" IN ('REASIGNACION','DESCARTE')),
+    CONSTRAINT "ck_movimiento_excedente_1" CHECK ("cantidad">0),
+    CONSTRAINT "ck_movimiento_excedente_2" CHECK ("costoHistoricoSalida">=0),
+    CONSTRAINT "ck_movimiento_excedente_3" CHECK (("tipoMovimiento"='REASIGNACION' AND "idOfertaExcedente" IS NOT NULL AND "motivoDescarte" IS NULL) OR ("tipoMovimiento"='DESCARTE' AND "idOfertaExcedente" IS NULL AND "motivoDescarte" IS NOT NULL AND length(trim("motivoDescarte"))>0))
+);
+
+CREATE TABLE "IMPUTACION_ENTREGA_ADICIONAL" (
+    "idPedido" BIGINT NOT NULL,
+    "numeroDetalle" INTEGER NOT NULL,
+    "idMovimientoExcedente" BIGINT NOT NULL,
+    "cantidadImputada" NUMERIC(18,3) NOT NULL,
+    "importeImputado" NUMERIC(18,2) NOT NULL,
+    CONSTRAINT "pk_imputacion_entrega_adicional" PRIMARY KEY ("idPedido", "numeroDetalle", "idMovimientoExcedente"),
+    CONSTRAINT "uq_imputacion_entrega_adicional_0" UNIQUE ("idMovimientoExcedente"),
+    CONSTRAINT "ck_imputacion_entrega_adicional_0" CHECK ("cantidadImputada">0),
+    CONSTRAINT "ck_imputacion_entrega_adicional_1" CHECK ("importeImputado">=0)
+);
+
+CREATE TABLE "PRECIO_PRODUCTO" (
+    "idPrecio" BIGINT NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    "precioBase" NUMERIC(18,4) NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    "fechaHoraRegistro" TIMESTAMPTZ NOT NULL,
+    "idUsuarioRegistro" BIGINT NOT NULL,
+    "fechaHoraCancelacion" TIMESTAMPTZ,
+    "idUsuarioCancelacion" BIGINT,
+    CONSTRAINT "pk_precio_producto" PRIMARY KEY ("idPrecio"),
+    CONSTRAINT "ck_precio_producto_0" CHECK ("precioBase">0),
+    CONSTRAINT "ck_precio_producto_1" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde"),
+    CONSTRAINT "ck_precio_producto_2" CHECK (("fechaHoraCancelacion" IS NULL AND "idUsuarioCancelacion" IS NULL) OR ("fechaHoraCancelacion" IS NOT NULL AND "idUsuarioCancelacion" IS NOT NULL AND "fechaHoraCancelacion"<"vigenteDesde"))
+);
+
+CREATE TABLE "AUDITORIA_PRECIO" (
+    "idAuditoriaPrecio" BIGINT NOT NULL,
+    "idPrecio" BIGINT NOT NULL,
+    "idUsuario" BIGINT NOT NULL,
+    "fechaHoraEvento" TIMESTAMPTZ NOT NULL,
+    "tipoEvento" VARCHAR(30) NOT NULL,
+    "precioAnterior" NUMERIC(18,4),
+    "precioNuevo" NUMERIC(18,4),
+    "vigenteDesdeAnterior" TIMESTAMPTZ,
+    "vigenteDesdeNuevo" TIMESTAMPTZ,
+    "vigenteHastaAnterior" TIMESTAMPTZ,
+    "vigenteHastaNuevo" TIMESTAMPTZ,
+    CONSTRAINT "pk_auditoria_precio" PRIMARY KEY ("idAuditoriaPrecio"),
+    CONSTRAINT "ck_auditoria_precio_0" CHECK ("tipoEvento" IN ('MODIFICACION_PROGRAMADA','CANCELACION_PROGRAMADA','CIERRE_VIGENCIA'))
+);
+
+CREATE TABLE "PROMOCION" (
+    "idPromocion" BIGINT NOT NULL,
+    "descripcion" VARCHAR(300) NOT NULL,
+    "porcentajeDescuento" NUMERIC(5,2) NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ NOT NULL,
+    "estado" VARCHAR(30) NOT NULL,
+    "fechaHoraCreacion" TIMESTAMPTZ NOT NULL,
+    "idUsuarioCreador" BIGINT NOT NULL,
+    "codigoAccesoOnline" UUID NOT NULL,
+    CONSTRAINT "pk_promocion" PRIMARY KEY ("idPromocion"),
+    CONSTRAINT "uq_promocion_0" UNIQUE ("codigoAccesoOnline"),
+    CONSTRAINT "ck_promocion_0" CHECK ("porcentajeDescuento">0),
+    CONSTRAINT "ck_promocion_1" CHECK ("porcentajeDescuento"<=100),
+    CONSTRAINT "ck_promocion_2" CHECK ("vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "PROMOCION_PRODUCTO" (
+    "idPromocion" BIGINT NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    CONSTRAINT "pk_promocion_producto" PRIMARY KEY ("idPromocion", "idProducto")
+);
+
+CREATE TABLE "DESTINATARIO_PROMOCION" (
+    "idPromocion" BIGINT NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "fechaHoraSeleccion" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_destinatario_promocion" PRIMARY KEY ("idPromocion", "idCliente")
+);
+
+CREATE TABLE "INTENTO_COMUNICACION" (
+    "idPromocion" BIGINT NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "numeroIntento" INTEGER NOT NULL,
+    "fechaHoraIntento" TIMESTAMPTZ NOT NULL,
+    "canal" VARCHAR(30) NOT NULL,
+    "resultado" VARCHAR(30) NOT NULL,
+    "fechaHoraResultado" TIMESTAMPTZ,
+    "claveIdempotencia" UUID NOT NULL,
+    "referenciaExterna" VARCHAR(150),
+    CONSTRAINT "pk_intento_comunicacion" PRIMARY KEY ("idPromocion", "idCliente", "numeroIntento"),
+    CONSTRAINT "uq_intento_comunicacion_0" UNIQUE ("claveIdempotencia"),
+    CONSTRAINT "uq_intento_comunicacion_1" UNIQUE ("referenciaExterna"),
+    CONSTRAINT "ck_intento_comunicacion_0" CHECK ("numeroIntento">0),
+    CONSTRAINT "ck_intento_comunicacion_1" CHECK ("canal"='WHATSAPP'),
+    CONSTRAINT "ck_intento_comunicacion_2" CHECK ("fechaHoraResultado" IS NULL OR "fechaHoraResultado">="fechaHoraIntento")
+);
+
+CREATE TABLE "POLITICA_CATEGORIA_COMERCIAL" (
+    "idPoliticaComercial" BIGINT NOT NULL,
+    "diasToleranciaMora" INTEGER NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    "fechaHoraRegistro" TIMESTAMPTZ NOT NULL,
+    "idUsuarioRegistro" BIGINT NOT NULL,
+    CONSTRAINT "pk_politica_categoria_comercial" PRIMARY KEY ("idPoliticaComercial"),
+    CONSTRAINT "ck_politica_categoria_comercial_0" CHECK ("diasToleranciaMora">=0),
+    CONSTRAINT "ck_politica_categoria_comercial_1" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "AJUSTE_POLITICA_CATEGORIA" (
+    "idPoliticaComercial" BIGINT NOT NULL,
+    "categoriaComercial" VARCHAR(20) NOT NULL,
+    "tipoAjuste" VARCHAR(15) NOT NULL,
+    "porcentajeAjuste" NUMERIC(5,2) NOT NULL,
+    CONSTRAINT "pk_ajuste_politica_categoria" PRIMARY KEY ("idPoliticaComercial", "categoriaComercial"),
+    CONSTRAINT "ck_ajuste_politica_categoria_0" CHECK ("categoriaComercial" IN ('CUMPLIDOR','EN_MORA')),
+    CONSTRAINT "ck_ajuste_politica_categoria_1" CHECK ("tipoAjuste" IN ('DESCUENTO','RECARGO','SIN_AJUSTE')),
+    CONSTRAINT "ck_ajuste_politica_categoria_2" CHECK ("porcentajeAjuste" BETWEEN 0 AND 100),
+    CONSTRAINT "ck_ajuste_politica_categoria_3" CHECK (("tipoAjuste"='SIN_AJUSTE' AND "porcentajeAjuste"=0) OR ("tipoAjuste" IN ('DESCUENTO','RECARGO') AND "porcentajeAjuste">0))
+);
+
+CREATE TABLE "CLIENTE" (
+    "idCliente" BIGINT NOT NULL,
+    "nombres" VARCHAR(120) NOT NULL,
+    "apellidos" VARCHAR(120),
+    "telefonoPrincipal" VARCHAR(20) NOT NULL,
+    "calle" VARCHAR(150),
+    "numeroPuerta" VARCHAR(20),
+    "piso" VARCHAR(10),
+    "unidadFuncional" VARCHAR(20),
+    "localidad" VARCHAR(100),
+    "provincia" VARCHAR(100),
+    "referenciaDomicilio" VARCHAR(250),
+    "zona" VARCHAR(100),
+    "diaHabitualReparto" SMALLINT,
+    "estado" VARCHAR(10) NOT NULL,
+    "categoriaComercial" VARCHAR(20) NOT NULL,
+    "fechaHoraAlta" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_cliente" PRIMARY KEY ("idCliente"),
+    CONSTRAINT "ck_cliente_0" CHECK ("estado" IN ('ACTIVO','INACTIVO')),
+    CONSTRAINT "ck_cliente_1" CHECK ("categoriaComercial" IN ('CUMPLIDOR','EN_MORA')),
+    CONSTRAINT "ck_cliente_2" CHECK ("diaHabitualReparto" IS NULL OR "diaHabitualReparto" BETWEEN 1 AND 7)
+);
+
+CREATE TABLE "HISTORIAL_ESTADO_CLIENTE" (
+    "idCliente" BIGINT NOT NULL,
+    "numeroCambio" INTEGER NOT NULL,
+    "estadoAnterior" VARCHAR(10) NOT NULL,
+    "estadoNuevo" VARCHAR(10) NOT NULL,
+    "fechaHoraCambio" TIMESTAMPTZ NOT NULL,
+    "motivo" TEXT,
+    "idUsuarioAdministrador" BIGINT NOT NULL,
+    CONSTRAINT "pk_historial_estado_cliente" PRIMARY KEY ("idCliente", "numeroCambio"),
+    CONSTRAINT "ck_historial_estado_cliente_0" CHECK ("numeroCambio">0),
+    CONSTRAINT "ck_historial_estado_cliente_1" CHECK ("estadoAnterior" IN ('ACTIVO','INACTIVO')),
+    CONSTRAINT "ck_historial_estado_cliente_2" CHECK ("estadoNuevo" IN ('ACTIVO','INACTIVO')),
+    CONSTRAINT "ck_historial_estado_cliente_3" CHECK ("estadoAnterior"<>"estadoNuevo")
+);
+
+CREATE TABLE "USUARIO" (
+    "idUsuario" BIGINT NOT NULL,
+    "nombreUsuario" VARCHAR(80) NOT NULL,
+    "credencialProtegida" VARCHAR(255) NOT NULL,
+    "estado" VARCHAR(15) NOT NULL,
+    "cambioCredencialPendiente" BOOLEAN NOT NULL,
+    "fechaHoraAlta" TIMESTAMPTZ NOT NULL,
+    "fechaHoraDeshabilitacion" TIMESTAMPTZ,
+    CONSTRAINT "pk_usuario" PRIMARY KEY ("idUsuario"),
+    CONSTRAINT "ck_usuario_0" CHECK ("estado" IN ('HABILITADO','DESHABILITADO'))
+);
+
+CREATE TABLE "ROL" (
+    "codigoRol" VARCHAR(30) NOT NULL,
+    "nombreMostrado" VARCHAR(100) NOT NULL,
+    CONSTRAINT "pk_rol" PRIMARY KEY ("codigoRol"),
+    CONSTRAINT "uq_rol_0" UNIQUE ("nombreMostrado"),
+    CONSTRAINT "ck_rol_0" CHECK ("codigoRol" IN ('ADMINISTRADOR','VENDEDOR','RESPONSABLE_PRODUCCION','REPARTIDOR','PROVEEDOR'))
+);
+
+CREATE TABLE "USUARIO_ROL" (
+    "idUsuario" BIGINT NOT NULL,
+    "codigoRol" VARCHAR(30) NOT NULL,
+    "fechaHoraAsignacion" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_usuario_rol" PRIMARY KEY ("idUsuario", "codigoRol")
+);
+
+CREATE TABLE "EVENTO_ASIGNACION_ROL" (
+    "idEventoRol" BIGINT NOT NULL,
+    "idUsuario" BIGINT NOT NULL,
+    "codigoRol" VARCHAR(30) NOT NULL,
+    "tipoEvento" VARCHAR(15) NOT NULL,
+    "fechaHoraEvento" TIMESTAMPTZ NOT NULL,
+    "idUsuarioAdministrador" BIGINT NOT NULL,
+    CONSTRAINT "pk_evento_asignacion_rol" PRIMARY KEY ("idEventoRol"),
+    CONSTRAINT "ck_evento_asignacion_rol_0" CHECK ("tipoEvento" IN ('ASIGNACION','REVOCACION'))
+);
+
+CREATE TABLE "USUARIO_PROVEEDOR" (
+    "idUsuario" BIGINT NOT NULL,
+    "idProveedor" BIGINT NOT NULL,
+    "fechaHoraVinculacion" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_usuario_proveedor" PRIMARY KEY ("idUsuario")
+);
+
+CREATE TABLE "SESION_USUARIO" (
+    "idSesionUsuario" UUID NOT NULL,
+    "idUsuario" BIGINT NOT NULL,
+    "tokenProtegido" BYTEA NOT NULL,
+    "fechaHoraInicio" TIMESTAMPTZ NOT NULL,
+    "fechaHoraExpiracion" TIMESTAMPTZ NOT NULL,
+    "fechaHoraRevocacion" TIMESTAMPTZ,
+    CONSTRAINT "pk_sesion_usuario" PRIMARY KEY ("idSesionUsuario"),
+    CONSTRAINT "uq_sesion_usuario_0" UNIQUE ("tokenProtegido"),
+    CONSTRAINT "ck_sesion_usuario_0" CHECK ("fechaHoraExpiracion">"fechaHoraInicio"),
+    CONSTRAINT "ck_sesion_usuario_1" CHECK ("fechaHoraRevocacion" IS NULL OR "fechaHoraRevocacion">="fechaHoraInicio")
+);
+
+CREATE TABLE "DESAFIO_AUTENTICACION_CLIENTE" (
+    "idDesafio" UUID NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "telefonoDestino" VARCHAR(20) NOT NULL,
+    "codigoProtegido" BYTEA NOT NULL,
+    "fechaHoraCreacion" TIMESTAMPTZ NOT NULL,
+    "fechaHoraAceptacionEnvio" TIMESTAMPTZ,
+    "fechaHoraExpiracion" TIMESTAMPTZ NOT NULL,
+    "intentosFallidos" SMALLINT NOT NULL,
+    "fechaHoraValidacion" TIMESTAMPTZ,
+    "fechaHoraBloqueo" TIMESTAMPTZ,
+    CONSTRAINT "pk_desafio_autenticacion_cliente" PRIMARY KEY ("idDesafio"),
+    CONSTRAINT "ck_desafio_autenticacion_cliente_0" CHECK ("fechaHoraExpiracion">"fechaHoraCreacion"),
+    CONSTRAINT "ck_desafio_autenticacion_cliente_1" CHECK ("intentosFallidos">=0)
+);
+
+CREATE TABLE "SESION_CLIENTE_ONLINE" (
+    "idSesionOnline" UUID NOT NULL,
+    "idDesafio" UUID NOT NULL,
+    "tokenProtegido" BYTEA NOT NULL,
+    "fechaHoraInicio" TIMESTAMPTZ NOT NULL,
+    "fechaHoraExpiracion" TIMESTAMPTZ NOT NULL,
+    "fechaHoraRevocacion" TIMESTAMPTZ,
+    CONSTRAINT "pk_sesion_cliente_online" PRIMARY KEY ("idSesionOnline"),
+    CONSTRAINT "uq_sesion_cliente_online_0" UNIQUE ("idDesafio"),
+    CONSTRAINT "uq_sesion_cliente_online_1" UNIQUE ("tokenProtegido"),
+    CONSTRAINT "ck_sesion_cliente_online_0" CHECK ("fechaHoraExpiracion">"fechaHoraInicio"),
+    CONSTRAINT "ck_sesion_cliente_online_1" CHECK ("fechaHoraRevocacion" IS NULL OR "fechaHoraRevocacion">="fechaHoraInicio")
+);
+
+CREATE TABLE "PROVEEDOR" (
+    "idProveedor" BIGINT NOT NULL,
+    "cuit" CHAR(11) NOT NULL,
+    "razonSocial" VARCHAR(180) NOT NULL,
+    "telefonoContacto" VARCHAR(20),
+    "emailContacto" VARCHAR(254),
+    "calle" VARCHAR(150),
+    "numeroPuerta" VARCHAR(20),
+    "localidad" VARCHAR(100),
+    "provincia" VARCHAR(100),
+    "estado" VARCHAR(10) NOT NULL,
+    "fechaHoraAlta" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_proveedor" PRIMARY KEY ("idProveedor"),
+    CONSTRAINT "uq_proveedor_0" UNIQUE ("cuit"),
+    CONSTRAINT "ck_proveedor_0" CHECK ("estado" IN ('ACTIVO','INACTIVO')),
+    CONSTRAINT "ck_proveedor_1" CHECK ("cuit" ~ '^[0-9]{11}$')
+);
+
+CREATE TABLE "HISTORIAL_ESTADO_PROVEEDOR" (
+    "idProveedor" BIGINT NOT NULL,
+    "numeroCambio" INTEGER NOT NULL,
+    "estadoAnterior" VARCHAR(10) NOT NULL,
+    "estadoNuevo" VARCHAR(10) NOT NULL,
+    "fechaHoraCambio" TIMESTAMPTZ NOT NULL,
+    "idUsuarioAdministrador" BIGINT NOT NULL,
+    "motivo" TEXT,
+    CONSTRAINT "pk_historial_estado_proveedor" PRIMARY KEY ("idProveedor", "numeroCambio"),
+    CONSTRAINT "ck_historial_estado_proveedor_0" CHECK ("numeroCambio">0),
+    CONSTRAINT "ck_historial_estado_proveedor_1" CHECK ("estadoAnterior"<>"estadoNuevo")
+);
+
+CREATE TABLE "PROVEEDOR_INSUMO" (
+    "idProveedor" BIGINT NOT NULL,
+    "idInsumo" BIGINT NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    CONSTRAINT "pk_proveedor_insumo" PRIMARY KEY ("idProveedor", "idInsumo", "vigenteDesde"),
+    CONSTRAINT "ck_proveedor_insumo_0" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "EPISODIO_FALTANTE" (
+    "idEpisodio" BIGINT NOT NULL,
+    "idInsumo" BIGINT NOT NULL,
+    "fechaHoraInicio" TIMESTAMPTZ NOT NULL,
+    "fechaHoraCierre" TIMESTAMPTZ,
+    "idMovimientoApertura" BIGINT,
+    CONSTRAINT "pk_episodio_faltante" PRIMARY KEY ("idEpisodio"),
+    CONSTRAINT "uq_episodio_faltante_0" UNIQUE ("idMovimientoApertura"),
+    CONSTRAINT "ck_episodio_faltante_0" CHECK ("fechaHoraCierre" IS NULL OR "fechaHoraCierre">"fechaHoraInicio")
+);
+
+CREATE TABLE "SOLICITUD_COTIZACION" (
+    "idSolicitud" BIGINT NOT NULL,
+    "idEpisodio" BIGINT NOT NULL,
+    "idSolicitudAnterior" BIGINT,
+    "idUsuarioEmisor" BIGINT,
+    "cantidadSolicitada" NUMERIC(18,3) NOT NULL,
+    "fechaHoraEmision" TIMESTAMPTZ NOT NULL,
+    "fechaHoraVencimiento" TIMESTAMPTZ NOT NULL,
+    "fechaHoraFinRecepcion" TIMESTAMPTZ,
+    "modalidadInicio" VARCHAR(15) NOT NULL,
+    "estado" VARCHAR(30) NOT NULL,
+    "motivoCierre" VARCHAR(40),
+    "fechaHoraResolucion" TIMESTAMPTZ,
+    CONSTRAINT "pk_solicitud_cotizacion" PRIMARY KEY ("idSolicitud"),
+    CONSTRAINT "uq_solicitud_cotizacion_0" UNIQUE ("idSolicitud", "idEpisodio"),
+    CONSTRAINT "uq_solicitud_cotizacion_1" UNIQUE ("idSolicitudAnterior"),
+    CONSTRAINT "ck_solicitud_cotizacion_0" CHECK ("cantidadSolicitada">0),
+    CONSTRAINT "ck_solicitud_cotizacion_1" CHECK ("fechaHoraVencimiento">"fechaHoraEmision"),
+    CONSTRAINT "ck_solicitud_cotizacion_2" CHECK ("modalidadInicio" IN ('AUTOMATICA','MANUAL')),
+    CONSTRAINT "ck_solicitud_cotizacion_3" CHECK ("estado" IN ('RECEPCION_ABIERTA','PENDIENTE_DECISION','RESUELTA_CON_COMPRA','RESUELTA_SIN_COMPRA'))
+);
+
+CREATE TABLE "INVITACION_COTIZACION" (
+    "idSolicitud" BIGINT NOT NULL,
+    "idProveedor" BIGINT NOT NULL,
+    CONSTRAINT "pk_invitacion_cotizacion" PRIMARY KEY ("idSolicitud", "idProveedor")
+);
+
+CREATE TABLE "RESPUESTA_COTIZACION" (
+    "idRespuesta" BIGINT NOT NULL,
+    "idSolicitud" BIGINT NOT NULL,
+    "idProveedor" BIGINT NOT NULL,
+    "idUsuarioRegistrador" BIGINT NOT NULL,
+    "cantidadOfrecida" NUMERIC(18,3) NOT NULL,
+    "precioUnitario" NUMERIC(18,4),
+    "tiempoEntregaEstimado" INTERVAL,
+    "fechaHoraRespuesta" TIMESTAMPTZ NOT NULL,
+    CONSTRAINT "pk_respuesta_cotizacion" PRIMARY KEY ("idRespuesta"),
+    CONSTRAINT "uq_respuesta_cotizacion_0" UNIQUE ("idSolicitud", "idProveedor"),
+    CONSTRAINT "uq_respuesta_cotizacion_1" UNIQUE ("idRespuesta", "idSolicitud"),
+    CONSTRAINT "ck_respuesta_cotizacion_0" CHECK ("cantidadOfrecida">=0),
+    CONSTRAINT "ck_respuesta_cotizacion_1" CHECK (("cantidadOfrecida"=0 AND "precioUnitario" IS NULL AND "tiempoEntregaEstimado" IS NULL) OR ("cantidadOfrecida">0 AND "precioUnitario" IS NOT NULL AND "precioUnitario">0 AND "tiempoEntregaEstimado" IS NOT NULL AND "tiempoEntregaEstimado">INTERVAL '0 seconds'))
+);
+
+CREATE TABLE "POLITICA_COMPRA" (
+    "idPoliticaCompra" BIGINT NOT NULL,
+    "numeroVersion" INTEGER NOT NULL,
+    "vigenteDesde" TIMESTAMPTZ NOT NULL,
+    "vigenteHasta" TIMESTAMPTZ,
+    "periodoCalculoDias" INTEGER,
+    "fechaHoraRegistro" TIMESTAMPTZ NOT NULL,
+    "idUsuarioRegistro" BIGINT NOT NULL,
+    CONSTRAINT "pk_politica_compra" PRIMARY KEY ("idPoliticaCompra"),
+    CONSTRAINT "uq_politica_compra_0" UNIQUE ("numeroVersion"),
+    CONSTRAINT "ck_politica_compra_0" CHECK ("numeroVersion">0),
+    CONSTRAINT "ck_politica_compra_1" CHECK ("periodoCalculoDias" IS NULL OR "periodoCalculoDias">0),
+    CONSTRAINT "ck_politica_compra_2" CHECK ("vigenteHasta" IS NULL OR "vigenteHasta">"vigenteDesde")
+);
+
+CREATE TABLE "CRITERIO_POLITICA_COMPRA" (
+    "idPoliticaCompra" BIGINT NOT NULL,
+    "codigoCriterio" VARCHAR(40) NOT NULL,
+    "pesoRelativo" NUMERIC(12,6),
+    "ordenDesempate" SMALLINT,
+    CONSTRAINT "pk_criterio_politica_compra" PRIMARY KEY ("idPoliticaCompra", "codigoCriterio"),
+    CONSTRAINT "uq_criterio_politica_compra_0" UNIQUE ("idPoliticaCompra", "ordenDesempate"),
+    CONSTRAINT "ck_criterio_politica_compra_0" CHECK ("pesoRelativo" IS NULL OR "pesoRelativo">=0),
+    CONSTRAINT "ck_criterio_politica_compra_1" CHECK ("ordenDesempate" IS NULL OR "ordenDesempate">0)
+);
+
+CREATE TABLE "DECISION_COMPRA" (
+    "idDecisionCompra" BIGINT NOT NULL,
+    "idSolicitud" BIGINT NOT NULL,
+    "idPoliticaCompra" BIGINT NOT NULL,
+    "idUsuarioAdministrador" BIGINT NOT NULL,
+    "idRespuestaSeleccionada" BIGINT,
+    "fechaHoraDecision" TIMESTAMPTZ NOT NULL,
+    "resultado" VARCHAR(15) NOT NULL,
+    "justificacion" TEXT NOT NULL,
+    CONSTRAINT "pk_decision_compra" PRIMARY KEY ("idDecisionCompra"),
+    CONSTRAINT "uq_decision_compra_0" UNIQUE ("idSolicitud"),
+    CONSTRAINT "ck_decision_compra_0" CHECK ("resultado" IN ('COMPRA','SIN_COMPRA')),
+    CONSTRAINT "ck_decision_compra_1" CHECK (("resultado"='COMPRA' AND "idRespuestaSeleccionada" IS NOT NULL) OR ("resultado"='SIN_COMPRA' AND "idRespuestaSeleccionada" IS NULL))
+);
+
+CREATE TABLE "DETALLE_DECISION" (
+    "idDecisionCompra" BIGINT NOT NULL,
+    "idRespuesta" BIGINT NOT NULL,
+    "fechaHoraEvaluacion" TIMESTAMPTZ NOT NULL,
+    "elegible" BOOLEAN NOT NULL,
+    "estadoProveedorEvaluado" VARCHAR(10) NOT NULL,
+    "motivoInelegibilidad" TEXT,
+    CONSTRAINT "pk_detalle_decision" PRIMARY KEY ("idDecisionCompra", "idRespuesta"),
+    CONSTRAINT "ck_detalle_decision_0" CHECK ("estadoProveedorEvaluado" IN ('ACTIVO','INACTIVO')),
+    CONSTRAINT "ck_detalle_decision_1" CHECK ("elegible"=TRUE OR ("motivoInelegibilidad" IS NOT NULL AND length(trim("motivoInelegibilidad"))>0))
+);
+
+CREATE TABLE "DETALLE_DECISION_CRITERIO" (
+    "idDecisionCompra" BIGINT NOT NULL,
+    "idRespuesta" BIGINT NOT NULL,
+    "codigoCriterio" VARCHAR(40) NOT NULL,
+    "valorNumerico" NUMERIC(18,6),
+    "valorTexto" VARCHAR(200),
+    "puntajeEvaluado" NUMERIC(18,6),
+    CONSTRAINT "pk_detalle_decision_criterio" PRIMARY KEY ("idDecisionCompra", "idRespuesta", "codigoCriterio"),
+    CONSTRAINT "ck_detalle_decision_criterio_0" CHECK (("valorNumerico" IS NOT NULL AND "valorTexto" IS NULL) OR ("valorNumerico" IS NULL AND "valorTexto" IS NOT NULL))
+);
+
+CREATE TABLE "ORDEN_COMPRA" (
+    "idOrdenCompra" BIGINT NOT NULL,
+    "idDecisionCompra" BIGINT NOT NULL,
+    "cantidadOrdenada" NUMERIC(18,3) NOT NULL,
+    "precioUnitarioAcordado" NUMERIC(18,4) NOT NULL,
+    "fechaHoraEmision" TIMESTAMPTZ NOT NULL,
+    "fechaHoraComprometida" TIMESTAMPTZ,
+    "estado" VARCHAR(30) NOT NULL,
+    "fechaHoraCancelacion" TIMESTAMPTZ,
+    "idUsuarioCancelacion" BIGINT,
+    "motivoCancelacion" TEXT,
+    "cancelacionAtribuibleProveedor" BOOLEAN,
+    CONSTRAINT "pk_orden_compra" PRIMARY KEY ("idOrdenCompra"),
+    CONSTRAINT "uq_orden_compra_0" UNIQUE ("idDecisionCompra"),
+    CONSTRAINT "ck_orden_compra_0" CHECK ("cantidadOrdenada">0),
+    CONSTRAINT "ck_orden_compra_1" CHECK ("precioUnitarioAcordado">0),
+    CONSTRAINT "ck_orden_compra_2" CHECK ("estado" IN ('PENDIENTE','PARCIALMENTE_RECIBIDA','RECIBIDA','CANCELADA'))
+);
+
+CREATE TABLE "RECEPCION_COMPRA" (
+    "idRecepcionCompra" BIGINT NOT NULL,
+    "idOrdenCompra" BIGINT,
+    "idProveedorDirecto" BIGINT,
+    "idInsumoRecibido" BIGINT,
+    "idProductoReventa" BIGINT,
+    "idUsuarioResponsable" BIGINT NOT NULL,
+    "fechaHoraRecepcion" TIMESTAMPTZ NOT NULL,
+    "cantidadRecibida" NUMERIC(18,3) NOT NULL,
+    "codigoUnidadMedida" VARCHAR(20) NOT NULL,
+    "costoUnitarioReal" NUMERIC(18,4) NOT NULL,
+    "factorConversionAplicado" NUMERIC(24,12) NOT NULL,
+    "referenciaComercial" VARCHAR(200),
+    CONSTRAINT "pk_recepcion_compra" PRIMARY KEY ("idRecepcionCompra"),
+    CONSTRAINT "uq_recepcion_compra_0" UNIQUE ("idRecepcionCompra", "idInsumoRecibido"),
+    CONSTRAINT "uq_recepcion_compra_1" UNIQUE ("idRecepcionCompra", "idProductoReventa"),
+    CONSTRAINT "ck_recepcion_compra_0" CHECK ("cantidadRecibida">0),
+    CONSTRAINT "ck_recepcion_compra_1" CHECK ("costoUnitarioReal">0),
+    CONSTRAINT "ck_recepcion_compra_2" CHECK ("factorConversionAplicado">0),
+    CONSTRAINT "ck_recepcion_compra_3" CHECK (("idInsumoRecibido" IS NOT NULL AND "idProductoReventa" IS NULL) OR ("idInsumoRecibido" IS NULL AND "idProductoReventa" IS NOT NULL)),
+    CONSTRAINT "ck_recepcion_compra_4" CHECK ("idOrdenCompra" IS NULL OR ("idInsumoRecibido" IS NOT NULL AND "idProductoReventa" IS NULL AND "idProveedorDirecto" IS NULL))
+);
+
+CREATE TABLE "MOVIMIENTO_STOCK_REVENTA" (
+    "idMovimientoStockReventa" BIGINT NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    "numeroSecuenciaProducto" BIGINT NOT NULL,
+    "idRecepcionCompra" BIGINT,
+    "idPedidoEntrega" BIGINT,
+    "numeroDetalleEntrega" INTEGER,
+    "idValoracionReventa" BIGINT,
+    "idUsuarioResponsable" BIGINT NOT NULL,
+    "tipoMovimiento" VARCHAR(20) NOT NULL,
+    "cantidad" NUMERIC(18,3) NOT NULL,
+    "fechaHoraMovimiento" TIMESTAMPTZ NOT NULL,
+    "stockResultante" NUMERIC(18,3) NOT NULL,
+    "costoPromedioResultante" NUMERIC(18,4),
+    "costoTotalHistoricoVenta" NUMERIC(18,4),
+    "motivo" TEXT,
+    "observacion" TEXT,
+    CONSTRAINT "pk_movimiento_stock_reventa" PRIMARY KEY ("idMovimientoStockReventa"),
+    CONSTRAINT "uq_movimiento_stock_reventa_0" UNIQUE ("idProducto", "numeroSecuenciaProducto"),
+    CONSTRAINT "uq_movimiento_stock_reventa_1" UNIQUE ("idRecepcionCompra"),
+    CONSTRAINT "uq_movimiento_stock_reventa_2" UNIQUE ("idPedidoEntrega", "numeroDetalleEntrega"),
+    CONSTRAINT "uq_movimiento_stock_reventa_3" UNIQUE ("idValoracionReventa"),
+    CONSTRAINT "ck_movimiento_stock_reventa_0" CHECK ("numeroSecuenciaProducto">0),
+    CONSTRAINT "ck_movimiento_stock_reventa_1" CHECK ("cantidad">0),
+    CONSTRAINT "ck_movimiento_stock_reventa_2" CHECK ("stockResultante">=0),
+    CONSTRAINT "ck_movimiento_stock_reventa_3" CHECK ("tipoMovimiento" IN ('INGRESO_COMPRA','EGRESO_VENTA','AJUSTE_POSITIVO','AJUSTE_NEGATIVO')),
+    CONSTRAINT "ck_movimiento_stock_reventa_4" CHECK ("costoPromedioResultante" IS NULL OR "costoPromedioResultante">0)
+);
+
+CREATE TABLE "VALORACION_EXTRAORDINARIA_REVENTA" (
+    "idValoracionReventa" BIGINT NOT NULL,
+    "idProducto" BIGINT NOT NULL,
+    "tipoValoracion" VARCHAR(20) NOT NULL,
+    "costoUnitario" NUMERIC(18,4) NOT NULL,
+    "fechaHoraValoracion" TIMESTAMPTZ NOT NULL,
+    "motivo" TEXT NOT NULL,
+    "idUsuarioResponsable" BIGINT NOT NULL,
+    CONSTRAINT "pk_valoracion_extraordinaria_reventa" PRIMARY KEY ("idValoracionReventa"),
+    CONSTRAINT "uq_valoracion_extraordinaria_reventa_0" UNIQUE ("idValoracionReventa", "idProducto"),
+    CONSTRAINT "ck_valoracion_extraordinaria_reventa_0" CHECK ("tipoValoracion" IN ('INICIAL','REGULARIZACION')),
+    CONSTRAINT "ck_valoracion_extraordinaria_reventa_1" CHECK ("costoUnitario">0)
+);
+
+CREATE TABLE "COBRO" (
+    "idCobro" BIGINT NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "idPedido" BIGINT,
+    "idUsuarioRegistrador" BIGINT,
+    "fechaHoraCobro" TIMESTAMPTZ NOT NULL,
+    "importe" NUMERIC(18,2) NOT NULL,
+    "medioPago" VARCHAR(20) NOT NULL,
+    "origen" VARCHAR(20) NOT NULL,
+    "referenciaExterna" VARCHAR(150),
+    "claveIdempotenciaOrigen" UUID,
+    "estadoCobro" VARCHAR(20) NOT NULL,
+    CONSTRAINT "pk_cobro" PRIMARY KEY ("idCobro"),
+    CONSTRAINT "uq_cobro_0" UNIQUE ("claveIdempotenciaOrigen"),
+    CONSTRAINT "uq_cobro_1" UNIQUE ("medioPago", "referenciaExterna"),
+    CONSTRAINT "uq_cobro_2" UNIQUE ("idCobro", "importe"),
+    CONSTRAINT "ck_cobro_0" CHECK ("importe">0),
+    CONSTRAINT "ck_cobro_1" CHECK ("medioPago" IN ('EFECTIVO','TRANSFERENCIA','MERCADOPAGO','OTRO')),
+    CONSTRAINT "ck_cobro_2" CHECK ("origen" IN ('REPARTO','ONLINE','ADMINISTRACION'))
+);
+
+CREATE TABLE "MOVIMIENTO_CUENTA" (
+    "idMovimientoCuenta" BIGINT NOT NULL,
+    "idCliente" BIGINT NOT NULL,
+    "numeroSecuenciaCliente" BIGINT NOT NULL,
+    "tipoMovimiento" VARCHAR(20) NOT NULL,
+    "importe" NUMERIC(18,2) NOT NULL,
+    "fechaHoraMovimiento" TIMESTAMPTZ NOT NULL,
+    "saldoResultante" NUMERIC(18,2) NOT NULL,
+    "idUsuarioAjuste" BIGINT,
+    "observacion" TEXT,
+    CONSTRAINT "pk_movimiento_cuenta" PRIMARY KEY ("idMovimientoCuenta"),
+    CONSTRAINT "uq_movimiento_cuenta_0" UNIQUE ("idCliente", "numeroSecuenciaCliente"),
+    CONSTRAINT "ck_movimiento_cuenta_0" CHECK ("numeroSecuenciaCliente">0),
+    CONSTRAINT "ck_movimiento_cuenta_1" CHECK ("importe">=0),
+    CONSTRAINT "ck_movimiento_cuenta_2" CHECK ("tipoMovimiento" IN ('CARGO_POR_VENTA','PAGO','AJUSTE_DEBITO','AJUSTE_CREDITO'))
+);
+
+CREATE TABLE "ORIGEN_MOVIMIENTO_CUENTA" (
+    "idMovimientoCuenta" BIGINT NOT NULL,
+    "idPedidoEntrega" BIGINT,
+    "idCobro" BIGINT,
+    "idReembolso" BIGINT,
+    CONSTRAINT "pk_origen_movimiento_cuenta" PRIMARY KEY ("idMovimientoCuenta"),
+    CONSTRAINT "uq_origen_movimiento_cuenta_0" UNIQUE ("idPedidoEntrega"),
+    CONSTRAINT "uq_origen_movimiento_cuenta_1" UNIQUE ("idCobro"),
+    CONSTRAINT "uq_origen_movimiento_cuenta_2" UNIQUE ("idReembolso"),
+    CONSTRAINT "ck_origen_movimiento_cuenta_0" CHECK (num_nonnulls("idPedidoEntrega","idCobro","idReembolso")=1)
+);
+
+CREATE TABLE "MOVIMIENTO_CAJA" (
+    "idMovimientoCaja" BIGINT NOT NULL,
+    "tipoMovimiento" VARCHAR(10) NOT NULL,
+    "importe" NUMERIC(18,2) NOT NULL,
+    "fechaHoraMovimiento" TIMESTAMPTZ NOT NULL,
+    "origen" VARCHAR(15) NOT NULL,
+    "concepto" VARCHAR(200),
+    "referencia" VARCHAR(150),
+    "observacion" TEXT,
+    "idUsuarioRegistro" BIGINT,
+    "idCobro" BIGINT,
+    "idReembolso" BIGINT,
+    CONSTRAINT "pk_movimiento_caja" PRIMARY KEY ("idMovimientoCaja"),
+    CONSTRAINT "uq_movimiento_caja_0" UNIQUE ("idCobro"),
+    CONSTRAINT "uq_movimiento_caja_1" UNIQUE ("idReembolso"),
+    CONSTRAINT "ck_movimiento_caja_0" CHECK ("tipoMovimiento" IN ('INGRESO','EGRESO')),
+    CONSTRAINT "ck_movimiento_caja_1" CHECK ("importe">0),
+    CONSTRAINT "ck_movimiento_caja_2" CHECK ("origen" IN ('MANUAL','COBRO','REEMBOLSO'))
+);
+
+CREATE TABLE "REEMBOLSO" (
+    "idReembolso" BIGINT NOT NULL,
+    "idCobro" BIGINT NOT NULL,
+    "importeReembolso" NUMERIC(18,2) NOT NULL,
+    "fechaHoraCreacion" TIMESTAMPTZ NOT NULL,
+    "fechaHoraProcesamiento" TIMESTAMPTZ,
+    "motivo" TEXT NOT NULL,
+    "estado" VARCHAR(15) NOT NULL,
+    CONSTRAINT "pk_reembolso" PRIMARY KEY ("idReembolso"),
+    CONSTRAINT "uq_reembolso_0" UNIQUE ("idCobro"),
+    CONSTRAINT "ck_reembolso_0" CHECK ("importeReembolso">0),
+    CONSTRAINT "ck_reembolso_1" CHECK ("estado" IN ('PENDIENTE','PROCESADO','RECHAZADO')),
+    CONSTRAINT "ck_reembolso_2" CHECK (("estado"='PROCESADO' AND "fechaHoraProcesamiento" IS NOT NULL) OR ("estado" IN ('PENDIENTE','RECHAZADO') AND "fechaHoraProcesamiento" IS NULL))
+);
+
+CREATE TABLE "INTENTO_REEMBOLSO" (
+    "idReembolso" BIGINT NOT NULL,
+    "numeroIntento" INTEGER NOT NULL,
+    "fechaHoraSolicitud" TIMESTAMPTZ NOT NULL,
+    "claveIdempotencia" UUID NOT NULL,
+    "referenciaOperacionExterna" VARCHAR(150),
+    CONSTRAINT "pk_intento_reembolso" PRIMARY KEY ("idReembolso", "numeroIntento"),
+    CONSTRAINT "uq_intento_reembolso_0" UNIQUE ("claveIdempotencia"),
+    CONSTRAINT "uq_intento_reembolso_1" UNIQUE ("referenciaOperacionExterna"),
+    CONSTRAINT "ck_intento_reembolso_0" CHECK ("numeroIntento">0)
+);
+
+CREATE TABLE "EVENTO_RESULTADO_REEMBOLSO" (
+    "idEventoResultado" BIGINT NOT NULL,
+    "idReembolso" BIGINT,
+    "numeroIntento" INTEGER,
+    "identificadorEventoExterno" VARCHAR(150),
+    "referenciaOperacionExterna" VARCHAR(150),
+    "origenResultado" VARCHAR(25) NOT NULL,
+    "resultadoInformado" VARCHAR(15),
+    "fechaHoraRecepcion" TIMESTAMPTZ NOT NULL,
+    "autenticado" BOOLEAN NOT NULL,
+    "aplicable" BOOLEAN NOT NULL,
+    "motivoNoAplicacion" TEXT,
+    CONSTRAINT "pk_evento_resultado_reembolso" PRIMARY KEY ("idEventoResultado"),
+    CONSTRAINT "uq_evento_resultado_reembolso_0" UNIQUE ("identificadorEventoExterno"),
+    CONSTRAINT "ck_evento_resultado_reembolso_0" CHECK ("origenResultado" IN ('RESPUESTA_SINCRONICA','NOTIFICACION')),
+    CONSTRAINT "ck_evento_resultado_reembolso_1" CHECK ("resultadoInformado" IS NULL OR "resultadoInformado" IN ('PENDIENTE','PROCESADO','RECHAZADO')),
+    CONSTRAINT "ck_evento_resultado_reembolso_2" CHECK (NOT "aplicable" OR ("autenticado" AND "idReembolso" IS NOT NULL AND "numeroIntento" IS NOT NULL AND "resultadoInformado" IS NOT NULL)),
+    CONSTRAINT "ck_evento_resultado_reembolso_3" CHECK ("aplicable" OR ("motivoNoAplicacion" IS NOT NULL AND length(trim("motivoNoAplicacion"))>0))
+);
+
+ALTER TABLE "PRODUCTO" ADD CONSTRAINT "fk_producto_0" FOREIGN KEY ("codigoUnidadVenta") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "INSUMO" ADD CONSTRAINT "fk_insumo_0" FOREIGN KEY ("codigoUnidadMedida") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECETA" ADD CONSTRAINT "fk_receta_0" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "VERSION_RECETA" ADD CONSTRAINT "fk_version_receta_0" FOREIGN KEY ("idReceta") REFERENCES "RECETA" ("idReceta") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "VERSION_RECETA" ADD CONSTRAINT "fk_version_receta_1" FOREIGN KEY ("codigoUnidadRendimiento") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_VERSION_RECETA" ADD CONSTRAINT "fk_detalle_version_receta_0" FOREIGN KEY ("idReceta", "numeroVersion") REFERENCES "VERSION_RECETA" ("idReceta", "numeroVersion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "DETALLE_VERSION_RECETA" ADD CONSTRAINT "fk_detalle_version_receta_1" FOREIGN KEY ("idInsumo") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_VERSION_RECETA" ADD CONSTRAINT "fk_detalle_version_receta_2" FOREIGN KEY ("codigoUnidadCantidad") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PREPARACION" ADD CONSTRAINT "fk_preparacion_0" FOREIGN KEY ("idPedido", "numeroDetalle") REFERENCES "DETALLE_PEDIDO" ("idPedido", "numeroDetalle") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PREPARACION" ADD CONSTRAINT "fk_preparacion_1" FOREIGN KEY ("idReceta", "numeroVersion") REFERENCES "VERSION_RECETA" ("idReceta", "numeroVersion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "COSTO_INSUMO_HISTORICO" ADD CONSTRAINT "fk_costo_insumo_historico_0" FOREIGN KEY ("idInsumo") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "COSTO_INSUMO_HISTORICO" ADD CONSTRAINT "fk_costo_insumo_historico_1" FOREIGN KEY ("idRecepcionCompra", "idInsumo") REFERENCES "RECEPCION_COMPRA" ("idRecepcionCompra", "idInsumoRecibido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_INSUMO" ADD CONSTRAINT "fk_movimiento_insumo_0" FOREIGN KEY ("idInsumo") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_INSUMO" ADD CONSTRAINT "fk_movimiento_insumo_1" FOREIGN KEY ("idPreparacion") REFERENCES "PREPARACION" ("idPreparacion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_INSUMO" ADD CONSTRAINT "fk_movimiento_insumo_2" FOREIGN KEY ("idRecepcionCompra", "idInsumo") REFERENCES "RECEPCION_COMPRA" ("idRecepcionCompra", "idInsumoRecibido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_INSUMO" ADD CONSTRAINT "fk_movimiento_insumo_3" FOREIGN KEY ("idInsumo", "vigenteDesdeCosto") REFERENCES "COSTO_INSUMO_HISTORICO" ("idInsumo", "vigenteDesde") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_INSUMO" ADD CONSTRAINT "fk_movimiento_insumo_4" FOREIGN KEY ("idUsuarioResponsable") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PEDIDO" ADD CONSTRAINT "fk_pedido_0" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PEDIDO" ADD CONSTRAINT "fk_pedido_1" FOREIGN KEY ("idUsuarioCreador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PEDIDO" ADD CONSTRAINT "fk_pedido_2" FOREIGN KEY ("idSesionOnline") REFERENCES "SESION_CLIENTE_ONLINE" ("idSesionOnline") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PEDIDO" ADD CONSTRAINT "fk_pedido_3" FOREIGN KEY ("idPoliticaComercialAplicada") REFERENCES "POLITICA_CATEGORIA_COMERCIAL" ("idPoliticaComercial") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_PEDIDO" ADD CONSTRAINT "fk_detalle_pedido_0" FOREIGN KEY ("idPedido") REFERENCES "PEDIDO" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "DETALLE_PEDIDO" ADD CONSTRAINT "fk_detalle_pedido_1" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_PEDIDO" ADD CONSTRAINT "fk_detalle_pedido_2" FOREIGN KEY ("codigoUnidadVenta") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_PEDIDO" ADD CONSTRAINT "fk_detalle_pedido_3" FOREIGN KEY ("idPromocionAplicada") REFERENCES "PROMOCION" ("idPromocion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ASIGNACION_REPARTO" ADD CONSTRAINT "fk_asignacion_reparto_0" FOREIGN KEY ("idPedido") REFERENCES "PEDIDO" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ASIGNACION_REPARTO" ADD CONSTRAINT "fk_asignacion_reparto_1" FOREIGN KEY ("idUsuarioRepartidor") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ASIGNACION_REPARTO" ADD CONSTRAINT "fk_asignacion_reparto_2" FOREIGN KEY ("idUsuarioVendedor") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ENTREGA" ADD CONSTRAINT "fk_entrega_0" FOREIGN KEY ("idPedido") REFERENCES "PEDIDO" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ENTREGA" ADD CONSTRAINT "fk_entrega_1" FOREIGN KEY ("idUsuarioRepartidor") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_ENTREGA" ADD CONSTRAINT "fk_detalle_entrega_0" FOREIGN KEY ("idPedido") REFERENCES "ENTREGA" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "DETALLE_ENTREGA" ADD CONSTRAINT "fk_detalle_entrega_1" FOREIGN KEY ("idPedido", "numeroDetalle") REFERENCES "DETALLE_PEDIDO" ("idPedido", "numeroDetalle") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EXCEDENTE" ADD CONSTRAINT "fk_excedente_0" FOREIGN KEY ("idPedidoOrigen", "numeroDetalleOrigen") REFERENCES "DETALLE_PEDIDO" ("idPedido", "numeroDetalle") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EXCEDENTE" ADD CONSTRAINT "fk_excedente_1" FOREIGN KEY ("idMovimientoExcedenteOrigen") REFERENCES "MOVIMIENTO_EXCEDENTE" ("idMovimientoExcedente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "OFERTA_EXCEDENTE" ADD CONSTRAINT "fk_oferta_excedente_0" FOREIGN KEY ("idExcedente") REFERENCES "EXCEDENTE" ("idExcedente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "OFERTA_EXCEDENTE" ADD CONSTRAINT "fk_oferta_excedente_1" FOREIGN KEY ("idPedidoReceptor") REFERENCES "PEDIDO" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "OFERTA_EXCEDENTE" ADD CONSTRAINT "fk_oferta_excedente_2" FOREIGN KEY ("idUsuarioVendedor") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_EXCEDENTE" ADD CONSTRAINT "fk_movimiento_excedente_0" FOREIGN KEY ("idExcedente") REFERENCES "EXCEDENTE" ("idExcedente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_EXCEDENTE" ADD CONSTRAINT "fk_movimiento_excedente_1" FOREIGN KEY ("idOfertaExcedente", "idExcedente") REFERENCES "OFERTA_EXCEDENTE" ("idOfertaExcedente", "idExcedente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "IMPUTACION_ENTREGA_ADICIONAL" ADD CONSTRAINT "fk_imputacion_entrega_adicional_0" FOREIGN KEY ("idPedido", "numeroDetalle") REFERENCES "DETALLE_ENTREGA" ("idPedido", "numeroDetalle") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "IMPUTACION_ENTREGA_ADICIONAL" ADD CONSTRAINT "fk_imputacion_entrega_adicional_1" FOREIGN KEY ("idMovimientoExcedente") REFERENCES "MOVIMIENTO_EXCEDENTE" ("idMovimientoExcedente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PRECIO_PRODUCTO" ADD CONSTRAINT "fk_precio_producto_0" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PRECIO_PRODUCTO" ADD CONSTRAINT "fk_precio_producto_1" FOREIGN KEY ("idUsuarioRegistro") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PRECIO_PRODUCTO" ADD CONSTRAINT "fk_precio_producto_2" FOREIGN KEY ("idUsuarioCancelacion") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "AUDITORIA_PRECIO" ADD CONSTRAINT "fk_auditoria_precio_0" FOREIGN KEY ("idPrecio") REFERENCES "PRECIO_PRODUCTO" ("idPrecio") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "AUDITORIA_PRECIO" ADD CONSTRAINT "fk_auditoria_precio_1" FOREIGN KEY ("idUsuario") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PROMOCION" ADD CONSTRAINT "fk_promocion_0" FOREIGN KEY ("idUsuarioCreador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PROMOCION_PRODUCTO" ADD CONSTRAINT "fk_promocion_producto_0" FOREIGN KEY ("idPromocion") REFERENCES "PROMOCION" ("idPromocion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "PROMOCION_PRODUCTO" ADD CONSTRAINT "fk_promocion_producto_1" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DESTINATARIO_PROMOCION" ADD CONSTRAINT "fk_destinatario_promocion_0" FOREIGN KEY ("idPromocion") REFERENCES "PROMOCION" ("idPromocion") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "DESTINATARIO_PROMOCION" ADD CONSTRAINT "fk_destinatario_promocion_1" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "INTENTO_COMUNICACION" ADD CONSTRAINT "fk_intento_comunicacion_0" FOREIGN KEY ("idPromocion", "idCliente") REFERENCES "DESTINATARIO_PROMOCION" ("idPromocion", "idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "POLITICA_CATEGORIA_COMERCIAL" ADD CONSTRAINT "fk_politica_categoria_comercial_0" FOREIGN KEY ("idUsuarioRegistro") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "AJUSTE_POLITICA_CATEGORIA" ADD CONSTRAINT "fk_ajuste_politica_categoria_0" FOREIGN KEY ("idPoliticaComercial") REFERENCES "POLITICA_CATEGORIA_COMERCIAL" ("idPoliticaComercial") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "HISTORIAL_ESTADO_CLIENTE" ADD CONSTRAINT "fk_historial_estado_cliente_0" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "HISTORIAL_ESTADO_CLIENTE" ADD CONSTRAINT "fk_historial_estado_cliente_1" FOREIGN KEY ("idUsuarioAdministrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "USUARIO_ROL" ADD CONSTRAINT "fk_usuario_rol_0" FOREIGN KEY ("idUsuario") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "USUARIO_ROL" ADD CONSTRAINT "fk_usuario_rol_1" FOREIGN KEY ("codigoRol") REFERENCES "ROL" ("codigoRol") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EVENTO_ASIGNACION_ROL" ADD CONSTRAINT "fk_evento_asignacion_rol_0" FOREIGN KEY ("idUsuario") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EVENTO_ASIGNACION_ROL" ADD CONSTRAINT "fk_evento_asignacion_rol_1" FOREIGN KEY ("codigoRol") REFERENCES "ROL" ("codigoRol") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EVENTO_ASIGNACION_ROL" ADD CONSTRAINT "fk_evento_asignacion_rol_2" FOREIGN KEY ("idUsuarioAdministrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "USUARIO_PROVEEDOR" ADD CONSTRAINT "fk_usuario_proveedor_0" FOREIGN KEY ("idUsuario") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "USUARIO_PROVEEDOR" ADD CONSTRAINT "fk_usuario_proveedor_1" FOREIGN KEY ("idProveedor") REFERENCES "PROVEEDOR" ("idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "SESION_USUARIO" ADD CONSTRAINT "fk_sesion_usuario_0" FOREIGN KEY ("idUsuario") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DESAFIO_AUTENTICACION_CLIENTE" ADD CONSTRAINT "fk_desafio_autenticacion_cliente_0" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "SESION_CLIENTE_ONLINE" ADD CONSTRAINT "fk_sesion_cliente_online_0" FOREIGN KEY ("idDesafio") REFERENCES "DESAFIO_AUTENTICACION_CLIENTE" ("idDesafio") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "HISTORIAL_ESTADO_PROVEEDOR" ADD CONSTRAINT "fk_historial_estado_proveedor_0" FOREIGN KEY ("idProveedor") REFERENCES "PROVEEDOR" ("idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "HISTORIAL_ESTADO_PROVEEDOR" ADD CONSTRAINT "fk_historial_estado_proveedor_1" FOREIGN KEY ("idUsuarioAdministrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PROVEEDOR_INSUMO" ADD CONSTRAINT "fk_proveedor_insumo_0" FOREIGN KEY ("idProveedor") REFERENCES "PROVEEDOR" ("idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "PROVEEDOR_INSUMO" ADD CONSTRAINT "fk_proveedor_insumo_1" FOREIGN KEY ("idInsumo") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EPISODIO_FALTANTE" ADD CONSTRAINT "fk_episodio_faltante_0" FOREIGN KEY ("idInsumo") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EPISODIO_FALTANTE" ADD CONSTRAINT "fk_episodio_faltante_1" FOREIGN KEY ("idMovimientoApertura") REFERENCES "MOVIMIENTO_INSUMO" ("idMovimientoInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "SOLICITUD_COTIZACION" ADD CONSTRAINT "fk_solicitud_cotizacion_0" FOREIGN KEY ("idEpisodio") REFERENCES "EPISODIO_FALTANTE" ("idEpisodio") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "SOLICITUD_COTIZACION" ADD CONSTRAINT "fk_solicitud_cotizacion_1" FOREIGN KEY ("idUsuarioEmisor") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "SOLICITUD_COTIZACION" ADD CONSTRAINT "fk_solicitud_cotizacion_2" FOREIGN KEY ("idSolicitudAnterior", "idEpisodio") REFERENCES "SOLICITUD_COTIZACION" ("idSolicitud", "idEpisodio") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "INVITACION_COTIZACION" ADD CONSTRAINT "fk_invitacion_cotizacion_0" FOREIGN KEY ("idSolicitud") REFERENCES "SOLICITUD_COTIZACION" ("idSolicitud") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "INVITACION_COTIZACION" ADD CONSTRAINT "fk_invitacion_cotizacion_1" FOREIGN KEY ("idProveedor") REFERENCES "PROVEEDOR" ("idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RESPUESTA_COTIZACION" ADD CONSTRAINT "fk_respuesta_cotizacion_0" FOREIGN KEY ("idSolicitud", "idProveedor") REFERENCES "INVITACION_COTIZACION" ("idSolicitud", "idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RESPUESTA_COTIZACION" ADD CONSTRAINT "fk_respuesta_cotizacion_1" FOREIGN KEY ("idUsuarioRegistrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "POLITICA_COMPRA" ADD CONSTRAINT "fk_politica_compra_0" FOREIGN KEY ("idUsuarioRegistro") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "CRITERIO_POLITICA_COMPRA" ADD CONSTRAINT "fk_criterio_politica_compra_0" FOREIGN KEY ("idPoliticaCompra") REFERENCES "POLITICA_COMPRA" ("idPoliticaCompra") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE CASCADE;
+ALTER TABLE "DECISION_COMPRA" ADD CONSTRAINT "fk_decision_compra_0" FOREIGN KEY ("idSolicitud") REFERENCES "SOLICITUD_COTIZACION" ("idSolicitud") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DECISION_COMPRA" ADD CONSTRAINT "fk_decision_compra_1" FOREIGN KEY ("idPoliticaCompra") REFERENCES "POLITICA_COMPRA" ("idPoliticaCompra") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DECISION_COMPRA" ADD CONSTRAINT "fk_decision_compra_2" FOREIGN KEY ("idUsuarioAdministrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DECISION_COMPRA" ADD CONSTRAINT "fk_decision_compra_3" FOREIGN KEY ("idRespuestaSeleccionada", "idSolicitud") REFERENCES "RESPUESTA_COTIZACION" ("idRespuesta", "idSolicitud") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_DECISION" ADD CONSTRAINT "fk_detalle_decision_0" FOREIGN KEY ("idDecisionCompra") REFERENCES "DECISION_COMPRA" ("idDecisionCompra") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_DECISION" ADD CONSTRAINT "fk_detalle_decision_1" FOREIGN KEY ("idRespuesta") REFERENCES "RESPUESTA_COTIZACION" ("idRespuesta") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "DETALLE_DECISION_CRITERIO" ADD CONSTRAINT "fk_detalle_decision_criterio_0" FOREIGN KEY ("idDecisionCompra", "idRespuesta") REFERENCES "DETALLE_DECISION" ("idDecisionCompra", "idRespuesta") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORDEN_COMPRA" ADD CONSTRAINT "fk_orden_compra_0" FOREIGN KEY ("idDecisionCompra") REFERENCES "DECISION_COMPRA" ("idDecisionCompra") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORDEN_COMPRA" ADD CONSTRAINT "fk_orden_compra_1" FOREIGN KEY ("idUsuarioCancelacion") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_0" FOREIGN KEY ("idOrdenCompra") REFERENCES "ORDEN_COMPRA" ("idOrdenCompra") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_1" FOREIGN KEY ("idProveedorDirecto") REFERENCES "PROVEEDOR" ("idProveedor") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_2" FOREIGN KEY ("idInsumoRecibido") REFERENCES "INSUMO" ("idInsumo") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_3" FOREIGN KEY ("idProductoReventa") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_4" FOREIGN KEY ("idUsuarioResponsable") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "RECEPCION_COMPRA" ADD CONSTRAINT "fk_recepcion_compra_5" FOREIGN KEY ("codigoUnidadMedida") REFERENCES "UNIDAD_MEDIDA" ("codigoUnidad") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_0" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_1" FOREIGN KEY ("idRecepcionCompra", "idProducto") REFERENCES "RECEPCION_COMPRA" ("idRecepcionCompra", "idProductoReventa") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_2" FOREIGN KEY ("idPedidoEntrega", "numeroDetalleEntrega") REFERENCES "DETALLE_ENTREGA" ("idPedido", "numeroDetalle") MATCH FULL ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_3" FOREIGN KEY ("idPedidoEntrega", "numeroDetalleEntrega", "idProducto") REFERENCES "DETALLE_PEDIDO" ("idPedido", "numeroDetalle", "idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_4" FOREIGN KEY ("idValoracionReventa", "idProducto") REFERENCES "VALORACION_EXTRAORDINARIA_REVENTA" ("idValoracionReventa", "idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_STOCK_REVENTA" ADD CONSTRAINT "fk_movimiento_stock_reventa_5" FOREIGN KEY ("idUsuarioResponsable") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "VALORACION_EXTRAORDINARIA_REVENTA" ADD CONSTRAINT "fk_valoracion_extraordinaria_reventa_0" FOREIGN KEY ("idProducto") REFERENCES "PRODUCTO" ("idProducto") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "VALORACION_EXTRAORDINARIA_REVENTA" ADD CONSTRAINT "fk_valoracion_extraordinaria_reventa_1" FOREIGN KEY ("idUsuarioResponsable") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "COBRO" ADD CONSTRAINT "fk_cobro_0" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "COBRO" ADD CONSTRAINT "fk_cobro_1" FOREIGN KEY ("idUsuarioRegistrador") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "COBRO" ADD CONSTRAINT "fk_cobro_2" FOREIGN KEY ("idPedido", "idCliente") REFERENCES "PEDIDO" ("idPedido", "idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_movimiento_cuenta_0" FOREIGN KEY ("idCliente") REFERENCES "CLIENTE" ("idCliente") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_movimiento_cuenta_1" FOREIGN KEY ("idUsuarioAjuste") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORIGEN_MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_origen_movimiento_cuenta_0" FOREIGN KEY ("idMovimientoCuenta") REFERENCES "MOVIMIENTO_CUENTA" ("idMovimientoCuenta") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORIGEN_MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_origen_movimiento_cuenta_1" FOREIGN KEY ("idPedidoEntrega") REFERENCES "ENTREGA" ("idPedido") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORIGEN_MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_origen_movimiento_cuenta_2" FOREIGN KEY ("idCobro") REFERENCES "COBRO" ("idCobro") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "ORIGEN_MOVIMIENTO_CUENTA" ADD CONSTRAINT "fk_origen_movimiento_cuenta_3" FOREIGN KEY ("idReembolso") REFERENCES "REEMBOLSO" ("idReembolso") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_CAJA" ADD CONSTRAINT "fk_movimiento_caja_0" FOREIGN KEY ("idUsuarioRegistro") REFERENCES "USUARIO" ("idUsuario") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_CAJA" ADD CONSTRAINT "fk_movimiento_caja_1" FOREIGN KEY ("idCobro") REFERENCES "COBRO" ("idCobro") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "MOVIMIENTO_CAJA" ADD CONSTRAINT "fk_movimiento_caja_2" FOREIGN KEY ("idReembolso") REFERENCES "REEMBOLSO" ("idReembolso") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "REEMBOLSO" ADD CONSTRAINT "fk_reembolso_0" FOREIGN KEY ("idCobro") REFERENCES "COBRO" ("idCobro") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "REEMBOLSO" ADD CONSTRAINT "fk_reembolso_1" FOREIGN KEY ("idCobro", "importeReembolso") REFERENCES "COBRO" ("idCobro", "importe") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "INTENTO_REEMBOLSO" ADD CONSTRAINT "fk_intento_reembolso_0" FOREIGN KEY ("idReembolso") REFERENCES "REEMBOLSO" ("idReembolso") MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE "EVENTO_RESULTADO_REEMBOLSO" ADD CONSTRAINT "fk_evento_resultado_reembolso_0" FOREIGN KEY ("idReembolso", "numeroIntento") REFERENCES "INTENTO_REEMBOLSO" ("idReembolso", "numeroIntento") MATCH FULL ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+-- Restricciones por expresion / parciales (aun requiere implementar funciones de normalizacion):
+CREATE UNIQUE INDEX "uq_usuario_nombre_ci" ON "USUARIO" (lower("nombreUsuario"));
+CREATE UNIQUE INDEX "uq_asignacion_reparto_vigente" ON "ASIGNACION_REPARTO" ("idPedido") WHERE "fechaHoraFin" IS NULL;
+CREATE UNIQUE INDEX "uq_episodio_faltante_abierto" ON "EPISODIO_FALTANTE" ("idInsumo") WHERE "fechaHoraCierre" IS NULL;
+CREATE UNIQUE INDEX "uq_solicitud_primera" ON "SOLICITUD_COTIZACION" ("idEpisodio") WHERE "idSolicitudAnterior" IS NULL;
+CREATE UNIQUE INDEX "uq_solicitud_automatica" ON "SOLICITUD_COTIZACION" ("idEpisodio") WHERE "modalidadInicio" = 'AUTOMATICA';
+CREATE UNIQUE INDEX "uq_mov_insumo_preparacion" ON "MOVIMIENTO_INSUMO" ("idPreparacion","idInsumo") WHERE "tipoMovimiento" = 'CONSUMO_PRODUCCION';
+
+-- EXCLUDE contra superposiciones se implementan con GiST y modelo temporal validado en fase de SQL físico.
+-- Los saldos históricos, claves de idempotencia y registros sensibles exigen triggers/privilegios que NO se incluyen como si estuvieran probados.
+
