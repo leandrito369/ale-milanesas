@@ -17,7 +17,7 @@
 1. La operación capturada debe poseer un identificador UUID inmutable, usuario autenticado, marca temporal, referencia al Pedido/asignación si corresponde, y condiciones e importes congelados.
 2. Idempotencia de extremo a extremo: el mismo evento reintentado no genera dos Pedidos, Entregas, Cobros ni efectos Caja/Cuenta Corriente.
 3. Validar habilitación, asignación, vigencias y autorización al aplicar la operación; conflicto explícito si cambian de forma incompatible. No conceder permisos retroactivos.
-4. El Repartidor no obtiene permiso directo para UC-29 por registrar una Entrega; los cobros de efectivo requieren registro/conciliación por actor autorizado.
+4. El Repartidor no obtiene permiso directo para UC-29 por registrar una Entrega. RD-F04-004 sí autoriza declarar efectivo recibido como información ligada a UC-05, incluso offline, con validación remota previa al efecto provisional. Los cobros definitivos requieren autorización del Administrador.
 5. `COBRO.estadoCobro` tiene solamente `CONFIRMADO` y `ANULADO`, conforme a RD-F01. Una captura offline pendiente de sincronizar permanece fuera de COBRO y no materializa efectos financieros.
 6. La persistencia de eventos de entrada, snapshots y conciliación es una **brecha de implementación**. MR-6 validó restricciones físicas seleccionadas, no un servicio offline.
 
@@ -26,7 +26,7 @@
 | CU | Evento | Estado de captura | Aplicación central y límites |
 |---|---|---|---|
 | UC-03 | Cargar Pedido | **OFFLINE PERMITIDA** | Se registra como captura local pendiente; el servidor debe revalidar permiso, datos y condiciones antes de confirmar. Conflictos de stock, precios o vigencia se tratan explícitamente; la política detallada sigue pendiente. |
-| UC-05 | Registrar Entrega | **OFFLINE PERMITIDA** | Se registra captura local pendiente; solo el servidor confirma la aplicación tras validar Pedido y asignación. No implica registrar Cobro. |
+| UC-05 | Registrar Entrega | **OFFLINE PERMITIDA** | Se registra captura local pendiente; solo el servidor confirma la aplicación tras validar Pedido y asignación. Puede incluir declaración de efectivo recibido según RD-F04-004; no implica registrar Cobro ni Caja. |
 | UC-29 | Registrar Cobro | **NO DEFINIDA por RD-F04-001** | Se conserva el RBAC existente: Repartidor sin permiso directo. El Administrador recibe y autoriza la rendición de efectivo (RD-F04-002). Si hay diferencias, el Administrador las registra y deja la rendición pendiente de conciliación, sin confirmar importes no recibidos. Evidencias y permisos generales UC-29 pendientes (RP-006/RP-007). |
 | UC-43 | Gestionar asignación de reparto | **EXCLUSIVAMENTE ONLINE** | La creación, cambio y reasignación necesitan conectividad con servidor; no se autorizan colas de asignación offline. |
 
@@ -53,7 +53,9 @@
 
 ## Análisis emergente: pago en tránsito y latencia financiera
 
-**RD-F04-003 aprobada funcionalmente:** un **registro de pago en tránsito independiente de `COBRO`**, una vez **sincronizado y validado por el servidor**, reduce la **deuda exigible provisional** del Cliente, **sin modificar Caja, `COBRO.estadoCobro` ni `MOVIMIENTO_CUENTA.saldoResultante`**. Los efectos definitivos solo proceden tras rendición y autorización administrativa. Siguen pendientes la habilitación explícita para que el Repartidor declare efectivo junto con UC-05, el tratamiento de faltantes, las restricciones comerciales, la evidencia y el modelo físico. Ver [RD-F04-003](../01-gobierno/RD_F04_003_PAGO_EN_TRANSITO_SALDO_PROVISIONAL_2026-10-26.md) y [evaluación técnica](F04_EVALUACION_PAGO_EN_TRANSITO_PROPUESTA_2026-10-26.md). No realizar cambios físicos sin nueva decisión expresa.
+**RD-F04-003 aprobada funcionalmente:** un **registro de pago en tránsito independiente de `COBRO`**, una vez **sincronizado y validado por el servidor**, reduce la **deuda exigible provisional** del Cliente, **sin modificar Caja, `COBRO.estadoCobro` ni `MOVIMIENTO_CUENTA.saldoResultante`**. Los efectos definitivos solo proceden tras rendición y autorización administrativa. La declaración vinculada a UC-05 está aprobada por RD-F04-004. Siguen pendientes el tratamiento de faltantes, las restricciones comerciales, la evidencia y el modelo físico. Ver [RD-F04-003](../01-gobierno/RD_F04_003_PAGO_EN_TRANSITO_SALDO_PROVISIONAL_2026-10-26.md) y [evaluación técnica](F04_EVALUACION_PAGO_EN_TRANSITO_PROPUESTA_2026-10-26.md). No realizar cambios físicos sin nueva decisión expresa.
+
+**RD-F04-004:** [declaración de efectivo recibida en UC-05](../01-gobierno/RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md) aprobada sin permiso UC-29; validación remota de identidad, asignación, importe e idempotencia obligatoria.
 
 ## Diseño técnico siguiente, condicionado a decisiones
 
