@@ -13,3 +13,5 @@
 | [Plantillas](99-plantillas/README.md) | Bitácoras, decisiones, cambios | Usar en PR |
 
 Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, no como reemplazo de decisiones posteriores.
+
+- [Guía Gemini web](GUIA_GEMINI_WEB.md): importación, limitaciones de escritura y flujo con PR.

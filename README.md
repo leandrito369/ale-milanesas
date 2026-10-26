@@ -22,6 +22,8 @@ Repositorio colaborativo de **análisis, documentación y diseño** del Sistema 
 
 Este repositorio es **público**. No subir contraseñas, tokens, datos reales de clientes/proveedores, bases de producción ni archivos de terceros sin autorización.
 
+Consultá [la guía de Gemini web](docs/GUIA_GEMINI_WEB.md) para importar de nuevo el repositorio y proponer cambios sin sobrescribir `main`.
+
 ## Trabajar con Gemini web
 
 Importá este repositorio desde Gemini para **consultar el contenido de la versión importada**. La importación no implica escritura ni sincronización automática: para aplicar cambios, usá un cliente Git / entorno autorizado, o generá un parche/PR manual. Reimportá al actualizarse la rama `main`.
