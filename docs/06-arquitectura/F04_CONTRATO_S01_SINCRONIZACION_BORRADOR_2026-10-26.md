@@ -58,7 +58,7 @@ Este borrador no define todavía política de resolución de todos los conflicto
 
 **RD-F04-006:** para evaluar deuda al crear un Pedido se usa el **saldo exigible provisional**. El cálculo no transforma `CLIENTE.categoriaComercial` (`CUMPLIDOR`/`EN_MORA`), no cambia automáticamente la política de descuento/recargo y no omite otras restricciones.
 
-**Ejemplo de decisión de negocio aún pendiente:** Cliente clasificado `EN_MORA` cuyo saldo exigible provisional es cero tras un pago validado. La deuda se evalúa con cero provisional, **pero el descuento/recargo del nuevo Pedido continúa obedeciendo a la categoría vigente** mientras no se apruebe otra regla. No se presume reclasificación ni se modifican instantáneas históricas.
+**Caso regido por RD-F04-007 aprobada:** Cliente clasificado `EN_MORA` cuyo saldo exigible provisional es cero tras un pago validado. La deuda se evalúa con cero provisional, **pero el descuento/recargo del nuevo Pedido continúa obedeciendo a la categoría vigente** hasta la reevaluación formal de la categoría conforme RD-F04-007. No se presume reclasificación ni se modifican instantáneas históricas.
 
 **Pedidos capturados offline:** un evento local no ingresado al servidor no reduce todavía deuda central. Al sincronizar UC-03, el servidor vuelve a evaluar deuda y otras restricciones, pudiendo comunicar conflicto; no asignar una política comercial inexistente por inferencia.
 
@@ -76,9 +76,9 @@ Este borrador no define todavía política de resolución de todos los conflicto
 - Concurrencia de Pedido y eventos en tránsito ⇒ lecturas consistentes; no saldos provisionales duplicados.
 - Importe negativo, cero, excedente, pago parcial o eventos para otro Cliente ⇒ validaciones y política a aprobar; **no fijar umbrales por defecto**.
 
-## 7. Decisiones pendientes que bloquean cierre técnico
+## 7. Decisiones resueltas y pendientes de implementación técnica
 
-1. **Ajuste comercial:** si hay pago validado y `EN_MORA` vigente, ¿sigue el recargo hasta reevaluación comercial ordinaria o hay tratamiento especial para el nuevo Pedido? **No alterar valores sin aprobación**.
+1. **Ajuste comercial RESUELTO por RD-F04-007:** el recargo `EN_MORA` se mantiene hasta la reevaluación formal; ya no bloquea el cierre funcional de F04.
 2. **Evidencia de recepción de efectivo:** mecanismo verificable para evitar declaraciones falsas/repetidas, respetando protección de datos.
 3. **Excedentes y pagos parciales:** cómo se visualizan y aplican provisionalmente; no inventar crédito definitivo.
 4. **Persistencia/inbox y estados técnicos:** propuesta de entidad lógica, FK, índices, endpoints y migración física específica; requiere CR y pruebas PostgreSQL.
