@@ -64,7 +64,7 @@ jobs:
         run: |
           set -euo pipefail
           psql -X -v ON_ERROR_STOP=1 -d ale_mr4_ci \
-            -f docs/05-modelo-relacional/sql/MR4_PRUEBAS_POSTGRESQL_NO_EJECUTADAS.sql \
+            -f docs/05-modelo-relacional/sql/mr6/MR4_PRUEBAS_AJUSTADAS.sql \
             2>&1 | tee mr6-logs/mr4-pruebas.log
       - name: Compilar DDL MR-5 en base aislada MR-5
         run: |
