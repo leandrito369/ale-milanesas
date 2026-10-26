@@ -1,0 +1,65 @@
+# RD-F04-003 — Pago en tránsito y saldo exigible provisional
+
+**Fecha:** 26/10/2026  
+**Autoridad:** aprobación expresa del responsable del proyecto durante la conversación de análisis F04.  
+**Estado funcional:** **APROBADA** para la separación del pago en tránsito y su tratamiento provisional tras sincronización validada.  
+**Estado de diseño físico e implementación:** **PENDIENTE**; no se ha autorizado todavía una estructura SQL concreta, ni se han implementado servicios.
+
+## 1. Decisión aprobada
+
+1. La recepción de efectivo del Cliente por el Repartidor puede representarse mediante un **registro de pago en tránsito independiente de `COBRO`**. Es un concepto funcional; su nombre, ubicación física y estructura definitiva están pendientes de diseño y revisión.
+2. **Solo después de sincronizar el registro y superar las validaciones del servidor**, el importe validado reduce la **deuda exigible provisional** del Cliente.
+3. El reconocimiento provisional **no produce ingreso en Caja**, **no crea un `COBRO` confirmado** y **no modifica** los asientos ni el saldo contable definitivo de `MOVIMIENTO_CUENTA`.
+4. La consulta debe distinguir con claridad entre **saldo confirmado**, **importe validado en tránsito** y **saldo exigible provisional**. Una deuda mostrada como provisionalmente cubierta **no equivale a pago definitivo contabilizado**.
+5. El servidor **no puede atribuir efectos centrales a capturas que continúan sin sincronizar**. La hora local de captura se conserva como evidencia, no como sustituto de la validación remota.
+6. El registro definitivo del cobro rendido continúa sujeto a la **recepción, verificación y autorización del Administrador** según RD-F04-002, con deduplicación e integridad de Caja/Cuenta Corriente.
+7. Se conservan exactamente los dos estados aprobados para `COBRO.estadoCobro`: **`CONFIRMADO` y `ANULADO`** (RD-F01). Una eventual etiqueta `PENDIENTE_RENDICION` correspondería exclusivamente a la operación independiente; ese literal y su catálogo detallado **no quedan aprobados aquí**.
+
+## 2. Proyección conceptual, sin columna nueva aprobada
+
+Para consultas operativas se propone distinguir:
+
+- `saldoConfirmado`: el saldo contable de Cuenta Corriente, preservado.
+- `importeEnTransitoValidado`: el total de importes sincronizados, aceptados por el servidor y todavía no aplicados definitivamente.
+- `saldoExigibleProvisional`: `saldoConfirmado - importeEnTransitoValidado`, **solo como proyección de consulta**.
+
+La regla concreta para excedentes, saldos negativos, pagos parciales y la base de cálculo del importe reconocido requiere diseño y aprobación específicos. No se crea crédito definitivo por mera declaración.
+
+## 3. Coherencia con decisiones previas
+
+| Fuente | Compatibilidad |
+|---|---|
+| RD-F01 | No agregar estados a `COBRO`, ni anticipar sus asientos. |
+| RD-F04-001 | UC-03 y UC-05 admiten captura offline; UC-43 sigue exclusivamente online. |
+| RD-F04-002 | La rendición se entrega al Administrador al finalizar recorrido; solo el Administrador autoriza y resuelve diferencias con motivo. |
+| S-01 / RP-007 | No se habilita automáticamente UC-29 al Repartidor. Declarar efectivo en UC-05 requiere aclaración funcional separada. |
+| MR-5 | `MOVIMIENTO_CUENTA` y `MOVIMIENTO_CAJA` mantienen su inmutabilidad y efectos definitivos; cualquier persistencia nueva requiere trazabilidad y pruebas. |
+
+## 4. Puntos originalmente pendientes: estado actualizado por RD posteriores
+
+- **Permiso/alcance de UC-05: RESUELTO por RD-F04-004.** El Repartidor puede declarar efectivo recibido en UC-05 sin autorización para UC-29.
+- **Faltante en rendición: RESUELTO de forma acotada por RD-F04-005.** La rendición queda pendiente de conciliación; no se restaura automáticamente la deuda exigible del Cliente. No se estudia investigación detallada.
+- **Evaluación de deuda y ajuste comercial: RESUELTOS por RD-F04-006 y RD-F04-007.** Nuevos Pedidos evalúan deuda con saldo exigible provisional; la categoría no se modifica automáticamente y el recargo EN_MORA se mantiene hasta reevaluación formal.
+- **Controles y evidencia:** eventos duplicados, importes parciales/excedentes, prueba de recepción física, responsabilidad de custodia, plazos y resolución de disputas.
+- **Diseño físico y API:** tabla(s), claves, índices, vínculos con Pedido/Entrega/Repartidor, estados operativos, contrato de sincronización, atomicidad y pruebas. **No autorizado implícitamente**.
+
+## 5. Trazabilidad y pruebas futuras
+
+- Frente F04, contrato S-01; UC-05, UC-29; RP-006/RP-007; RD-F01, RD-F04-001 y RD-F04-002.
+- [Análisis técnico y alternativas](../06-arquitectura/F04_EVALUACION_PAGO_EN_TRANSITO_PROPUESTA_2026-10-26.md).
+- [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5); [Issue #6](https://github.com/leandrito369/ale-milanesas/issues/6).
+- QA futura: duplicación de UUID, asincronía, pérdida de respuesta tras COMMIT, cambio de asignación, actualización simultánea de rendición, neutralidad en Caja y ausencia de doble descuento cuando se aplique el cobro definitivo.
+
+**Este registro documenta una decisión funcional, no certifica una implementación en PostgreSQL ni autoriza un cambio físico.**
+
+## Addenda RD-F04-004 (26/10/2026)
+
+La autorización de declaración de efectivo dentro de UC-05, listada anteriormente como pendiente, fue aprobada en [RD-F04-004](RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md). La captura puede efectuarse offline y solo impacta en la proyección provisional tras validación del servidor. No habilita al Repartidor a ejecutar UC-29. La política acotada de faltantes y la elegibilidad basada en deuda provisional quedaron resueltas por RD-F04-005/006/007; el diseño físico sigue pendiente.
+
+## Addenda RD-F04-005 — alcance acotado de la diferencia
+
+[RD-F04-005](RD_F04_005_DIFERENCIA_PAGO_EN_TRANSITO_2026-10-26.md) aprueba que, si un pago en tránsito ya fue validado y existe faltante al rendir, se conserve el efecto provisional para el Cliente sin restablecer automáticamente la deuda exigible, mientras la rendición **permanece pendiente de conciliación**. Este supuesto termina ahí en el alcance de F04: se excluyen investigación, responsabilidad y resolución detallada. No constituye autorización de nuevos estados o asientos en COBRO/Caja.
+
+## Addenda RD-F04-006 — evaluación de deuda de nuevos Pedidos
+
+[RD-F04-006](RD_F04_006_EVALUACION_DEUDA_NUEVOS_PEDIDOS_2026-10-26.md) aprueba emplear el **saldo exigible provisional** para evaluar deuda al cargar nuevos Pedidos, utilizando únicamente declaraciones sincronizadas y validadas. La categoría comercial `CUMPLIDOR`/`EN_MORA` se mantiene separada y no cambia automáticamente. El nuevo Pedido capturado offline debe ser revalidado por el servidor, sin garantía de admisión previa a sincronizar. Los ajustes comerciales históricos y sus reglas existentes no se sustituyen por este saldo de consulta.
