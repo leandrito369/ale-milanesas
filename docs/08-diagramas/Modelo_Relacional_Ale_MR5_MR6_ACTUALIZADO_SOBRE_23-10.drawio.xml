@@ -487,8 +487,13 @@
         <mxCell id="rel_103" edge="1" parent="1" source="table_VALORACION_EXTRAORDINARIA_REVENTA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8794A6;strokeWidth=1.05;opacity=65;startArrow=ERzeroToMany;startFill=0;startSize=11;endArrow=ERmandOne;endFill=0;endSize=11;exitPerimeter=1;entryPerimeter=1;jumpStyle=arc;jumpSize=8;entryX=0.7100;entryY=1.0000;exitX=0.3833;exitY=0.0000;" target="table_USUARIO" value="">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="rel_104" edge="1" parent="1" source="table_COBRO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8794A6;strokeWidth=1.05;opacity=65;startArrow=ERzeroToMany;startFill=0;startSize=11;endArrow=ERmandOne;endFill=0;endSize=11;entryPerimeter=1;jumpStyle=arc;jumpSize=8;exitX=0.0000;exitY=0.3500;exitPerimeter=1;entryX=1.0000;entryY=0.6167;" target="table_CLIENTE" value="">
-          <mxGeometry relative="1" as="geometry"/>
+        <mxCell id="rel_104" edge="1" parent="1" source="table_COBRO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8794A6;strokeWidth=1.05;opacity=65;startArrow=ERzeroToMany;startFill=0;startSize=11;endArrow=ERmandOne;endFill=0;endSize=11;entryPerimeter=1;jumpStyle=arc;jumpSize=8;exitX=1.0000;exitY=0.4800;exitPerimeter=1;entryX=0.0000;entryY=0.6167;" target="table_CLIENTE" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1855" y="3424.52"/>
+              <mxPoint x="1855" y="2684.2293"/>
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="rel_105" edge="1" parent="1" source="table_COBRO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#8794A6;strokeWidth=1.05;opacity=65;startArrow=ERzeroToMany;startFill=0;startSize=11;endArrow=ERzeroToOne;endFill=0;endSize=11;entryX=0.0000;entryY=0.6500;entryDx=0;entryDy=0;exitX=1.0000;exitY=0.3250;exitDx=0;exitDy=0;jumpStyle=arc;jumpSize=8;entryPerimeter=1;exitPerimeter=1;" target="table_USUARIO" value="">
           <mxGeometry relative="1" x="-0.1473" as="geometry"/>
