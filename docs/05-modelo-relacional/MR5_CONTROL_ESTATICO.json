@@ -1,0 +1,26 @@
+{
+  "estado": "VALIDADO ESTATICAMENTE, NO COMPILADO NI EJECUTADO EN POSTGRESQL",
+  "modelo_mr3": {
+    "tablas": 60,
+    "columnas": 453,
+    "fk": 125
+  },
+  "parche_mr5": {
+    "funciones_declaradas": 17,
+    "triggers_declarados": 24,
+    "tablas_nuevas": 0,
+    "columnas_nuevas": 0,
+    "fk_nuevas": 0
+  },
+  "resultados": {
+    "fuentes_concordantes": true,
+    "sin_crear_tablas_columnas_fk": true,
+    "trigger_names_unicos": true,
+    "delimitadores_dollar_balanceados": true
+  },
+  "sin_validar": [
+    "PostgreSQL parser, extensión btree_gist, triggers, permisos",
+    "rollback/completitud de cobro y reembolso",
+    "concurrencia, RBAC HTTP, PRA-01 y offline"
+  ]
+}
