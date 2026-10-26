@@ -59,6 +59,9 @@
 
 **RD-F04-005 — regla limitada y aprobada:** ante efectivo faltante en un pago en tránsito ya sincronizado y validado, la rendición queda **pendiente de conciliación** y el importe reconocido **no vuelve automáticamente a ser deuda exigible del Cliente**. No se contabiliza en Caja el faltante. La investigación, atribución de responsabilidades y resolución detallada de este supuesto están **fuera del alcance F04**. Ver [RD-F04-005](../01-gobierno/RD_F04_005_DIFERENCIA_PAGO_EN_TRANSITO_2026-10-26.md).
 
+
+**RD-F04-006 — regla funcional aprobada:** al evaluar deuda para nuevos Pedidos, utilizar el **saldo exigible provisional**, compuesto únicamente por eventos sincronizados y validados. La categoría comercial `CUMPLIDOR`/`EN_MORA` **permanece separada y no se modifica automáticamente**; los ajustes de precio, bloqueos ajenos a deuda y demás políticas siguen vigentes. Para pedidos capturados offline, el servidor revalida al sincronizar. Ver [RD-F04-006](../01-gobierno/RD_F04_006_EVALUACION_DEUDA_NUEVOS_PEDIDOS_2026-10-26.md). No se interpreta que un saldo provisional cero habilite todos los pedidos sin más controles.
+
 ## Diseño técnico siguiente, condicionado a decisiones
 
 - Proponer contrato `POST /sincronizaciones` con UUID de operación, payload versionado, actor, referencia, instantánea y respuesta estable de éxito/conflicto/reintento.
