@@ -104,6 +104,37 @@ jobs:
       - name: Concurrencia y deduplicación física (dos sesiones)
         run: |
           bash docs/05-modelo-relacional/sql/mr6/pruebas_concurrencia.sh
+      - name: Migración real desde 59 tablas (MR-3 + MR-5)
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d postgres -c 'CREATE DATABASE ale_mr5_migracion_ci;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci -c 'CREATE SCHEMA mr5_validacion;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/historico/DDL_59_TABLAS_2026-10-23_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/migracion-base59.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/sql/MR3_MIGRACION_NO_EJECUTADA.sql \
+            2>&1 | tee mr6-logs/migracion-mr3.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/sql/MR5_PATCH_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/migracion-mr5.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci -At -c "
+            SELECT 'tablas='||count(*) FROM information_schema.tables
+             WHERE table_schema='mr5_validacion' AND table_type='BASE TABLE';
+            SELECT 'columnas='||count(*) FROM information_schema.columns
+             WHERE table_schema='mr5_validacion';
+            SELECT 'fk='||count(*) FROM pg_constraint c JOIN pg_namespace n
+             ON n.oid=c.connamespace WHERE n.nspname='mr5_validacion' AND c.contype='f';
+          " | tee mr6-logs/migracion-catalogo.log
+          grep -qx 'tablas=60' mr6-logs/migracion-catalogo.log
+          grep -qx 'columnas=453' mr6-logs/migracion-catalogo.log
+          grep -qx 'fk=125' mr6-logs/migracion-catalogo.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
+            2>&1 | tee mr6-logs/migracion-pruebas.log
       - name: Guardar evidencia (inclusive en fallo)
         if: always()
         uses: actions/upload-artifact@v4
