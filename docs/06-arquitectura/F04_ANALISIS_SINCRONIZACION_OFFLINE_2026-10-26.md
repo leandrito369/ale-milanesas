@@ -51,6 +51,10 @@
 
 **RP-003 — decisión de alcance cerrada por RD-F04-001:** UC-03 y UC-05 admiten captura offline; UC-43 requiere conexión. La política operativa de conflictos continúa pendiente.
 
+## Análisis emergente: pago en tránsito y latencia financiera
+
+**Propuesta en evaluación, NO APROBADA:** cuando un Cliente entrega efectivo al Repartidor, el tiempo entre sincronización del teléfono y rendición autorizada puede generar una Cuenta Corriente que aún muestre deuda. Se evalúa un **registro independiente de pago en tránsito** y una **proyección de saldo exigible provisional**, sin alterar `COBRO.estadoCobro` (RD-F01), `MOVIMIENTO_CUENTA.saldoResultante` ni Caja antes de la autorización. Esta opción requiere definir permiso para declarar efectivo dentro de UC-05, tratamiento de faltantes y efecto sobre restricciones/categoría comercial. Ver [análisis de pago en tránsito](F04_EVALUACION_PAGO_EN_TRANSITO_PROPUESTA_2026-10-26.md). No realizar cambios físicos sin nueva decisión expresa.
+
 ## Diseño técnico siguiente, condicionado a decisiones
 
 - Proponer contrato `POST /sincronizaciones` con UUID de operación, payload versionado, actor, referencia, instantánea y respuesta estable de éxito/conflicto/reintento.
