@@ -2,7 +2,7 @@
 
 **Fecha:** 26/10/2026  
 **Autoridad:** confirmación explícita del responsable del proyecto.  
-**Estado:** **APROBADA** para responsable, autorización, momento de rendición y tratamiento inicial de diferencias; comprobantes y conciliación detallada **PENDIENTES**.
+**Estado:** **APROBADA** para responsable, autorización, momento de rendición y tratamiento inicial de diferencias; formato de comprobante y diseño técnico **PENDIENTES**; investigación detallada fuera de alcance.
 
 ## Decisión aprobada
 
@@ -20,13 +20,13 @@ Por lo tanto:
 ## Aspectos todavía [A CONFIRMAR]
 
 - Evidencia requerida: detalle por entrega, comprobante, conteo, firmas, diferencias y registro de responsable.
-- Detalle operativo de conciliación: responsables de la investigación, documentación del origen y criterio de resolución de diferencias.
+- El procedimiento pormenorizado de investigación, imputación de responsabilidades y recuperación de faltantes está **fuera del alcance F04** conforme a RD-F04-005; una diferencia queda pendiente de conciliación.
 - Momento en que se aplica el asiento de Cobro/Caja/Cuenta Corriente, evitando contabilización antes de la autorización administrativa.
 - Alcance de RP-007 para cobros distintos de la rendición del Repartidor: esta decisión no ratifica ni revoca permisos generales del Vendedor en UC-29.
 
 ## Trazabilidad
 
-- RP-006: **resuelto parcialmente** (responsable, autorización, momento de rendición y retención de diferencias pendientes de conciliación definidos); quedan pendientes evidencia y resolución detallada de diferencias.
+- RP-006: **resuelto parcialmente** (responsable, autorización, momento de rendición y retención de diferencias pendientes de conciliación definidos); los datos mínimos de evidencia están aprobados en la ampliación siguiente; permanecen pendientes formato de comprobante y aplicación técnica. La investigación detallada está fuera del alcance F04.
 - F04 / S-01; UC-05 Registrar Entrega, UC-29 Registrar Cobro, RD-F04-001 y RD-F01.
 - No se modifica SQL, modelo relacional, diagramas, casos de uso ni RBAC físico con esta decisión.
 - [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5) documenta la continuidad.
