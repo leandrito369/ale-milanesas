@@ -1,0 +1,67 @@
+# F04 — Evaluación de pagos en tránsito durante rendición de reparto
+
+**Fecha:** 26/10/2026. **Carácter:** PROPUESTA DE DISEÑO EN EVALUACIÓN; **no aprobada todavía** y **sin SQL implementado**.
+
+## 1. Problema operativo identificado por el usuario
+
+Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa se valida a las 16:00. Entre ambos momentos, un saldo de Cuenta Corriente que solo considere pagos definitivamente aplicados seguirá mostrando deuda. Si el Cliente consulta o intenta comprar durante esa ventana, puede enfrentar restricciones o reclamaciones pese a haber entregado el dinero.
+
+**Precisión de consistencia eventual:** si el teléfono permanece offline, el servidor no conoce la operación. El reconocimiento provisional en consultas centrales solo puede comenzar **después de sincronizar y validar** la declaración; la hora local de captura por sí sola no implica registro central.
+
+## 2. Fuentes contrastadas
+
+- `RD_F01_ESTADOS_COBRO_2026-10-26.md`: `COBRO.estadoCobro` tiene exclusivamente `CONFIRMADO` y `ANULADO`, y los pagos no confirmados se representan fuera de COBRO.
+- `RD_F04_001_ALCANCE_OFFLINE_2026-10-26.md`: captura offline de UC-03 y UC-05; UC-43 exclusivamente online.
+- `RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md`: recepción y autorización por Administrador al finalizar cada recorrido; diferencias permanecen pendientes; cierre exclusivo del Administrador con motivo.
+- `MR5_CONTRATOS_SERVICIOS.md` S-01: idempotencia, snapshots y permisos; Repartidor no recibe permiso directo UC-29.
+- `sql/MR5_DDL_NO_EJECUTADO.sql`: `COBRO` usa `estadoCobro`, `MOVIMIENTO_CUENTA` conserva `saldoResultante`, `ORIGEN_MOVIMIENTO_CUENTA.idCobro` referencia COBRO, `MOVIMIENTO_CAJA.idCobro` refiere al Cobro; los movimientos históricos no se reescriben.
+- `CLIENTE.categoriaComercial`: `CUMPLIDOR` o `EN_MORA`; el comportamiento de reevaluación requiere decisión explícita cuando hay pago provisional.
+
+## 3. Compatibilidad con el modelo vigente
+
+| Propuesta | Compatibilidad / límite |
+|---|---|
+| Añadir `PENDIENTE_RENDICION` a `COBRO.estadoCobro` | **Conflicto directo con RD-F01**; requiere reabrir esa decisión y modificar el CHECK F01. No recomendado. |
+| Crear un `COBRO` o `MOVIMIENTO_CUENTA` de tipo `PAGO` al sincronizar declaración no rendida | Confunde asiento definitivo con información todavía no conciliada, altera saldos históricos e introduce reversión/sustitución futura; **no recomendado** sin rediseño completo. |
+| Agregar al Cliente una proyección de pago en tránsito separada del saldo contable | **Viable como propuesta**, sin recalcular ni alterar `saldoResultante` y sin impactar Caja, pero requiere persistencia/contrato y autorización formal. |
+| Asignar custodia al Repartidor | Viable como responsabilidad operativa **condicionada** a evidencia y validación del evento. No existe todavía mecanismo para declarar o conciliar esa responsabilidad en las 60 tablas actuales. |
+| Capturar efectivo desde UC-05 | Si se limita a una **declaración de recepción de efectivo asociada a la entrega**, no es todavía un `COBRO` ni ejerce UC-29; se requiere aprobar explícitamente ese alcance y sus permisos. |
+
+## 4. Alternativa recomendada — registro independiente y dos saldos diferenciados
+
+**Nuevo concepto lógico propuesto, sin aceptar aún su materialización física:** `PAGO_EN_TRANSITO` o `DECLARACION_EFECTIVO_ENTREGA`, independiente de `COBRO`.
+
+- Captura local junto con UC-05: UUID origen, `idPedido`, `idCliente`, `idUsuarioRepartidor`, referencia a asignación y entrega, importe declarado como recibido, fecha/hora local, instantánea y evidencia. La evidencia/custodia son propuestas sujetas a definición.
+- Al sincronizar: el servidor valida identidad, autorización para declarar (no UC-29), Pedido, asignación y unicidad; conserva el evento y, si pasa las reglas, lo considera `PENDIENTE_RENDICION`. Este es un estado del **evento independiente**, no de COBRO.
+- **Cuenta Corriente confirmada:** saldos reales de `MOVIMIENTO_CUENTA` se mantienen intactos.
+- **Consulta operativa:** mostrar por separado `saldoConfirmado`, `importeEnTransitoValidado` y `saldoExigibleProvisional`. El importe en tránsito se descuenta solo de la exigibilidad provisoria para ese Cliente, no constituye un asiento `PAGO` ni crea crédito definitivo.
+- **Caja:** cero ingreso al confirmar la declaración; solo contabilizar efectivo realmente recibido y autorizado mediante el flujo posterior del Administrador.
+- Al rendir: el Administrador concilia; aplicar registros definitivos `COBRO=CONFIRMADO`, `MOVIMIENTO_CUENTA=PAGO` y `MOVIMIENTO_CAJA=INGRESO` en una transacción que consuma/reconcilie el importe en tránsito exactamente una vez. El descuento provisional cesa simultáneamente; así se evita contabilizar dos veces.
+- Si falta dinero en la rendición: registrar diferencia; continuar pendiente de conciliación y no cargar el faltante como ingreso en Caja. La responsabilidad patrimonial final del faltante y si el Cliente mantiene el beneficio provisional deben definirse explícitamente.
+
+**Cálculo de presentación conceptual:** `saldoExigibleProvisional = saldoConfirmado - sumaDeImportesEnTransitoValidadosYNoAplicados`. Se muestra como **saldo operativo/provisional**, nunca sustituye `MOVIMIENTO_CUENTA.saldoResultante`. La política ante saldos negativos o importes mayores a la deuda requiere decisión, no truncamiento oculto.
+
+## 5. Riesgos por mitigar
+
+1. **Sin sincronización no existe visibilidad central.** El dispositivo puede mostrar su propio estado pendiente; no trasladar la captura local a todas las consultas antes de recibirla.
+2. **Declaración falsa o duplicada.** La responsabilidad provisional se activaría solo después de pasar controles en el servidor, con `UNIQUE` por evento y restricciones contra duplicados por entrega/operación; debe haber evidencia verificable.
+3. **Conflictos por reasignación, permisos, cancelaciones u otras entregas.** Validar antes de aplicar; enviar a conciliación cuando corresponda.
+4. **No conceder UC-29 al Repartidor.** Es una función de declaración vinculada a UC-05, que requiere decisión funcional propia. La contabilización definitiva sigue siendo administrativa.
+5. **Categoría `CUMPLIDOR/EN_MORA` y bloqueos comerciales.** No actualizar categoría ni condiciones históricas automáticamente por mero evento pendiente, salvo regla aprobada. Evaluar una vista de **deuda provisional exigible** para consultas y nuevos pedidos.
+6. **Faltante tras declaración validada.** Aclarar si la deuda sigue suspendida para el Cliente y pasa a responsabilidad del Repartidor o si hay disputa de evidencia; no trasladar por defecto el faltante al Cliente.
+7. **Migración física.** El esquema actual carece de la entidad de pago en tránsito y del inbox universal. Agregar tabla/índices/relaciones exige CR/RD, trazabilidad y pruebas; no se ejecutó ningún DDL.
+8. **Proyección atómica.** Garantizar que un evento no contribuya simultáneamente al pago provisional y al definitivo al aplicar cobro, bajo reintentos y concurrencia.
+
+## 6. Decisiones requeridas [A CONFIRMAR]
+
+- **A — Repartidor:** ¿autorizar en UC-05 una declaración de efectivo recibido, sin permiso de UC-29, como origen de un pago en tránsito?
+- **B — Cliente:** ¿aprobar que un evento sincronizado y validado reduzca la **deuda exigible provisional**, sin modificar todavía el saldo confirmado ni Caja?
+- **C — Faltante:** si el evento fue validado y el Repartidor no rinde dinero, ¿la deuda del Cliente permanece provisionalmente cubierta mientras se investiga, en vez de reaparecer automáticamente como exigible?
+- **D — Categoría:** ¿el pago en tránsito puede evitar restricciones de compra por deuda, aun sin reclasificar automáticamente `CLIENTE.categoriaComercial`?
+- **E — Evidencia y límites:** condiciones verificables de aceptación, pagos parciales, importes que exceden deuda, plazo de conciliación, trazabilidad y tratamiento de fraudes.
+
+## 7. Dictamen
+
+**Recomendación:** adoptar **registro separado de pago en tránsito** y **proyección del saldo exigible provisional**, preservando F01, Caja y libro de Cuenta Corriente. No introducir `PENDIENTE_RENDICION` como nuevo estado de `COBRO`. No codificar ni afirmar aprobación hasta que el usuario ratifique las decisiones A–D.
+
+**Estado de QA:** revisión estática de coherencia con fuentes documentales y DDL; no hay pruebas PostgreSQL ni servicios offline ejecutados para esta propuesta.
