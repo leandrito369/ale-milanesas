@@ -86,3 +86,7 @@ Este borrador no define todavía política de resolución de todos los conflicto
 6. **Reglas de conflictos** por categoría o precios no coincidentes antes de la aceptación central de un Pedido offline.
 
 **No modificar el DDL, ni dar por implementadas rutinas o pruebas de servicio sobre la base de este documento.**
+
+## Actualización RD-F04-007 — ajuste EN_MORA aprobado
+
+El ajuste de precio de la categoría `EN_MORA` **permanece vigente hasta la reevaluación formal de la categoría**, incluso cuando un pago en tránsito ya validado reduce a cero el saldo exigible provisional. La evaluación de deuda del nuevo Pedido usa dicho saldo provisional; el ajuste comercial utiliza la categoría vigente, sin suspensión de recargo ni reclasificación automática. Ver [RD-F04-007](../01-gobierno/RD_F04_007_AJUSTE_EN_MORA_PAGO_TRANSITO_2026-10-26.md). No se alteran porcentajes ni políticas históricas.
