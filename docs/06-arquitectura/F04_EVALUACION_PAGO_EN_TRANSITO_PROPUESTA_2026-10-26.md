@@ -1,6 +1,8 @@
 # F04 — Evaluación de pagos en tránsito durante rendición de reparto
 
-**Fecha:** 26/10/2026. **Carácter:** PROPUESTA DE DISEÑO EN EVALUACIÓN; **no aprobada todavía** y **sin SQL implementado**.
+**Fecha:** 26/10/2026. **Carácter:** **DECISIÓN PARCIAL APROBADA** (RD-F04-003: separación del pago en tránsito, descuento en exigibilidad provisional después de validación remota, sin impacto en Caja ni contabilidad). El resto del modelo técnico y las reglas A/C/D/E continúan **PROPUESTOS / PENDIENTES**; **sin SQL implementado**.
+
+**Acta vinculante:** [RD-F04-003](../01-gobierno/RD_F04_003_PAGO_EN_TRANSITO_SALDO_PROVISIONAL_2026-10-26.md).
 
 ## 1. Problema operativo identificado por el usuario
 
@@ -29,7 +31,7 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 
 ## 4. Alternativa recomendada — registro independiente y dos saldos diferenciados
 
-**Nuevo concepto lógico propuesto, sin aceptar aún su materialización física:** `PAGO_EN_TRANSITO` o `DECLARACION_EFECTIVO_ENTREGA`, independiente de `COBRO`.
+**Separación funcional aprobada por RD-F04-003, sin aprobar aún su materialización física:** registro de pago en tránsito independiente de `COBRO`. Los nombres técnicos `PAGO_EN_TRANSITO` y `DECLARACION_EFECTIVO_ENTREGA` son candidatos, no denominaciones físicas ratificadas.
 
 - Captura local junto con UC-05: UUID origen, `idPedido`, `idCliente`, `idUsuarioRepartidor`, referencia a asignación y entrega, importe declarado como recibido, fecha/hora local, instantánea y evidencia. La evidencia/custodia son propuestas sujetas a definición.
 - Al sincronizar: el servidor valida identidad, autorización para declarar (no UC-29), Pedido, asignación y unicidad; conserva el evento y, si pasa las reglas, lo considera `PENDIENTE_RENDICION`. Este es un estado del **evento independiente**, no de COBRO.
@@ -55,13 +57,13 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 ## 6. Decisiones requeridas [A CONFIRMAR]
 
 - **A — Repartidor:** ¿autorizar en UC-05 una declaración de efectivo recibido, sin permiso de UC-29, como origen de un pago en tránsito?
-- **B — Cliente:** ¿aprobar que un evento sincronizado y validado reduzca la **deuda exigible provisional**, sin modificar todavía el saldo confirmado ni Caja?
+- **B — Cliente (APROBADO por RD-F04-003):** solo el importe del evento sincronizado y validado reduce la **deuda exigible provisional**; el saldo contable y Caja permanecen sin cambios.
 - **C — Faltante:** si el evento fue validado y el Repartidor no rinde dinero, ¿la deuda del Cliente permanece provisionalmente cubierta mientras se investiga, en vez de reaparecer automáticamente como exigible?
 - **D — Categoría:** ¿el pago en tránsito puede evitar restricciones de compra por deuda, aun sin reclasificar automáticamente `CLIENTE.categoriaComercial`?
 - **E — Evidencia y límites:** condiciones verificables de aceptación, pagos parciales, importes que exceden deuda, plazo de conciliación, trazabilidad y tratamiento de fraudes.
 
 ## 7. Dictamen
 
-**Recomendación:** adoptar **registro separado de pago en tránsito** y **proyección del saldo exigible provisional**, preservando F01, Caja y libro de Cuenta Corriente. No introducir `PENDIENTE_RENDICION` como nuevo estado de `COBRO`. No codificar ni afirmar aprobación hasta que el usuario ratifique las decisiones A–D.
+**Dictamen actualizado:** la separación del pago en tránsito y la proyección exigible provisional quedaron **aprobadas** por RD-F04-003. Continúan en evaluación la autorización específica del Repartidor para declarar efectivo, el tratamiento de faltantes, la elegibilidad comercial, la evidencia y el diseño físico. No introducir `PENDIENTE_RENDICION` como estado de `COBRO`. No codificar estructuras físicas ni atribuir aprobación a las decisiones A/C/D/E.
 
 **Estado de QA:** revisión estática de coherencia con fuentes documentales y DDL; no hay pruebas PostgreSQL ni servicios offline ejecutados para esta propuesta.
