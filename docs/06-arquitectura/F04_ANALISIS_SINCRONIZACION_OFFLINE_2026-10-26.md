@@ -42,12 +42,12 @@
 
 ## Cuestiones [A CONFIRMAR] con usuario
 
-1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición y autoriza el registro** (RD-F04-002). Falta definir cuándo se rinde, qué evidencia se exige y cómo se resuelven diferencias.
+1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición, que ocurre al finalizar cada recorrido de reparto, y autoriza su registro** (RD-F04-002). Falta definir qué evidencia se exige y cómo se resuelven diferencias.
 2. **RP-007:** ¿ratificar acceso directo a UC-29 solo para Administrador y Vendedor?
 3. ¿Una operación capturada antes de revocar un permiso puede aceptarse después, o debe ir siempre a revisión?
 4. ¿Qué plazo/retención aplica a eventos pendientes? Sin valor predeterminado aprobado.
 
-**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. No determina todavía flujo de comprobación, plazos ni diferencias.
+**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. El momento es el final de cada recorrido; todavía falta definir comprobantes y tratamiento de diferencias.
 
 **RP-003 — decisión de alcance cerrada por RD-F04-001:** UC-03 y UC-05 admiten captura offline; UC-43 requiere conexión. La política operativa de conflictos continúa pendiente.
 
