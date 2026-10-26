@@ -57,6 +57,8 @@
 
 **RD-F04-004:** [declaración de efectivo recibida en UC-05](../01-gobierno/RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md) aprobada sin permiso UC-29; validación remota de identidad, asignación, importe e idempotencia obligatoria.
 
+**RD-F04-005 — regla limitada y aprobada:** ante efectivo faltante en un pago en tránsito ya sincronizado y validado, la rendición queda **pendiente de conciliación** y el importe reconocido **no vuelve automáticamente a ser deuda exigible del Cliente**. No se contabiliza en Caja el faltante. La investigación, atribución de responsabilidades y resolución detallada de este supuesto están **fuera del alcance F04**. Ver [RD-F04-005](../01-gobierno/RD_F04_005_DIFERENCIA_PAGO_EN_TRANSITO_2026-10-26.md).
+
 ## Diseño técnico siguiente, condicionado a decisiones
 
 - Proponer contrato `POST /sincronizaciones` con UUID de operación, payload versionado, actor, referencia, instantánea y respuesta estable de éxito/conflicto/reintento.
