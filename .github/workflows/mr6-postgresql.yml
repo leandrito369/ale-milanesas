@@ -95,6 +95,9 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
             -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
             2>&1 | tee mr6-logs/mr5-pruebas.log
+      - name: Concurrencia y deduplicación física (dos sesiones)
+        run: |
+          bash docs/05-modelo-relacional/sql/mr6/pruebas_concurrencia.sh
       - name: Guardar evidencia (inclusive en fallo)
         if: always()
         uses: actions/upload-artifact@v4
