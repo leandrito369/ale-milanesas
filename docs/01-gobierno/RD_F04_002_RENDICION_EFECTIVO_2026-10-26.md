@@ -2,7 +2,7 @@
 
 **Fecha:** 26/10/2026  
 **Autoridad:** confirmación explícita del responsable del proyecto.  
-**Estado:** **APROBADA** para responsable, autorización y momento de rendición; procedimiento detallado **PENDIENTE**.
+**Estado:** **APROBADA** para responsable, autorización, momento de rendición y tratamiento inicial de diferencias; comprobantes y conciliación detallada **PENDIENTES**.
 
 ## Decisión aprobada
 
@@ -14,17 +14,19 @@ Por lo tanto:
 - El Repartidor no obtiene por esta decisión autorización para ejecutar UC-29 Registrar Cobro.
 - Tampoco se interpreta que la captura offline de UC-05 Registrar Entrega equivalga a un Cobro confirmado.
 - Los cobros persistidos deben respetar RD-F01: solo estados `CONFIRMADO` y `ANULADO`, con control de duplicados e integridad de Caja/Cuenta Corriente.
+- **Ante una diferencia** entre el efectivo entregado y el importe que debería rendirse, el Administrador **registra la diferencia y deja la rendición pendiente de conciliación**. No confirma automáticamente un Cobro por un importe que no recibió.
+- La rendición pendiente de conciliación es una **situación operativa**; no constituye un nuevo valor de `COBRO.estadoCobro`.
 
 ## Aspectos todavía [A CONFIRMAR]
 
 - Evidencia requerida: detalle por entrega, comprobante, conteo, firmas, diferencias y registro de responsable.
-- Procedimiento ante diferencia entre efectivo declarado y entregado.
+- Detalle operativo de conciliación: responsables de la investigación, documentación del origen y criterio de resolución de diferencias.
 - Momento en que se aplica el asiento de Cobro/Caja/Cuenta Corriente, evitando contabilización antes de la autorización administrativa.
 - Alcance de RP-007 para cobros distintos de la rendición del Repartidor: esta decisión no ratifica ni revoca permisos generales del Vendedor en UC-29.
 
 ## Trazabilidad
 
-- RP-006: **resuelto parcialmente** (responsable, autorización y momento de rendición definidos); quedan pendientes evidencia, conciliación de diferencias y procedimiento.
+- RP-006: **resuelto parcialmente** (responsable, autorización, momento de rendición y retención de diferencias pendientes de conciliación definidos); quedan pendientes evidencia y resolución detallada de diferencias.
 - F04 / S-01; UC-05 Registrar Entrega, UC-29 Registrar Cobro, RD-F04-001 y RD-F01.
 - No se modifica SQL, modelo relacional, diagramas, casos de uso ni RBAC físico con esta decisión.
 - [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5) documenta la continuidad.
