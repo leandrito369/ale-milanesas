@@ -55,3 +55,7 @@ La regla concreta para excedentes, saldos negativos, pagos parciales y la base d
 ## Addenda RD-F04-004 (26/10/2026)
 
 La autorización de declaración de efectivo dentro de UC-05, listada anteriormente como pendiente, fue aprobada en [RD-F04-004](RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md). La captura puede efectuarse offline y solo impacta en la proyección provisional tras validación del servidor. No habilita al Repartidor a ejecutar UC-29. Siguen pendientes la política de faltantes, la elegibilidad comercial y el diseño físico.
+
+## Addenda RD-F04-005 — alcance acotado de la diferencia
+
+[RD-F04-005](RD_F04_005_DIFERENCIA_PAGO_EN_TRANSITO_2026-10-26.md) aprueba que, si un pago en tránsito ya fue validado y existe faltante al rendir, se conserve el efecto provisional para el Cliente sin restablecer automáticamente la deuda exigible, mientras la rendición **permanece pendiente de conciliación**. Este supuesto termina ahí en el alcance de F04: se excluyen investigación, responsabilidad y resolución detallada. No constituye autorización de nuevos estados o asientos en COBRO/Caja.
