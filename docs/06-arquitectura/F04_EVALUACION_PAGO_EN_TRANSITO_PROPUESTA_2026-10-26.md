@@ -39,7 +39,7 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 - **Consulta operativa:** mostrar por separado `saldoConfirmado`, `importeEnTransitoValidado` y `saldoExigibleProvisional`. El importe en tránsito se descuenta solo de la exigibilidad provisoria para ese Cliente, no constituye un asiento `PAGO` ni crea crédito definitivo.
 - **Caja:** cero ingreso al confirmar la declaración; solo contabilizar efectivo realmente recibido y autorizado mediante el flujo posterior del Administrador.
 - Al rendir: el Administrador concilia; aplicar registros definitivos `COBRO=CONFIRMADO`, `MOVIMIENTO_CUENTA=PAGO` y `MOVIMIENTO_CAJA=INGRESO` en una transacción que consuma/reconcilie el importe en tránsito exactamente una vez. El descuento provisional cesa simultáneamente; así se evita contabilizar dos veces.
-- Si falta dinero en la rendición: registrar diferencia; continuar pendiente de conciliación y no cargar el faltante como ingreso en Caja. La responsabilidad patrimonial final del faltante y si el Cliente mantiene el beneficio provisional deben definirse explícitamente.
+- Si falta dinero en la rendición: registrar diferencia; continuar pendiente de conciliación y no cargar el faltante como ingreso en Caja. RD-F04-005 establece que la deuda exigible no reaparece automáticamente y que la rendición permanece pendiente de conciliación. La atribución de responsabilidad y la investigación están fuera del alcance de F04.
 
 **Cálculo de presentación conceptual:** `saldoExigibleProvisional = saldoConfirmado - sumaDeImportesEnTransitoValidadosYNoAplicados`. Se muestra como **saldo operativo/provisional**, nunca sustituye `MOVIMIENTO_CUENTA.saldoResultante`. La política ante saldos negativos o importes mayores a la deuda requiere decisión, no truncamiento oculto.
 
@@ -50,7 +50,7 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 3. **Conflictos por reasignación, permisos, cancelaciones u otras entregas.** Validar antes de aplicar; enviar a conciliación cuando corresponda.
 4. **No conceder UC-29 al Repartidor.** Es una función de declaración vinculada a UC-05, que requiere decisión funcional propia. La contabilización definitiva sigue siendo administrativa.
 5. **Categoría `CUMPLIDOR/EN_MORA` y bloqueos comerciales.** No actualizar categoría ni condiciones históricas automáticamente por mero evento pendiente, salvo regla aprobada. Evaluar una vista de **deuda provisional exigible** para consultas y nuevos pedidos.
-6. **Faltante tras declaración validada.** Aclarar si la deuda sigue suspendida para el Cliente y pasa a responsabilidad del Repartidor o si hay disputa de evidencia; no trasladar por defecto el faltante al Cliente.
+6. **Faltante tras declaración validada.** RD-F04-005 determina que no se restablece automáticamente la exigibilidad del Cliente y la rendición queda pendiente de conciliación. No investigar causas ni definir responsabilidad patrimonial dentro de F04.
 7. **Migración física.** El esquema actual carece de la entidad de pago en tránsito y del inbox universal. Agregar tabla/índices/relaciones exige CR/RD, trazabilidad y pruebas; no se ejecutó ningún DDL.
 8. **Proyección atómica.** Garantizar que un evento no contribuya simultáneamente al pago provisional y al definitivo al aplicar cobro, bajo reintentos y concurrencia.
 
@@ -58,12 +58,12 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 
 - **A — Repartidor (APROBADA por RD-F04-004):** puede declarar efectivo recibido asociado a Pedido/Entrega desde UC-05, incluso offline; exige validación posterior de identidad, asignación, importe e idempotencia en servidor. No obtiene permiso de UC-29.
 - **B — Cliente (APROBADO por RD-F04-003):** solo el importe del evento sincronizado y validado reduce la **deuda exigible provisional**; el saldo contable y Caja permanecen sin cambios.
-- **C — Faltante:** si el evento fue validado y el Repartidor no rinde dinero, ¿la deuda del Cliente permanece provisionalmente cubierta mientras se investiga, en vez de reaparecer automáticamente como exigible?
+- **C — Faltante (APROBADA con alcance acotado por RD-F04-005):** si el evento fue validado y el efectivo no se rinde completamente, la rendición **permanece pendiente de conciliación** y la deuda exigible del Cliente **no reaparece automáticamente**. F04 no diseña investigación, responsabilidad patrimonial ni resolución detallada; esos temas quedan fuera de alcance.
 - **D — Categoría:** ¿el pago en tránsito puede evitar restricciones de compra por deuda, aun sin reclasificar automáticamente `CLIENTE.categoriaComercial`?
 - **E — Evidencia y límites:** condiciones verificables de aceptación, pagos parciales, importes que exceden deuda, plazo de conciliación, trazabilidad y tratamiento de fraudes.
 
 ## 7. Dictamen
 
-**Dictamen actualizado:** la separación del pago en tránsito y la proyección exigible provisional quedaron **aprobadas** por RD-F04-003. La declaración de efectivo del Repartidor como parte de UC-05 está aprobada por RD-F04-004; continúan en evaluación el tratamiento de faltantes, la elegibilidad comercial, la evidencia y el diseño físico. No introducir `PENDIENTE_RENDICION` como estado de `COBRO`. No codificar estructuras físicas ni atribuir aprobación a las decisiones A/C/D/E.
+**Dictamen actualizado:** la separación del pago en tránsito y la proyección exigible provisional quedaron **aprobadas** por RD-F04-003. La declaración de efectivo del Repartidor como parte de UC-05 está aprobada por RD-F04-004; el tratamiento acotado del faltante quedó aprobado en RD-F04-005; continúan en evaluación la elegibilidad comercial, la evidencia y el diseño físico. No introducir `PENDIENTE_RENDICION` como estado de `COBRO`. No codificar estructuras físicas ni atribuir aprobación a las decisiones A/C/D/E.
 
 **Estado de QA:** revisión estática de coherencia con fuentes documentales y DDL; no hay pruebas PostgreSQL ni servicios offline ejecutados para esta propuesta.
