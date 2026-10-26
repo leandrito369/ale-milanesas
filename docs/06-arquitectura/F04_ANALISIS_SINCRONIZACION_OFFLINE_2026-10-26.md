@@ -42,12 +42,12 @@
 
 ## Cuestiones [A CONFIRMAR] con usuario
 
-1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición, que ocurre al finalizar cada recorrido de reparto, y autoriza su registro** (RD-F04-002). Las diferencias se registran y la rendición permanece pendiente de conciliación, sin confirmar un Cobro por efectivo no recibido. Falta definir evidencia y resolución detallada.
+1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición, que ocurre al finalizar cada recorrido de reparto, y autoriza su registro** (RD-F04-002). Las diferencias se registran y la rendición permanece pendiente de conciliación, sin confirmar un Cobro por efectivo no recibido. La evidencia mínima obligatoria y el cierre exclusivo por Administrador con motivo están aprobados. Faltan formato de comprobante y contrato técnico.
 2. **RP-007:** ¿ratificar acceso directo a UC-29 solo para Administrador y Vendedor?
 3. ¿Una operación capturada antes de revocar un permiso puede aceptarse después, o debe ir siempre a revisión?
 4. ¿Qué plazo/retención aplica a eventos pendientes? Sin valor predeterminado aprobado.
 
-**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. El momento es el final de cada recorrido; si hay diferencias se registran y la rendición queda pendiente de conciliación, sin confirmar automáticamente Cobros por importes no recibidos. Falta definir comprobantes y mecanismo de resolución.
+**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. El momento es el final de cada recorrido; si hay diferencias se registran y la rendición queda pendiente de conciliación, sin confirmar automáticamente Cobros por importes no recibidos. Datos mínimos obligatorios aprobados; el cierre de diferencias es exclusivo del Administrador, con motivo documentado. Falta definir formato de comprobantes y aplicación financiera.
 
 **RP-003 — decisión de alcance cerrada por RD-F04-001:** UC-03 y UC-05 admiten captura offline; UC-43 requiere conexión. La política operativa de conflictos continúa pendiente.
 
