@@ -7,7 +7,7 @@ WITH firmas AS (
  FROM information_schema.columns c WHERE c.table_schema='mr5_validacion'
  UNION ALL
  SELECT 'CONSTRAINT',c.conname||'.'||cl.relname,
-        c.contype||'~'||pg_get_constraintdef(c.oid)
+        c.contype::text||'~'||pg_get_constraintdef(c.oid)
  FROM pg_constraint c
  JOIN pg_namespace n ON n.oid=c.connamespace
  JOIN pg_class cl ON cl.oid=c.conrelid
