@@ -135,6 +135,18 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
             -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
             2>&1 | tee mr6-logs/migracion-pruebas.log
+      - name: Comparar modelo directo e incremental (huella estructural)
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/mr6/huella-estructural.sql \
+            > mr6-logs/modelo-directo.firma
+          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/mr6/huella-estructural.sql \
+            > mr6-logs/modelo-incremental.firma
+          diff -u mr6-logs/modelo-directo.firma mr6-logs/modelo-incremental.firma \
+            | tee mr6-logs/comparacion-modelos.diff
+          echo '[PASS] Misma estructura de columnas, constraints, indices, triggers y funciones'
       - name: Guardar evidencia (inclusive en fallo)
         if: always()
         uses: actions/upload-artifact@v4
