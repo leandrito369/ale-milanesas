@@ -95,6 +95,12 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
             -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
             2>&1 | tee mr6-logs/mr5-pruebas.log
+      - name: Integridad de último Administrador y revocación de sesión
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/mr6/pruebas_usuario_adicionales.sql \
+            2>&1 | tee mr6-logs/mr6-usuarios.log
       - name: Concurrencia y deduplicación física (dos sesiones)
         run: |
           bash docs/05-modelo-relacional/sql/mr6/pruebas_concurrencia.sh
