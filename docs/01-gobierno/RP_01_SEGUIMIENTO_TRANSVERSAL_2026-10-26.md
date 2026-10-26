@@ -8,7 +8,7 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 20 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 19 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
@@ -20,6 +20,7 @@
 | SERVICIO_PENDIENTE | 1 |
 | SQL_PARCIAL_INTEGRACION_PENDIENTE | 2 |
 | SQL_VALIDADO_INTEGRACION_PENDIENTE | 2 |
+| PARCIALMENTE_RESUELTO | 1 |
 | **TOTAL** | **34** |
 
 No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo en una decisión funcional o en un contrato.
@@ -34,7 +35,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-004 | Consultas | MEDIA | Margen por período o por venta individual | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-005 | Finanzas | ALTA | Responsable técnico del reintento | FISICO_PARCIALMENTE_VALIDADO | MR-5 / MR-6 | Columna y pruebas SQL de reintentos; servicio webhook pendiente. |
 | RP-006 | Caja/Reparto | ALTA | Rendición de efectivo del Repartidor | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-002..005 / PR #5 | Rendición Admin; diferencias pendientes de conciliación, sin investigación ampliada. API/DDL pendientes. |
-| RP-007 | Permisos | MEDIA | Ratificación de matriz Rol × CU | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-007 | Permisos | MEDIA | Ratificación de matriz Rol × CU | PARCIALMENTE_RESUELTO | RD-RP007-001 (26/10) | UC-29 exclusivo Administrador/Vendedor aprobado; faltan UC-33–37, UC-40 y accesos a campos sensibles. |
 | RP-008 | Usuarios | ALTA | Último Administrador | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-5 / MR-6 | Protección último Administrador probada en BD; confirmar procedimiento operativo de contingencia y API. |
 | RP-009 | Usuarios/Reparto | ALTA | Cuenta de Repartidor con Pedidos asignados | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-010 | Usuarios | MEDIA | Cambio temporal vs relación UML | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
