@@ -17,3 +17,9 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Guía Gemini web](GUIA_GEMINI_WEB.md): importación, limitaciones de escritura y flujo con PR.
 
 - [Informe MR-6](05-modelo-relacional/MR6_INFORME_EJECUCION_2026-10-26.md): ejecución PostgreSQL 17 y riesgos restantes.
+
+## Planificación y colaboración IA — propuesta 26/10/2026
+
+- [Plan Maestro de Desarrollo y Entregables](09-planificacion/PLAN_MAESTRO_DESARROLLO_ENTREGABLES_2026-10-26.md): ruta B0–B9, dependencias, entregables, aceptación y seguimiento; **versión propuesta**.
+- [Plan de delegación a Gemini](09-planificacion/PLAN_DELEGACION_GEMINI_2026-10-26.md): DSS/DSD, contratos, transferencia, QA y PR; **versión propuesta**.
+- [Plantilla y selección de contratos de operación](07-contratos-operacion/PLANTILLA_CONTRATO_OPERACION_Y_CONTROL_2026-10-26.md): criterios del usuario y estructura de nueve secciones; **plantilla**, no contratos aprobados.
