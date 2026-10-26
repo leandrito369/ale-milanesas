@@ -1,0 +1,11 @@
+ID,Tema,Tablas,CU/PRA,Estado,Decisión MR-3
+ES-01,Bloqueo físico,SALDO_INICIAL,UC-50/42,APROBADO,"Extender CHECK, permitir costo histórico SALDO_INICIAL, no inventar Compra."
+ES-02,Catálogo de estados,PROMOCION,UC-59/60,APROBADO,BORRADOR/ACTIVA/PAUSADA/FINALIZADA/CANCELADA. Cronograma y permisos de pausado quedan por especificar.
+ES-03,Operaciones anteriores,PRODUCTO;PROVEEDOR,UC-03/08/13/46/48,APROBADO,No cancelar lo iniciado al inactivar; filtrar INSERT nuevos según estado vigente.
+ES-04,"Caja, Cobro y Cuenta",MOVIMIENTO_CAJA;ORIGEN_MOVIMIENTO_CUENTA;MOVIMIENTO_CUENTA,UC-29 + extensión de corrección,APROBADO,ANULACION_COBRO con referencia a Cobro y reversión de efectos una vez; no aplica a MP.
+ES-05,Antigüedad deuda,ENTREGA,UC-05/15/27,PARCIAL,Origen en fechaHoraEntrega sin 15 días. Para saldo pendiente específico por factura falta regla imputación de Cobros.
+ES-06,Plazo Cotización,CONFIGURACION_OPERATIVA;EPISODIO_FALTANTE;SOLICITUD_COTIZACION,PRA-01/UC-44/58,APROBADO,Duración en horas positiva configurable; sin valor predeterminado supuesto; snapshot por episodio y por solicitud.
+ES-07,Compra ponderada,RESPUESTA_COTIZACION;DETALLE_DECISION_CRITERIO,UC-12/58,PARCIAL,Sin dato puntaje 0; precio total menor último desempate; escalas de criterios requieren normalización definida.
+ES-08,Offline,PEDIDO;COBRO;DETALLE_PEDIDO,UC-03/05/29/43,PARCIAL,Congelar condiciones y registrar claves idempotentes. No se amplía privilegio UC-29 a Repartidor.
+ES-09,Restablecimiento,USUARIO;SESION_USUARIO,UC-53/54,APROBADO,"Sobrescribir credencial protegida, revocar sesiones; logs externos generales; no nueva tabla de seguridad."
+ES-10,Responsable reintento,INTENTO_REEMBOLSO,UC-26/49,DISEÑADO,"idUsuarioReintento nullable en intento 1, FK requerida >1. Migración condicionada por backfill histórico."
