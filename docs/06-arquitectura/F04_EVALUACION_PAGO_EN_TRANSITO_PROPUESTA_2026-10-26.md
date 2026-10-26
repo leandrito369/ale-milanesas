@@ -56,7 +56,7 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 
 ## 6. Decisiones requeridas [A CONFIRMAR]
 
-- **A — Repartidor:** ¿autorizar en UC-05 una declaración de efectivo recibido, sin permiso de UC-29, como origen de un pago en tránsito?
+- **A — Repartidor (APROBADA por RD-F04-004):** puede declarar efectivo recibido asociado a Pedido/Entrega desde UC-05, incluso offline; exige validación posterior de identidad, asignación, importe e idempotencia en servidor. No obtiene permiso de UC-29.
 - **B — Cliente (APROBADO por RD-F04-003):** solo el importe del evento sincronizado y validado reduce la **deuda exigible provisional**; el saldo contable y Caja permanecen sin cambios.
 - **C — Faltante:** si el evento fue validado y el Repartidor no rinde dinero, ¿la deuda del Cliente permanece provisionalmente cubierta mientras se investiga, en vez de reaparecer automáticamente como exigible?
 - **D — Categoría:** ¿el pago en tránsito puede evitar restricciones de compra por deuda, aun sin reclasificar automáticamente `CLIENTE.categoriaComercial`?
@@ -64,6 +64,6 @@ Cliente entrega efectivo al Repartidor a las 11:00. La rendición administrativa
 
 ## 7. Dictamen
 
-**Dictamen actualizado:** la separación del pago en tránsito y la proyección exigible provisional quedaron **aprobadas** por RD-F04-003. Continúan en evaluación la autorización específica del Repartidor para declarar efectivo, el tratamiento de faltantes, la elegibilidad comercial, la evidencia y el diseño físico. No introducir `PENDIENTE_RENDICION` como estado de `COBRO`. No codificar estructuras físicas ni atribuir aprobación a las decisiones A/C/D/E.
+**Dictamen actualizado:** la separación del pago en tránsito y la proyección exigible provisional quedaron **aprobadas** por RD-F04-003. La declaración de efectivo del Repartidor como parte de UC-05 está aprobada por RD-F04-004; continúan en evaluación el tratamiento de faltantes, la elegibilidad comercial, la evidencia y el diseño físico. No introducir `PENDIENTE_RENDICION` como estado de `COBRO`. No codificar estructuras físicas ni atribuir aprobación a las decisiones A/C/D/E.
 
 **Estado de QA:** revisión estática de coherencia con fuentes documentales y DDL; no hay pruebas PostgreSQL ni servicios offline ejecutados para esta propuesta.
