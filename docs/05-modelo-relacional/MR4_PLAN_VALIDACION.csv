@@ -1,0 +1,17 @@
+id,escenario,estado,prioridad,evidencia_actual,criterio_para_aprobar
+MR4-01,Crear DDL 60 tablas PostgreSQL,NO_EJECUTADO,CRITICA,Analisis estatico 60/453/125,DDL y btree_gist creados sin errores
+MR4-02,FK tabla y columna existentes,ESTATICO_APROBADO,ALTA,125 FKs y extremos identificados,Inspeccion de pg_constraint en PostgreSQL
+MR4-03,Concordancia diccionario vs DDL,ESTATICO_APROBADO,ALTA,453 columnas sin diferencias,Nombres y tipos correctos en information_schema
+MR4-04,Equivalencia DDL delta y migracion,ESTATICO_APROBADO,ALTA,Sentencias normalizadas identicas,Migrar replica con datos y precheck
+MR4-05,Unicidad de Insumo normalizado,PREPARADO_NO_EJECUTADO,ALTA,INSERT de duplicado y expectativa unique_violation,Error 23505 para nombre equivalente
+MR4-06,Cliente duplicado nombre telefono con telefono compartido,PREPARADO_NO_EJECUTADO,ALTA,Pruebas incluidas y rollback,Compartido valido y par duplicado rechazado
+MR4-07,Estado y transiciones PROMOCION,PREPARADO_NO_EJECUTADO,ALTA,Pruebas incluidas,Estado invalido/transicion no aprobada rechazados
+MR4-08,CONFIGURACION_OPERATIVA plazo,PREPARADO_NO_EJECUTADO,ALTA,Prueba sin seed y duracion de laboratorio,Ningun default inventado y valor positivo
+MR4-09,SALDO_INICIAL unico y costo correcto,PARCIAL_PREPARADO,ALTA,Unicidad test; vinculacion de fuente sin regla,Fk correcta y costo fuente SALDO_INICIAL garantizado
+MR4-10,Vigencias de precio y politica sin solapes,PREPARADO_NO_EJECUTADO,ALTA,EXCLUDE GiST y pruebas incluidas,Solapados fallan y adyacentes pasan
+MR4-11,Contraasiento de Cobro atomico,NO_EJECUTADO,CRITICA,Funcion y triggers presentes con huecos F01/F02,Rollback completo y no reescritura de contraasientos
+MR4-12,Reembolso idempotente,NO_EJECUTADO,CRITICA,Falta procedimiento completo,Una contabilizacion exacta ante duplicados
+MR4-13,Reposicion automatica PRA-01,NO_EJECUTADO,CRITICA,Unicos indices parciales y triggers,Sin rondas duplicadas bajo concurrencia
+MR4-14,Usuarios y ultimo Administrador,NO_EJECUTADO,ALTA,Tabla y permisos sin invariantes completos,Sin eliminar ultimo admin y revocar sesiones
+MR4-15,Offline/entregas duplicadas,NO_EJECUTADO,ALTA,Sin sincronizador probado,Autorizar y deduplicar eventos conservando historicos
+MR4-16,Indice rendimiento EXPLAIN ANALYZE,NO_EJECUTADO,MEDIA,Sin servidor ni carga,Nuevos indices solo con mejora medida

@@ -1,0 +1,11 @@
+hallazgo,prioridad,estado_MR5,solucion_o_contrato,pendiente_para_cierre
+F01,ALTA,PARCIAL,CHECK estadoCobro no vacío; catálogo no deducible de las fuentes,Ratificar enumeración cerrada de estados y precheck de valores
+F02,ALTA,PARCHE_PREPARADO,"Movimientos financieros append-only, Cobro histórico protegido, contraasiento MR3 diferido",Probar UPDATE/DELETE y anulación concurrente en PostgreSQL
+F03,ALTA,PARCHE_PREPARADO,SALDO_INICIAL exige fuente de costo misma clave + primer movimiento y stock resultante,"Probar valoración, stockActual y reversión por ajuste"
+F04,ALTA,CONTRATO_DE_SERVICIO,"Idempotencia offline, snapshot, reglas de autorización/conciliación",Implementar API de sincronización y ensayos de conflicto
+F05,ALTA,PARCIAL_SQL,Trigger primera ronda automática y guardia de cierre del episodio,"Completar detector del umbral, solicitudes/proveedores y procesamiento del reloj"
+F06,ALTA,PARCIAL_SQL,Un solo evento PROCESADO aplicable; par financiero requerido al COMMIT,"Implementar webhooks seguros, estados y pruebas de efectos únicos"
+F07,ALTA,PARCIAL_SQL,"Ultimo Admin, Roles, vínculo Proveedor y revocación de sesiones",Completar GRANT/SECURITY DEFINER y pruebas a dos sesiones
+F08,MEDIA,PARCHE_PREPARADO,Prohibida PAUSADA→ACTIVA sin UC de reactivación,Decidir CU de reactivación o política alternativa
+F09,ALTA,PARCHE_PREPARADO,Bloqueos FOR SHARE en altas y cambios de referencias,Pruebas de concurrencia frente a desactivación
+F10,MEDIA,NO_EJECUTADO,"Batería, launcher seguro y precheck preparados",Ejecutar en PostgreSQL ale_mr5_* y registrar resultados
