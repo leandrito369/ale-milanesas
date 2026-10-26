@@ -27,7 +27,7 @@
 |---|---|---|---|
 | UC-03 | Cargar Pedido | **OFFLINE PERMITIDA** | Se registra como captura local pendiente; el servidor debe revalidar permiso, datos y condiciones antes de confirmar. Conflictos de stock, precios o vigencia se tratan explícitamente; la política detallada sigue pendiente. |
 | UC-05 | Registrar Entrega | **OFFLINE PERMITIDA** | Se registra captura local pendiente; solo el servidor confirma la aplicación tras validar Pedido y asignación. No implica registrar Cobro. |
-| UC-29 | Registrar Cobro | **NO DEFINIDA por RD-F04-001** | Se conserva el RBAC existente: Repartidor sin permiso directo. El Administrador recibe y autoriza la rendición de efectivo (RD-F04-002). Procedimiento y permisos generales UC-29 pendientes (RP-006/RP-007). |
+| UC-29 | Registrar Cobro | **NO DEFINIDA por RD-F04-001** | Se conserva el RBAC existente: Repartidor sin permiso directo. El Administrador recibe y autoriza la rendición de efectivo (RD-F04-002). Si hay diferencias, el Administrador las registra y deja la rendición pendiente de conciliación, sin confirmar importes no recibidos. Evidencias y permisos generales UC-29 pendientes (RP-006/RP-007). |
 | UC-43 | Gestionar asignación de reparto | **EXCLUSIVAMENTE ONLINE** | La creación, cambio y reasignación necesitan conectividad con servidor; no se autorizan colas de asignación offline. |
 
 ## Escenarios obligatorios de diseño y prueba
@@ -42,12 +42,12 @@
 
 ## Cuestiones [A CONFIRMAR] con usuario
 
-1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición, que ocurre al finalizar cada recorrido de reparto, y autoriza su registro** (RD-F04-002). Falta definir qué evidencia se exige y cómo se resuelven diferencias.
+1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición, que ocurre al finalizar cada recorrido de reparto, y autoriza su registro** (RD-F04-002). Las diferencias se registran y la rendición permanece pendiente de conciliación, sin confirmar un Cobro por efectivo no recibido. Falta definir evidencia y resolución detallada.
 2. **RP-007:** ¿ratificar acceso directo a UC-29 solo para Administrador y Vendedor?
 3. ¿Una operación capturada antes de revocar un permiso puede aceptarse después, o debe ir siempre a revisión?
 4. ¿Qué plazo/retención aplica a eventos pendientes? Sin valor predeterminado aprobado.
 
-**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. El momento es el final de cada recorrido; todavía falta definir comprobantes y tratamiento de diferencias.
+**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. El momento es el final de cada recorrido; si hay diferencias se registran y la rendición queda pendiente de conciliación, sin confirmar automáticamente Cobros por importes no recibidos. Falta definir comprobantes y mecanismo de resolución.
 
 **RP-003 — decisión de alcance cerrada por RD-F04-001:** UC-03 y UC-05 admiten captura offline; UC-43 requiere conexión. La política operativa de conflictos continúa pendiente.
 
