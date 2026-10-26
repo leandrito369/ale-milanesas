@@ -62,6 +62,8 @@
 
 **RD-F04-006 — regla funcional aprobada:** al evaluar deuda para nuevos Pedidos, utilizar el **saldo exigible provisional**, compuesto únicamente por eventos sincronizados y validados. La categoría comercial `CUMPLIDOR`/`EN_MORA` **permanece separada y no se modifica automáticamente**; los ajustes de precio, bloqueos ajenos a deuda y demás políticas siguen vigentes. Para pedidos capturados offline, el servidor revalida al sincronizar. Ver [RD-F04-006](../01-gobierno/RD_F04_006_EVALUACION_DEUDA_NUEVOS_PEDIDOS_2026-10-26.md). No se interpreta que un saldo provisional cero habilite todos los pedidos sin más controles.
 
+**Borrador técnico S-01 (no aprobado):** [contrato de sincronización, cola, idempotencia y pruebas](F04_CONTRATO_S01_SINCRONIZACION_BORRADOR_2026-10-26.md). Expone el cruce entre deuda exigible provisional y categoría comercial aplicada al nuevo Pedido; no incorpora DDL ni endpoints ratificados.
+
 ## Diseño técnico siguiente, condicionado a decisiones
 
 - Proponer contrato `POST /sincronizaciones` con UUID de operación, payload versionado, actor, referencia, instantánea y respuesta estable de éxito/conflicto/reintento.
