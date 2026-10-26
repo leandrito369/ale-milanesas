@@ -59,3 +59,7 @@ La autorización de declaración de efectivo dentro de UC-05, listada anteriorme
 ## Addenda RD-F04-005 — alcance acotado de la diferencia
 
 [RD-F04-005](RD_F04_005_DIFERENCIA_PAGO_EN_TRANSITO_2026-10-26.md) aprueba que, si un pago en tránsito ya fue validado y existe faltante al rendir, se conserve el efecto provisional para el Cliente sin restablecer automáticamente la deuda exigible, mientras la rendición **permanece pendiente de conciliación**. Este supuesto termina ahí en el alcance de F04: se excluyen investigación, responsabilidad y resolución detallada. No constituye autorización de nuevos estados o asientos en COBRO/Caja.
+
+## Addenda RD-F04-006 — evaluación de deuda de nuevos Pedidos
+
+[RD-F04-006](RD_F04_006_EVALUACION_DEUDA_NUEVOS_PEDIDOS_2026-10-26.md) aprueba emplear el **saldo exigible provisional** para evaluar deuda al cargar nuevos Pedidos, utilizando únicamente declaraciones sincronizadas y validadas. La categoría comercial `CUMPLIDOR`/`EN_MORA` se mantiene separada y no cambia automáticamente. El nuevo Pedido capturado offline debe ser revalidado por el servidor, sin garantía de admisión previa a sincronizar. Los ajustes comerciales históricos y sus reglas existentes no se sustituyen por este saldo de consulta.
