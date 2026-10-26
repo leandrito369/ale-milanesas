@@ -135,6 +135,28 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
             -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
             2>&1 | tee mr6-logs/migracion-pruebas.log
+      - name: Aplicar F01 y ejecutar pruebas en instalación directa
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/f01/F01_PATCH_POST_MR5.sql \
+            2>&1 | tee mr6-logs/f01-patch-directo.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/f01/F01_PRUEBAS_POSTGRESQL.sql \
+            2>&1 | tee mr6-logs/f01-tests-directo.log
+          grep -q 'F01 PASS' mr6-logs/f01-tests-directo.log
+      - name: Aplicar F01 y ejecutar pruebas en instalación incremental
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/f01/F01_PATCH_POST_MR5.sql \
+            2>&1 | tee mr6-logs/f01-patch-incremental.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/f01/F01_PRUEBAS_POSTGRESQL.sql \
+            2>&1 | tee mr6-logs/f01-tests-incremental.log
+          grep -q 'F01 PASS' mr6-logs/f01-tests-incremental.log
       - name: Comparar modelo directo e incremental (huella estructural)
         run: |
           set -euo pipefail
