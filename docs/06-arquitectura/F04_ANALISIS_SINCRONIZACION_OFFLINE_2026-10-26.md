@@ -27,7 +27,7 @@
 |---|---|---|---|
 | UC-03 | Cargar Pedido | **OFFLINE PERMITIDA** | Se registra como captura local pendiente; el servidor debe revalidar permiso, datos y condiciones antes de confirmar. Conflictos de stock, precios o vigencia se tratan explícitamente; la política detallada sigue pendiente. |
 | UC-05 | Registrar Entrega | **OFFLINE PERMITIDA** | Se registra captura local pendiente; solo el servidor confirma la aplicación tras validar Pedido y asignación. No implica registrar Cobro. |
-| UC-29 | Registrar Cobro | **NO DEFINIDA por RD-F04-001** | Se conserva el RBAC existente: Repartidor sin permiso directo. Rendición de efectivo y aprobación de roles siguen pendientes (RP-006/RP-007). |
+| UC-29 | Registrar Cobro | **NO DEFINIDA por RD-F04-001** | Se conserva el RBAC existente: Repartidor sin permiso directo. El Administrador recibe y autoriza la rendición de efectivo (RD-F04-002). Procedimiento y permisos generales UC-29 pendientes (RP-006/RP-007). |
 | UC-43 | Gestionar asignación de reparto | **EXCLUSIVAMENTE ONLINE** | La creación, cambio y reasignación necesitan conectividad con servidor; no se autorizan colas de asignación offline. |
 
 ## Escenarios obligatorios de diseño y prueba
@@ -42,10 +42,12 @@
 
 ## Cuestiones [A CONFIRMAR] con usuario
 
-1. **RP-006:** ¿quién recibe la rendición del efectivo transportado por Repartidor, cuándo confirma y qué evidencia deja?
+1. **RP-006 (parcialmente resuelto):** el **Administrador recibe la rendición y autoriza el registro** (RD-F04-002). Falta definir cuándo se rinde, qué evidencia se exige y cómo se resuelven diferencias.
 2. **RP-007:** ¿ratificar acceso directo a UC-29 solo para Administrador y Vendedor?
 3. ¿Una operación capturada antes de revocar un permiso puede aceptarse después, o debe ir siempre a revisión?
 4. ¿Qué plazo/retención aplica a eventos pendientes? Sin valor predeterminado aprobado.
+
+**RP-006 — responsabilidad aprobada por [RD-F04-002](../01-gobierno/RD_F04_002_RENDICION_EFECTIVO_2026-10-26.md):** solo el Administrador recibe y autoriza el registro de rendiciones de efectivo del Repartidor. No determina todavía flujo de comprobación, plazos ni diferencias.
 
 **RP-003 — decisión de alcance cerrada por RD-F04-001:** UC-03 y UC-05 admiten captura offline; UC-43 requiere conexión. La política operativa de conflictos continúa pendiente.
 
