@@ -51,3 +51,7 @@ La regla concreta para excedentes, saldos negativos, pagos parciales y la base d
 - QA futura: duplicación de UUID, asincronía, pérdida de respuesta tras COMMIT, cambio de asignación, actualización simultánea de rendición, neutralidad en Caja y ausencia de doble descuento cuando se aplique el cobro definitivo.
 
 **Este registro documenta una decisión funcional, no certifica una implementación en PostgreSQL ni autoriza un cambio físico.**
+
+## Addenda RD-F04-004 (26/10/2026)
+
+La autorización de declaración de efectivo dentro de UC-05, listada anteriormente como pendiente, fue aprobada en [RD-F04-004](RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md). La captura puede efectuarse offline y solo impacta en la proyección provisional tras validación del servidor. No habilita al Repartidor a ejecutar UC-29. Siguen pendientes la política de faltantes, la elegibilidad comercial y el diseño físico.
