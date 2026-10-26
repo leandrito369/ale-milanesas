@@ -30,3 +30,11 @@ Por lo tanto:
 - F04 / S-01; UC-05 Registrar Entrega, UC-29 Registrar Cobro, RD-F04-001 y RD-F01.
 - No se modifica SQL, modelo relacional, diagramas, casos de uso ni RBAC físico con esta decisión.
 - [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5) documenta la continuidad.
+
+## Ampliaciones aprobadas el 26/10/2026
+
+**Evidencia mínima de cada rendición:** Repartidor, recorrido, fecha y hora, importe esperado, importe efectivamente recibido, diferencia y Administrador responsable. Si existe una discrepancia, se exige una observación explicativa.
+
+**Resolución de diferencias:** solo el Administrador está autorizado para resolver y cerrar una rendición con diferencias. Debe registrar el motivo de la resolución. Mientras no esté conciliada, la rendición permanece pendiente y no se registran como recibidos importes que no fueron entregados.
+
+Ambas decisiones son reglas funcionales aprobadas. No incorporan nuevos estados a COBRO, tablas o permisos para Repartidor. Continúan pendientes el formato de comprobante, las reglas de aplicación de asientos y los detalles de implementación y pruebas.
