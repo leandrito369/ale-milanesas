@@ -1,0 +1,8 @@
+origen,tipo,destino,estado,fuente_de_autorizacion,nota_grafico
+UC-51,include,UC-36,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-52,include,UC-36,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-54,include,UC-56,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-55,include,UC-56,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-07,include,UC-61,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-41,include,UC-61,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
+UC-12,include,UC-62,APROBADA POR USUARIO,Mensaje del 25/10/2026: Me parecen bien las Relaciones propuestas para los nuevos casos,NO MODIFICAR DIAGRAMA DE CASOS DE USO
