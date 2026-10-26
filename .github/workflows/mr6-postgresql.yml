@@ -40,7 +40,7 @@ jobs:
       PGDATABASE: ale_mr5_ci
       PGCONNECT_TIMEOUT: "10"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Disponibilidad de herramientas
         run: |
           set -euo pipefail
@@ -135,10 +135,41 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
             -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
             2>&1 | tee mr6-logs/migracion-pruebas.log
-      - name: Comparar modelo directo e incremental (huella estructural)
+      - name: Aplicar F01 y ejecutar pruebas en instalación directa aislada
         run: |
           set -euo pipefail
-          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_ci \
+          # MR6 deja a propósito COBRO sintéticos con ESTADO_PRUEBA en ale_mr5_ci.
+          # F01 se valida en otra base: no borra ni "corrige" datos de laboratorio.
+          psql -X -v ON_ERROR_STOP=1 -d postgres -c 'CREATE DATABASE ale_mr5_f01_ci;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_f01_ci -c 'CREATE SCHEMA mr5_validacion;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_f01_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/MR5_DDL_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/f01-base-directa.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_f01_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/f01/F01_PATCH_POST_MR5.sql \
+            2>&1 | tee mr6-logs/f01-patch-directo.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_f01_ci \
+            -f docs/05-modelo-relacional/sql/f01/F01_PRUEBAS_POSTGRESQL.sql \
+            2>&1 | tee mr6-logs/f01-tests-directo.log
+          grep -q 'F01 PASS' mr6-logs/f01-tests-directo.log
+      - name: Aplicar F01 y ejecutar pruebas en instalación incremental
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/f01/F01_PATCH_POST_MR5.sql \
+            2>&1 | tee mr6-logs/f01-patch-incremental.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/f01/F01_PRUEBAS_POSTGRESQL.sql \
+            2>&1 | tee mr6-logs/f01-tests-incremental.log
+          grep -q 'F01 PASS' mr6-logs/f01-tests-incremental.log
+      - name: Comparar modelo F01 directo e incremental (huella estructural)
+        run: |
+          set -euo pipefail
+          # Ambas instalaciones deben incluir el parche F01.
+          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_f01_ci \
             -f docs/05-modelo-relacional/sql/mr6/huella-estructural.sql \
             > mr6-logs/modelo-directo.firma
           psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_migracion_ci \
@@ -149,7 +180,7 @@ jobs:
           echo '[PASS] Misma estructura de columnas, constraints, indices, triggers y funciones'
       - name: Guardar evidencia (inclusive en fallo)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mr6-postgresql17-logs
           path: mr6-logs/
