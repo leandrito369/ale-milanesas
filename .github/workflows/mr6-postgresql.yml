@@ -1,0 +1,156 @@
+name: MR-6 — PostgreSQL 17 aislado
+
+on:
+  push:
+    branches:
+      - ci/mr6-postgresql-2026-10-26
+  pull_request:
+    paths:
+      - '.github/workflows/mr6-postgresql.yml'
+      - 'docs/05-modelo-relacional/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mr6-postgresql:
+    name: PostgreSQL 17 — DDL y pruebas MR-4/MR-5
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ale_mr5_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ale_mr5_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 15
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: ale_mr5_ci
+      PGCONNECT_TIMEOUT: "10"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Disponibilidad de herramientas
+        run: |
+          set -euo pipefail
+          psql --version
+          pg_isready -h "$PGHOST" -p "$PGPORT" -U "$PGUSER"
+          mkdir -p mr6-logs
+      - name: Preparar dos bases de laboratorio vacías
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d postgres -c 'CREATE DATABASE ale_mr4_ci;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr4_ci -c 'CREATE SCHEMA mr4_validacion;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci -c 'CREATE SCHEMA mr5_validacion;'
+      - name: Compilar DDL MR-3 en base aislada MR-4
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr4_ci \
+            -c 'SET search_path TO mr4_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/MR3_DDL_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/mr3-ddl.log
+      - name: Ejecutar batería MR-4
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr4_ci \
+            -f docs/05-modelo-relacional/sql/mr6/MR4_PRUEBAS_AJUSTADAS.sql \
+            2>&1 | tee mr6-logs/mr4-pruebas.log
+      - name: Compilar DDL MR-5 en base aislada MR-5
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -c 'SET search_path TO mr5_validacion, public;' \
+            -f docs/05-modelo-relacional/sql/MR5_DDL_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/mr5-ddl.log
+      - name: Comprobar catálogo del diseño MR-5
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci -At -c "
+            SELECT 'tablas='||count(*)
+            FROM information_schema.tables
+            WHERE table_schema='mr5_validacion' AND table_type='BASE TABLE';
+            SELECT 'columnas='||count(*)
+            FROM information_schema.columns WHERE table_schema='mr5_validacion';
+            SELECT 'fk='||count(*)
+            FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace
+            WHERE n.nspname='mr5_validacion' AND c.contype='f';
+          " | tee mr6-logs/mr5-catalogo.log
+          grep -qx 'tablas=60' mr6-logs/mr5-catalogo.log
+          grep -qx 'columnas=453' mr6-logs/mr5-catalogo.log
+          grep -qx 'fk=125' mr6-logs/mr5-catalogo.log
+      - name: Ejecutar batería MR-5 (rollback)
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
+            2>&1 | tee mr6-logs/mr5-pruebas.log
+      - name: Integridad de último Administrador y revocación de sesión
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/mr6/pruebas_usuario_adicionales.sql \
+            2>&1 | tee mr6-logs/mr6-usuarios.log
+      - name: Concurrencia y deduplicación física (dos sesiones)
+        run: |
+          bash docs/05-modelo-relacional/sql/mr6/pruebas_concurrencia.sh
+      - name: Migración real desde 59 tablas (MR-3 + MR-5)
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -d postgres -c 'CREATE DATABASE ale_mr5_migracion_ci;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci -c 'CREATE SCHEMA mr5_validacion;'
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/historico/DDL_59_TABLAS_2026-10-23_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/migracion-base59.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/sql/MR3_MIGRACION_NO_EJECUTADA.sql \
+            2>&1 | tee mr6-logs/migracion-mr3.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -c 'SET search_path TO mr5_validacion,public;' \
+            -f docs/05-modelo-relacional/sql/MR5_PATCH_NO_EJECUTADO.sql \
+            2>&1 | tee mr6-logs/migracion-mr5.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci -At -c "
+            SELECT 'tablas='||count(*) FROM information_schema.tables
+             WHERE table_schema='mr5_validacion' AND table_type='BASE TABLE';
+            SELECT 'columnas='||count(*) FROM information_schema.columns
+             WHERE table_schema='mr5_validacion';
+            SELECT 'fk='||count(*) FROM pg_constraint c JOIN pg_namespace n
+             ON n.oid=c.connamespace WHERE n.nspname='mr5_validacion' AND c.contype='f';
+          " | tee mr6-logs/migracion-catalogo.log
+          grep -qx 'tablas=60' mr6-logs/migracion-catalogo.log
+          grep -qx 'columnas=453' mr6-logs/migracion-catalogo.log
+          grep -qx 'fk=125' mr6-logs/migracion-catalogo.log
+          psql -X -v ON_ERROR_STOP=1 -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/MR5_PRUEBAS_AISLADAS_NO_EJECUTADAS.sql \
+            2>&1 | tee mr6-logs/migracion-pruebas.log
+      - name: Comparar modelo directo e incremental (huella estructural)
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_ci \
+            -f docs/05-modelo-relacional/sql/mr6/huella-estructural.sql \
+            > mr6-logs/modelo-directo.firma
+          psql -X -v ON_ERROR_STOP=1 -At -d ale_mr5_migracion_ci \
+            -f docs/05-modelo-relacional/sql/mr6/huella-estructural.sql \
+            > mr6-logs/modelo-incremental.firma
+          diff -u mr6-logs/modelo-directo.firma mr6-logs/modelo-incremental.firma \
+            | tee mr6-logs/comparacion-modelos.diff
+          echo '[PASS] Misma estructura de columnas, constraints, indices, triggers y funciones'
+      - name: Guardar evidencia (inclusive en fallo)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mr6-postgresql17-logs
+          path: mr6-logs/
+          if-no-files-found: warn

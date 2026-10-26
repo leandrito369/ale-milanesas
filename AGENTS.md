@@ -10,7 +10,7 @@
 - **No renumerar** los 64 CU. El catálogo 49 original excluía UC-14 y luego fue renumerado; los nuevos son UC-50 a UC-64.
 - Los **7 nuevos «include» fueron aprobados**; **NO reconstruir ni reemplazar el diagrama de casos de uso rechazado**.
 - Diferenciar: `APROBADO` (decisión), `PROPUESTO` (diseño), `IMPLEMENTADO` (código), `PROBADO` (resultado ejecutado) y `PENDIENTE`.
-- No afirmar validación PostgreSQL: MR-3/MR-5 son **SQL NO EJECUTADO**. MR-4 hizo auditoría estática.
+- **MR-6** ejecutó DDL MR-3/MR-5, migración incremental y pruebas seleccionadas en PostgreSQL 17.11; ver `docs/05-modelo-relacional/MR6_INFORME_EJECUCION_2026-10-26.md`. **NO** inferir que los servicios offline/PRA/webhooks ni producción estén certificados.
 - No inventar defaults de plazo de cotizaciones (48 h fue solo ejemplo); `periodoCalculoDias` NO es el plazo de respuesta.
 - La categoría, precio y condiciones confirmadas se conservan históricamente; `Pedido.totalVigente` es derivado, no una columna física aprobada.
 - Primera ronda de reposición automática como máximo una por episodio; Orden de Compra requiere confirmación humana de Administrador.

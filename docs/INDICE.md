@@ -15,3 +15,5 @@
 Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, no como reemplazo de decisiones posteriores.
 
 - [Guía Gemini web](GUIA_GEMINI_WEB.md): importación, limitaciones de escritura y flujo con PR.
+
+- [Informe MR-6](05-modelo-relacional/MR6_INFORME_EJECUCION_2026-10-26.md): ejecución PostgreSQL 17 y riesgos restantes.

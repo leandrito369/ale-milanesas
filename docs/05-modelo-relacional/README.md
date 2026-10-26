@@ -11,5 +11,5 @@ El modelo de diseño vigente tiene **60 tablas, 453 columnas y 125 FK**.
 - `MR4_HALLAZGOS.csv`, `MR5_RESOLUCION.csv`: riesgos y tratamiento.
 - `MR5_CONTRATOS_SERVICIOS.md`: obligaciones de servicios de aplicación.
 
-**No hay evidencia de PostgreSQL ejecutado.** La siguiente validación es MR-6 en base descartable.
+**MR-6 ya realizó pruebas ejecutables en PostgreSQL 17.11 descartable.** Consulta [el informe MR-6](MR6_INFORME_EJECUCION_2026-10-26.md). Los SQL históricos conservan nombres `NO_EJECUTADO` para documentar su procedencia, pero MR-6 sí los ejecutó en laboratorio; ello no acredita producción ni servicios de aplicación.
 No tomar éxito de parseo estático como aceptación funcional, ni aplicar scripts sobre bases reales.

@@ -1,0 +1,22 @@
+ID,Area,Resultado,Alcance,Evidencia
+MR6-01,Entorno,PASO,PostgreSQL 17.11 efímero,40337106012
+MR6-02,DDL,PASO,MR-3 consolidado compilado,40337106012
+MR6-03,MR-4,PASO,Pruebas con rollback,40337106012
+MR6-04,DDL,PASO,MR-5 consolidado compilado,40337106012
+MR6-05,Catálogo,PASO,60 tablas 453 columnas 125 FK,40337106012
+MR6-06,MR-5,PASO,Rechazos esperados en SQL rollback,40337106012
+MR6-07,Roles,PASO,Último Administrador preservado con otro Rol,40337106012
+MR6-08,Sesiones,PASO,Credencial revoca sesión,40337106012
+MR6-09,Concurrencia,PASO,Nombre Insumo normalizado: un alta,40337106012
+MR6-10,Concurrencia,PASO,Idempotencia física Cobro: una clave,40337106012
+MR6-11,Migración,PASO,DDL 59 a MR3 a MR5 patch,40337106012
+MR6-12,Migración,PASO,Modelo incremental 60 453 125,40337106012
+MR6-13,Migración,PASO,Pruebas MR5 tras migración,40337106012
+MR6-14,Equivalencia,PASO,Columnas restricciones indices triggers funciones,40337106012
+MR6-15,Registros,PASO,Logs disponibles en Actions,40337106012
+MR6-F01,Estado Cobro,PENDIENTE,Catálogo literal sin definición,MR5-F01
+MR6-F04,Offline,PENDIENTE,Servicio no implementado,MR5-F04
+MR6-F05,PRA01,PENDIENTE,Servicio no implementado,MR5-F05
+MR6-F06,Reembolso,PENDIENTE,Webhooks y efectos completos no probados,MR5-F06
+MR6-F07,Seguridad app,PENDIENTE,RBAC HTTP no probado,MR5-F07
+MR6-F09,Inactivaciones,PENDIENTE,Carreras Pedido y Orden no probadas,MR5-F09

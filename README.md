@@ -2,7 +2,7 @@
 
 Repositorio colaborativo de **análisis, documentación y diseño** del Sistema de Gestión para Ale Milanesas.
 
-> **Estado: documentación en evolución.** Los 64 casos de uso están consolidados en un documento Word de Fase 4; el diseño relacional MR-5 es una **propuesta no ejecutada ni certificada en PostgreSQL**. No equiparar estos archivos con software listo para producción.
+> **Estado: documentación en evolución.** Los 64 casos de uso están consolidados en un documento Word de Fase 4; el diseño relacional MR-5 es una **propuesta ejecutada en PostgreSQL 17 de laboratorio con alcance de pruebas parcial, no certificada para producción**. No equiparar estos archivos con software listo para producción.
 
 ## Cómo empezar
 
@@ -17,7 +17,7 @@ Repositorio colaborativo de **análisis, documentación y diseño** del Sistema 
 - **7 nuevas relaciones «include» aprobadas**, pero el diagrama de CU generado fue rechazado: **NO usarlo como diagrama definitivo**.
 - **MR-3:** propuesta relacional de 60 tablas, 453 columnas y 125 FK.
 - **MR-4:** auditoría estática, no prueba en PostgreSQL; 10 hallazgos.
-- **MR-5:** DDL endurecido y contratos, **no ejecutado**; MR-6 es la siguiente validación.
+- **MR-5/MR-6:** DDL y migración ejecutados y probados en **PostgreSQL 17 de laboratorio**; falta implementar los servicios offline, PRA-01 y MercadoPago.
 - Hay decisiones posteriores al corte que pueden prevalecer sobre los registros RD/RP antiguos; consultar el estado y la trazabilidad.
 
 Este repositorio es **público**. No subir contraseñas, tokens, datos reales de clientes/proveedores, bases de producción ni archivos de terceros sin autorización.
