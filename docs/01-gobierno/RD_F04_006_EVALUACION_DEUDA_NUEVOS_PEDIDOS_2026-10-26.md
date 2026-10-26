@@ -43,3 +43,7 @@ RD-F01, RD-F04-001 (captura offline), RD-F04-002 (rendición), RD-F04-003 (saldo
 [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5) · [Issue #6](https://github.com/leandrito369/ale-milanesas/issues/6).
 
 **Esta RD no significa que el servicio exista, que el SQL se haya migrado o que las pruebas estén ejecutadas.**
+
+## Actualización RD-F04-007 — ajuste EN_MORA aprobado
+
+El ajuste de precio de la categoría `EN_MORA` **permanece vigente hasta la reevaluación formal de la categoría**, incluso cuando un pago en tránsito ya validado reduce a cero el saldo exigible provisional. La evaluación de deuda del nuevo Pedido usa dicho saldo provisional; el ajuste comercial utiliza la categoría vigente, sin suspensión de recargo ni reclasificación automática. Ver [RD-F04-007](../01-gobierno/RD_F04_007_AJUSTE_EN_MORA_PAGO_TRANSITO_2026-10-26.md). No se alteran porcentajes ni políticas históricas.
