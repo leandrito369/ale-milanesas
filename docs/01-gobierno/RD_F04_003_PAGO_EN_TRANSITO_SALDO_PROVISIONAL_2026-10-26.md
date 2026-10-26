@@ -35,11 +35,11 @@ La regla concreta para excedentes, saldos negativos, pagos parciales y la base d
 | S-01 / RP-007 | No se habilita automáticamente UC-29 al Repartidor. Declarar efectivo en UC-05 requiere aclaración funcional separada. |
 | MR-5 | `MOVIMIENTO_CUENTA` y `MOVIMIENTO_CAJA` mantienen su inmutabilidad y efectos definitivos; cualquier persistencia nueva requiere trazabilidad y pruebas. |
 
-## 4. Pendientes que esta aprobación NO resuelve
+## 4. Puntos originalmente pendientes: estado actualizado por RD posteriores
 
-- **Permiso/alcance de UC-05:** autorizar de modo expreso que el Repartidor pueda declarar recepción de efectivo como información asociada a la Entrega, **sin permiso de UC-29**.
-- **Faltante en rendición:** determinar si una declaración validada mantiene al Cliente provisionalmente cubierto durante la investigación, sin retornar automáticamente el faltante a deuda exigible.
-- **Evaluación comercial:** definir si la deuda exigible provisional incide en elegibilidad de nuevos Pedidos, sin modificar automáticamente la categoría `CUMPLIDOR`/`EN_MORA`.
+- **Permiso/alcance de UC-05: RESUELTO por RD-F04-004.** El Repartidor puede declarar efectivo recibido en UC-05 sin autorización para UC-29.
+- **Faltante en rendición: RESUELTO de forma acotada por RD-F04-005.** La rendición queda pendiente de conciliación; no se restaura automáticamente la deuda exigible del Cliente. No se estudia investigación detallada.
+- **Evaluación de deuda y ajuste comercial: RESUELTOS por RD-F04-006 y RD-F04-007.** Nuevos Pedidos evalúan deuda con saldo exigible provisional; la categoría no se modifica automáticamente y el recargo EN_MORA se mantiene hasta reevaluación formal.
 - **Controles y evidencia:** eventos duplicados, importes parciales/excedentes, prueba de recepción física, responsabilidad de custodia, plazos y resolución de disputas.
 - **Diseño físico y API:** tabla(s), claves, índices, vínculos con Pedido/Entrega/Repartidor, estados operativos, contrato de sincronización, atomicidad y pruebas. **No autorizado implícitamente**.
 
@@ -54,7 +54,7 @@ La regla concreta para excedentes, saldos negativos, pagos parciales y la base d
 
 ## Addenda RD-F04-004 (26/10/2026)
 
-La autorización de declaración de efectivo dentro de UC-05, listada anteriormente como pendiente, fue aprobada en [RD-F04-004](RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md). La captura puede efectuarse offline y solo impacta en la proyección provisional tras validación del servidor. No habilita al Repartidor a ejecutar UC-29. Siguen pendientes la política de faltantes, la elegibilidad comercial y el diseño físico.
+La autorización de declaración de efectivo dentro de UC-05, listada anteriormente como pendiente, fue aprobada en [RD-F04-004](RD_F04_004_DECLARACION_EFECTIVO_UC05_2026-10-26.md). La captura puede efectuarse offline y solo impacta en la proyección provisional tras validación del servidor. No habilita al Repartidor a ejecutar UC-29. La política acotada de faltantes y la elegibilidad basada en deuda provisional quedaron resueltas por RD-F04-005/006/007; el diseño físico sigue pendiente.
 
 ## Addenda RD-F04-005 — alcance acotado de la diferencia
 
