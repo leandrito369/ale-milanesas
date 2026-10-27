@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 17 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 15 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 4 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 6 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -29,7 +29,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 
 | ID | Área | Prioridad | Asunto | Estado técnico/funcional distinguido | Evidencia o autoridad | Próximo paso |
 |---|---|---|---|---|---|---|
-| RP-001 | Comercial/ONLINE | ALTA | Fecha exacta de reparto ONLINE | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-001 | Comercial/ONLINE | ALTA | Fecha exacta de reparto ONLINE | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP001/RP019 (27/10) | Pedido ONLINE UC-21: Cliente elige fecha entre opciones habilitadas; servidor valida antes de confirmar. |
 | RP-002 | Reparto | ALTA | Elegibilidad detallada del Repartidor y del Pedido | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP002-001 (27/10) | Seis reglas de UC-43 aprobadas; implementar validación online, unicidad de asignación vigente y carreras con UC-55. |
 | RP-003 | Offline | ALTA | Asignación offline y concurrencia | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-001..007 / PR #5 | UC-43 solo online; UC-03/05 offline. Falta implementación y conflictos. |
 | RP-004 | Consultas | MEDIA | Margen por período o por venta individual | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
@@ -47,7 +47,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-016 | Insumos | MEDIA | Stock y parámetros iniciales | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-017 | Insumos | MEDIA | Unidad de Medida con historial | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-018 | Precios | ALTA | Primer Precio y estado físico | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
-| RP-019 | Pedidos | MEDIA | Fecha de reparto de Pedidos internos | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-019 | Pedidos | MEDIA | Fecha de reparto de Pedidos internos | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP001/RP019 (27/10) | Pedido interno UC-03: Usuario autorizado elige fecha; servidor valida antes de confirmar, también tras captura offline. |
 | RP-020 | Pedidos | MEDIA | Reprogramación de fecha de reparto | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-021 | Pedidos | MEDIA | totalVigente conceptual vs persistencia | REGLA_APROBADA_PROPAGACION_PENDIENTE | Contexto maestro / MR-3 | totalVigente derivado; revisar que CU y contratos no lo presenten como columna nueva. |
 | RP-022 | Inventario | MEDIA | Costeo y conversiones | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
