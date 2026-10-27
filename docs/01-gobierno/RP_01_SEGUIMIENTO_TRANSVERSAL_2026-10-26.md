@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 5 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 4 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 16 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 17 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -38,7 +38,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-007 | Permisos | MEDIA | Ratificación de matriz Rol × CU | MATRIZ_RATIFICADA_IMPLEMENTACION_PENDIENTE | RD-RP007-001 (26/10); RD-RP007-002 (27/10) | UC-29 y búsquedas UC-33–37/UC-40 ratificadas; definir proyección de campos sensibles por rol y probar RBAC API. |
 | RP-008 | Usuarios | ALTA | Último Administrador | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-5 / MR-6 | Protección último Administrador probada en BD; confirmar procedimiento operativo de contingencia y API. |
 | RP-009 | Usuarios/Reparto | ALTA | Cuenta de Repartidor con Pedidos asignados | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP009-001 (27/10) | Bloquear UC-55 si hay Pedidos PENDIENTES vigentes asignados; listar y exigir reasignar UC-43 online; servicio y concurrencia pendientes. |
-| RP-010 | Usuarios | MEDIA | Cambio temporal vs relación UML | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-010 | Usuarios | MEDIA | Cambio temporal vs relación UML | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP010-001 (27/10) | Credencial pendiente: autentica pero bloquea operaciones y obliga UC-53; al cambiar habilita según Roles; sin relación UML automática. |
 | RP-011 | Autenticación | MEDIA | Política interna de recuperación | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-012 | Reposición | ALTA | Fuente operativa del plazo de respuesta | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP012-001 (27/10) | Plazo de cotización proviene de parámetro del sistema configurable por Administrador; vencimiento por solicitud congelado; sin 48h por defecto. |
 | RP-013 | Compras | MEDIA | Algoritmo comparativo y desempates | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP013-001 (27/10) | Precio y plazo menores puntúan mejor; cumplimiento mayor mejor; pesos 100 %; datos incompletos identificados; desempate configurado y Admin; fórmula numérica pendiente. |
