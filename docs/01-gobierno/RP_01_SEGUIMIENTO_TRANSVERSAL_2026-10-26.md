@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 9 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 8 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 12 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 13 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -51,7 +51,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-020 | Pedidos | MEDIA | Reprogramación de fecha de reparto | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP020-001 (27/10) | Solo Pedido PENDIENTE; Usuario interno autorizado; validar fecha, invalidar asignación vigente y exigir UC-43 online; auditar historia sin alterar precios. |
 | RP-021 | Pedidos | MEDIA | totalVigente conceptual vs persistencia | REGLA_APROBADA_PROPAGACION_PENDIENTE | Contexto maestro / MR-3 | totalVigente derivado; revisar que CU y contratos no lo presenten como columna nueva. |
 | RP-022 | Inventario | MEDIA | Costeo y conversiones | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
-| RP-023 | Comercial | MEDIA | Promociones simultáneas y elegibilidad | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-023 | Comercial | MEDIA | Promociones simultáneas y elegibilidad | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP023-001 (27/10) | Promos pueden coexistir; no acumular por mismas unidades; mayor beneficio elegible; condiciones de vigencia y cupos; descuento histórico congelado. |
 | RP-024 | Comercial | BAJA | Reintento de comunicaciones fallidas | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-025 | Clientes/ONLINE | MEDIA | Teléfono compartido / identificación alternativa | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-026 | Clientes/Estados | MEDIA | Bajas lógicas y operaciones en curso | SQL_PARCIAL_INTEGRACION_PENDIENTE | MR-5 S-05 / MR-6 | Controles de inactivos en BD; completar carreras, aplicación y políticas específicas. |
