@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 18 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 17 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 3 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 4 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -30,7 +30,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | ID | Área | Prioridad | Asunto | Estado técnico/funcional distinguido | Evidencia o autoridad | Próximo paso |
 |---|---|---|---|---|---|---|
 | RP-001 | Comercial/ONLINE | ALTA | Fecha exacta de reparto ONLINE | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
-| RP-002 | Reparto | ALTA | Elegibilidad detallada del Repartidor y del Pedido | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-002 | Reparto | ALTA | Elegibilidad detallada del Repartidor y del Pedido | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP002-001 (27/10) | Seis reglas de UC-43 aprobadas; implementar validación online, unicidad de asignación vigente y carreras con UC-55. |
 | RP-003 | Offline | ALTA | Asignación offline y concurrencia | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-001..007 / PR #5 | UC-43 solo online; UC-03/05 offline. Falta implementación y conflictos. |
 | RP-004 | Consultas | MEDIA | Margen por período o por venta individual | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-005 | Finanzas | ALTA | Responsable técnico del reintento | FISICO_PARCIALMENTE_VALIDADO | MR-5 / MR-6 | Columna y pruebas SQL de reintentos; servicio webhook pendiente. |
