@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 13 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 12 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 8 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 9 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -41,7 +41,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-010 | Usuarios | MEDIA | Cambio temporal vs relación UML | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-011 | Autenticación | MEDIA | Política interna de recuperación | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-012 | Reposición | ALTA | Fuente operativa del plazo de respuesta | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP012-001 (27/10) | Plazo de cotización proviene de parámetro del sistema configurable por Administrador; vencimiento por solicitud congelado; sin 48h por defecto. |
-| RP-013 | Compras | MEDIA | Algoritmo comparativo y desempates | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-013 | Compras | MEDIA | Algoritmo comparativo y desempates | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP013-001 (27/10) | Precio y plazo menores puntúan mejor; cumplimiento mayor mejor; pesos 100 %; datos incompletos identificados; desempate configurado y Admin; fórmula numérica pendiente. |
 | RP-014 | Recepción | MEDIA | Reconciliación stock y cierre de episodio | DISENO_PARCIAL_SERVICIO_PENDIENTE | MR-5 S-02 / PRA-01 | Cierre de episodio protegido parcialmente en SQL; automatización y recepción por implementar. |
 | RP-015 | Insumos | ALTA | SALDO_INICIAL en modelo físico | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-3 / MR-5 / MR-6 | Fuente costo SALDO_INICIAL protegida; faltan pruebas del flujo completo de stock/costo en API. |
 | RP-016 | Insumos | MEDIA | Stock y parámetros iniciales | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
