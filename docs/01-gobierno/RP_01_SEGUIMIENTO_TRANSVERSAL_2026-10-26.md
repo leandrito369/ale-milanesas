@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 12 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 11 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 9 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 10 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -44,7 +44,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-013 | Compras | MEDIA | Algoritmo comparativo y desempates | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP013-001 (27/10) | Precio y plazo menores puntúan mejor; cumplimiento mayor mejor; pesos 100 %; datos incompletos identificados; desempate configurado y Admin; fórmula numérica pendiente. |
 | RP-014 | Recepción | MEDIA | Reconciliación stock y cierre de episodio | DISENO_PARCIAL_SERVICIO_PENDIENTE | MR-5 S-02 / PRA-01 | Cierre de episodio protegido parcialmente en SQL; automatización y recepción por implementar. |
 | RP-015 | Insumos | ALTA | SALDO_INICIAL en modelo físico | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-3 / MR-5 / MR-6 | Fuente costo SALDO_INICIAL protegida; faltan pruebas del flujo completo de stock/costo en API. |
-| RP-016 | Insumos | MEDIA | Stock y parámetros iniciales | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-016 | Insumos | MEDIA | Stock y parámetros iniciales | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP016-001 (27/10) | UC-50 crea maestro con stock 0, parámetros obligatorios y sin costo ficticio; primer ingreso físico con costo trazable, sin stock negativo. |
 | RP-017 | Insumos | MEDIA | Unidad de Medida con historial | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-018 | Precios | ALTA | Primer Precio y estado físico | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-019 | Pedidos | MEDIA | Fecha de reparto de Pedidos internos | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP001/RP019 (27/10) | Pedido interno UC-03: Usuario autorizado elige fecha; servidor valida antes de confirmar, también tras captura offline. |
