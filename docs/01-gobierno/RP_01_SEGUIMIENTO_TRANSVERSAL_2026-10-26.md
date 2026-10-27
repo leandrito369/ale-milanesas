@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 7 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 5 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 14 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 16 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -32,7 +32,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-001 | Comercial/ONLINE | ALTA | Fecha exacta de reparto ONLINE | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP001/RP019 (27/10) | Pedido ONLINE UC-21: Cliente elige fecha entre opciones habilitadas; servidor valida antes de confirmar. |
 | RP-002 | Reparto | ALTA | Elegibilidad detallada del Repartidor y del Pedido | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP002-001 (27/10) | Seis reglas de UC-43 aprobadas; implementar validación online, unicidad de asignación vigente y carreras con UC-55. |
 | RP-003 | Offline | ALTA | Asignación offline y concurrencia | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-001..007 / PR #5 | UC-43 solo online; UC-03/05 offline. Falta implementación y conflictos. |
-| RP-004 | Consultas | MEDIA | Margen por período o por venta individual | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-004 | Consultas | MEDIA | Margen por período o por venta individual | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP004/RP028-001 (27/10) | UC-27 margen por período o venta individual, solo entregas efectivas menos costos históricos; sin utilidad neta. |
 | RP-005 | Finanzas | ALTA | Responsable técnico del reintento | FISICO_PARCIALMENTE_VALIDADO | MR-5 / MR-6 | Columna y pruebas SQL de reintentos; servicio webhook pendiente. |
 | RP-006 | Caja/Reparto | ALTA | Rendición de efectivo del Repartidor | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-002..005 / PR #5 | Rendición Admin; diferencias pendientes de conciliación, sin investigación ampliada. API/DDL pendientes. |
 | RP-007 | Permisos | MEDIA | Ratificación de matriz Rol × CU | MATRIZ_RATIFICADA_IMPLEMENTACION_PENDIENTE | RD-RP007-001 (26/10); RD-RP007-002 (27/10) | UC-29 y búsquedas UC-33–37/UC-40 ratificadas; definir proyección de campos sensibles por rol y probar RBAC API. |
@@ -56,7 +56,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-025 | Clientes/ONLINE | MEDIA | Teléfono compartido / identificación alternativa | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-026 | Clientes/Estados | MEDIA | Bajas lógicas y operaciones en curso | SQL_PARCIAL_INTEGRACION_PENDIENTE | MR-5 S-05 / MR-6 | Controles de inactivos en BD; completar carreras, aplicación y políticas específicas. |
 | RP-027 | Finanzas | MEDIA | Contra-asientos auditables | SQL_PARCIAL_INTEGRACION_PENDIENTE | RD-F01 / MR-5 / PR #4 | Contraasientos y anulación integrados parcialmente en SQL; falta servicio y prueba funcional. |
-| RP-028 | Finanzas | MEDIA | Diferenciar Libro Diario vs utilidad y saldos | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-028 | Finanzas | MEDIA | Diferenciar Libro Diario vs utilidad y saldos | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP004/RP028-001 (27/10) | UC-23 movimientos monetarios, UC-14 saldo confirmado/en tránsito/provisional, UC-27 margen; consultas sin alterar históricos. |
 | RP-029 | Integraciones | ALTA | Notificación e idempotencia | SERVICIO_PENDIENTE | MR-5 S-03 / MR-6 | Webhook, OTP y efectos externos exactly-once requieren implementación. |
 | RP-030 | Modelo relacional | ALTA | DDL referencial sin ejecutar | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | MR-6 / PR #2 | 60 tablas, 453 columnas, 125 FK y migración vacía validados en PostgreSQL 17; no datos reales/producción. |
 | RP-031 | UML | MEDIA | Revisión de relaciones «include»/«extend» | RELACIONES_APROBADAS_QA_PENDIENTE | Adenda 7 include / AGENTS.md | 7 relaciones aprobadas; no alterar el diagrama de casos de uso rechazado. |
