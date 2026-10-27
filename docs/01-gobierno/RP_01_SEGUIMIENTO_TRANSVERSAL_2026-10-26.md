@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 10 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 9 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 11 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 12 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -46,7 +46,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-015 | Insumos | ALTA | SALDO_INICIAL en modelo físico | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-3 / MR-5 / MR-6 | Fuente costo SALDO_INICIAL protegida; faltan pruebas del flujo completo de stock/costo en API. |
 | RP-016 | Insumos | MEDIA | Stock y parámetros iniciales | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP016-001 (27/10) | UC-50 crea maestro con stock 0, parámetros obligatorios y sin costo ficticio; primer ingreso físico con costo trazable, sin stock negativo. |
 | RP-017 | Insumos | MEDIA | Unidad de Medida con historial | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP017-001 (27/10) | Unidad editable sin movimientos ni costos históricos; queda bloqueada con historial; unidad distinta requiere nuevo Insumo; pruebas pendientes. |
-| RP-018 | Precios | ALTA | Primer Precio y estado físico | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-018 | Precios | ALTA | Primer Precio y estado físico | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP018-001 (27/10) | Producto puede nacer sin precio pero no venderse; UC-19 primer precio; un vigente por instante; historial intacto; sin retroactividad. |
 | RP-019 | Pedidos | MEDIA | Fecha de reparto de Pedidos internos | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP001/RP019 (27/10) | Pedido interno UC-03: Usuario autorizado elige fecha; servidor valida antes de confirmar, también tras captura offline. |
 | RP-020 | Pedidos | MEDIA | Reprogramación de fecha de reparto | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP020-001 (27/10) | Solo Pedido PENDIENTE; Usuario interno autorizado; validar fecha, invalidar asignación vigente y exigir UC-43 online; auditar historia sin alterar precios. |
 | RP-021 | Pedidos | MEDIA | totalVigente conceptual vs persistencia | REGLA_APROBADA_PROPAGACION_PENDIENTE | Contexto maestro / MR-3 | totalVigente derivado; revisar que CU y contratos no lo presenten como columna nueva. |
