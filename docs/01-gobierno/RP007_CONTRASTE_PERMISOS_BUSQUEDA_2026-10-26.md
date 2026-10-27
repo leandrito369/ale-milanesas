@@ -42,3 +42,7 @@ No se detecta conflicto lógico entre la matriz del contexto maestro y el princi
 **RP-007:** UC-29 aprobada mediante RD-RP007-001; búsquedas UC-33/34/35/36/37/40 y acceso a campos sensibles **pendientes de ratificación y especificación**.
 
 No modificar los 64 CU, el diagrama rechazado, SQL ni repositorios de código por este contraste.
+
+## Ratificación posterior (27/10/2026)
+
+La matriz contrastada fue **ratificada expresamente** por el responsable del proyecto en [RD-RP007-002](RD_RP007_002_PERMISOS_BUSQUEDAS_2026-10-27.md). Por lo tanto, cualquier mención anterior a «pendiente de ratificación» en este documento debe leerse como antecedente histórico. Permanece pendiente definir el acceso a campos sensibles e implementar/probar el control efectivo por rol en la aplicación.
