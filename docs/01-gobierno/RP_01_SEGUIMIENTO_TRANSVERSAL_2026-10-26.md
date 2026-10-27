@@ -8,11 +8,11 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 19 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 18 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
-| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 2 |
+| FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | 3 |
 | IMPLEMENTACION_PENDIENTE | 1 |
 | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | 1 |
 | REGLA_APROBADA_PROPAGACION_PENDIENTE | 1 |
@@ -37,7 +37,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-006 | Caja/Reparto | ALTA | Rendición de efectivo del Repartidor | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-F04-002..005 / PR #5 | Rendición Admin; diferencias pendientes de conciliación, sin investigación ampliada. API/DDL pendientes. |
 | RP-007 | Permisos | MEDIA | Ratificación de matriz Rol × CU | MATRIZ_RATIFICADA_IMPLEMENTACION_PENDIENTE | RD-RP007-001 (26/10); RD-RP007-002 (27/10) | UC-29 y búsquedas UC-33–37/UC-40 ratificadas; definir proyección de campos sensibles por rol y probar RBAC API. |
 | RP-008 | Usuarios | ALTA | Último Administrador | SQL_VALIDADO_INTEGRACION_PENDIENTE | MR-5 / MR-6 | Protección último Administrador probada en BD; confirmar procedimiento operativo de contingencia y API. |
-| RP-009 | Usuarios/Reparto | ALTA | Cuenta de Repartidor con Pedidos asignados | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-009 | Usuarios/Reparto | ALTA | Cuenta de Repartidor con Pedidos asignados | FUNCIONAL_RESUELTO_TECNICO_PENDIENTE | RD-RP009-001 (27/10) | Bloquear UC-55 si hay Pedidos PENDIENTES vigentes asignados; listar y exigir reasignar UC-43 online; servicio y concurrencia pendientes. |
 | RP-010 | Usuarios | MEDIA | Cambio temporal vs relación UML | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-011 | Autenticación | MEDIA | Política interna de recuperación | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
 | RP-012 | Reposición | ALTA | Fuente operativa del plazo de respuesta | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
