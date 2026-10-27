@@ -8,7 +8,8 @@
 
 | Estado | Cantidad |
 |---|---:|
-| ABIERTO_SIN_CAMBIO_VERIFICADO | 4 |
+| ABIERTO_SIN_CAMBIO_VERIFICADO | 3 |
+| AUDITORIA_PARCIAL_ENTREGADA_PROPAGACION_PENDIENTE | 1 |
 | DISENO_PARCIAL_SERVICIO_PENDIENTE | 1 |
 | DOCX_MAESTRO_PENDIENTE_IMPORTAR | 1 |
 | FISICO_PARCIALMENTE_VALIDADO | 1 |
@@ -61,7 +62,7 @@ No se marca automáticamente ningún pendiente como `VERIFICADO` basándose solo
 | RP-030 | Modelo relacional | ALTA | DDL referencial sin ejecutar | LABORATORIO_VALIDADO_PRODUCCION_PENDIENTE | MR-6 / PR #2 | 60 tablas, 453 columnas, 125 FK y migración vacía validados en PostgreSQL 17; no datos reales/producción. |
 | RP-031 | UML | MEDIA | Revisión de relaciones «include»/«extend» | RELACIONES_APROBADAS_QA_PENDIENTE | Adenda 7 include / AGENTS.md | 7 relaciones aprobadas; no alterar el diagrama de casos de uso rechazado. |
 | RP-032 | Documentación | ALTA | Contaminación editorial y errores formales | DOCX_MAESTRO_PENDIENTE_IMPORTAR | docs/04-casos-uso/README.md | 192 fichas Fase 4 consolidadas fuera de repo; faltan importación nativa y QA semántico. |
-| RP-033 | Trazabilidad | MEDIA | Prefijos y redacción de objetivos | ABIERTO_SIN_CAMBIO_VERIFICADO | RP-01 v1.1 25/10 | Se conserva pregunta original; requiere revisión específica sin inferir respuesta. |
+| RP-033 | Trazabilidad | MEDIA | Prefijos y redacción de objetivos | AUDITORIA_PARCIAL_ENTREGADA_PROPAGACION_PENDIENTE | Matriz RP033 e informe de hallazgos (27/10) | 12 trazas temáticas documentadas y 9 hallazgos; falta contrastar DOCX maestro, DSS/DSD y contratos para cierre completo. |
 | RP-034 | PRA-01 | MEDIA | Trazabilidad e implementación por eventos | IMPLEMENTACION_PENDIENTE | PRA-01 / MR-5 S-02 | Contrato conceptual documentado; eventos y servicio aún no implementados. |
 
 ## Orden de trabajo documental paralelo a Gemini
