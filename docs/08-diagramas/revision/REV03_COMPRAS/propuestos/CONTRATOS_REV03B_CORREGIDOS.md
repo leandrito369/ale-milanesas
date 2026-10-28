@@ -62,7 +62,7 @@
 
 7. **Salida:**
 
-   * Confirmación del `Proveedor` registrado (`idProveedor`, `estado = ACTIVO`) y de sus asociaciones `ProveedorInsumo` vigentes; o mensajes de las excepciones A1–A4.
+   * Confirmación del `Proveedor` registrado (`idProveedor`, `estado = ACTIVO`) y de sus asociaciones `ProveedorInsumo` vigentes; o mensajes de las excepciones A1–A3.
 
 8. **Precondiciones:**
 
