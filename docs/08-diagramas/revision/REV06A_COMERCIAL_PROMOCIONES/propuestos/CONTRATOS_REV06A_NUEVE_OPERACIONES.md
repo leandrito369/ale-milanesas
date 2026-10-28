@@ -34,7 +34,7 @@
 
 4. **Referencias cruzadas:** UC-30; RD-RP018-001; UC-19 (primer precio); UC-10 (Receta); MR-5 tabla PRODUCTO.
 
-5. **Notas:** El nombre normalizado es único también frente a Productos inactivos; la normalización interna debe ser determinista. Producto sin precio vigente existe, pero no puede comercializarse hasta UC-19. No se crea stock/costo de origen ficticio.
+5. **Notas:** El nombre normalizado es único también frente a Productos inactivos; la normalización interna debe ser determinista. Producto sin precio vigente existe, pero no puede comercializarse hasta UC-19. No se crea stock/costo de origen ficticio. La ficha maestra UC-30 comprende también mantenimiento y cambios de estado; estas funciones se trazan por UC-47 y UC-48 como operaciones independientes, evitando duplicar sus efectos. El alta exige registrar trazabilidad con mecanismo técnico aún no especificado, sin inventar tabla HISTORIAL_ESTADO_PRODUCTO.
 
 6. **Excepciones:** A1: datos obligatorios o tipo/unidad inválidos: rechazar alta. A2: nombre normalizado ya utilizado por Producto activo o inactivo: mostrar coincidencia sin duplicar.
 
@@ -42,7 +42,7 @@
 
 8. **Precondiciones:** Administrador autenticado y autorizado; código de unidad válido y nombre informado.
 
-9. **Postcondiciones:** Se crea una instancia Producto con nombre, descripción, tipoProducto, codigoUnidadVenta y activo=true. No se crean PrecioProducto, AuditoriaPrecio, Receta ni movimientos de stock a partir de esta operación.
+9. **Postcondiciones:** Se crea una instancia Producto con nombre, descripción, tipoProducto, codigoUnidadVenta y activo=true. No se crean PrecioProducto, AuditoriaPrecio, Receta ni movimientos de stock a partir de esta operación. Se conserva traza de alta en el mecanismo de auditoría que corresponda, sin atribuir nuevas tablas.
 
 ---
 
@@ -100,9 +100,9 @@
 
 4. **Referencias cruzadas:** UC-19 «include» UC-35; RD-RP018-001; MR-5 PRECIO_PRODUCTO y AUDITORIA_PRECIO.
 
-5. **Notas:** Precio mayor que cero; vigenteHasta, si se informa, posterior a vigenteDesde. A lo sumo un precio válido por Producto e instante. La comprobación es previa; cierre de período y nueva fila/auditoría ocurren atómicamente solo en la rama válida. Se preservan montos de Pedidos confirmados.
+5. **Notas:** Precio mayor que cero; vigenteDesde no puede ser retroactiva; vigenteHasta, si se informa, posterior a vigenteDesde. Un precio programado no rige hasta su inicio. A lo sumo un precio válido por Producto e instante. La comprobación es previa; cierre de período y nueva fila/auditoría ocurren atómicamente solo en la rama válida. Se preservan montos de Pedidos confirmados.
 
-6. **Excepciones:** A1: precio no positivo, intervalo vacío o fechas incoherentes: rechazar. A2: intervalos superpuestos o actualización concurrente incompatible: abortar sin cerrar el precio anterior. A3: Producto inexistente/sin permiso: rechazar.
+6. **Excepciones:** A1: precio no positivo, intervalo vacío o fechas incoherentes: rechazar. A2: intervalos superpuestos o actualización concurrente incompatible: abortar sin cerrar el precio anterior. A3: Producto inexistente/sin permiso: rechazar. A4: fecha de inicio retroactiva: rechazar sin alterar la vigencia anterior. A5: falla o cancelación: no registrar parcialmente precio ni auditoría.
 
 7. **Salida:** idPrecio y vigencia creada, junto con constancia de auditoría, o motivo de rechazo.
 
@@ -116,7 +116,7 @@
 
 1. **Nombre:** `consultarHistorialPrecios(idProducto:Long, fechaDesde:LocalDate[0..1], fechaHasta:LocalDate[0..1])`
 
-2. **Responsabilidades:** Presentar precios históricos y eventos de auditoría correspondientes a un Producto, opcionalmente filtrados por fechas.
+2. **Responsabilidades:** Presentar diferenciadamente precios históricos, precio actualmente aplicable y precios futuros programados, junto con eventos de auditoría, opcionalmente filtrados por fechas.
 
 3. **Tipo:** Sistema
 
@@ -124,9 +124,9 @@
 
 5. **Notas:** Consulta de solo lectura; diferencias entre fecha de registro, evento auditado y período de vigencia deben conservarse en la visualización.
 
-6. **Excepciones:** A1: Producto no encontrado/no autorizado: rechazar. A2: fechaDesde posterior a fechaHasta: solicitar corrección. A3: sin datos en período: lista vacía sin crear precio.
+6. **Excepciones:** A1: Producto no encontrado/no autorizado: rechazar. A2: fechaDesde posterior a fechaHasta: solicitar corrección. A3: Producto sin precios: mostrar ausencia verificable; si existe precio único no inventar versiones. A4: sin precio actualmente aplicable: informarlo aunque existan precios anteriores o futuros. A5: acceso no autorizado o falla: no exponer registros.
 
-7. **Salida:** Secuencia cronológica de precios, vigencias y auditoría de Administrador, o explicación de consulta vacía.
+7. **Salida:** Secuencia cronológica de precios diferenciando historia, precio actualmente aplicable y futuras vigencias, con auditoría del Administrador; o explicación de ausencia de versiones/precio actual.
 
 8. **Precondiciones:** Administrador autenticado y Producto localizado mediante UC-35.
 
@@ -144,7 +144,7 @@
 
 4. **Referencias cruzadas:** UC-24 «include» UC-35; RD-RP023-001; MR-5 PROMOCION, PROMOCION_PRODUCTO, DESTINATARIO_PROMOCION e INTENTO_COMUNICACION.
 
-5. **Notas:** Exige al menos un destinatario. Pueden coexistir Promociones sobre mismo Producto y destinatario; no se acumulan descuentos sobre mismas unidades. La evaluación de mayor **beneficio económico** entre las elegibles y el congelamiento ocurre en UC-21, no se presupone equivalencia universal con el porcentaje más alto. El enlace de campaña no autentica al Cliente. Los fallos por destinatario se conservan, sin inventar un CU de reenvío.
+5. **Notas:** Exige al menos un destinatario. Pueden coexistir Promociones sobre mismo Producto y destinatario; no se acumulan descuentos sobre mismas unidades. La evaluación de mayor **beneficio económico** entre las elegibles y el congelamiento ocurre en UC-21, no se presupone equivalencia universal con el porcentaje más alto. La Promoción queda ACTIVA conforme a su vigencia, no disponible para uso fuera de ella; el acceso online identifica la Promoción pero no autentica al Cliente. El enlace de campaña no autentica al Cliente. Los fallos por destinatario se conservan, sin inventar un CU de reenvío.
 
 6. **Excepciones:** A1: descripción, vigencia, porcentaje o colecciones inválidas, Producto/Cliente inactivo o sin destinatarios: rechazar creación. A2: fallo parcial del servicio de mensajería: conservar la Promoción y resultados individuales registrados conforme operación confirmada; no declarar envío exitoso donde falló. A3: indisponibilidad del servicio: conservar incidencia, sin falsificar entregas.
 
@@ -152,7 +152,7 @@
 
 8. **Precondiciones:** Administrador autenticado; productos seleccionados mediante UC-35 y destinatarios autorizados, al menos uno.
 
-9. **Postcondiciones:** Se crea Promocion y vínculos PromocionProducto/DestinatarioPromocion; cada comunicación ejecutada crea IntentoComunicacion con resultado/rastro. No cambia descuentos de Pedidos previos ni se selecciona una Promoción para un Pedido hasta UC-21.
+9. **Postcondiciones:** Se crea Promocion ACTIVA conforme a la vigencia y vínculos PromocionProducto/DestinatarioPromocion; se genera el acceso identificable a UC-21 y cada comunicación ejecutada crea IntentoComunicacion con fecha/hora, canal y resultado individual. No cambia descuentos de Pedidos previos ni se selecciona una Promoción para un Pedido hasta UC-21.
 
 ---
 
@@ -160,7 +160,7 @@
 
 1. **Nombre:** `consultarPromociones(idPromocion:Long[0..1], vigenteDesde:Timestamp[0..1], vigenteHasta:Timestamp[0..1], estado:String[0..1], idProducto:Long[0..1])`
 
-2. **Responsabilidades:** Consultar campañas con filtros, Productos, destinatarios e historial de intentos de comunicación, sin producir nuevos envíos.
+2. **Responsabilidades:** Consultar campañas con filtros, permitir seleccionar una Promoción y mostrar su detalle de Productos, destinatarios e historial de intentos de comunicación, sin producir nuevos envíos.
 
 3. **Tipo:** Sistema
 
@@ -168,7 +168,7 @@
 
 5. **Notas:** Estados conocidos: BORRADOR, ACTIVA, PAUSADA, FINALIZADA, CANCELADA. La consulta no habilita activación/reactivación ni modifica destinatarios.
 
-6. **Excepciones:** A1: estado no permitido o intervalo inválido: solicitar corrección. A2: sin resultados: respuesta vacía, sin modificar datos.
+6. **Excepciones:** A1: estado no permitido o intervalo inválido: solicitar corrección. A2: sin resultados: respuesta vacía, sin modificar datos. A3: selección inexistente o fuera del permiso: no exponer detalle. A4: no hay destinatarios o intentos: mostrar ausencia, sin inferir que se envió comunicación.
 
 7. **Salida:** Listado de Promociones coincidentes con período, estado, Producto, destinatarios e intentos; o condición sin resultados.
 
@@ -188,7 +188,7 @@
 
 4. **Referencias cruzadas:** UC-60; RD-RP023-001; F08; MR-5 PROMOCION.estado.
 
-5. **Notas:** La desactivación no elimina la Promoción ni modifica Productos, destinatarios, intentos y descuentos aplicados en Pedidos confirmados. No existe CU para reactivar PAUSADA; no se define aquí un nuevo tránsito de estados ni una tabla CAMBIO_ESTADO_PROMOCION. El literal de destino del estado según etapa de ciclo debe contrastarse literalmente con la ficha F08/Word.
+5. **Notas:** El Administrador examina estado y vigencia, recibe advertencia de que los Pedidos previos no cambian y confirma antes de registrar. La desactivación no elimina la Promoción ni modifica Productos, destinatarios, intentos y descuentos aplicados en Pedidos confirmados. No existe CU para reactivar PAUSADA; no se define aquí un nuevo tránsito de estados ni una tabla CAMBIO_ESTADO_PROMOCION. El literal de destino del estado según etapa de ciclo debe contrastarse literalmente con la ficha F08/Word.
 
 6. **Excepciones:** A1: idPromocion no encontrado o falta autorización: rechazar. A2: campaña terminal o transición no permitida: informar sin duplicar cambio. A3: revalidación concurrente revela otro estado: rechazar o revalidar transición antes de guardar.
 
