@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="REV01-UC50" type="device">
+<diagram id="dss-admin-6a" name="6A. DSS - Admin (Seguridad y Catálogo)">
+
+    <mxGraphModel dx="1600" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="2300" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <!-- TÍTULO -->
+
+        <mxCell id="a1_title" value="Diagrama de Secuencia a Nivel Sistema (DSS) — Actor: Administrador [Parte A: Seguridad, Usuarios, Insumos, Productos, Precios y Recetas]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="60" y="15" width="1320" height="30" as="geometry" />
+
+        </mxCell>
+
+        <!-- ACTOR ADMINISTRADOR -->
+
+        <mxCell id="a1_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="115" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="a1_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="124" y="155" width="12" height="2060" as="geometry" />
+
+        </mxCell>
+
+        <!-- PARTICIPANTE :Sistema -->
+
+        <mxCell id="a1_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="920" y="60" width="140" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="a1_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="990" y="2240" as="sourcePoint" />
+
+            <mxPoint x="990" y="110" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="984" y="155" width="12" height="2060" as="geometry" />
+
+        </mxCell>
+
+        <!-- ==================== BLOQUE 1: UC-01, UC-53, UC-17 \+ UC-18, UC-54 \+ UC-56, UC-55 \+ UC-56 ==================== -->
+
+        <mxCell id="a1_m1" value="1: sesion = iniciarSesion(nombreUsuario:String, credencial:String) [UC-01 / UC-53]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="180" as="sourcePoint" />
+
+            <mxPoint x="984" y="180" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r1" value="1.1: tokenSesionUsuario, rolActivo=ADMINISTRADOR (habilita funciones administrativas y heredadas de Ventas/Producción)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="215" as="sourcePoint" />
+
+            <mxPoint x="136" y="215" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m2" value="2: idUsuario = crearUsuarioYAsignarRoles(nombreUsuario:String, nombreCompleto:String, credencialInicial:String, roles:Set&lt;Rol&gt;, idProveedor:Long[0..1]) [UC-17 «include» UC-18]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="270" as="sourcePoint" />
+
+            <mxPoint x="984" y="270" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_alt_uc17" value="alt Validación de unicidad, al menos un Rol y exclusividad de Rol PROVEEDOR [UC-17 / UC-18]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=560;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="60" y="295" width="990" height="165" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="a1_alt_uc17_g1" value="[nombreUsuario único, roles.size &gt;= 1, y si incluye PROVEEDOR es rol exclusivo vinculado a PROVEEDOR ACTIVO sin otra cuenta]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="318" width="820" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="a1_r2_ok" value="2.1: registra USUARIO (estadoCuenta=HABILITADA, cambioCredencialPendiente=true si es PROVEEDOR), USUARIO_ROL y USUARIO_PROVEEDOR" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="360" as="sourcePoint" />
+
+            <mxPoint x="136" y="360" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_alt_uc17_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="60" y="385" as="sourcePoint" />
+
+            <mxPoint x="1050" y="385" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_alt_uc17_g2" value="[nombreUsuario duplicado, sin Roles o violación de exclusividad de Rol PROVEEDOR]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="390" width="600" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="a1_r2_err" value="2.2: rechaza el alta sin persistir cuenta parcial ni asignaciones de rol" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="435" as="sourcePoint" />
+
+            <mxPoint x="136" y="435" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m3" value="3: okRol = gestionarAsignacionesRoles(idUsuario:Long, nuevosRoles:Set&lt;Rol&gt;, motivo:String) [UC-18]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="500" as="sourcePoint" />
+
+            <mxPoint x="984" y="500" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r3" value="3.1: [Conserva &gt;= 1 ADMINISTRADOR habilitado y &gt;= 1 Rol por Usuario] actualiza USUARIO_ROL e invalida sesiones si revoca permisos activos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="540" as="sourcePoint" />
+
+            <mxPoint x="136" y="540" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m4" value="4: okReset = buscarYRestablecerAccesoUsuario(criterio:FiltroUsuarioDTO, credencialTemporal:String, motivo:String) [UC-54 «include» UC-56 aprobado 25/10]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="600" as="sourcePoint" />
+
+            <mxPoint x="984" y="600" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r4" value="4.1: localiza Usuario mediante UC-56, actualiza credencialProtegida, establece cambioCredencialPendiente=true, registra CAMBIO_CREDENCIAL_USUARIO y revoca sesiones" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="645" as="sourcePoint" />
+
+            <mxPoint x="136" y="645" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m5" value="5: okEstUsu = buscarYCambiarEstadoUsuario(criterio:FiltroUsuarioDTO, nuevoEstadoCuenta:String, motivo:String) [UC-55 «include» UC-56 aprobado 25/10]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="705" as="sourcePoint" />
+
+            <mxPoint x="984" y="705" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r5" value="5.1: [No deshabilita al último ADMINISTRADOR activo] actualiza USUARIO.estadoCuenta, registra HISTORIAL_ESTADO_USUARIO y cierra sesiones vigentes" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="750" as="sourcePoint" />
+
+            <mxPoint x="136" y="750" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ==================== BLOQUE 2: GESTIÓN DE INSUMOS (UC-50, UC-51+UC-36, UC-52+UC-36) ==================== -->
+
+        <mxCell id="a1_m6" value="6: idInsumo = registrarInsumo(nombre:String, codigoUnidadMedida:String, umbralMinimo:BigDecimal, nivelObjetivo:BigDecimal, stockInicial:BigDecimal, costoInicial:BigDecimal[0..1]) [UC-50]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="820" as="sourcePoint" />
+
+            <mxPoint x="984" y="820" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r6" value="6.1: [Nombre normalizado único y nivelObjetivo &gt; umbralMinimo] crea INSUMO (estado=ACTIVO); si stockInicial &gt; 0 exige costoInicial &gt; 0 y registra SALDO_INICIAL en COSTO_INSUMO_HISTORICO y MOVIMIENTO_INSUMO" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="870" as="sourcePoint" />
+
+            <mxPoint x="136" y="870" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m7" value="7: insumoMod = buscarYModificarInsumo(criterio:FiltroInsumoDTO, nuevoNombre:String, observaciones:String, codigoUnidad:String) [UC-51 «include» UC-36 aprobado 25/10]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="935" as="sourcePoint" />
+
+            <mxPoint x="984" y="935" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r7" value="7.1: localiza Insumo vía UC-36; actualiza datos descriptivos (bloquea cambio de codigoUnidadMedida si existen recetas, compras o movimientos históricos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="980" as="sourcePoint" />
+
+            <mxPoint x="136" y="980" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m8" value="8: okEstIns = buscarYCambiarEstadoInsumo(criterio:FiltroInsumoDTO, nuevoEstado:String, motivo:String) [UC-52 «include» UC-36 aprobado 25/10]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1045" as="sourcePoint" />
+
+            <mxPoint x="984" y="1045" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r8" value="8.1: [Para INACTIVO verifica ausencia de VERSION_RECETA activa de Producto ACTIVO, Solicitud abierta u Orden pendiente] actualiza INSUMO.estado y registra HISTORIAL_ESTADO_INSUMO" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1095" as="sourcePoint" />
+
+            <mxPoint x="136" y="1095" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ==================== BLOQUE 3: PRODUCTOS, PRECIOS Y RECETAS (UC-30, UC-47, UC-48, UC-19, UC-20, UC-10) ==================== -->
+
+        <mxCell id="a1_m9" value="9: idProducto = gestionarAltaProducto(nombre:String, tipoProducto:String, codigoUnidadVenta:String, precioInicial:BigDecimal) [UC-30]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1165" as="sourcePoint" />
+
+            <mxPoint x="984" y="1165" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r9" value="9.1: crea PRODUCTO (tipoProducto=ELABORADO\|REVENTA, estado=ACTIVO si cumple condiciones) y PRECIO_PRODUCTO inicial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1210" as="sourcePoint" />
+
+            <mxPoint x="136" y="1210" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m10" value="10: prodMod = buscarYModificarProducto(criterio:FiltroProductoDTO, nuevoNombre:String, descripcion:String) [UC-47 «include» UC-35]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1275" as="sourcePoint" />
+
+            <mxPoint x="984" y="1275" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r10" value="10.1: actualiza datos descriptivos permitidos sin alterar tipoProducto ni codigoUnidadVenta con historial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1320" as="sourcePoint" />
+
+            <mxPoint x="136" y="1320" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m11" value="11: okEstProd = buscarYCambiarEstadoProducto(criterio:FiltroProductoDTO, nuevoEstado:String, motivo:String) [UC-48 «include» UC-35]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1385" as="sourcePoint" />
+
+            <mxPoint x="984" y="1385" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r11" value="11.1: actualiza PRODUCTO.estado y HISTORIAL_ESTADO_PRODUCTO (impide nuevas ventas si pasa a INACTIVO sin bloquear Pedidos ya abiertos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1430" as="sourcePoint" />
+
+            <mxPoint x="136" y="1430" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m12" value="12: nuevaVigencia = actualizarPrecioVigenteProducto(criterio:FiltroProductoDTO, nuevoPrecioBase:BigDecimal, motivo:String) [UC-19 «include» UC-35]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1495" as="sourcePoint" />
+
+            <mxPoint x="984" y="1495" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r12" value="12.1: cierra vigenteHasta del PRECIO_PRODUCTO anterior e inserta nueva fila vigente (sin modificar precios congelados en Pedidos previos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1540" as="sourcePoint" />
+
+            <mxPoint x="136" y="1540" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m13" value="13: histPrecios = consultarHistorialPreciosProducto(criterio:FiltroProductoDTO) [UC-20 «include» UC-35]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1605" as="sourcePoint" />
+
+            <mxPoint x="984" y="1605" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r13" value="13.1: listado cronológico solo lectura de PRECIO_PRODUCTO (vigenteDesde, vigenteHasta, precioBase, idUsuarioRegistrador)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1650" as="sourcePoint" />
+
+            <mxPoint x="136" y="1650" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_m14" value="14: nroVersion = configurarRecetaProductoElaborado(idProducto:Long, cantidadRendimientoBase:BigDecimal, items:List&lt;ItemRecetaDTO&gt;) [UC-10 «include» UC-35, UC-36]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="136" y="1720" as="sourcePoint" />
+
+            <mxPoint x="984" y="1720" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="a1_r14" value="14.1: [Producto ELABORADO e Insumos ACTIVOS seleccionados vía UC-36] cierra versión previa y crea nueva VERSION_RECETA e ITEM_VERSION_RECETA (preservando trazabilidad de PREPARACION históricas)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1770" as="sourcePoint" />
+
+            <mxPoint x="136" y="1770" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+</mxfile>
