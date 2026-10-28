@@ -17,7 +17,7 @@
 | **UC-20 Consultar Historial Precios** | Distingue históricos / vigente / futuros; ausencia de versiones, precio único o falta de precio actual; no exponer datos no autorizados | Se corrigieron DSS, DS y contrato para distinguir categorías y excepciones sin alteraciones | **Conforme funcional** |
 | **UC-24 Crear y Comunicar Promoción** | Producto(s) activo(s) y al menos un Cliente elegible; registra Promoción disponible según vigencia, acceso al canal online, comunicaciones y resultados individuales; fallo de uno no anula otros ni la campaña | Se aclaró estado conforme a vigencia y traza individual; excepción por enlace online inutilizable añadida. Beneficio económico elegible según RD-RP023-001 sin asumir equivalente a máximo porcentaje. Promoción/Producto/Destinatario/Intento en lifelines distintas | **Conforme funcional como propuesta; integración de mensajería pendiente** |
 | **UC-59 Consultar Promociones** | Filtros por id/vigencia/estado/Producto; **selección de una Promoción y consulta de detalle**; destinatarios e intentos documentados, sin reenvío | DS y contrato ampliados con detalle, falta de intentos y selección inválida; solo lectura | **Conforme funcional** |
-| **UC-60 Desactivar Promoción** | Presentar estado y vigencia; advertir sobre históricos; confirmar; revalidar transaccionalmente; no cancelar pedidos históricos ni enviar comunicaciones; no repetir bajas | DSS/DS/contrato reflejan las condiciones. **La ficha y RD-RP023-001 no dan aquí un literal único inequívoco de estado destino**, por lo que no se inventa una transición concreta. F08 prohíbe atribuir reactivación PAUSADA→ACTIVA sin CU/decisión | **Conforme en comportamiento; transición exacta pendiente de ratificación** |
+| **UC-60 Desactivar Promoción** | Presentar estado y vigencia; advertir sobre históricos; confirmar; revalidar transaccionalmente; no cancelar pedidos históricos ni enviar comunicaciones; no repetir bajas | DSS/DS/contrato reflejan las condiciones. **F08 permite BORRADOR, ACTIVA o PAUSADA→CANCELADA**. Para la baja definitiva UC-60 se propone destino CANCELADA, con prohibición de PAUSADA→ACTIVA; es una interpretación de diseño documentada, no una regla funcional ratificada expresamente | **Conforme como diseño propuesto; requiere ratificación del destino** |
 
 ## 2. Correcciones posteriores al primer cierre documental
 
@@ -30,7 +30,7 @@
 - **W6A-05 — UC-47 (Media):** se aclaró origen de `nombreNormalizado` en DS con `normalizar(nuevoNombre)`.
 - **W6A-06 — UC-48 (Media):** guarda de cambio de estado incorpora revalidación concurrente en la instancia antes de aceptar.
 - **W6A-07 — UC-59 (Media):** agregó selección y despliegue de detalle de Promoción y alternativas de selección sin permiso o sin intentos.
-- **W6A-08 — UC-60 (Reserva):** comportamiento consistente con fichas; la conversión exacta estado origen→destino no se atribuye al esquema solo por existir un estado.
+- **W6A-08 — UC-60 (Especificación F08):** el MR-5 revisado permite BORRADOR/ACTIVA/PAUSADA→CANCELADA; se propone CANCELADA como baja lógica definitiva y se documenta que esta selección específica para el CU necesita ratificación. La finalización por vigencia no se confunde con baja administrativa; PAUSADA→ACTIVA está prohibida.
 
 ## 3. Controles de los XML y contratos después del cotejo
 
