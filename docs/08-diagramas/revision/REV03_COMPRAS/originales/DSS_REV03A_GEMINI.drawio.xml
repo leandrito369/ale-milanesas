@@ -1,0 +1,539 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T11:30:00.000Z" agent="Gemini-REV03A" version="24.7.17" type="device">
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 1: DSS CAJA NEGRA — PROVEEDOR (UC-63 y UC-13)                      -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev03a-prov" name="DSS REV03A - Proveedor (UC-63, UC-13)">
+
+    <mxGraphModel dx="1450" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p1_title" value="DSS (Caja Negra — REV03A) — Actor: Proveedor — Escenarios Independientes UC-63 y UC-13" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1100" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_actor" value="Proveedor&#xa;(Usuario PROVEEDOR)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="880" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="880" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="950" y="1060" as="sourcePoint" />
+
+            <mxPoint x="950" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="944" y="155" width="12" height="880" as="geometry" />
+
+        </mxCell>
+
+        <!-- MARCO INDEPENDIENTE UC-63 -->
+
+        <mxCell id="p1_sd63" value="sd Escenario Independiente — UC-63: Consultar Solicitudes de Cotización Recibidas" style="shape=umlFrame;whiteSpace=wrap;html=1;width=520;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1040" height="310" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_63_m1" value="1: misSolicitudes = consultarSolicitudesCotizacionRecibidas(idSolicitudSeleccionada:Long[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="215" as="sourcePoint" />
+
+            <mxPoint x="944" y="215" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_63_alt" value="alt Consulta de invitaciones dirigidas al Proveedor autenticado [UC-63]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=450;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="235" width="990" height="225" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_63_g1" value="[Existen Solicitudes con invitación histórica para el Proveedor autenticado]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="258" width="560" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_63_r1" value="1.1: presenta Insumo, cantidad solicitada, Unidad de Medida, vencimiento, estado y únicamente la respuesta propia si existe (sin exponer otros Proveedores)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="310" as="sourcePoint" />
+
+            <mxPoint x="131" y="310" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_63_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="350" as="sourcePoint" />
+
+            <mxPoint x="1065" y="350" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_63_g2" value="[Sin invitaciones registradas o Solicitud consultada no dirigida a este Proveedor]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="360" width="580" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_63_r2" value="1.2: informa resultado vacío o niega el acceso a una Solicitud ajena" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="425" as="sourcePoint" />
+
+            <mxPoint x="131" y="425" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO INDEPENDIENTE UC-13 -->
+
+        <mxCell id="p1_sd13" value="sd Escenario Independiente — UC-13: Responder Solicitud de Cotización" style="shape=umlFrame;whiteSpace=wrap;html=1;width=460;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="515" width="1040" height="480" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_13_m1" value="1: idRespuesta = responderSolicitudCotizacion(idSolicitud:Long, precioUnitario:BigDecimal, cantidadOfrecida:BigDecimal, tiempoEntregaEstimado:Interval)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="565" as="sourcePoint" />
+
+            <mxPoint x="944" y="565" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_13_alt" value="alt Revalidación al confirmar respuesta definitiva de cotización [UC-13]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=460;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="590" width="990" height="380" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_13_g1" value="[Solicitud abierta en plazo, Proveedor ACTIVO, invitado históricamente, sin respuesta definitiva previa y datos estructurados válidos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="615" width="800" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_13_r1" value="1.1: registra por única vez la respuesta definitiva e inmutable con fecha y hora efectivas de confirmación" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="670" as="sourcePoint" />
+
+            <mxPoint x="131" y="670" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_13_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="715" as="sourcePoint" />
+
+            <mxPoint x="1065" y="715" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_13_g2" value="[Solicitud cerrada, plazo vencido, Proveedor INACTIVO o ya existe una respuesta definitiva previa del mismo Proveedor]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="725" width="760" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_13_r2" value="1.2: rechaza el registro (no admite respuestas tardías ni reemplazo de una respuesta ya confirmada)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="790" as="sourcePoint" />
+
+            <mxPoint x="131" y="790" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_13_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="835" as="sourcePoint" />
+
+            <mxPoint x="1065" y="835" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_13_g3" value="[Datos estructurados de precio, disponibilidad o plazo inválidos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="845" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_13_r3" value="1.3: solicita corrección de los campos estructurados antes de confirmar" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="920" as="sourcePoint" />
+
+            <mxPoint x="131" y="920" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 2: DSS CAJA NEGRA — ADMINISTRADOR (UC-58, UC-44, UC-62, UC-12)     -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev03a-admin" name="DSS REV03A - Admin Cotizaciones (UC-58,44,62,12)">
+
+    <mxGraphModel dx="1500" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="1650" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p2_title" value="DSS (Caja Negra — REV03A) — Actor: Administrador — Escenarios Independientes UC-58, UC-44, UC-62 y UC-12 [RD-RP013-001 / RD-RP012-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1340" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="1430" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="940" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1010" y="1600" as="sourcePoint" />
+
+            <mxPoint x="1010" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1004" y="155" width="12" height="1430" as="geometry" />
+
+        </mxCell>
+
+        <!-- MARCO UC-58 -->
+
+        <mxCell id="p2_sd58" value="sd Escenario Independiente — UC-58: Configurar Política de Compra [RD-RP013-001 / RD-RP012-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=620;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1100" height="250" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_58_m1" value="1: numeroVersion = configurarPoliticaCompra(vigenteDesde:Timestamp, vigenteHasta:Timestamp[0..1], periodoCalculoDias:Integer, criterios:List&lt;CriterioPoliticaDTO&gt;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="220" as="sourcePoint" />
+
+            <mxPoint x="1004" y="220" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_58_r1" value="1.1: [Suma de pesoRelativo de criterios activos == 100 %, ordenDesempate válido y vigencia sin solapamiento] registra nueva versión de Política de Compra sin alterar decisiones pasadas" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="295" as="sourcePoint" />
+
+            <mxPoint x="131" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_58_r2" value="1.2: [Suma de pesos != 100 %, ordenDesempate duplicado o vigencias superpuestas] rechaza la configuración y mantiene la versión vigente previa" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="375" as="sourcePoint" />
+
+            <mxPoint x="131" y="375" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-44 -->
+
+        <mxCell id="p2_sd44" value="sd Escenario Independiente — UC-44: Iniciar Ronda Manual de Cotización [RD-RP012-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=560;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="450" width="1100" height="260" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_44_m1" value="1: idSolicitud = iniciarRondaManualCotizacion(idInsumo:Long, idSolicitudAnterior:Long[0..1], idsProveedoresInvitados:List&lt;Long&gt;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="500" as="sourcePoint" />
+
+            <mxPoint x="1004" y="500" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_44_r1" value="1.1: [Insumo ACTIVO bajo umbral, sin Solicitud/Orden pendiente, cadena lineal válida y &gt;= 1 Proveedor invitable] emite Solicitud MANUAL con cantidad y vencimiento congelados (según parámetro global)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="575" as="sourcePoint" />
+
+            <mxPoint x="131" y="575" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_44_r2" value="1.2: [Existe Solicitud/Orden pendiente, intento de bifurcar la cadena o destinatarios sin invitabilidad] bloquea la emisión" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="660" as="sourcePoint" />
+
+            <mxPoint x="131" y="660" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-62 -->
+
+        <mxCell id="p2_sd62" value="sd Escenario Independiente — UC-62: Buscar Solicitud de Cotización" style="shape=umlFrame;whiteSpace=wrap;html=1;width=440;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="740" width="1100" height="200" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_62_m1" value="1: solicitudes = buscarSolicitudCotizacion(idSolicitud:Long[0..1], idInsumo:Long[0..1], idEpisodio:Long[0..1], modalidadInicio:String[0..1], estado:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="790" as="sourcePoint" />
+
+            <mxPoint x="1004" y="790" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_62_r1" value="1.1: presenta Solicitudes coincidentes y detalle de la seleccionada en modo solo lectura (sin emitir ni cerrar Órdenes)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="875" as="sourcePoint" />
+
+            <mxPoint x="131" y="875" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-12 (+ INCLUDE UC-62) -->
+
+        <mxCell id="p2_sd12" value="sd Escenario Independiente — UC-12: Evaluar Cotizaciones y Resolver Compra (con «include» UC-62) [RD-RP013-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="970" width="1100" height="580" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_ref62" value="ref «include» UC-62 Buscar Solicitud de Cotización (aprobada 25/10 — selecciona Solicitud con recepción finalizada, identifica cotizaciones incompletas, aplica ordenDesempate configurado y expone empates persistentes)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=290;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="1005" width="840" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_m1" value="1: resolucion = evaluarCotizacionesYResolverCompra(idSolicitud:Long, decision:String, idRespuestaElegida:Long[0..1], justificacionOMotivo:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="1100" as="sourcePoint" />
+
+            <mxPoint x="1004" y="1100" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_12_alt" value="alt Resolución Comercial Humana por el Administrador [UC-12 — RD-RP013-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=520;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="1125" width="1050" height="395" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_g1" value="[decision == COMPRAR, Proveedor elegido sigue ACTIVO, oferta elegible, faltante persiste y justificación informada (incluyendo decisión humana ante empate persistente)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1150" width="940" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_r1" value="1.1: registra Decisión de Compra con sus antecedentes/puntajes, emite Orden de Compra PENDIENTE con condiciones congeladas y marca Solicitud CON_COMPRA" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="1210" as="sourcePoint" />
+
+            <mxPoint x="131" y="1210" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_12_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="1255" as="sourcePoint" />
+
+            <mxPoint x="1125" y="1255" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_12_g2" value="[decision == NO_COMPRAR y motivo obligatorio informado]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1265" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_r2" value="1.2: cierra Solicitud como SIN_COMPRA con motivo y Administrador responsable (sin emitir Orden de Compra; mantiene alerta del episodio si persiste el faltante)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="1335" as="sourcePoint" />
+
+            <mxPoint x="131" y="1335" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_12_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="1380" as="sourcePoint" />
+
+            <mxPoint x="1125" y="1380" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p2_12_g3" value="[Recepción aún abierta, Proveedor elegido pasó a INACTIVO, necesidad ya cubierta o falta justificación/motivo]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1390" width="760" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p2_12_r3" value="1.3: impide emitir Orden de Compra y solicita revisar alternativas o cerrar justificadamente sin compra" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="1465" as="sourcePoint" />
+
+            <mxPoint x="131" y="1465" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+</mxfile>
