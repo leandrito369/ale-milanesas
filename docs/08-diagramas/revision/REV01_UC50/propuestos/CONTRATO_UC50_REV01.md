@@ -3,7 +3,9 @@
 **Estado:** PROPUESTA CORREGIDA; **no validado todavía** contra las 192 fichas canónicas ni en Draw.io. **Origen:** contrato 6A.3 de Gemini, que unía UC-50, UC-51 y UC-52.
 
 ## 1. Nombre
-`registrarInsumo(nombre: String, codigoUnidadMedida: String, umbralMinimo: Decimal, nivelObjetivoReposicion: Decimal, automatizacionCompraActiva: Boolean)`
+
+**Firma de homologación DSS/DS:** la tipificación `BigDecimal` refleja el contrato de diseño documentado, no un lenguaje de programación ni implementación aprobados.
+`registrarInsumo(nombre: String, codigoUnidadMedida: String, umbralMinimo: BigDecimal, nivelObjetivoReposicion: BigDecimal, automatizacionCompraActiva: Boolean)`
 
 ## 2. Responsabilidades
 Registrar el maestro de Insumo sin existencia física inicial y sin costo inventado, comprobando autorización y datos operativos obligatorios. El alta no equivale a una operación de inventario.
