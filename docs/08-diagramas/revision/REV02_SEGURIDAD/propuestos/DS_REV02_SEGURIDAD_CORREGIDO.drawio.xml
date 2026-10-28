@@ -1255,7 +1255,7 @@
 
         </mxCell>
 
-        <mxCell id="u54_g1" value="[esRolProveedorExclusivo == true y idProveedorVinculado != null]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="u54_g1" value="[esRolProveedorExclusivo=true, idProveedorVinculado != null e identidadComercialVerificada por el Administrador según ficha Real]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
 
           <mxGeometry x="125" y="445" width="520" height="20" as="geometry" />
 
