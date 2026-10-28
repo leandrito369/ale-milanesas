@@ -270,7 +270,7 @@
             <mxPoint x="456" y="265" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="u47_m2" value="2: (unProducto, tieneHistorial, nombreDup) = revalidarUnicidadYRestriccionesHistorial(idProducto, nuevoNombreNormalizado) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="u47_m2" value="2: (unProducto, tieneHistorial, nombreDup) = revalidarUnicidadYRestriccionesHistorial(idProducto, normalizar(nuevoNombre)) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="468" y="315" as="sourcePoint" />  
             <mxPoint x="796" y="315" as="targetPoint" />  
