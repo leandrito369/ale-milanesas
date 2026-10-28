@@ -514,7 +514,7 @@
 
         </mxCell>
 
-        <mxCell id="d2_54_r1" value="1.1: [Cuenta pertenece al Rol exclusivo PROVEEDOR con vínculo válido] asigna credencial temporal y marca cambioCredencialPendiente=true (sin habilitar cuenta deshabilitada ni crear segunda cuenta)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="d2_54_r1" value="1.1: [Rol exclusivo PROVEEDOR, vínculo vigente e identidad comercial verificada por Administrador] asigna credencial temporal; exige UC-53 sin habilitar cuenta deshabilitada" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
