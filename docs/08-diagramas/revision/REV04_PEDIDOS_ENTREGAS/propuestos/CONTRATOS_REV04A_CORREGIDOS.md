@@ -164,7 +164,7 @@
 
    * El servidor validó que `fechaReparto` pertenece al conjunto vigente de fechas de reparto habilitadas (`RD-RP001/RP019`).
 
-   * Para cada ítem alcanzado por una o más `Promocion` vigentes para ese `Cliente`, se seleccionó sin acumulación la `Promocion` de mayor descuento elegible (`RD-RP023-001`).
+   * Para cada ítem alcanzado por una o más `Promocion` vigentes para ese `Cliente`, se seleccionó sin acumulación la `Promocion` que produce el **mayor beneficio económico elegible** (`RD-RP023-001`), no simplemente el mayor porcentaje sin evaluar condiciones y unidades alcanzadas.
 
    * Se ejecutaron las postcondiciones de `UC-15` y `UC-16` sobre el subtotal resultante tras aplicar el descuento promocional.
 
