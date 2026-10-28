@@ -3,9 +3,9 @@
 **Estado:** PROPUESTA PARA VALIDACIÓN; no sustituye aún la ficha académica original. **Procedencia:** contrato conjunto Gemini 6A.3, separado para UC-51, y RD-RP017-001 del 27/10/2026.
 
 ## 1. Nombre
-`modificarInsumo(idInsumo: Identificador, datosNoHistoricosPermitidos: DatosInsumo, codigoUnidadMedidaPropuesto?: CodigoUnidadMedida)`.
+`buscarYModificarInsumo(criterio: FiltroInsumoDTO, datosNoHistoricosPermitidos: DatosInsumo, codigoUnidadMedidaPropuesto: CodigoUnidadMedida?)`.
 
-La firma es una abstracción de análisis/diseño, no una API implementada ni un conjunto de columnas nuevas. Las claves exactas de `DatosInsumo` deben cotejarse con el CU Real y el diccionario.
+El evento público queda homologado al DSS del Administrador y al DS revisado; la búsqueda UC-36 se representa internamente. La firma es una abstracción de análisis/diseño, no una API implementada ni un conjunto de columnas nuevas. Las claves exactas de `DatosInsumo` deben cotejarse con el CU Real y el diccionario.
 
 ## 2. Responsabilidades
 Modificar información permitida de un Insumo existente y, solo si no registra **ningún movimiento de inventario ni ningún registro histórico de costo**, permitir el cambio de su unidad de medida. Preservar el historial y rechazar modificaciones que pretendan alterar existencias, costos pasados o relaciones históricas.
