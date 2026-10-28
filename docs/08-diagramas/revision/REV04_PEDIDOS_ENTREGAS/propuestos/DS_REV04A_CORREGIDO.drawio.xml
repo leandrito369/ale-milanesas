@@ -594,7 +594,7 @@
 
         </mxCell>
 
-        <mxCell id="u21_m3_new" value="3: «create» new(unCliente, fechaReparto, direccionEntrega, canalOrigen=ONLINE, estado=PENDIENTE, itemsConMejorDescuentoPromocionalCongeladoSinAcumular)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u21_m3_new" value="3: «create» Pedido(unCliente, fechaReparto, direccionEntrega, canalOrigen=ONLINE, estado=PENDIENTE, itemsConMayorBeneficioPromocionalElegibleSinAcumulacion)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
