@@ -146,7 +146,7 @@
 
 5. **Notas:** Exige al menos un destinatario. Pueden coexistir Promociones sobre mismo Producto y destinatario; no se acumulan descuentos sobre mismas unidades. La evaluación de mayor **beneficio económico** entre las elegibles y el congelamiento ocurre en UC-21, no se presupone equivalencia universal con el porcentaje más alto. La Promoción queda ACTIVA conforme a su vigencia, no disponible para uso fuera de ella; el acceso online identifica la Promoción pero no autentica al Cliente. El enlace de campaña no autentica al Cliente. Los fallos por destinatario se conservan, sin inventar un CU de reenvío.
 
-6. **Excepciones:** A1: descripción, vigencia, porcentaje o colecciones inválidas, Producto/Cliente inactivo o sin destinatarios: rechazar creación. A2: fallo parcial del servicio de mensajería: conservar la Promoción y resultados individuales registrados conforme operación confirmada; no declarar envío exitoso donde falló. A3: indisponibilidad del servicio: conservar incidencia, sin falsificar entregas.
+6. **Excepciones:** A1: descripción, vigencia, porcentaje o colecciones inválidas, Producto/Cliente inactivo o sin destinatarios: rechazar creación. A2: fallo parcial del servicio de mensajería: conservar la Promoción y resultados individuales registrados conforme operación confirmada; no declarar envío exitoso donde falló. A3: indisponibilidad del servicio: conservar incidencia, sin falsificar entregas. A4: no es posible generar acceso online válido: registrar la incidencia y no comunicar una referencia inutilizable.
 
 7. **Salida:** idPromocion, productos y destinatarios vinculados, y detalle de resultados por intento; o rechazo de creación.
 
