@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" type="device" agent="Gemini-original-extracted-REV01">
+<diagram id="ds-uc42" name="DS UC-42 Registrar Ajuste Inventario">
+
+    <mxGraphModel dx="1550" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="950" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u42_title" value="Diagrama de Secuencia de Diseño (DS) — UC-42: Registrar Ajuste de Inventario (incluye SALDO_INICIAL físico — Pendiente F03)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1220" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_actor" value="Responsable de&#xa;Producción / Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="720" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_ctrl_box" value=":ControladorInventario" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="360" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="445" y="900" as="sourcePoint" />
+
+            <mxPoint x="445" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="439" y="155" width="12" height="720" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_inv_box" value="elemento : Insumo /&#xa;ProductoReventa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="740" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_inv_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="830" y="900" as="sourcePoint" />
+
+            <mxPoint x="830" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_inv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="824" y="360" width="12" height="240" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_mov_box" value="mov : MovimientoInsumo /&#xa;MovimientoStockReventa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1120" y="450" width="190" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_mov_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1215" y="900" as="sourcePoint" />
+
+            <mxPoint x="1215" y="495" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_mov_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1209" y="495" width="12" height="80" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_m1" value="1: idMov = registrarAjusteInventario(elemento, tipoMovimiento:String, cantidad:BigDecimal, motivo:String, costoValuacion:BigDecimal[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="210" as="sourcePoint" />
+
+            <mxPoint x="439" y="210" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_alt" value="alt Validación de stockResultante \&gt;= 0, motivo obligatorio y valuación coherente (SALDO_INICIAL / REVENTA) [UC-42]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=710;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="280" width="1380" height="550" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_g1" value="[Elemento es INSUMO o REVENTA, stockResultante \&gt;= 0, motivo != null y costoValuacion \&gt; 0 si SALDO_INICIAL o alta sin valoración]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="305" width="840" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_m2" value="2: aplicarDiferenciaStockYValuacion(tipoMovimiento, cantidad, costoValuacion)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="451" y="395" as="sourcePoint" />
+
+            <mxPoint x="824" y="395" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_m3_new" value="3: «create» new(elemento, tipoMovimiento, cantidad, stockResultante, motivo, idUsuarioResponsable)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="451" y="472" as="sourcePoint" />
+
+            <mxPoint x="1120" y="472" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_r1_ok" value="3.1: actualiza existencias, registra movimiento (y evalúa PRA-01 si INSUMO cruza umbralMinimo) sin generar Compra ni Caja ficticias" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="439" y="635" as="sourcePoint" />
+
+            <mxPoint x="111" y="635" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="695" as="sourcePoint" />
+
+            <mxPoint x="1430" y="695" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u42_g2" value="[Stock resultante negativo, Producto ELABORADO, falta motivo o falta valoración válida]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="705" width="600" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u42_r1_err" value="3.2: rechaza el ajuste sin modificar existencias ni costos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="439" y="790" as="sourcePoint" />
+
+            <mxPoint x="111" y="790" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+</mxfile>
