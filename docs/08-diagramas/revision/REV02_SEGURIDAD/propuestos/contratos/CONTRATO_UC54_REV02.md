@@ -10,7 +10,7 @@
 
 4. **Referencias cruzadas:** Caso de Uso `UC-54 — Restablecer Acceso de Usuario`; incluye `UC-56 — Buscar Usuario` **(relación aprobada el 25/10/2026)**; Caso de Uso `UC-53 — Cambiar Contraseña`; Objetivo `OBJE-03`; Requisito `RF-08`.
 
-5. **Notas:** Alcance inicial exclusivo para cuentas con Rol `PROVEEDOR`. No habilita automáticamente una cuenta `DESHABILITADO` (lo cual corresponde a `UC-55`) ni crea un `Usuario` nuevo.
+5. **Notas:** La comprobación del Rol y de `UsuarioProveedor` **no sustituye la verificación de identidad comercial** que exige UC-54 Real. Esa verificación debe quedar documentada antes de confirmar el restablecimiento; su procedimiento preciso no se inventa aquí.  Alcance inicial exclusivo para cuentas con Rol `PROVEEDOR`. No habilita automáticamente una cuenta `DESHABILITADO` (lo cual corresponde a `UC-55`) ni crea un `Usuario` nuevo.
 
 6. **Excepciones:**
 
@@ -27,6 +27,8 @@
 8. **Precondiciones:**
 
    * El `Administrador` se encuentra autenticado y autorizado.
+
+   * El Administrador verificó la identidad comercial del Proveedor de acuerdo con UC-54 Real.
 
    * La cuenta objetivo fue localizada mediante `UC-56` y corresponde a un `Usuario` con Rol exclusivo `PROVEEDOR` vinculado a un `Proveedor` identificable en `UsuarioProveedor`.
 
