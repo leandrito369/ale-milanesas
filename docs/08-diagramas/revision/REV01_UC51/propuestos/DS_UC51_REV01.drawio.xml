@@ -106,7 +106,7 @@
 
         </mxCell>
 
-        <mxCell id="u51_m1" value="1: unInsumo = buscarYSeleccionarInsumo(criterio:FiltroInsumoDTO) [UC-36]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u51_m1" value="1: resultado = buscarYModificarInsumo(criterio:FiltroInsumoDTO, datosNoHistoricosPermitidos:DatosInsumo, codigoUnidadMedidaPropuesto:CodigoUnidadMedida?) [UC-51, incluye UC-36]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
@@ -118,7 +118,7 @@
 
         </mxCell>
 
-        <mxCell id="u51_m2" value="2: (unInsumo, tieneMovimientos, tieneCostosHistoricos) = consultarHistorialInsumo(idInsumo) [comprobación en servidor y transacción al confirmar]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u51_m2" value="2: unInsumo = buscarInsumo(criterio) [servicio de búsqueda UC-36]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
@@ -130,13 +130,13 @@
 
         </mxCell>
 
-        <mxCell id="u51_m3" value="3: resultado = modificarInsumo(idInsumo, datosNoHistoricosPermitidos, codigoUnidadMedidaPropuesto?) [UC-51]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u51_m3" value="3: (tieneMovimientos, tieneCostosHistoricos) = consultarHistorialInsumo(idInsumo) [revalidar al confirmar]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="111" y="340" as="sourcePoint" />
+            <mxPoint x="468" y="340" as="sourcePoint"/>
 
-            <mxPoint x="456" y="340" as="targetPoint" />
+            <mxPoint x="796" y="340" as="targetPoint"/>
 
           </mxGeometry>
 
