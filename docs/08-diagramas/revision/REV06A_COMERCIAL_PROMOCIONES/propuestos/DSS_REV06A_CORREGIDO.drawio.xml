@@ -59,7 +59,7 @@
             <mxPoint x="1024" y="435" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="c1_30_r1" value="1.1: [Nombre normalizado único respecto de activos e inactivos y campos válidos] registra Producto con activo = true" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="c1_30_r1" value="1.1: [Nombre normalizado único respecto de activos e inactivos y campos válidos] registra Producto ACTIVO con trazabilidad; no inventa precio inicial (UC-19)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="1024" y="505" as="sourcePoint" />  
             <mxPoint x="131" y="505" as="targetPoint" />  
@@ -111,7 +111,7 @@
             <mxPoint x="1024" y="1105" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="c1_48_r1" value="1.1: actualiza condición activo/inactivo del Producto (si queda inactivo impide nuevas ventas y promociones, sin cancelar de oficio Pedidos PENDIENTE abiertos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="c1_48_r1" value="1.1: revalida estado y dependencias, actualiza activo/inactivo (sin cancelar Pedidos PENDIENTE ni Órdenes existentes); si reactiva, verifica datos actuales" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="1024" y="1195" as="sourcePoint" />  
             <mxPoint x="131" y="1195" as="targetPoint" />  
@@ -131,7 +131,7 @@
             <mxPoint x="1024" y="1390" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="c1_19_r1" value="1.1: [nuevoPrecioBase &gt; 0 e intervalo sin solapamiento] cierra vigencia previa, registra nuevo precio vigente y auditoría de cambio sin alterar precios congelados en Pedidos anteriores" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="c1_19_r1" value="1.1: [precio positivo, inicio no retroactivo e intervalo sin solapamiento] registra primera o nueva versión y auditoría; si hay versión previa cierra sólo el tramo compatible; futuro no se aplica antes de su inicio; no altera Pedidos confirmados" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="1024" y="1475" as="sourcePoint" />  
             <mxPoint x="131" y="1475" as="targetPoint" />  
@@ -151,7 +151,7 @@
             <mxPoint x="1024" y="1655" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="c1_20_r1" value="1.1: presenta en modo solo lectura la evolución cronológica de precios y auditoría (vigencias, valores y Administrador responsable)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="c1_20_r1" value="1.1: distingue precios históricos, precio actual y precios futuros programados; muestra ausencia de precio actual o de versiones cuando corresponda, sin modificar registros" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="1024" y="1725" as="sourcePoint" />  
             <mxPoint x="131" y="1725" as="targetPoint" />  
@@ -232,7 +232,7 @@
             <mxPoint x="896" y="410" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="p2_24_r1" value="1.3: [Datos, Productos activos y destinatarios activos válidos] registra Promoción (coexiste sin acumular descuentos sobre las mismas unidades en UC-21, aplicándose el mayor beneficio elegible — RD-RP023-001) y conserva el resultado de cada intento de comunicación" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="p2_24_r1" value="1.3: [Datos, Productos activos y destinatarios activos válidos] registra Promoción ACTIVA conforme a su vigencia, genera acceso online y conserva el resultado por destinatario; UC-21 aplica un único mayor beneficio económico elegible, sin acumular descuentos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="884" y="505" as="sourcePoint" />  
             <mxPoint x="121" y="505" as="targetPoint" />  
