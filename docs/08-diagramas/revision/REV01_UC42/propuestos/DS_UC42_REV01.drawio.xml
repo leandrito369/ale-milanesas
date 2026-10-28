@@ -72,7 +72,7 @@
 
         <mxCell id="u42_inv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="824" y="360" width="12" height="1120" as="geometry" />
+          <mxGeometry x="824" y="360" width="12" height="398" as="geometry" />
 
         </mxCell>
 
@@ -86,7 +86,7 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1215" y="1630" as="sourcePoint"/>
+            <mxPoint x="1215" y="758" as="sourcePoint"/>
 
             <mxPoint x="1215" y="585" as="targetPoint"/>
 
@@ -96,7 +96,7 @@
 
         <mxCell id="u42_mov_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1209" y="585" width="12" height="1045" as="geometry" />
+          <mxGeometry x="1209" y="585" width="12" height="173" as="geometry" />
 
         </mxCell>
 
@@ -191,17 +191,17 @@
         </mxCell>
 
       <mxCell id="u42_cost_box" value="costo : CostoInsumoHistorico" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1495" y="470" width="190" height="48" as="geometry"/></mxCell>
-<mxCell id="u42_cost_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1590" y="1630" as="sourcePoint"/><mxPoint x="1590" y="518" as="targetPoint"/></mxGeometry></mxCell>
-<mxCell id="u42_cost_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1584" y="518" width="12" height="1112" as="geometry"/></mxCell>
+<mxCell id="u42_cost_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1590" y="758" as="sourcePoint"/><mxPoint x="1590" y="518" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u42_cost_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1584" y="518" width="12" height="240" as="geometry"/></mxCell>
 <mxCell id="u42_prod_box" value="prod : Producto (REVENTA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1815" y="60" width="190" height="48" as="geometry"/></mxCell>
 <mxCell id="u42_prod_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1910" y="1630" as="sourcePoint"/><mxPoint x="1910" y="108" as="targetPoint"/></mxGeometry></mxCell>
-<mxCell id="u42_prod_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1904" y="108" width="12" height="1522" as="geometry"/></mxCell>
+<mxCell id="u42_prod_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1904" y="985" width="12" height="365" as="geometry"/></mxCell>
 <mxCell id="u42_val_box" value="val : ValoracionExtraordinariaReventa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2165" y="1135" width="190" height="48" as="geometry"/></mxCell>
-<mxCell id="u42_val_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="2260" y="1630" as="sourcePoint"/><mxPoint x="2260" y="1183" as="targetPoint"/></mxGeometry></mxCell>
-<mxCell id="u42_val_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2254" y="1183" width="12" height="447" as="geometry"/></mxCell>
+<mxCell id="u42_val_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="2260" y="1350" as="sourcePoint"/><mxPoint x="2260" y="1183" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u42_val_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2254" y="1183" width="12" height="167" as="geometry"/></mxCell>
 <mxCell id="u42_movrev_box" value="movRev : MovimientoStockReventa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2535" y="1235" width="190" height="48" as="geometry"/></mxCell>
-<mxCell id="u42_movrev_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="2630" y="1630" as="sourcePoint"/><mxPoint x="2630" y="1283" as="targetPoint"/></mxGeometry></mxCell>
-<mxCell id="u42_movrev_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2624" y="1283" width="12" height="347" as="geometry"/></mxCell>
+<mxCell id="u42_movrev_line" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="2630" y="1350" as="sourcePoint"/><mxPoint x="2630" y="1283" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u42_movrev_bar" value="" style="fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="2624" y="1283" width="12" height="67" as="geometry"/></mxCell>
 <mxCell id="u42_opt_saldo" value="opt [tipoMovimiento=SALDO_INICIAL; costo real documentado]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=275;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="960" y="420" width="890" height="100" as="geometry"/></mxCell>
 <mxCell id="u42_mcost" value="2.1: «create» CostoInsumoHistorico(SALDO_INICIAL, mismo Insumo, costoUnitario válido, vigenteDesde)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;dashed=0;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="451" y="470" as="sourcePoint"/><mxPoint x="1495" y="470" as="targetPoint"/></mxGeometry></mxCell>
 <mxCell id="u42_note_saldo" value="El MovimientoInsumo debe referenciar (idInsumo, vigenteDesdeCosto) del costo aplicable; sin costo ficticio." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1"><mxGeometry x="880" y="570" width="1450" height="26" as="geometry"/></mxCell>
