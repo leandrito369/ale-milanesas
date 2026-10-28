@@ -817,7 +817,7 @@
 
         </mxCell>
 
-        <mxCell id="u43_m1" value="1: idAsignacion = asignarOReasignarPedidoARepartidor(idPedido:Long, idUsuarioRepartidor:Long, motivoReasignacion:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u43_m1" value="1: referenciaAsignacion = asignarOReasignarPedidoARepartidor(idPedido:Long, idUsuarioRepartidor:Long, motivoReasignacion:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
@@ -1298,7 +1298,7 @@
 
         </mxCell>
 
-        <mxCell id="u25_m4_new" value="4: «create» new(idRepartidor, fechaReparto, fechaHoraGeneracion, secuenciaSugerida)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u25_m4_new" value="4: «create» RutaReparto conceptual(idRepartidor, fechaReparto, secuenciaSugerida) [sin tabla persistente en MR-5/MR-6; implementación pendiente]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
