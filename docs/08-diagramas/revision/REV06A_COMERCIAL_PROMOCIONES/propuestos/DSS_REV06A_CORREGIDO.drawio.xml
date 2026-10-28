@@ -266,13 +266,13 @@
             <mxPoint x="884" y="925" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="p2_60_r1" value="1.1: [Promoción existente y aún no retirada] registra la desactivación impidiendo nuevas aplicaciones en UC-21, conservando íntegros Productos, destinatarios, comunicaciones y descuentos ya congelados en Pedidos confirmados (sin reactivación — F08)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="p2_60_r1" value="1.1: [Administrador confirma; estado BORRADOR, ACTIVA o PAUSADA; revalidación transaccional] cambia PROMOCION.estado a CANCELADA (baja lógica definitiva); impide nuevas aplicaciones en UC-21 y preserva Productos, destinatarios, comunicaciones y descuentos históricos (F08)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="884" y="1025" as="sourcePoint" />  
             <mxPoint x="121" y="1025" as="targetPoint" />  
           </mxGeometry>  
         </mxCell>  
-        <mxCell id="p2_60_r2" value="1.2: [Promoción inexistente o ya desactivada] informa la situación y no duplica el cambio" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+        <mxCell id="p2_60_r2" value="1.2: [Promoción inexistente, FINALIZADA o CANCELADA; autorización perdida o concurrencia] informa rechazo o ningún cambio; prohíbe PAUSADA→ACTIVA, no duplica transición" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
           <mxGeometry relative="1" as="geometry">  
             <mxPoint x="884" y="1125" as="sourcePoint" />  
             <mxPoint x="121" y="1125" as="targetPoint" />  
