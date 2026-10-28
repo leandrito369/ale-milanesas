@@ -1,0 +1,1623 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T13:05:00.000Z" agent="Gemini-REV05" version="24.7.17" type="device">
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 1: DS UC-14 CONSULTAR CUENTA CORRIENTE (RD-RP028 H-03)             -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc14" name="DS UC-14 Consultar Cuenta Corriente (REV05)">
+
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u14_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-14: Consultar Cuenta Corriente («include» UC-33) [RD-RP004/RP028-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1220" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_actor" value="Vendedor /&#xa;Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_ctrl_box" value=":ControladorCuentaCorrienteCobros" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="360" y="60" width="220" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="470" y="880" as="sourcePoint" />
+
+            <mxPoint x="470" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="464" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_cc_box" value=":LibroCuentaCorriente" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="820" y="60" width="185" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_cc_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="912" y="880" as="sourcePoint" />
+
+            <mxPoint x="912" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_cc_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="906" y="250" width="12" height="360" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_ref33" value="ref «include» UC-33 Buscar Cliente (identifica y selecciona unCliente : Cliente)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=250;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="65" y="165" width="760" height="55" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_m1" value="1: estadoCuenta = consultarCuentaCorriente(idCliente:Long, fechaDesde:LocalDate[0..1], fechaHasta:LocalDate[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="255" as="sourcePoint" />
+
+            <mxPoint x="464" y="255" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_m2" value="2: res = recuperarSaldosConfirmadoEnTransitoYProvisionalEHistorial(idCliente, fechaDesde, fechaHasta) [Atributo — RD-RP028]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="476" y="305" as="sourcePoint" />
+
+            <mxPoint x="906" y="305" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_r2" value="2.1: (saldoConfirmado, pagosEnTransitoValidados de UC-05, saldoExigibleProvisional = saldoConfirmado - pagosEnTransitoValidados, List&lt;MovimientoCuenta&gt;)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="906" y="385" as="sourcePoint" />
+
+            <mxPoint x="476" y="385" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_alt" value="alt Presentación diferenciada de saldos e historial de Cuenta Corriente [UC-14 — RD-RP004/RP028-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=640;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="435" width="1310" height="380" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_g1" value="[Cliente válido (con o sin movimientos; el filtro de fechas restringe solo los movimientos exhibidos)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="460" width="660" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_r1_ok" value="3.1: muestra saldoConfirmado (indicando si es deudor o a favor), pagosEnTransitoValidados, saldoExigibleProvisional y movimientos (sin crear Cobro, MovimientoCuenta ni MovimientoCaja)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="464" y="545" as="sourcePoint" />
+
+            <mxPoint x="111" y="545" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="645" as="sourcePoint" />
+
+            <mxPoint x="1360" y="645" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u14_g2" value="[Cliente no encontrado o rango de fechas inválido]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="655" width="450" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u14_r1_err" value="3.2: solicita repetir búsqueda o corregir fechas sin exponer datos erróneos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="464" y="745" as="sourcePoint" />
+
+            <mxPoint x="111" y="745" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 2: DS UC-29 REGISTRAR COBRO Y ANULACIÓN MANUAL (RD-F01 H-10)       -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc29" name="DS UC-29 Registrar Cobro (REV05)">
+
+    <mxGraphModel dx="1650" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1300" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u29_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-29: Registrar Cobro y Anulación Manual («include» UC-15) [RD-F01: CONFIRMADO / ANULADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1380" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_actor" value="Vendedor / Admin&#xa;(o Confirmación MP UC-21)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="94" y="155" width="12" height="1080" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_ctrl_box" value=":ControladorCuentaCorrienteCobros" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="330" y="60" width="220" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="440" y="1260" as="sourcePoint" />
+
+            <mxPoint x="440" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="434" y="155" width="12" height="1080" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_cob_box" value="unCobro : Cobro&#xa;(estadoCobro=CONFIRMADO|ANULADO)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="660" y="360" width="220" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_cob_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="770" y="1260" as="sourcePoint" />
+
+            <mxPoint x="770" y="405" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_cob_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="764" y="405" width="12" height="650" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_cc_box" value=":LibroCuentaCorriente" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="980" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_cc_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1067" y="1260" as="sourcePoint" />
+
+            <mxPoint x="1067" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_cc_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1061" y="210" width="12" height="860" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_caj_box" value=":LibroCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1280" y="60" width="160" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_caj_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1360" y="1260" as="sourcePoint" />
+
+            <mxPoint x="1360" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_caj_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1354" y="550" width="12" height="530" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_m1" value="1: idCobro = registrarCobro(idCliente:Long, idPedido:Long[0..1], importe:BigDecimal, medioPago:String, origen:String, referenciaExterna:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="185" as="sourcePoint" />
+
+            <mxPoint x="434" y="185" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_m2" value="2: val = verificarIdempotenciaYVinculoPedido(idCliente, idPedido, referenciaExterna) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="230" as="sourcePoint" />
+
+            <mxPoint x="1061" y="230" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_alt" value="alt Registro atómico de Cobro CONFIRMADO [UC-29 — RD-F01]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=520;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="295" width="1460" height="585" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_g1" value="[importe &gt; 0, referenciaExterna no procesada y (idPedido == null || (Pedido pertenece al Cliente &amp;&amp; estado in (PENDIENTE, ENTREGADO)))]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="320" width="900" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_m3_new" value="3: «create» new(unCliente, unPedido[0..1], fechaHora, importe, medioPago, origen, referenciaExterna, estadoCobro=CONFIRMADO)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="382" as="sourcePoint" />
+
+            <mxPoint x="660" y="382" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_m4" value="4: saldoConfirmado = registrarMovimientoCuentaPagoYConciliarEfectivoEnTransito(unCliente, unCobro, importe)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="495" as="sourcePoint" />
+
+            <mxPoint x="1061" y="495" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_m5" value="5: registrarMovimientoCajaIngreso(unCobro, importe, medioPago, origen)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="575" as="sourcePoint" />
+
+            <mxPoint x="1354" y="575" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_ref15" value="ref «include» UC-15 Evaluar y Actualizar Categoría Comercial (ejecutado tras confirmar PAGO en Cuenta Corriente)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="625" width="740" height="55" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_r1_ok" value="5.1: informa Cobro CONFIRMADO y nuevo saldoConfirmado" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="720" as="sourcePoint" />
+
+            <mxPoint x="106" y="720" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="765" as="sourcePoint" />
+
+            <mxPoint x="1510" y="765" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_g2" value="[importe &lt;= 0, Pedido CANCELADO/ajeno o confirmación electrónica repetida]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="775" width="580" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_r1_err" value="5.2: rechaza vínculo inválido o reconoce Cobro existente por idempotencia sin duplicar asientos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="850" as="sourcePoint" />
+
+            <mxPoint x="106" y="850" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- BLOQUE ANULACION COBRO MANUAL (RD-F01 / H-10) -->
+
+        <mxCell id="u29_opt_anul" value="opt [Anulación de Cobro Manual erróneo por contraasiento — RD-F01 / MR1-33 (H-10)]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=560;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="910" width="1460" height="300" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u29_m6" value="6: idContraasiento = anularCobroManual(idCobro:Long, motivoAnulacion:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="965" as="sourcePoint" />
+
+            <mxPoint x="434" y="965" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_m7" value="7: establecerEstadoAnulado(motivoAnulacion) [estadoCobro = ANULADO]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="1015" as="sourcePoint" />
+
+            <mxPoint x="764" y="1015" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_m8" value="8: registrarContraasientoAnulacionCobro(idCobroAnulado=idCobro) en CuentaCorriente y Caja \+ ejecutar UC-15" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="1075" as="sourcePoint" />
+
+            <mxPoint x="1354" y="1075" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u29_r6" value="8.1: confirma Cobro ANULADO, contraasientos con idCobroAnulado y categoría reevaluada" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="1165" as="sourcePoint" />
+
+            <mxPoint x="106" y="1165" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 3: DS UC-22 REGISTRAR MOVIMIENTO DE CAJA                           -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc22" name="DS UC-22 Registrar Movimiento Caja (REV05)">
+
+    <mxGraphModel dx="1450" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="880" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u22_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-22: Registrar Movimiento de Caja" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="900" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="650" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_ctrl_box" value=":ControladorCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="60" width="160" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="460" y="830" as="sourcePoint" />
+
+            <mxPoint x="460" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="454" y="155" width="12" height="650" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_caj_box" value=":LibroCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="740" y="60" width="160" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_caj_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="820" y="830" as="sourcePoint" />
+
+            <mxPoint x="820" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_caj_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="814" y="450" width="12" height="90" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_mov_box" value="movCaja : MovimientoCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1060" y="320" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_mov_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1150" y="830" as="sourcePoint" />
+
+            <mxPoint x="1150" y="365" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_mov_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1144" y="365" width="12" height="75" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_m1" value="1: idMovimientoCaja = registrarMovimientoCaja(tipoMovimiento:String, importe:BigDecimal, concepto:String, observacion:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="195" as="sourcePoint" />
+
+            <mxPoint x="454" y="195" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_alt" value="alt Validación de tipoMovimiento (INGRESO|EGRESO), importe &gt; 0, concepto y exclusión de pagos de Cliente [UC-22]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="245" width="1280" height="510" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_g1" value="[tipoMovimiento in (INGRESO, EGRESO), importe &gt; 0, concepto != vacio y no corresponde a Cobro de Cliente ni Reembolso automático]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="270" width="780" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_m2_new" value="2: «create» new(tipoMovimiento, fechaHora, importe, concepto, origen=MANUAL, observacion[0..1], idAdmin)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="466" y="342" as="sourcePoint" />
+
+            <mxPoint x="1060" y="342" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_m3" value="3: guardarMovimiento(movCaja:MovimientoCaja) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="466" y="475" as="sourcePoint" />
+
+            <mxPoint x="814" y="475" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_r1_ok" value="3.1: confirma MovimientoCaja manual registrado (no crea Cobro, Reembolso ni MovimientoCuenta)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="454" y="555" as="sourcePoint" />
+
+            <mxPoint x="111" y="555" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="615" as="sourcePoint" />
+
+            <mxPoint x="1330" y="615" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u22_g2" value="[Concepto vacío, importe inválido o intento de registrar pago de Cliente como movimiento aislado]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="625" width="660" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u22_r1_err" value="3.2: impide confirmar e indica procesar pagos de Clientes mediante UC-29" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="454" y="710" as="sourcePoint" />
+
+            <mxPoint x="111" y="710" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 4: DS UC-23 CONSULTAR LIBRO DIARIO                                 -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc23" name="DS UC-23 Consultar Libro Diario (REV05)">
+
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="850" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u23_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-23: Consultar Libro Diario" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="850" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="600" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_ctrl_box" value=":ControladorCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="400" y="60" width="160" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="480" y="780" as="sourcePoint" />
+
+            <mxPoint x="480" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="474" y="155" width="12" height="600" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_caj_box" value=":LibroCaja" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="780" y="60" width="160" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_caj_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="860" y="780" as="sourcePoint" />
+
+            <mxPoint x="860" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_caj_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="854" y="200" width="12" height="140" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_m1" value="1: libroDiario = consultarLibroDiario(fechaInicial:LocalDate, fechaFinal:LocalDate)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="190" as="sourcePoint" />
+
+            <mxPoint x="474" y="190" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_m2" value="2: recuperarMovimientosYCalcularResultadoMonetario(fechaInicial, fechaFinal) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="486" y="235" as="sourcePoint" />
+
+            <mxPoint x="854" y="235" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_r2" value="2.1: List&lt;MovimientoCaja&gt; \+ totalIngresos \+ totalEgresos \+ resultadoMonetario = ingresos - egresos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="854" y="305" as="sourcePoint" />
+
+            <mxPoint x="486" y="305" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_alt" value="alt Resultado de la consulta del Libro Diario [UC-23]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=360;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="365" width="1150" height="340" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_g1" value="[Período válido con movimientos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="390" width="350" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_r1_ok" value="3.1: presenta movimientos (tipo, fechaHora, importe, concepto, origen, referencia) y resultadoMonetario en solo lectura" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="474" y="455" as="sourcePoint" />
+
+            <mxPoint x="111" y="455" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="535" as="sourcePoint" />
+
+            <mxPoint x="1200" y="535" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u23_g2" value="[Sin movimientos en el intervalo (A2) o período inválido (A1)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="545" width="480" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u23_r1_empty" value="3.2: indica vacío y totales del intervalo nulos (sin afirmar saldo de Caja cero) o solicita corregir período" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="474" y="645" as="sourcePoint" />
+
+            <mxPoint x="111" y="645" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 5: DS UC-26 PROCESAR REEMBOLSO ELECTRÓNICO                         -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc26" name="DS UC-26 Procesar Reembolso Electrónico (REV05)">
+
+    <mxGraphModel dx="1650" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1150" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u26_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-26: Procesar Reembolso Electrónico (extiende UC-06; reintento exclusivo Administrador)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1320" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_actor" value="Disparador UC-06 /&#xa;Administrador (Reintento)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="94" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_ctrl_box" value=":ControladorReembolsos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="340" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="430" y="1100" as="sourcePoint" />
+
+            <mxPoint x="430" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="424" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_rem_box" value="unReembolso : Reembolso" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="680" y="250" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_rem_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="770" y="1100" as="sourcePoint" />
+
+            <mxPoint x="770" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_rem_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="764" y="295" width="12" height="320" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_int_box" value="intento : IntentoReembolso" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="980" y="380" width="185" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_int_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1072" y="1100" as="sourcePoint" />
+
+            <mxPoint x="1072" y="425" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_int_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1066" y="425" width="12" height="80" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_mp_box" value=":AdaptadorMercadoPago&#xa;+ :LibroCaja / :LibroCC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1280" y="60" width="190" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_mp_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1375" y="1100" as="sourcePoint" />
+
+            <mxPoint x="1375" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_mp_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1369" y="530" width="12" height="260" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_m1" value="1: estadoReembolso = procesarReembolsoElectronico(idCobroOriginal:Long, idReembolsoReintento:Long[0..1], idUsuarioReintento:Long[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="190" as="sourcePoint" />
+
+            <mxPoint x="424" y="190" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_m2_new" value="2: «create» / recuperar Reembolso único por Cobro (en reintento valida estado==RECHAZADO y Rol Admin)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="436" y="272" as="sourcePoint" />
+
+            <mxPoint x="680" y="272" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_m3_new" value="3: «create» new(unReembolso, numeroIntento=sig, claveIdempotencia=UUID, idUsuarioReintento[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="776" y="402" as="sourcePoint" />
+
+            <mxPoint x="980" y="402" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_m4" value="4: respMP = solicitarDevolucionIdempotente(referenciaExternaCobro, importe, intento.claveIdempotencia)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="436" y="555" as="sourcePoint" />
+
+            <mxPoint x="1369" y="555" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_alt" value="alt Resultado de MercadoPago: PROCESADO vs. PENDIENTE / RECHAZADO [UC-26]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=540;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="610" width="1460" height="430" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_g1" value="[MercadoPago confirma devolución aprobada → estado = PROCESADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="635" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_m5" value="5: registrarEfectosFinancierosUnicos(EGRESO en Caja \+ AJUSTE_DEBITO en Cuenta Corriente \+ ejecutar UC-15)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="436" y="705" as="sourcePoint" />
+
+            <mxPoint x="1369" y="705" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_r1_ok" value="5.1: establece Reembolso PROCESADO, registra EGRESO y AJUSTE_DEBITO y reevalúa UC-15" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="424" y="780" as="sourcePoint" />
+
+            <mxPoint x="106" y="780" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="835" as="sourcePoint" />
+
+            <mxPoint x="1510" y="835" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u26_g2" value="[MercadoPago informa PENDIENTE, no disponible o RECHAZADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="845" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u26_r1_pend" value="5.2: conserva PENDIENTE o establece RECHAZADO sin generar anticipadamente EGRESO en Caja ni revertir Cuenta Corriente" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="424" y="945" as="sourcePoint" />
+
+            <mxPoint x="106" y="945" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 6: DS UC-49 REGISTRAR RESULTADO DE REEMBOLSO ELECTRÓNICO           -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc49" name="DS UC-49 Registrar Resultado Reembolso (REV05)">
+
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1550" pageHeight="1050" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u49_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-49: Registrar Resultado de Reembolso Electrónico (Asíncrono e idempotente)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1280" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_actor" value="MercadoPago&#xa;(Notificación Asíncrona)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="94" y="155" width="12" height="820" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_ctrl_box" value=":ControladorReembolsos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="350" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="440" y="1000" as="sourcePoint" />
+
+            <mxPoint x="440" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="434" y="155" width="12" height="820" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_ev_box" value="evResultado :&#xa;EventoResultadoReembolso" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="680" y="340" width="195" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_ev_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="777" y="1000" as="sourcePoint" />
+
+            <mxPoint x="777" y="385" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_ev_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="771" y="385" width="12" height="80" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_rem_box" value="unReembolso : Reembolso" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="990" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_rem_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1080" y="1000" as="sourcePoint" />
+
+            <mxPoint x="1080" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_rem_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1074" y="210" width="12" height="420" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_fin_box" value=":LibroCaja /&#xa;:LibroCuentaCorriente" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1280" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_fin_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1370" y="1000" as="sourcePoint" />
+
+            <mxPoint x="1370" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_fin_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1364" y="560" width="12" height="120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_m1" value="1: acuse = registrarResultadoReembolsoElectronico(referenciaExternaIntento:String, estadoInformado:String, firmaVerificacion:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="185" as="sourcePoint" />
+
+            <mxPoint x="434" y="185" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_m2" value="2: (unReembolso, intentoActivo) = verificarAutenticidadCorrespondenciaEIdempotencia(referenciaExternaIntento)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="235" as="sourcePoint" />
+
+            <mxPoint x="1074" y="235" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_m3_new" value="3: «create» new(intentoActivo, estadoInformado, fechaHoraRecepcion, referenciaExternaIntento)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="362" as="sourcePoint" />
+
+            <mxPoint x="680" y="362" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_alt" value="alt Evaluación idempotente del resultado asíncrono [UC-49 — UC-26 no incluye ni extiende UC-49]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=660;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="485" width="1440" height="445" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_g1" value="[estadoInformado == PROCESADO y unReembolso no estaba PROCESADO previamente]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="510" width="580" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_m4" value="4: marcarProcesadoYRegistrarEgresoCajaYAjusteDebitoCuentaCorriente() \+ ejecutar UC-15" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="595" as="sourcePoint" />
+
+            <mxPoint x="1364" y="595" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_r1_ok" value="4.1: aplica por única vez EGRESO en Caja, AJUSTE_DEBITO en Cuenta Corriente y reevaluación UC-15" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="700" as="sourcePoint" />
+
+            <mxPoint x="106" y="700" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="755" as="sourcePoint" />
+
+            <mxPoint x="1490" y="755" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u49_g2" value="[estadoInformado == RECHAZADO / PENDIENTE, o notificación repetida de un Reembolso ya PROCESADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="765" width="700" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u49_r1_rech" value="4.2: si es RECHAZADO actualiza estado sin tocar Caja/Cuenta Corriente; si es repetida reconoce estado previo sin duplicar asientos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="865" as="sourcePoint" />
+
+            <mxPoint x="106" y="865" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 7: DS UC-27 CONSULTAR MARGEN BRUTO (PERÍODO Y VENTA INDIVIDUAL)    -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev05-uc27" name="DS UC-27 Consultar Margen Bruto (REV05)">
+
+    <mxGraphModel dx="1600" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1550" pageHeight="1150" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u27_title" value="Diagrama de Secuencia de Diseño (DS — REV05) — UC-27: Consultar Margen Bruto (Por Período y Por Venta Individual) [RD-RP004/RP028-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1360" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="94" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_ctrl_box" value=":ControladorMargenBruto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="350" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="440" y="1100" as="sourcePoint" />
+
+            <mxPoint x="440" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="434" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_ped_box" value=":RepositorioPedidos&#xa;(ENTREGA / CARGO_POR_VENTA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="700" y="60" width="210" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_ped_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="805" y="1100" as="sourcePoint" />
+
+            <mxPoint x="805" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_ped_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="799" y="210" width="12" height="190" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_inv_box" value=":ControladorInventario&#xa;(Costos ELABORADO y REVENTA)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1080" y="60" width="215" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_inv_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1187" y="1100" as="sourcePoint" />
+
+            <mxPoint x="1187" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_inv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1181" y="430" width="12" height="150" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_m1" value="1: reporteMargen = consultarMargenBruto(modoConsulta:String, fechaHoraDesde:Timestamp[0..1], fechaHoraHasta:Timestamp[0..1], idVentaIndividual:Long[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="185" as="sourcePoint" />
+
+            <mxPoint x="434" y="185" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_m2" value="2: entregas = obtenerVentasEfectivasPorPeriodoOVentaIndividual(modoConsulta, fechaHoraDesde, fechaHoraHasta, idVentaIndividual) [RD-RP004]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="235" as="sourcePoint" />
+
+            <mxPoint x="799" y="235" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_r2" value="2.1: ingreso(s) efectivo(s) conciliado(s) con CARGO_POR_VENTA (tramo original a condiciones históricas \+ adicionales a importe aceptado UC-07)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="799" y="335" as="sourcePoint" />
+
+            <mxPoint x="446" y="335" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_m3" value="3: costos = recuperarCostosHistoricosAtribuiblesAVentasEfectivas(entregas) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="446" y="455" as="sourcePoint" />
+
+            <mxPoint x="1181" y="455" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_r3" value="3.1: costos históricos de ELABORADO entregado (UC-05) \+ costos congelados en MovimientoStockReventa EGRESO_VENTA \+ flagCompletitud" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1181" y="545" as="sourcePoint" />
+
+            <mxPoint x="446" y="545" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_alt" value="alt Cálculo de Margen Bruto por Período o por Venta Individual [UC-27 — RD-RP004/RP028-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=640;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="610" width="1420" height="430" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_g1" value="[modoConsulta == PERIODO y existen Entregas definitivas en el rango [fechaHoraDesde, fechaHoraHasta]]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="635" width="660" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_r1_per" value="4.1: presenta período, ingresos efectivos agregados, costos históricos (ELABORADO y REVENTA), margen bruto total y estado de completitud" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="700" as="sourcePoint" />
+
+            <mxPoint x="106" y="700" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="745" as="sourcePoint" />
+
+            <mxPoint x="1470" y="745" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_g2" value="[RD-RP004/RP028-001: modoConsulta == VENTA_INDIVIDUAL y el Pedido/Entrega seleccionado está ENTREGADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="755" width="720" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_r1_ind" value="4.2: presenta el desglose de esa venta individual (ingreso efectivo original \+ adicional, costos históricos de ELABORADO y REVENTA, margen bruto individual y completitud)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="835" as="sourcePoint" />
+
+            <mxPoint x="106" y="835" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="885" as="sourcePoint" />
+
+            <mxPoint x="1470" y="885" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u27_g3" value="[Período inválido, Pedido no ENTREGADO o sin ventas efectivas]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="895" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u27_r1_empty" value="4.3: informa ausencia de operaciones o solicita corrección sin asumir margen ficticio ni usar costos cero" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="434" y="980" as="sourcePoint" />
+
+            <mxPoint x="106" y="980" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+</mxfile>
