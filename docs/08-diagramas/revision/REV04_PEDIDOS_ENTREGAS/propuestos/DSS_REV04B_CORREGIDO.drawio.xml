@@ -154,7 +154,7 @@
 
         </mxCell>
 
-        <mxCell id="p1_41_m1" value="1: idMovimiento = registrarDescarteExcedente(idExcedente:Long, cantidadDescartada:BigDecimal, motivoDescarte:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="p1_41_m1" value="1: idMovimientoExcedente = registrarDescarteExcedente(idExcedente:Long, cantidadDescartada:BigDecimal, motivoDescarte:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
@@ -266,7 +266,7 @@
 
         </mxCell>
 
-        <mxCell id="r2_05_m1" value="1: idEntrega = registrarEntrega(idPedido:Long, detallesEntrega:List&lt;ItemEntregaDTO&gt;, efectivoDeclaradoRecibido:BigDecimal[0..1], claveIdempotencia:UUID)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="r2_05_m1" value="1: confirmacionEntrega = registrarEntrega(idPedido:Long, detallesEntrega:List&lt;ItemEntregaDTO&gt;, efectivoDeclaradoRecibido:BigDecimal[0..1], claveIdempotencia:UUID)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
