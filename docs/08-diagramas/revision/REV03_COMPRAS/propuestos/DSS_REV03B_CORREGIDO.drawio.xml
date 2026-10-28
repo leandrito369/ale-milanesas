@@ -388,7 +388,7 @@
 
         </mxCell>
 
-        <mxCell id="p2_08_opt40" value="opt «extend» UC-40 Buscar Orden de Compra [cuando el ingreso de Insumo responde a una Orden de Compra emitida]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="p2_08_opt40" value="opt [UC-40 Buscar Orden de Compra extiende condicionalmente UC-08 cuando se vincula una Orden previa]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
 
           <mxGeometry x="90" y="775" width="760" height="50" as="geometry" />
 
