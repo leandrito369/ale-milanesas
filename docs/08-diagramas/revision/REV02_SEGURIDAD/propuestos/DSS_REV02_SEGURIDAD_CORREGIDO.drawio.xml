@@ -1,0 +1,657 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T11:00:00.000Z" agent="Gemini-REV02" version="24.7.17" type="device">
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 1: DSS CAJA NEGRA — AUTENTICACIÓN Y CONTRASEÑA (UC-01, UC-53)      -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev02-auth" name="DSS REV02 - UC-01 y UC-53 (Todo Usuario)">
+
+    <mxGraphModel dx="1450" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1150" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="d1_title" value="DSS (Caja Negra) — Escenarios Independientes UC-01 (Iniciar sesión) y UC-53 (Cambiar Contraseña) [RD-RP010-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1200" height="30" as="geometry" />
+
+        </mxCell>
+
+        <!-- ACTOR -->
+
+        <mxCell id="d1_actor" value="Usuario&#xa;(Interno o PROVEEDOR)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <!-- :Sistema -->
+
+        <mxCell id="d1_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="860" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="930" y="1100" as="sourcePoint" />
+
+            <mxPoint x="930" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="924" y="155" width="12" height="920" as="geometry" />
+
+        </mxCell>
+
+        <!-- MARCO ESCENARIO INDEPENDIENTE UC-01 -->
+
+        <mxCell id="d1_sd_uc01" value="sd Escenario Independiente — UC-01: Iniciar sesión" style="shape=umlFrame;whiteSpace=wrap;html=1;width=350;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1020" height="430" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_m1" value="1: sesion = iniciarSesion(nombreUsuario:String, credencial:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="d1_actor_bar" target="d1_sys_bar">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="215" as="sourcePoint" />
+
+            <mxPoint x="924" y="215" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_alt_uc01" value="alt Resultado de autenticación [UC-01 — RD-RP010-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=360;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="235" width="970" height="345" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_g1" value="[Credenciales válidas, cuenta habilitada, &gt;= 1 Rol vigente y cambioCredencialPendiente == false]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="258" width="660" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r1_ok" value="1.1: sesión autenticada establecida con acceso a las funciones autorizadas por sus Roles vigentes" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="300" as="sourcePoint" />
+
+            <mxPoint x="131" y="300" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="325" as="sourcePoint" />
+
+            <mxPoint x="1045" y="325" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_g2" value="[Credenciales válidas, cuenta habilitada, &gt;= 1 Rol vigente y cambioCredencialPendiente == true (cualquier Usuario — RD-RP010-001)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="332" width="780" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r1_temp" value="1.2: sesión restringida exclusivamente a ejecutar UC-53 Cambiar Contraseña antes de operar" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="378" as="sourcePoint" />
+
+            <mxPoint x="131" y="378" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="405" as="sourcePoint" />
+
+            <mxPoint x="1045" y="405" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_g3" value="[A1/A2: Credenciales inválidas o cuenta deshabilitada]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="412" width="450" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r1_err1" value="1.3: rechaza la autenticación y no establece sesión" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="458" as="sourcePoint" />
+
+            <mxPoint x="131" y="458" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_div3" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="485" as="sourcePoint" />
+
+            <mxPoint x="1045" y="485" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_g4" value="[A3: Cuenta habilitada sin ningún Rol asignado por inconsistencia de datos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="492" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r1_err2" value="1.4: impide establecer sesión e informa que requiere regularización administrativa de Roles (UC-18)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="545" as="sourcePoint" />
+
+            <mxPoint x="131" y="545" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO ESCENARIO INDEPENDIENTE UC-53 -->
+
+        <mxCell id="d1_sd_uc53" value="sd Escenario Independiente — UC-53: Cambiar Contraseña" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="635" width="1020" height="310" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_m2" value="1: resultado = cambiarContrasena(credencialActual:String, credencialNueva:String, confirmacion:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="685" as="sourcePoint" />
+
+            <mxPoint x="924" y="685" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_alt_uc53" value="alt Validación de cambio de contraseña [UC-53 — RD-RP010-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=410;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="705" width="970" height="215" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_53_g1" value="[Sesión válida, cuenta habilitada, credencialActual correcta y credencialNueva coherente con confirmacion]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="730" width="680" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r2_ok" value="1.1: confirma actualización de contraseña, desactiva cambio pendiente y habilita las funciones propias de sus Roles" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="780" as="sourcePoint" />
+
+            <mxPoint x="131" y="780" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_53_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="810" as="sourcePoint" />
+
+            <mxPoint x="1045" y="810" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d1_53_g2" value="[A1/A2: Sesión inválida, credencialActual incorrecta o nueva contraseña incoherente]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="820" width="580" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d1_r2_err" value="1.2: rechaza el cambio y mantiene la credencial y condición de cambio pendiente anteriores" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="880" as="sourcePoint" />
+
+            <mxPoint x="131" y="880" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 2: DSS CAJA NEGRA — ADMINISTRACIÓN DE USUARIOS (UC-17,18,54,55,56) -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev02-admin" name="DSS REV02 - Admin Usuarios (UC-17,18,54,55,56)">
+
+    <mxGraphModel dx="1500" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="1850" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="d2_title" value="DSS (Caja Negra) — Actor: Administrador — Escenarios Independientes UC-56, UC-17 («include» UC-18), UC-18, UC-54 y UC-55 [RD-RP009-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1320" height="30" as="geometry" />
+
+        </mxCell>
+
+        <!-- ACTOR -->
+
+        <mxCell id="d2_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="1620" as="geometry" />
+
+        </mxCell>
+
+        <!-- :Sistema -->
+
+        <mxCell id="d2_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="920" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="990" y="1800" as="sourcePoint" />
+
+            <mxPoint x="990" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="984" y="155" width="12" height="1620" as="geometry" />
+
+        </mxCell>
+
+        <!-- ESCENARIO UC-56 -->
+
+        <mxCell id="d2_sd56" value="sd Escenario Independiente — UC-56: Buscar Usuario" style="shape=umlFrame;whiteSpace=wrap;html=1;width=360;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1080" height="220" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_56_m1" value="1: resultados = buscarUsuario(nombreUsuario:String[0..1], estado:String[0..1], codigoRol:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="215" as="sourcePoint" />
+
+            <mxPoint x="984" y="215" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_56_r1" value="1.1: [Con coincidencias] listado seguro de cuentas (idUsuario, nombreUsuario, estado, Roles, Proveedor vinculado[0..1], sin exponer secretos) | [Sin coincidencias] lista vacía" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="265" as="sourcePoint" />
+
+            <mxPoint x="131" y="265" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_56_m2" value="2: usuarioSeleccionado = seleccionarUsuario(idUsuario:Long) [evento auxiliar de UC-56; trazado también en DS y contrato]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="315" as="sourcePoint" />
+
+            <mxPoint x="984" y="315" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_56_r2" value="2.1: detalle de la cuenta seleccionada para el flujo invocante (sin alterar cuentas ni sesiones)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="360" as="sourcePoint" />
+
+            <mxPoint x="131" y="360" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ESCENARIO UC-17 (+ INCLUDE UC-18) -->
+
+        <mxCell id="d2_sd17" value="sd Escenario Independiente — UC-17: Crear Usuario (con «include» UC-18)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=470;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="420" width="1080" height="270" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_17_m1" value="1: idUsuario = crearUsuario(nombreUsuario:String, credencialInicial:String, codigosRol:Set&lt;String&gt;, idProveedor:Long[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="465" as="sourcePoint" />
+
+            <mxPoint x="984" y="465" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_17_ref18" value="ref «include» UC-18 Gestionar Asignaciones de Roles (asigna &gt;= 1 Rol inicial en la misma operación atómica)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="485" width="660" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_17_r1" value="1.1: [nombreUsuario único, &gt;=1 Rol y PROVEEDOR válido] confirma Usuario con Roles; cambioCredencialPendiente=true si PROVEEDOR; internos según política pendiente" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="585" as="sourcePoint" />
+
+            <mxPoint x="131" y="585" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_17_r2" value="1.2: [nombreUsuario duplicado, sin Roles o violación de exclusividad PROVEEDOR] rechaza el alta sin crear cuenta parcial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="650" as="sourcePoint" />
+
+            <mxPoint x="131" y="650" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ESCENARIO UC-18 -->
+
+        <mxCell id="d2_sd18" value="sd Escenario Independiente — UC-18: Gestionar Asignaciones de Roles" style="shape=umlFrame;whiteSpace=wrap;html=1;width=450;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="720" width="1080" height="210" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_18_m1" value="1: rolesVigentes = gestionarAsignacionesRoles(idUsuario:Long, codigosRolAgregar:Set&lt;String&gt;, codigosRolQuitar:Set&lt;String&gt;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="765" as="sourcePoint" />
+
+            <mxPoint x="984" y="765" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_18_r1" value="1.1: [Conserva &gt;= 1 Rol en el Usuario, &gt;= 1 ADMINISTRADOR habilitado y exclusividad PROVEEDOR] actualiza Roles, revoca sesiones si quita permisos e informa nueva lista" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="830" as="sourcePoint" />
+
+            <mxPoint x="131" y="830" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_18_r2" value="1.2: [Quita último Rol del Usuario, deja sin último Administrador o mezcla PROVEEDOR con roles internos] rechaza el cambio" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="895" as="sourcePoint" />
+
+            <mxPoint x="131" y="895" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ESCENARIO UC-54 (+ INCLUDE UC-56) -->
+
+        <mxCell id="d2_sd54" value="sd Escenario Independiente — UC-54: Restablecer Acceso de Usuario (con «include» UC-56)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=560;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="960" width="1080" height="270" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_54_ref56" value="ref «include» UC-56 Buscar Usuario (aprobada 25/10 — identifica la cuenta PROVEEDOR objetivo)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="995" width="660" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_54_m1" value="1: ok = restablecerAccesoUsuario(idUsuario:Long, credencialTemporal:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="1080" as="sourcePoint" />
+
+            <mxPoint x="984" y="1080" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_54_r1" value="1.1: [Cuenta pertenece al Rol exclusivo PROVEEDOR con vínculo válido] asigna credencial temporal y marca cambioCredencialPendiente=true (sin habilitar cuenta deshabilitada ni crear segunda cuenta)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1140" as="sourcePoint" />
+
+            <mxPoint x="131" y="1140" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_54_r2" value="1.2: [Cuenta no pertenece al Rol exclusivo PROVEEDOR o vínculo inconsistente] rechaza la operación" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1200" as="sourcePoint" />
+
+            <mxPoint x="131" y="1200" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- ESCENARIO UC-55 (+ INCLUDE UC-56) CORREGIDO CON RD-RP009-001 -->
+
+        <mxCell id="d2_sd55" value="sd Escenario Independiente — UC-55: Cambiar Estado de Usuario (con «include» UC-56) [RD-RP009-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=640;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="1260" width="1080" height="470" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_ref56" value="ref «include» UC-56 Buscar Usuario (aprobada 25/10 — selecciona la cuenta objetivo y expone estado, Roles y Pedidos PENDIENTE asignados)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="1295" width="760" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_m1" value="1: resultado = cambiarEstadoUsuario(idUsuario:Long, nuevoEstado:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="1380" as="sourcePoint" />
+
+            <mxPoint x="984" y="1380" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_alt55" value="alt Evaluación de invariantes al habilitar/deshabilitar Usuario [UC-55 — RD-RP009-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=540;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="1405" width="1030" height="305" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_g1" value="[Conserva &gt;= 1 ADMINISTRADOR habilitado, unicidad de cuenta PROVEEDOR habilitada y (si se deshabilita Repartidor) 0 Pedidos PENDIENTE asignados]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1430" width="840" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_r1" value="1.1: actualiza estado de la cuenta (conservando Roles e historial) y, si pasa a DESHABILITADO, registra fechaHoraDeshabilitacion y revoca sus sesiones activas" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1480" as="sourcePoint" />
+
+            <mxPoint x="131" y="1480" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_55_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="1515" as="sourcePoint" />
+
+            <mxPoint x="1105" y="1515" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_55_g2" value="[RD-RP009-001: Intento de deshabilitar un Repartidor que aún posee Pedidos PENDIENTE con asignación vigente]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1522" width="760" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_r2" value="1.2: BLOQUEA la deshabilitación, conserva la cuenta HABILITADO e informa los Pedidos PENDIENTE que deben reasignarse previamente mediante UC-43" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1575" as="sourcePoint" />
+
+            <mxPoint x="131" y="1575" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_55_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="1610" as="sourcePoint" />
+
+            <mxPoint x="1105" y="1610" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="d2_55_g3" value="[A3/A4: Intento de deshabilitar al último Administrador habilitado, habilitar 2.ª cuenta de un mismo Proveedor o estado ya coincidente]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="1618" width="800" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="d2_55_r3" value="1.3: rechaza la transición y conserva intacto el estado anterior de la cuenta y sus sesiones" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="984" y="1675" as="sourcePoint" />
+
+            <mxPoint x="131" y="1675" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+</mxfile>
