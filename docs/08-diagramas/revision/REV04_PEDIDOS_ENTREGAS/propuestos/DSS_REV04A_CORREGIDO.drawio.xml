@@ -58,7 +58,7 @@
 
         </mxCell>
 
-        <mxCell id="o1_ext_box" value=":ServicioDeMensajeria [MercadoPago se invoca en UC-29, no comparte línea de vida]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+        <mxCell id="o1_ext_box" value=":ServicioDeMensajeria" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
 
           <mxGeometry x="1220" y="60" width="170" height="45" as="geometry" />
 
