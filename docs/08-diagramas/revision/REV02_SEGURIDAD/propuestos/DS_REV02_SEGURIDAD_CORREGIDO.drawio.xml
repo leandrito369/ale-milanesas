@@ -498,7 +498,7 @@
 
         <mxCell id="u17_frame18" value="«include» UC-18 Gestionar Asignaciones de Roles (ejecutado en la misma transacción)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=530;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
 
-          <mxGeometry x="380" y="500" width="1710" height="290" as="geometry" />
+          <mxGeometry x="380" y="500" width="1710" height="315" as="geometry" />
 
         </mxCell>
 
@@ -530,9 +530,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1409" y="770" as="sourcePoint"/>
+            <mxPoint x="1409" y="804" as="sourcePoint"/>
 
-            <mxPoint x="1108" y="770" as="targetPoint"/>
+            <mxPoint x="1108" y="804" as="targetPoint"/>
 
           </mxGeometry>
 
@@ -542,9 +542,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="441" y="810" as="sourcePoint" />
+            <mxPoint x="441" y="845" as="sourcePoint" />
 
-            <mxPoint x="754" y="810" as="targetPoint" />
+            <mxPoint x="754" y="845" as="targetPoint" />
 
           </mxGeometry>
 
@@ -592,16 +592,16 @@
 
         </mxCell>
 
-      <mxCell id="rev02_u17_ev_box" value="evRol : EventoAsignacionRol" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1610" y="625" width="210" height="45" as="geometry"/></mxCell>
-<mxCell id="rev02_u17_ev_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1709" y="670" width="12" height="110" as="geometry"/></mxCell>
-<mxCell id="rev02_u17_ev_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1715" y="780" as="sourcePoint"/><mxPoint x="1715" y="670" as="targetPoint"/></mxGeometry></mxCell>
+      <mxCell id="rev02_u17_ev_box" value="evRol : EventoAsignacionRol" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1610" y="645" width="210" height="45" as="geometry"/></mxCell>
+<mxCell id="rev02_u17_ev_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1709" y="690" width="12" height="110" as="geometry"/></mxCell>
+<mxCell id="rev02_u17_ev_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1715" y="800" as="sourcePoint"/><mxPoint x="1715" y="690" as="targetPoint"/></mxGeometry></mxCell>
 <mxCell id="rev02_u17_ev_create" value="5.1: «create» EventoAsignacionRol(idUsuario, codigoRol, ALTA, idAdmin)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1108" y="645" as="sourcePoint"/><mxPoint x="1610" y="645" as="targetPoint"/></mxGeometry></mxCell>
-<mxCell id="rev02_u17_opt_prov" value="opt [Rol exclusivo PROVEEDOR]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1570" y="698" width="555" height="91" as="geometry"/></mxCell>
-<mxCell id="rev02_u17_vinc_box" value="vincProv : UsuarioProveedor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1870" y="710" width="215" height="45" as="geometry"/></mxCell>
-<mxCell id="rev02_u17_vinc_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1967" y="755" width="12" height="34" as="geometry"/></mxCell>
-<mxCell id="rev02_u17_vinc_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1973" y="789" as="sourcePoint"/><mxPoint x="1973" y="755" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="rev02_u17_opt_prov" value="opt [Rol exclusivo PROVEEDOR]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1570" y="698" width="555" height="90" as="geometry"/></mxCell>
+<mxCell id="rev02_u17_vinc_box" value="vincProv : UsuarioProveedor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1870" y="730" width="215" height="45" as="geometry"/></mxCell>
+<mxCell id="rev02_u17_vinc_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1967" y="775" width="12" height="25" as="geometry"/></mxCell>
+<mxCell id="rev02_u17_vinc_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1973" y="800" as="sourcePoint"/><mxPoint x="1973" y="775" as="targetPoint"/></mxGeometry></mxCell>
 <mxCell id="rev02_u17_vinc_create" value="5.2: «create» UsuarioProveedor(nuevoUsuario, idProveedor)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1108" y="730" as="sourcePoint"/><mxPoint x="1870" y="730" as="targetPoint"/></mxGeometry></mxCell>
-</root>
+<mxCell id="rev02_u17_loop_roles" value="loop [cada Rol inicial seleccionado]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=390;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1050" y="560" width="990" height="120" as="geometry"/></mxCell></root>
 
     </mxGraphModel>
 
@@ -867,7 +867,7 @@
 <mxCell id="rev02_u18_ses_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1622" y="590" width="12" height="72" as="geometry"/></mxCell>
 <mxCell id="rev02_u18_ses_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1628" y="1000" as="sourcePoint"/><mxPoint x="1628" y="105" as="targetPoint"/></mxGeometry></mxCell>
 <mxCell id="rev02_u18_opt_rev" value="opt [cambio de permisos; revocación F07 a probar]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1020" y="551" width="748" height="124" as="geometry"/></mxCell>
-<mxCell id="rev02_u18_loop_rev" value="loop [para cada sesión activa del Usuario]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1120" y="576" width="637" height="91" as="geometry"/></mxCell>
+<mxCell id="rev02_u18_loop_rev" value="loop [para cada sesión activa del Usuario]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="1040" y="576" width="717" height="91" as="geometry"/></mxCell>
 <mxCell id="rev02_u18_revocar" value="4.1: revocarSesionActiva(fechaHoraEvento) [origen de referencia pendiente]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1076" y="613" as="sourcePoint"/><mxPoint x="1622" y="613" as="targetPoint"/></mxGeometry></mxCell>
 </root>
 
