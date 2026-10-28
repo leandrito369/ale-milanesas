@@ -108,7 +108,7 @@
 
         <mxCell id="u01_ses_box" value="unaSesion : SesionUsuario" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1250" y="510" width="180" height="45" as="geometry" />
+          <mxGeometry x="1250" y="532" width="180" height="45" as="geometry" />
 
         </mxCell>
 
@@ -116,9 +116,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1340" y="1100" as="sourcePoint" />
+            <mxPoint x="1340" y="1100" as="sourcePoint"/>
 
-            <mxPoint x="1340" y="555" as="targetPoint" />
+            <mxPoint x="1340" y="577" as="targetPoint"/>
 
           </mxGeometry>
 
@@ -126,7 +126,7 @@
 
         <mxCell id="u01_ses_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1334" y="555" width="12" height="80" as="geometry" />
+          <mxGeometry x="1334" y="577" width="12" height="80" as="geometry" />
 
         </mxCell>
 
@@ -388,7 +388,7 @@
 
         <mxCell id="u17_usr_box" value="nuevoUsuario : Usuario" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1020" y="410" width="165" height="45" as="geometry" />
+          <mxGeometry x="1020" y="432" width="165" height="45" as="geometry" />
 
         </mxCell>
 
@@ -396,9 +396,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1102" y="1140" as="sourcePoint" />
+            <mxPoint x="1102" y="1140" as="sourcePoint"/>
 
-            <mxPoint x="1102" y="455" as="targetPoint" />
+            <mxPoint x="1102" y="477" as="targetPoint"/>
 
           </mxGeometry>
 
@@ -406,13 +406,13 @@
 
         <mxCell id="u17_usr_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1096" y="455" width="12" height="320" as="geometry" />
+          <mxGeometry x="1096" y="477" width="12" height="340" as="geometry" />
 
         </mxCell>
 
         <mxCell id="u17_rol_box" value="asigRol : UsuarioRol" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1310" y="560" width="210" height="55" as="geometry" />
+          <mxGeometry x="1310" y="590" width="210" height="55" as="geometry" />
 
         </mxCell>
 
@@ -420,9 +420,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1415" y="1140" as="sourcePoint" />
+            <mxPoint x="1415" y="1140" as="sourcePoint"/>
 
-            <mxPoint x="1415" y="615" as="targetPoint" />
+            <mxPoint x="1415" y="645" as="targetPoint"/>
 
           </mxGeometry>
 
@@ -430,7 +430,7 @@
 
         <mxCell id="u17_rol_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1409" y="615" width="12" height="110" as="geometry" />
+          <mxGeometry x="1409" y="645" width="12" height="170" as="geometry" />
 
         </mxCell>
 
@@ -715,7 +715,7 @@
 
         <mxCell id="u18_ev_box" value="evRol : EventoAsignacionRol" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1250" y="480" width="190" height="45" as="geometry" />
+          <mxGeometry x="1250" y="502" width="190" height="45" as="geometry" />
 
         </mxCell>
 
@@ -723,9 +723,9 @@
 
           <mxGeometry relative="1" as="geometry">
 
-            <mxPoint x="1345" y="1000" as="sourcePoint" />
+            <mxPoint x="1345" y="1000" as="sourcePoint"/>
 
-            <mxPoint x="1345" y="525" as="targetPoint" />
+            <mxPoint x="1345" y="547" as="targetPoint"/>
 
           </mxGeometry>
 
@@ -733,7 +733,7 @@
 
         <mxCell id="u18_ev_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
 
-          <mxGeometry x="1339" y="525" width="12" height="100" as="geometry" />
+          <mxGeometry x="1339" y="547" width="12" height="100" as="geometry" />
 
         </mxCell>
 
