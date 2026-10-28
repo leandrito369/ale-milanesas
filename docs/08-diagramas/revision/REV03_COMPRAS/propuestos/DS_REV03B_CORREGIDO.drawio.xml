@@ -1259,7 +1259,7 @@
 
         <mxCell id="1" parent="0" />
 
-        <mxCell id="u08_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-08: Registrar Ingreso de Stock por Compra («extend» UC-40) [H01 / H02 / RD-RP022-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="u08_title" value="DS — UC-08 Registrar Ingreso de Stock por Compra (UC-40 extiende condicionalmente UC-08), RD-RP022-001" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
 
           <mxGeometry x="50" y="15" width="1380" height="30" as="geometry" />
 
@@ -1401,7 +1401,7 @@
 
         </mxCell>
 
-        <mxCell id="u08_opt40" value="opt «extend» UC-40 Buscar Orden de Compra [cuando el ingreso de Insumo responde a una Orden de Compra emitida]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="u08_opt40" value="opt [UC-40 Buscar Orden de Compra extiende condicionalmente UC-08 cuando se vincula una Orden previa]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
 
           <mxGeometry x="65" y="165" width="760" height="55" as="geometry" />
 
