@@ -1,0 +1,1579 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T11:50:00.000Z" agent="Gemini-REV03B" version="24.7.17" type="device">
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 1: DS UC-37 BUSCAR PROVEEDOR                                       -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc37" name="DS UC-37 Buscar Proveedor (REV03B)">
+
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="850" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u37_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-37: Buscar Proveedor" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="850" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_actor" value="Usuario Interno&#xa;Autorizado" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="620" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_ctrl_box" value=":ControladorProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="400" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="487" y="800" as="sourcePoint" />
+
+            <mxPoint x="487" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="481" y="155" width="12" height="620" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_cat_box" value=":CatalogoProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="780" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="865" y="800" as="sourcePoint" />
+
+            <mxPoint x="865" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="859" y="200" width="12" height="120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_m1" value="1: proveedores = buscarProveedor(idProveedor:Long[0..1], cuit:String[0..1], razonSocial:String[0..1], nombreComercial:String[0..1], estado:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="190" as="sourcePoint" />
+
+            <mxPoint x="481" y="190" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_m2" value="2: lista = consultarProveedoresPorCriterios(filtro) [Visibilidad por Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="493" y="235" as="sourcePoint" />
+
+            <mxPoint x="859" y="235" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_r2" value="2.1: lista : List&lt;Proveedor&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="859" y="295" as="sourcePoint" />
+
+            <mxPoint x="493" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_alt" value="alt Resultado de la búsqueda de Proveedores [UC-37]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=360;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="340" width="1150" height="380" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_g1" value="[lista.notEmpty()]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="365" width="300" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_r1_ok" value="3.1: presenta idProveedor, CUIT, razón social, nombre comercial, contacto y estado (ACTIVO|INACTIVO); devuelve el seleccionado al CU invocante" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="481" y="455" as="sourcePoint" />
+
+            <mxPoint x="111" y="455" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="555" as="sourcePoint" />
+
+            <mxPoint x="1200" y="555" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u37_g2" value="[Sin coincidencias]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="565" width="300" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u37_r1_empty" value="3.2: informa que no se encontraron Proveedores sin modificar información" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="481" y="655" as="sourcePoint" />
+
+            <mxPoint x="111" y="655" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 2: DS UC-11 GESTIONAR PROVEEDOR                                    -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc11" name="DS UC-11 Gestionar Proveedor (REV03B)">
+
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1550" pageHeight="1050" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u11_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-11: Gestionar Proveedor (Título canónico Fase 4)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="94" y="155" width="12" height="820" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_ctrl_box" value=":ControladorProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="350" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="437" y="1000" as="sourcePoint" />
+
+            <mxPoint x="437" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="431" y="155" width="12" height="820" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_cat_box" value=":CatalogoProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="660" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="745" y="1000" as="sourcePoint" />
+
+            <mxPoint x="745" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="739" y="200" width="12" height="520" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_prv_box" value="unProveedor : Proveedor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="960" y="380" width="165" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_prv_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1042" y="1000" as="sourcePoint" />
+
+            <mxPoint x="1042" y="425" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_prv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1036" y="425" width="12" height="190" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_rel_box" value="rel : ProveedorInsumo&#xa;[1..*]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1240" y="510" width="185" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_rel_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1332" y="1000" as="sourcePoint" />
+
+            <mxPoint x="1332" y="555" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_rel_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1326" y="555" width="12" height="75" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_m1" value="1: idProveedor = gestionarProveedor(cuit:String, razonSocial:String, nombreComercial:String[0..1], contacto:ContactoDTO, insumosVigencias:List&lt;VigenciaInsumoDTO&gt;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="106" y="185" as="sourcePoint" />
+
+            <mxPoint x="431" y="185" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_m2" value="2: validacion = validarUnicidadCuitYVigenciasInsumo(cuitNormalizado, insumosVigencias) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="443" y="230" as="sourcePoint" />
+
+            <mxPoint x="739" y="230" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_r2" value="2.1: (cuitUnico:Boolean, contactoValido:Boolean, vigenciasSinSolapamiento:Boolean)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="739" y="280" as="sourcePoint" />
+
+            <mxPoint x="443" y="280" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_alt" value="alt Validación de CUIT único, contacto válido y vigencias ProveedorInsumo sin solapamiento [UC-11]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=630;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="315" width="1440" height="610" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_g1" value="[cuitUnico == true, contactoValido == true, insumosVigencias.notEmpty() y vigenciasSinSolapamiento == true]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="340" width="700" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_m3_new" value="3: «create» new(cuitNormalizado, razonSocial, nombreComercial, contacto, estado=ACTIVO)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="443" y="402" as="sourcePoint" />
+
+            <mxPoint x="960" y="402" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_m4_new" value="4: «create» new(unProveedor, unInsumo, vigenteDesde, vigenteHasta[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1048" y="532" as="sourcePoint" />
+
+            <mxPoint x="1240" y="532" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_m5" value="5: guardarProveedorYAsociaciones(unProveedor:Proveedor)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="443" y="685" as="sourcePoint" />
+
+            <mxPoint x="739" y="685" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_r1_ok" value="5.1: confirma Proveedor ACTIVO y vigencias históricas en ProveedorInsumo" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="431" y="750" as="sourcePoint" />
+
+            <mxPoint x="106" y="750" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="800" as="sourcePoint" />
+
+            <mxPoint x="1490" y="800" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u11_g2" value="[CUIT duplicado, datos comerciales/contacto inválidos o asociación ProveedorInsumo superpuesta]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="120" y="810" width="660" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u11_r1_err" value="5.2: no registra identidad duplicada ni período incompatible y solicita corrección" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="431" y="890" as="sourcePoint" />
+
+            <mxPoint x="106" y="890" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 3: DS UC-45 MODIFICAR PROVEEDOR («include» UC-37)                  -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc45" name="DS UC-45 Modificar Proveedor (REV03B)">
+
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u45_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-45: Modificar Proveedor (con «include» UC-37)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_ctrl_box" value=":ControladorProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="467" y="880" as="sourcePoint" />
+
+            <mxPoint x="467" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="461" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_cat_box" value=":CatalogoProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="720" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="805" y="880" as="sourcePoint" />
+
+            <mxPoint x="805" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="799" y="290" width="12" height="90" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_prv_box" value="unProveedor : Proveedor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1060" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_prv_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1145" y="880" as="sourcePoint" />
+
+            <mxPoint x="1145" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_prv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1139" y="485" width="12" height="165" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_ref37" value="ref «include» UC-37 Buscar Proveedor (recibe unProveedor y muestra sus datos y asociaciones vigentes con Insumos)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="65" y="165" width="760" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_m1" value="1: ok = modificarProveedor(idProveedor:Long, datosComerciales:DatosProveedorDTO, cambiosVigenciasInsumo:List&lt;VigenciaInsumoDTO&gt;)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="265" as="sourcePoint" />
+
+            <mxPoint x="461" y="265" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_m2" value="2: val = validarCompatibilidadInsumosYVigencias(idProveedor, datosComerciales, cambiosVigenciasInsumo) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="473" y="315" as="sourcePoint" />
+
+            <mxPoint x="799" y="315" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_alt" value="alt Validación de formato, Insumos registrados y conservación de vigencias anteriores [UC-45]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=610;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="405" width="1310" height="415" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_g1" value="[Datos comerciales válidos, Insumos existentes y períodos [vigenteDesde, vigenteHasta) sin solapamiento]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="430" width="680" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_m3" value="3: actualizarDatosComercialesYVigencias(datosComerciales, cambiosVigenciasInsumo) [Variable Local]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="473" y="510" as="sourcePoint" />
+
+            <mxPoint x="1139" y="510" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_r3" value="3.1: actualiza datos vigentes y preserva historia de ProveedorInsumo (estado ACTIVO/INACTIVO corresponde a UC-46; cuentas a UC-17/18)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1139" y="585" as="sourcePoint" />
+
+            <mxPoint x="473" y="585" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_r1_ok" value="3.2: informa modificación realizada" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="461" y="645" as="sourcePoint" />
+
+            <mxPoint x="111" y="645" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="695" as="sourcePoint" />
+
+            <mxPoint x="1360" y="695" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u45_g2" value="[Vínculo con Insumo inexistente, vigencia incompatible o datos inválidos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="705" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u45_r1_err" value="3.3: solicita corrección y conserva sin cambios el historial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="461" y="785" as="sourcePoint" />
+
+            <mxPoint x="111" y="785" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 4: DS UC-46 CAMBIAR ESTADO DE PROVEEDOR («include» UC-37)          -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc46" name="DS UC-46 Cambiar Estado Proveedor (REV03B)">
+
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u46_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-46: Cambiar Estado de Proveedor (con «include» UC-37)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1080" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_ctrl_box" value=":ControladorProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="467" y="880" as="sourcePoint" />
+
+            <mxPoint x="467" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="461" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_cat_box" value=":CatalogoProveedores" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="720" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="805" y="880" as="sourcePoint" />
+
+            <mxPoint x="805" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="799" y="290" width="12" height="90" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_prv_box" value="unProveedor : Proveedor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1060" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_prv_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1145" y="880" as="sourcePoint" />
+
+            <mxPoint x="1145" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_prv_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1139" y="485" width="12" height="165" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_ref37" value="ref «include» UC-37 Buscar Proveedor (recibe unProveedor y muestra estado comercial actual y referencias históricas)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="65" y="165" width="760" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_m1" value="1: ok = cambiarEstadoProveedor(idProveedor:Long, nuevoEstado:String, motivo:String[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="265" as="sourcePoint" />
+
+            <mxPoint x="461" y="265" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_m2" value="2: admisible = revalidarTransicionEstadoProveedor(idProveedor, nuevoEstado, motivo) [Atributo — Pendiente F09]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="473" y="315" as="sourcePoint" />
+
+            <mxPoint x="799" y="315" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_alt" value="alt Transición ACTIVO / INACTIVO conservando identidad, invitaciones, respuestas y Órdenes históricas [UC-46]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="405" width="1310" height="415" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_g1" value="[unProveedor.estado != nuevoEstado y transición admisible]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="430" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_m3" value="3: establecerEstadoComercial(nuevoEstado:String) [Visibilidad por Variable Local]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="473" y="510" as="sourcePoint" />
+
+            <mxPoint x="1139" y="510" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_r3" value="3.1: actualiza Proveedor.estado (si pasa a INACTIVO no es invitable ni admite respuestas nuevas; conserva Órdenes abiertas sin cancelarlas de oficio)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1139" y="585" as="sourcePoint" />
+
+            <mxPoint x="473" y="585" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_r1_ok" value="3.2: informa nuevo estado comercial registrado" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="461" y="645" as="sourcePoint" />
+
+            <mxPoint x="111" y="645" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="695" as="sourcePoint" />
+
+            <mxPoint x="1360" y="695" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u46_g2" value="[Ya tiene el estado solicitado o cambio concurrente inválido]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="705" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u46_r1_err" value="3.3: informa ausencia de cambio o detiene la transición sin alterar el historial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="461" y="785" as="sourcePoint" />
+
+            <mxPoint x="111" y="785" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 5: DS UC-40 BUSCAR ORDEN DE COMPRA                                 -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc40" name="DS UC-40 Buscar Orden Compra (REV03B)">
+
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="850" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u40_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-40: Buscar Orden de Compra" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="850" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_actor" value="Usuario Interno&#xa;Autorizado" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="620" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_ctrl_box" value=":ControladorCotizacionesCompras" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="380" y="60" width="210" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="485" y="800" as="sourcePoint" />
+
+            <mxPoint x="485" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="479" y="155" width="12" height="620" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_repo_box" value=":RepositorioCotizaciones" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="780" y="60" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_repo_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="867" y="800" as="sourcePoint" />
+
+            <mxPoint x="867" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_repo_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="861" y="200" width="12" height="120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_m1" value="1: ordenes = buscarOrdenCompra(idOrdenCompra:Long[0..1], idProveedor:Long[0..1], idInsumo:Long[0..1], estado:String[0..1], fechaEmision:LocalDate[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="190" as="sourcePoint" />
+
+            <mxPoint x="479" y="190" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_m2" value="2: consultarOrdenesPorCriterios(filtro) [Visibilidad por Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="491" y="235" as="sourcePoint" />
+
+            <mxPoint x="861" y="235" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_r2" value="2.1: List&lt;OrdenCompra&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="861" y="295" as="sourcePoint" />
+
+            <mxPoint x="491" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_alt" value="alt Resultado de la búsqueda de Órdenes de Compra [UC-40]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="340" width="1150" height="380" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_g1" value="[Existen Órdenes coincidentes]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="365" width="300" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_r1_ok" value="3.1: muestra idOrdenCompra, fechaEmision, Proveedor, Insumo, cantidadOrdenada, Unidad de Medida y estado; devuelve la seleccionada al CU invocante" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="479" y="455" as="sourcePoint" />
+
+            <mxPoint x="111" y="455" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="555" as="sourcePoint" />
+
+            <mxPoint x="1200" y="555" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u40_g2" value="[Sin coincidencias]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="565" width="300" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u40_r1_empty" value="3.2: informa ausencia de coincidencias sin modificar estados" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="479" y="655" as="sourcePoint" />
+
+            <mxPoint x="111" y="655" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 6: DS UC-39 CANCELAR ORDEN DE COMPRA («include» UC-40)             -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc39" name="DS UC-39 Cancelar Orden Compra (REV03B)">
+
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u39_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-39: Cancelar Orden de Compra (con «include» UC-40)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1100" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_ctrl_box" value=":ControladorCotizacionesCompras" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="360" y="60" width="210" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="465" y="880" as="sourcePoint" />
+
+            <mxPoint x="465" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="459" y="155" width="12" height="700" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_oc_box" value="unaOrden : OrdenCompra" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="860" y="60" width="180" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_oc_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="950" y="880" as="sourcePoint" />
+
+            <mxPoint x="950" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_oc_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="944" y="380" width="12" height="220" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_ref40" value="ref «include» UC-40 Buscar Orden de Compra (localiza unaOrden en estado PENDIENTE o PARCIALMENTE_RECIBIDA)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="65" y="165" width="760" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_m1" value="1: ok = cancelarOrdenCompra(idOrdenCompra:Long, motivoCancelacion:String, cancelacionAtribuibleProveedor:Boolean)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="111" y="275" as="sourcePoint" />
+
+            <mxPoint x="459" y="275" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_alt" value="alt Cancelación de saldo pendiente de Orden de Compra con motivo obligatorio [UC-39]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=560;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="325" width="1310" height="495" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_g1" value="[unaOrden.estado in (PENDIENTE, PARCIALMENTE_RECIBIDA) y motivoCancelacion != null]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="350" width="620" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_m2" value="2: cancelarSaldoPendiente(motivoCancelacion, cancelacionAtribuibleProveedor, idAdmin, fechaHoraCancelacion) [Variable Local]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="471" y="425" as="sourcePoint" />
+
+            <mxPoint x="944" y="425" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_r2" value="2.1: establece estado = CANCELADA (conserva RecepcionCompra previas; si persiste stock &lt; umbral mantiene episodio abierto para UC-44)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="944" y="515" as="sourcePoint" />
+
+            <mxPoint x="471" y="515" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_r1_ok" value="2.2: confirma Orden de Compra CANCELADA" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="459" y="595" as="sourcePoint" />
+
+            <mxPoint x="111" y="595" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="50" y="655" as="sourcePoint" />
+
+            <mxPoint x="1360" y="655" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u39_g2" value="[Orden ya RECIBIDA o CANCELADA, o falta motivoCancelacion]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="125" y="665" width="520" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u39_r1_err" value="2.3: rechaza la cancelación y conserva el estado actual de la Orden" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="459" y="755" as="sourcePoint" />
+
+            <mxPoint x="111" y="755" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 7: DS UC-08 REGISTRAR INGRESO DE STOCK POR COMPRA (H01/H02/RP022)  -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="ds-rev03b-uc08" name="DS UC-08 Registrar Ingreso Compra (REV03B)">
+
+    <mxGraphModel dx="1700" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="1350" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="u08_title" value="Diagrama de Secuencia de Diseño (DS — REV03B) — UC-08: Registrar Ingreso de Stock por Compra («extend» UC-40) [H01 / H02 / RD-RP022-001]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1380" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_actor" value="Responsable de&#xa;Producción / Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="80" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="89" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_ctrl_box" value=":ControladorInventario" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="320" y="60" width="170" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="405" y="1300" as="sourcePoint" />
+
+            <mxPoint x="405" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="399" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_rcp_box" value="unaRecepcion :&#xa;RecepcionCompra" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="620" y="380" width="165" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_rcp_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="702" y="1300" as="sourcePoint" />
+
+            <mxPoint x="702" y="425" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_rcp_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="696" y="425" width="12" height="75" as="geometry" />
+
+        </mxCell>
+
+        <!-- PARTICIPANTES INSUMO (ORDEN H01: COSTO PRIMERO, MOVIMIENTO DESPUÉS) -->
+
+        <mxCell id="u08_cst_box" value="nuevoCosto :&#xa;CostoInsumoHistorico" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="860" y="485" width="175" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_cst_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="947" y="1300" as="sourcePoint" />
+
+            <mxPoint x="947" y="530" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_cst_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="941" y="530" width="12" height="65" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_movi_box" value="movIns : MovimientoInsumo&#xa;\+ unInsumo / unaOrden" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1110" y="590" width="190" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_movi_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1205" y="1300" as="sourcePoint" />
+
+            <mxPoint x="1205" y="635" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_movi_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1199" y="635" width="12" height="80" as="geometry" />
+
+        </mxCell>
+
+        <!-- PARTICIPANTES REVENTA SEPARADOS (RD-RP022-001) -->
+
+        <mxCell id="u08_rev_box" value="prodRev : Producto (REVENTA)&#xa;\+ movRev : MovimientoStockReventa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1360" y="60" width="220" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_rev_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1470" y="1300" as="sourcePoint" />
+
+            <mxPoint x="1470" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_rev_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1464" y="870" width="12" height="140" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_opt40" value="opt «extend» UC-40 Buscar Orden de Compra [cuando el ingreso de Insumo responde a una Orden de Compra emitida]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="65" y="165" width="760" height="55" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_m1" value="1: idRecepcion = registrarIngresoStockPorCompra(tipoElemento:String, idElemento:Long, idOrdenCompra:Long[0..1], cantidadRecibida:BigDecimal, costoUnitarioCompra:BigDecimal, comprobante:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="101" y="265" as="sourcePoint" />
+
+            <mxPoint x="399" y="265" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- FRAGMENTO ALT CON 3 OPERANDOS MUTUAMENTE EXCLUYENTES (H02) -->
+
+        <mxCell id="u08_alt" value="alt Registro de Recepción por Tipo de Inventario Separado [UC-08 — H01 / H02 / RD-RP022-001]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=640;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="45" y="310" width="1555" height="920" as="geometry" />
+
+        </mxCell>
+
+        <!-- OPERANDO 1: INSUMO -->
+
+        <mxCell id="u08_g1" value="[Operando 1 — tipoElemento == INSUMO, cantidadRecibida &gt; 0, costoUnitarioCompra &gt; 0 y (idOrdenCompra == null || cantRecibida &lt;= saldoPendienteOrden)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="115" y="335" width="960" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_m2_rcp" value="2: «create» new(idOrdenCompra[0..1], unInsumo, cantidadRecibida, costoUnitarioCompra, fechaHoraRecepcion)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="411" y="402" as="sourcePoint" />
+
+            <mxPoint x="620" y="402" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_m3_cost" value="3 [H01 Primero Costo]: «create» new(unInsumo, vigenteDesde=fechaHoraRecepcion, costoUnitarioCompra, fuenteCosto=COMPRA, unaRecepcion)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="411" y="507" as="sourcePoint" />
+
+            <mxPoint x="860" y="507" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_m4_mov" value="4 [H01 Luego Movimiento]: «create» new(unInsumo, tipo=INGRESO_COMPRA, cantidadRecibida, stockResultante, vigenteDesdeCosto=nuevoCosto.vigenteDesde) \+ actualizar OrdenCompra y evaluar EpisodioFaltante" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="411" y="612" as="sourcePoint" />
+
+            <mxPoint x="1110" y="612" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_r1_ins" value="4.1: confirma ingreso de Insumo, nueva vigencia en CostoInsumoHistorico, MovimientoInsumo y actualización de OrdenCompra" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="399" y="745" as="sourcePoint" />
+
+            <mxPoint x="101" y="745" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- OPERANDO 2: PRODUCTO REVENTA -->
+
+        <mxCell id="u08_div1" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="45" y="790" as="sourcePoint" />
+
+            <mxPoint x="1600" y="790" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_g2" value="[Operando 2 — tipoElemento == REVENTA, cantidadRecibida &gt; 0 y costoUnitarioCompra &gt; 0 (RD-RP022-001)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="115" y="800" width="760" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_m5_rev" value="5: recalcularCostoPromedioPonderadoMovilYCrearMovimientoReventa(cantidadRecibida, costoUnitarioCompra, unaRecepcion)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="411" y="895" as="sourcePoint" />
+
+            <mxPoint x="1464" y="895" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_r5_rev" value="5.1: actualiza costoPromedioActualReventa = (stockAnt*costoAnt \+ cant*costoCompra)/(stockAnt \+ cant), stockActualReventa y MovimientoStockReventa" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1464" y="975" as="sourcePoint" />
+
+            <mxPoint x="411" y="975" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_r1_rev" value="5.2: confirma ingreso de Producto REVENTA con promedio ponderado móvil actualizado" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="399" y="1035" as="sourcePoint" />
+
+            <mxPoint x="101" y="1035" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- OPERANDO 3: RECHAZO -->
+
+        <mxCell id="u08_div2" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="45" y="1080" as="sourcePoint" />
+
+            <mxPoint x="1600" y="1080" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="u08_g3" value="[Operando 3 — Cantidad o costo &lt;= 0, Orden CANCELADA/RECIBIDA, cantidad supera saldo pendiente o Producto ELABORADO]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="115" y="1090" width="800" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="u08_r1_err" value="5.3: rechaza la recepción de forma atómica sin alterar existencias, costos ni estado de la Orden" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="399" y="1180" as="sourcePoint" />
+
+            <mxPoint x="101" y="1180" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+</mxfile>
