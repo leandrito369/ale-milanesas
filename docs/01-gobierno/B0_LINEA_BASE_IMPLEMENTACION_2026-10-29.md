@@ -65,3 +65,12 @@ Usar una fila por **operación significativa**, no necesariamente una por CU. De
 Se generaron el [inventario B0](b0/B0_INVENTARIO_FUENTES_2026-10-29.md), [matriz 64 CU/67 operaciones](b0/B0_MATRIZ_64_CU_67_OPERACIONES.csv), [manifiesto de Git SHA](b0/B0_MANIFIESTO_RUTAS_SHA.csv), [reconciliación RD/RP/MR](b0/B0_RECONCILIACION_RD_RP_PERMISOS_2026-10-29.md), [arquitectura candidata](../06-arquitectura/B0_ARQUITECTURA_CANDIDATA_2026-10-29.md) y [backlog/G0](b0/B0_BACKLOG_PRIORIZADO_Y_GATE_G0_2026-10-29.md).
 
 **Resultado:** identificación de fuentes y cotejo automatizado de rutas alcanzado; G0 **no aprobado** por revisión semántica y RBAC exhaustivos pendientes, más integración y aprobación de PR encadenadas y ADR. Las fuentes DSS/DS/contrato están presentes en PR #10–#19, NO en `main`. No se modificaron originales ni SQL.
+
+## Consolidación de decisiones y revisión de seguridad — 29/10/2026
+
+- [Acta RD y RBAC 0 P](b0/RD_B0_CIERRE_RBAC_BC01_BC02_BC03_2026-10-29.md).
+- [Matriz actualizada de 67 operaciones](b0/B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv) (la versión anterior con `P` queda histórica).
+- [Contratos REV04A y REV05 derivados](../08-diagramas/consolidacion-b0/) (no alteran propuestas REV originales).
+- [Dictamen contractual y de seguridad residual](b0/B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md): BC-05 conciliado con propagación pendiente, BC-07 propuesto y sujeto a ratificación, BC-08 comprobado, BC-10 corregido en índice B0.
+
+**G0 NO APROBADO** hasta aprobación de matriz de campos sensibles, mapeo de servicios/DB y ADR.

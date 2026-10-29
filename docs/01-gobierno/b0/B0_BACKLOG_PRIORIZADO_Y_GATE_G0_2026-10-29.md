@@ -39,3 +39,7 @@
 - **Agente revisor independiente:** cruzar RD-RP007 y CU reales, revisar límites de snapshot, costos, stock, F04, compras y finanzas; reporte de conflictos.
 - **Agente técnico en modo plan:** especificar ADR y contratos de integración sin ejecutar migraciones ni implementar lógica hasta G0.
 - **Integrador humano:** escoger versión aprobada y aceptar o devolver PR de B0. Solo después delegar programación sobre línea base ratificada.
+
+## Evidencia B0 — 29/10/2026 (decisiones y residuales)
+
+La matriz vigente de trabajo es [B0 RBAC 0 P](B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv), no la copia histórica. BC01/02/03 cerrados funcionalmente por RD individuales; BC04 y BC10 corregidos en contratos/índice derivados. BC05 tiene [21 observaciones](BC05_RECONCILIACION_21_REFERENCIAS_RF.csv), con propagación pendiente. BC07 tiene [15 proyecciones propuestas](BC07_PROYECCIONES_MINIMAS_15_ROL_CU.csv) que requieren ratificación antes de configurar DTO o visibilidad sensible. [Dictamen](B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md). **G0 no aprobado.**

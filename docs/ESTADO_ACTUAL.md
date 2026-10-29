@@ -37,3 +37,7 @@ El responsable adoptó el [plan rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEME
 ## B0 en ejecución — 29/10/2026
 
 Se recuperaron fuentes 64 CU / 67 operaciones DSS–DS–Contrato en ramas de revisión PR #10–#19; la cobertura de firmas de PR #19 es **estática/documental**, no API ni ejecución de negocio. Se generó el inventario [B0](01-gobierno/b0/B0_INVENTARIO_FUENTES_2026-10-29.md) y matriz [64/67](01-gobierno/b0/B0_MATRIZ_64_CU_67_OPERACIONES.csv) en rama apilada sobre PR #20. **G0 permanece NO APROBADO** hasta cotejo semántico exhaustivo, RBAC y ratificación de ADR, e integración controlada. Las pruebas MR-6 de PostgreSQL siguen válidas y no fueron reejecutadas aquí.
+
+## Adenda 29/10/2026 — Consolidación contractual RBAC
+
+Se ratificaron BC-01/02/03 como RD individuales, se corrigió BC-04 y BC-10 en versiones derivadas, y se verificó [RBAC 67 operaciones con 0 P](01-gobierno/b0/B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv). El [dictamen residual](01-gobierno/b0/B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md) registra BC-05 con 21 trazas RF y [BC-07 propuesta de 15 proyecciones](01-gobierno/b0/BC07_PROYECCIONES_MINIMAS_15_ROL_CU.csv) **pendiente de ratificación**, más origen de documentos REV y condiciones de integración. **G0 sigue NO APROBADO**; no se ejecutaron pruebas de aplicación.
