@@ -67,3 +67,9 @@ El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/le
 **Expediente Gate:** [manifiesto 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv), [dictamen](01-gobierno/b0/G0_DICTAMEN_APTITUD_CIERRE_2026-10-29.md), [plan PR](01-gobierno/b0/G0_PLAN_INTEGRACION_CONTROLADA_PR_2026-10-29.md), [acta para ratificación](01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md). **D02 resuelta; D01/D03/D04/D05 y revisión/merge pendientes**. Fuentes origen verificadas, **no aprobadas como paquete canónico final**.
 
 **G0 NO APROBADO.** No iniciar B1 hasta resolución formal.
+
+## Estado final de la línea base — 29/10/2026 (última actualización)
+
+**B0 y G0: APROBADOS DOCUMENTALMENTE**, conforme [RD-B0-G0-001](01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) después de las fusiones controladas #9, #10–#19 y #20–#26. Las decisiones D01–D05 están ratificadas y la fuente queda fijada en `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. La [bitácora de 18 merges](01-gobierno/b0/G0_BITACORA_FUSION_18_PR_2026-10-29.md) identifica cada operación. [Manifiesto canónico 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) con **40 B0 + 27 REV**, todas integradas, reemplaza el uso del manifiesto provisional como fuente para implementar. Se espera CI final de este paquete para registrar su aprobación operativa.
+
+**Sin programación en este repo.** `ale-milanesas-app` recibe B1 y `source-lock` vinculado a G0. **BC06 0/18 ejecutadas**, CR física F04 sigue pendiente; validación académica y pruebas de aplicación son posteriores.

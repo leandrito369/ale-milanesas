@@ -29,3 +29,9 @@
 ## Resolución final
 
 **Pendiente de consignar por el responsable del proyecto** la aceptación de D01/D03/D04/D05 y la decisión de integración. No inventar firma, estado ni fecha de aprobación.
+
+---
+
+## Adenda de cierre (prevalece sobre el estado BORRADOR anterior)
+
+**29/10/2026:** el responsable **ratificó G0-D01/D03/D04/D05**, mantenida D02 aprobada, y declaró inspeccionados y aprobados los lotes #10–#19. Integradas las PR #9, #10–#19 y #20–#26 en orden, con corte `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. Esta acta era **borrador histórico**; la **acta vigente de aprobación documental** es [RD-B0-G0-001](RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md), y la [matriz de fuentes vigente](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) reemplaza a la candidata. BC06 pruebas reales y CR F04 siguen pendientes.

@@ -73,3 +73,9 @@ El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/le
 **D02:** ADR ratificadas, resuelta. **D03/D04/D05**: propuesta de aceptación expresa en [Acta G0](G0_ACTA_PARA_RATIFICACION_2026-10-29.md). [Dictamen](G0_DICTAMEN_APTITUD_CIERRE_2026-10-29.md).
 
 **Estado vigente: G0 NO APROBADO**. No iniciar B1 solo por haber creado el repositorio; es independiente de la aprobación del Gate.
+
+---
+
+## Cierre posterior efectivo de G0 — 29/10/2026
+
+**G0-D01..05 ratificados por el responsable; #9 y #10–#26 integradas en `main`** conforme [bitácora](G0_BITACORA_FUSION_18_PR_2026-10-29.md). Las fuentes cuyas rutas estaban en ramas Draft forman parte del árbol integrado canónico `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. La inspección visual fue **declarada por el responsable** y no repetida por el asistente; el control detallado de cada DS permanece obligatorio por G0-D05 durante B1+. [RD de aprobación](RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) y [manifiesto canónico](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv). **G0 aprobado documentalmente**, sin afirmar certificación académica, app implementada o BC06 superada. CR-B0-F04-001 sigue abierta.

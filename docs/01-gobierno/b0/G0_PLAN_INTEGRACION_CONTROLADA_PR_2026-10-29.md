@@ -29,3 +29,9 @@
 - [ ] Revisión humana de conflictos y permiso de merge documentado.
 
 **Nota:** este plan **no autoriza** al agente a hacer merge, cerrar PR, levantar Draft, escribir sobre `main` ni desplegar. El responsable del proyecto conserva la decisión final.
+
+---
+
+## Acta de ejecución posterior, 29/10/2026
+
+**PLAN EJECUTADO en su alcance:** se fusionaron individualmente **#9, #10–#19 y #20–#26** en `main`. Se retargetearon a main las PR de cada cadena y se levantaron Draft únicamente tras la **autorización expresa del responsable**, quien declaró haber inspeccionado diagramas/contratos. No se confundió esa declaración con una inspección por parte del asistente ni con validación docente. Último commit de integración `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. Evidencia por PR en [bitácora](G0_BITACORA_FUSION_18_PR_2026-10-29.md). El [manifiesto canónico](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) ancla todas las fuentes a ese commit. #7/#8 fuera del alcance; no se cerraron ni fusionaron.

@@ -45,3 +45,11 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Acta preparada para decisión](01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md)
 - [Alta confirmada del repositorio app y permiso GitHub pendiente](01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md)
 - [Plantillas AGENTS/source-lock para app, aún no publicadas allí](06-arquitectura/G0_PLANTILLA_AGENTS_REPO_APP_2026-10-29.md)
+
+## Fuentes canónicas aprobadas tras fusión B0/G0 (29/10/2026)
+
+- [Acta formal RD-B0-G0-001](01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md)
+- [Manifiesto canónico de 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv)
+- [Bitácora de fusiones #9/#10–#26](01-gobierno/b0/G0_BITACORA_FUSION_18_PR_2026-10-29.md)
+- Commit canónico: `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`
+- [Requisitos técnicos de B1 y bloqueo F04](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md). Los manifiestos de PR anteriores son **históricos**.

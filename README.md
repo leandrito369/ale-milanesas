@@ -55,3 +55,7 @@ El responsable **ratificó ADR-B1-01/02/03/04/06**; ADR-B1-05 queda condicionada
 [**Repositorio de aplicación creado**](https://github.com/leandrito369/ale-milanesas-app), con README inicial. Aún no contiene código y el GitHub App debe ser habilitado para escribir en él. [Registro de acceso](docs/01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md).
 
 Este repositorio conserva [manifiesto G0 de 67 fuentes](docs/01-gobierno/b0/G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv) y [acta preparada para ratificación](docs/01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md). **G0 no está aprobado ni las PR #9–#25 fusionadas**. No iniciar B1 aún.
+
+## G0 aprobado documentalmente — fuentes fijadas (29/10/2026)
+
+Se completó la integración de las 18 PR del alcance (#9 y #10–#26). [Acta RD-B0-G0-001](docs/01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md); [manifiesto de 67 operaciones](docs/01-gobierno/b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv); commit canónico `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. Se mantiene a este repo como fuente de diseño y al [repo app](https://github.com/leandrito369/ale-milanesas-app) como destino exclusivo de implementación. **BC06 0/18 ejecutadas**; la CR de sincronización F04 sigue pendiente.
