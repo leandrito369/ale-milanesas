@@ -1,0 +1,25 @@
+name: I1 - RD contratos y REV-02
+
+on:
+  pull_request:
+    paths:
+      - 'docs/01-gobierno/i1/**'
+      - 'docs/08-diagramas/revision/REV02_SEGURIDAD/propuestos/**'
+      - 'tests/i1/**'
+      - '.github/workflows/i1-rd-revision.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/01-gobierno/i1/**'
+      - 'docs/08-diagramas/revision/REV02_SEGURIDAD/propuestos/**'
+      - 'tests/i1/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integridad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar XML contratos y coherencia de literales MR5
+        run: python3 -m unittest discover -s tests/i1 -p 'test_*.py' -v
