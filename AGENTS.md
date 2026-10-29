@@ -56,3 +56,11 @@ La IA no es árbitro de las decisiones comerciales no definidas. Marcá `[A CONF
 - Leer `docs/01-gobierno/b0/B0_MAPA_TECNICO_DICTAMEN_2026-10-29.md`, `docs/01-gobierno/b0/B0_MR5_MR6_CONCILIACION_TECNICA_2026-10-29.md` y `docs/06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md`.
 - La tabla de operación/servicio/tx se identifica como **CANDIDATA**: ninguna IA debe crear una clase/método o una migración solo por su nombre propuesto. Antes de programar: abrir DS y contrato vigente, validar pre/post, datos, concurrencia, autorización y test.
 - **G0 NO APROBADO**: [informe de aprobación](docs/01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md), sujeto a fuentes canónicas, ADR ratificadas y PR apiladas revisadas. BC06 de implementación permanece 0/18.
+
+## Decisión final de arquitectura y separación de repositorios (29/10/2026)
+
+**Autoridad ratificada:** [RD-B0 arquitectura](docs/01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md): **ADR-B1-01/02/03/04/06 APROBADAS** en su alcance original; **ADR-B1-05 PENDIENTE CR** [CR-B0-F04-001](docs/01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md). Todas las menciones más antiguas de «ADR pendientes» quedan superadas respecto de estas cinco.
+
+**Límite de repositorios:** [RD-B0-REPOS-01](docs/01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md). **ESTE repositorio es de análisis/diseño/gobierno**. **NO** crear ni introducir aquí el backend, frontend, Android, nuevas migraciones de implementación ni código de servicios. El responsable dará de alta **otro repositorio** y confirmará URL/acceso; hasta entonces **no crear repositorio por cuenta propia ni comenzar B1**. Preparar exclusivamente documentos B0, ADR, CR e instrucciones de handoff. Es posible cerrar documentalmente G0 antes de alta, pero no iniciar implementación.
+
+**Gate:** G0-D02 arquitectura resuelto; G0 general **NO APROBADO** por fuentes PR, backlog y control formal. BC06 pruebas de aplicación **0/18**. Ver [informe Gate](docs/01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md) y [handoff](docs/06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md). Ningún agente debe inferir una URL o nombre para el futuro repositorio.

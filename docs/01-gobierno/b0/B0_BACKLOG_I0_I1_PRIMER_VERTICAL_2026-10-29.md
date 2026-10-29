@@ -35,3 +35,7 @@ Cada tarea terminada requiere: CU y contrato fuente ratificados; DS/DSS inspecci
 ## Instrucción de delegación en GitHub
 
 Cada Issue para OpenCode/Antigravity debe citar (a) CU + operación, (b) fuente de contrato preferente y commit de E01-C, (c) DS/DSS con pestaña, (d) RBAC 0 P + BC07 ratificada, (e) tablas del mapa como **candidatas**, (f) test positivo/negativo, (g) lo expresamente vedado. **Primero modo planificación; implementación después del G0.**
+
+## Restricción posterior — repo de implementación aún no disponible (29/10/2026)
+
+Las tareas I0/I1/I2/I3 de esta tabla siguen como **backlog para ejecutar**, no acciones de esta PR documental. **ADR-B1-01/02/03/04/06 están ratificadas**, pero el usuario creará el repositorio de implementación en el futuro. Hasta recibir la URL y aprobar G0, **NO comenzar scaffold, código, SQL aplicativo, CI backend ni Android en este repositorio**. Documentación y RD/CR aquí: [separación de repositorios](RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md); [traspaso](../../06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md).

@@ -75,3 +75,14 @@ Referencias técnicas de formatos: https://antigravity.google/docs/rules/ y http
 - PR debe indicar: objetivo, CU/contrato/RD/CR, fuentes, diff, pruebas realmente corridas, resultados, archivos no tocados, riesgos, cambios de seguridad, migración/rollback, pendiente de aprobación.
 - Revisión independiente obligatoria de **dinero/stock/roles/offline/SQL**. Fallos críticos o falta de trazabilidad ⇒ no fusionar.
 - Historial: toda mejora registra `APROBADO / PROPUESTO / IMPLEMENTADO / PROBADO / PENDIENTE` sin degradar evidencia MR-6.
+
+## Adenda obligatoria posterior — separación de repositorios y ADR ratificadas (29/10/2026)
+
+**Corrige el ejemplo previo de prompt «Trabajá en leandrito369/ale-milanesas»: ese repositorio es de ANÁLISIS/DOCUMENTACIÓN, no destino de código de aplicación.** Mientras el responsable no cree el nuevo repositorio y no se apruebe G0, los agentes solo pueden trabajar **documentalmente aquí**, en ramas y PR, sin generar scaffold Java/Kotlin, migraciones físicas nuevas ni integración real.
+
+- [Ratificación ADR-B1-01/02/03/04/06](../01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md): aprobar arquitectura **no** significa que exista backend, CI de aplicación ni API.
+- [CR-B0-F04-001](../01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md): **ADR-B1-05 NO aprobada como diseño físico**.
+- [RD-B0-REPOS-01](../01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md): fuente de diseño aquí, desarrollo en repo nuevo que creará el usuario. No suponer URL.
+- [Handoff de implementación](HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md): checklist de traspaso, source-lock y `AGENTS.md` futuro.
+
+**Plantilla corregida para agentes, activable después del alta:** «Trabajá en **[URL real del repositorio de implementación indicada por el responsable]**. Antes de cambios, leé `AGENTS.md` del código y el source-lock que apunta al commit/tag ratificado en el repositorio `leandrito369/ale-milanesas`. Encargo: WBS/CU/operación, contrato DS/DSS, RBAC/BC07, MR, test. No modificar fuentes de negocio ni modelo físico sin RD/CR; rama/PR; adjuntar comandos y resultados reales». No usar esta plantilla como autorización anticipada de escribir código.

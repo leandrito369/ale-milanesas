@@ -92,3 +92,7 @@ Se generaron el [inventario B0](b0/B0_INVENTARIO_FUENTES_2026-10-29.md), [matriz
 - [Informe Gate G0](b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md): **NO APROBADO**, requiere fuentes canónicas y ADR ratificadas por responsable, cierre documental de PR apiladas y revisión DS/contratos por operación.
 
 **Distinción:** las 60 tablas del catálogo aparecen en la matriz inversa como asociaciones **candidatas**, no como permiso SQL, relación 1:1 con clases de diseño ni prueba de servicios.
+
+## Ratificación de arquitectura y frontera de implementación — 29/10/2026
+
+[Acta ADR](b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md) **ratifica** B1-01/02/03/04/06; B1-05 requiere [CR-B0-F04-001](b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md). [RD-B0-REPOS-01](b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) establece que **toda implementación y documentación operativa de aplicación se realizará en un futuro repositorio nuevo dado de alta por el responsable**, no en este repositorio documental. No iniciar B1 hasta **G0 y repositorio nuevo confirmado**, no crear repo unilateralmente. Estado: G0-D02 resuelto, G0 global pendiente (D01/D03/D04/D05, cadena PR).

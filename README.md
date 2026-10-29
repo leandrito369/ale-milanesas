@@ -41,3 +41,11 @@ Se adoptó el [plan rector B0–B10](docs/01-gobierno/PLAN_RECTOR_IMPLEMENTACION
 ## Línea base de construcción: B0 en fase de aprobación
 
 Se dispone del [mapa de las 67 operaciones](docs/01-gobierno/b0/B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv) hacia módulos/servicios/transacciones propuestos y tablas físicas MR3/MR5, así como de [6 ADR candidatas](docs/06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md) y un [informe de Gate G0](docs/01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md). La evidencia B0 es **documental**, no aplicación terminada. **G0 requiere aprobación de fuentes/ADR/PR por el integrador.**
+
+## Decisión de arquitectura y repositorio de implementación (29/10/2026)
+
+El responsable **ratificó ADR-B1-01/02/03/04/06**; ADR-B1-05 queda condicionada a una CR de diseño físico F04. [Acta de arquitectura](docs/01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md).
+
+**Este repositorio sigue siendo el de análisis, diseño y gobierno.** El código Spring Boot, las interfaces, Android, migraciones versionadas y pruebas de implementación irán a **otro repositorio que creará el responsable**. Hasta entonces no se crea un repositorio nuevo ni se empieza programación. [Política de repositorios](docs/01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) · [Handoff pendiente](docs/06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md).
+
+**G0 no aprobado**: queda revisar integración de fuentes y PR, backlog y aceptación formal. Una ADR aprobada no habilita por sí sola B1.

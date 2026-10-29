@@ -41,3 +41,23 @@ Las 64 fichas y los 67 contratos están documentados; su **arquitectura de aplic
 ## Ejecución real de CI documental E01-C (29/10/2026)
 
 El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/leandrito369/ale-milanesas/actions/runs/40908456777) terminó **SUCCESS**. El job `verificar-documentos` ejecutó `python -m unittest discover -s tests/b0 -p 'test_*.py' -v`: **9 tests ejecutados / 9 aprobados / 0 fallos**, según logs. Cuatro son específicos de mapeo (67 operaciones, 64 CU, 7 módulos, 60 tablas existentes, consistencia de RBAC y carácter candidato); cinco verifican RD/BC previos. **Es comprobación documental automatizada, no test de aplicación, transacción ni PostgreSQL nuevo**. BC-06 de implementación sigue **0/18**.
+
+---
+
+## Actualización posterior — Ratificación de ADR y separación de repositorios, 29/10/2026
+
+**Éste es el estado vigente; las menciones históricas anteriores a ADR «pendientes» describen el estado previo.**
+
+| Decisión G0 | Estado actualizado | Evidencia |
+|---|---|---|
+| **G0-D01** — fuentes canónicas | **PENDIENTE** | Revisión e integración de PR de DSS/DS/contratos y copias B0 con criterios de autoridad |
+| **G0-D02** — ADR de arquitectura | **RESUELTA** | [RD arquitectura](RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md): ADR-B1-01/02/03/04/06 ratificadas; B1-05 requiere CR |
+| **G0-D03** — aceptación backlog/prioridad | **PENDIENTE** | Backlog I0/I1/primer vertical propuesto; no equivale a ratificación expresa |
+| **G0-D04** — estrategia de QA futuro | **PENDIENTE DE ACEPTACIÓN EN G0** | 18 escenarios BC06 no ejecutados; 9 tests documentales sí pasaron en CI |
+| **G0-D05** — revisión detallada DS/contrato previa a cada PR | **PENDIENTE DE ACEPTACIÓN EN G0** | Método propuesto y mapa E01-C; no confundir con cotejo íntegro ya ejecutado |
+
+**Nuevo bloqueo independiente de G0:** el responsable indicó que dará de alta el **nuevo repositorio de implementación**. Ver [RD-B0-REPOS-01](RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) y [handoff](../../06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md). **No crear repo ni escribir código en el repositorio documental; B1 solo después de G0 aprobado y de URL/alta confirmada por el responsable.**
+
+**CR-B0-F04-001** está **abierta y no aprobada** para diseño físico de F04/S-01, sin bloquear G0 en las partes iniciales ajenas a F04 ni autorizar nuevas tablas.
+
+**Estado formal final de este informe: G0 NO APROBADO** hasta resolver G0-D01/D03/D04/D05, revisar PR, y obtener acta formal de aceptación. La ratificación de cinco ADR no aprueba por sí sola las demás condiciones.
