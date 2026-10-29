@@ -47,3 +47,9 @@ La matriz vigente de trabajo es [B0 RBAC 0 P](B0_MATRIZ_RBAC_67_OPERACIONES_CIER
 ## Actualización BC-05/BC-07/BC-09 y BC-06 — 29/10/2026
 
 BC05 **RATIFICADO Y PROPAGADO EN 8 COPIAS B0** (21 referencias). BC07 **RATIFICADO** (15 proyecciones sin permisos nuevos). BC09 **REGLA DOCUMENTADA** con efectos técnicos verificables futuros. BC06 **18 CASOS DEFINIDOS, 0 PRUEBAS DE IMPLEMENTACIÓN EJECUTADAS** por ausencia de servicios. La verificación automatizada de artefactos B0 es **documental** y no reemplaza la suite funcional. E01-C de responsabilidad/persistencia y ADR B1 continúan pendientes de G0.
+
+## Estado B0.3–B0.7, 29/10/2026
+
+El [mapa técnico 67 operaciones](B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv) asocia CU/contrato con 7 módulos candidatos, 60 tablas ya existentes, fronteras transaccionales propuestas, RBAC ratificado y pruebas futuras. La [reconciliación MR5/MR6](B0_MR5_MR6_CONCILIACION_TECNICA_2026-10-29.md) distingue evidencia SQL de servicios aún ausentes. El [backlog I0–I3](B0_BACKLOG_I0_I1_PRIMER_VERTICAL_2026-10-29.md) especifica alcance y criterios iniciales. 
+
+**Gate G0 sigue NO APROBADO** a la espera de [decisiones G0-D01..05](B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md), ratificación de [ADR candidatas](../../06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md), integración de fuentes y revisión de DS por operación. Las 18 pruebas BC06 continúan para B3/B4/B6.

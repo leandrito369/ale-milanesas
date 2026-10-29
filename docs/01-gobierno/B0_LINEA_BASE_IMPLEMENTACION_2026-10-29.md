@@ -83,3 +83,12 @@ Se generaron el [inventario B0](b0/B0_INVENTARIO_FUENTES_2026-10-29.md), [matriz
 - BC06: [18 pruebas previstas, 0 ejecutadas](b0/BC06_INFORME_EJECUCION_Y_BLOQUEO_2026-10-29.md) por falta de aplicación; pruebas estáticas B0 separadas.
 
 **G0 sigue NO APROBADO**, pendientes mapa servicio/transacción/persistencia, ADR, y aceptación/fusión de cadena de PR.
+
+## Avance B0.3–B0.7 — mapeo y decisión técnica preparada (29/10/2026)
+
+- [Mapa E01-C de 67 operaciones](b0/B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv), [reverse 60 tablas](b0/B0_COBERTURA_60_TABLAS_Y_OPERACIONES_2026-10-29.csv), [dictamen](b0/B0_MAPA_TECNICO_DICTAMEN_2026-10-29.md).
+- [Reconciliación MR5/MR6 y F01/F04](b0/B0_MR5_MR6_CONCILIACION_TECNICA_2026-10-29.md): prueba SQL MR6 en laboratorio; servicios/offline/sync sin implementar.
+- [6 ADR candidatas](../06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md), [backlog de I0/I1 y primer vertical](b0/B0_BACKLOG_I0_I1_PRIMER_VERTICAL_2026-10-29.md).
+- [Informe Gate G0](b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md): **NO APROBADO**, requiere fuentes canónicas y ADR ratificadas por responsable, cierre documental de PR apiladas y revisión DS/contratos por operación.
+
+**Distinción:** las 60 tablas del catálogo aparecen en la matriz inversa como asociaciones **candidatas**, no como permiso SQL, relación 1:1 con clases de diseño ni prueba de servicios.

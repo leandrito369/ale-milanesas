@@ -22,3 +22,9 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Plan rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md): prioridades, hitos y entregables E01–E12.
 - [B0, primera ejecución](01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md): inventario 64 CU/DSS/DS/contratos, trazabilidad y gate G0.
 - [Guía de delegación IA](06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md): tareas delegables, límites, PR y pruebas para Antigravity/OpenCode.
+
+## Cierre de línea base B0 en preparación (29/10/2026)
+
+- [Mapa técnico 67 operaciones](01-gobierno/b0/B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv) y [60 tablas](01-gobierno/b0/B0_COBERTURA_60_TABLAS_Y_OPERACIONES_2026-10-29.csv).
+- [Arquitectura: ADR candidatas](06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md) — requieren ratificación humana.
+- [Backlog de primera entrega](01-gobierno/b0/B0_BACKLOG_I0_I1_PRIMER_VERTICAL_2026-10-29.md) y [Gate G0](01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md).
