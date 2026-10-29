@@ -47,7 +47,7 @@ Confirmación y referencia del movimiento físico registrado y del saldo resulta
 
 ## 8. Precondiciones
 
-- Actor autenticado y autorizado para UC-42 en el ámbito del elemento seleccionado (según matriz de permisos vigente).
+- **Responsable de Producción** autenticado y autorizado para UC-42 en el ámbito del Insumo o Producto REVENTA seleccionado. La búsqueda contextual no concede permiso a otros roles para efectuar ajustes.
 - Insumo o Producto REVENTA existente, unidad base identificada y cantidad/motivo válidos.
 - Disponibilidad de fuente de costo consistente con la clase de movimiento y su procedencia; para `SALDO_INICIAL`, la validación de costo histórico y origen de RP-015.
 - No se presupone que el alta UC-50 haya generado movimientos ni costos.
