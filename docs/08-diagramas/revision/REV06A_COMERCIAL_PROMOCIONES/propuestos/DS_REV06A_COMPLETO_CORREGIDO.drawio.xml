@@ -1,0 +1,604 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T13:20:00.000Z" agent="ChatGPT-REV06A-Corregido" version="24.7.17" type="device">  
+  <!-- ========================================================================= -->  
+  <!-- PÁGINA 1: DS UC-35 BUSCAR PRODUCTO (RD-RP007-002 H-17)                    -->  
+  <!-- ========================================================================= -->  
+  <diagram id="ds-rev06a-uc35" name="DS UC-35 Buscar Producto (REV06A)">  
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="850" math="0" shadow="0">  
+      <root>  
+        <mxCell id="0" />  
+        <mxCell id="1" parent="0" />  
+        <mxCell id="u35_title" value="Diagrama de Secuencia de Diseño (DS — REV06A) — UC-35: Buscar Producto [RD-RP007-002: Admin y Vendedor]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">  
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_actor" value="Administrador /&#xa;Vendedor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="99" y="155" width="12" height="620" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_ctrl_box" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="400" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="482" y="800" as="sourcePoint" />  
+            <mxPoint x="482" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="476" y="155" width="12" height="620" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_cat_box" value=":CatalogoProductos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="780" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="862" y="800" as="sourcePoint" />  
+            <mxPoint x="862" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="856" y="200" width="12" height="120" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u35_m1" value="1: productos = buscarProducto(idProducto:Long[0..1], nombre:String[0..1], tipoProducto:String[0..1], activo:Boolean[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="111" y="190" as="sourcePoint" />  
+            <mxPoint x="476" y="190" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_m2" value="2: lista = consultarProductosPorCriterios(idProducto, nombre, tipoProducto, activo) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="488" y="235" as="sourcePoint" />  
+            <mxPoint x="856" y="235" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_r2" value="2.1: lista : List&lt;Producto&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="856" y="295" as="sourcePoint" />  
+            <mxPoint x="488" y="295" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_alt" value="alt Resultado de la búsqueda de Productos [UC-35]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=340;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="50" y="340" width="1150" height="380" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_g1" value="[lista.notEmpty()]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="365" width="300" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_r1_ok" value="3.1: muestra idProducto, nombre, descripcion, tipoProducto (ELABORADO|REVENTA), codigoUnidadVenta y activo; devuelve el seleccionado al CU invocante" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="476" y="455" as="sourcePoint" />  
+            <mxPoint x="111" y="455" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="50" y="555" as="sourcePoint" />  
+            <mxPoint x="1200" y="555" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u35_g2" value="[Sin coincidencias]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="565" width="300" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u35_r1_empty" value="3.2: informa ausencia de coincidencias sin modificar el catálogo" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="476" y="655" as="sourcePoint" />  
+            <mxPoint x="111" y="655" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+      </root>  
+    </mxGraphModel>  
+  </diagram>
+
+  <!-- ========================================================================= -->  
+  <!-- PÁGINA 2: DS UC-30 GESTIONAR PRODUCTO                                     -->  
+  <!-- ========================================================================= -->  
+  <diagram id="ds-rev06a-uc30" name="DS UC-30 Gestionar Producto (REV06A)">  
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="950" math="0" shadow="0">  
+      <root>  
+        <mxCell id="0" />  
+        <mxCell id="1" parent="0" />  
+        <mxCell id="u30_title" value="Diagrama de Secuencia de Diseño (DS — REV06A) — UC-30: Gestionar Producto (Denominación canónica Fase 4)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">  
+          <mxGeometry x="50" y="15" width="1020" height="30" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="99" y="155" width="12" height="720" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_ctrl_box" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="380" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="462" y="900" as="sourcePoint" />  
+            <mxPoint x="462" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="456" y="155" width="12" height="720" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_cat_box" value=":CatalogoProductos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="720" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="802" y="900" as="sourcePoint" />  
+            <mxPoint x="802" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="796" y="200" width="12" height="420" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_prd_box" value="nuevoProd : Producto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1080" y="380" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_prd_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="1162" y="900" as="sourcePoint" />  
+            <mxPoint x="1162" y="425" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_prd_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1156" y="425" width="12" height="90" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u30_m1" value="1: idProducto = gestionarProducto(nombre:String, descripcion:String[0..1], tipoProducto:String, codigoUnidadVenta:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="111" y="185" as="sourcePoint" />  
+            <mxPoint x="456" y="185" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_m2" value="2: prodExistente = buscarPorNombreNormalizado(normalizar(nombre)) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="225" as="sourcePoint" />  
+            <mxPoint x="796" y="225" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_r2" value="2.1: prodExistente : Producto [0..1] (verifica activos e inactivos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="796" y="270" as="sourcePoint" />  
+            <mxPoint x="468" y="270" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>
+
+        <mxCell id="u30_alt" value="alt Validación de datos obligatorios y unicidad de nombreNormalizado [UC-30]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=500;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="50" y="310" width="1310" height="510" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_g1" value="[Datos obligatorios válidos y prodExistente == null]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="335" width="450" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_m3_new" value="3: «create» new(nombre, nombreNormalizado, descripcion, tipoProducto=ELABORADO|REVENTA, codigoUnidadVenta, activo=true)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="402" as="sourcePoint" />  
+            <mxPoint x="1080" y="402" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_m4" value="4: guardarProducto(nuevoProd:Producto)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="545" as="sourcePoint" />  
+            <mxPoint x="796" y="545" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_r1_ok" value="4.1: confirma Producto activo y trazabilidad de operación (sin tabla nueva); primer precio por UC-19, Receta por UC-10" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="635" as="sourcePoint" />  
+            <mxPoint x="111" y="635" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="50" y="685" as="sourcePoint" />  
+            <mxPoint x="1360" y="685" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u30_g2" value="[Existe otro Producto con igual nombreNormalizado (activo o inactivo) o datos inválidos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="695" width="600" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u30_r1_err" value="4.2: no crea duplicado y presenta el registro existente" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="775" as="sourcePoint" />  
+            <mxPoint x="111" y="775" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+      </root>  
+    </mxGraphModel>  
+  </diagram>
+
+  <!-- ========================================================================= -->  
+  <!-- PÁGINA 3: DS UC-47 MODIFICAR PRODUCTO («include» UC-35)                   -->  
+  <!-- ========================================================================= -->  
+  <diagram id="ds-rev06a-uc47" name="DS UC-47 Modificar Producto (REV06A)">  
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">  
+      <root>  
+        <mxCell id="0" />  
+        <mxCell id="1" parent="0" />  
+        <mxCell id="u47_title" value="Diagrama de Secuencia de Diseño (DS — REV06A) — UC-47: Modificar Producto (con «include» UC-35)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">  
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_ctrl_box" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="380" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="462" y="880" as="sourcePoint" />  
+            <mxPoint x="462" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="456" y="155" width="12" height="700" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_cat_box" value=":CatalogoProductos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="720" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="802" y="880" as="sourcePoint" />  
+            <mxPoint x="802" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="796" y="290" width="12" height="90" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_prd_box" value="unProducto : Producto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1060" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_prd_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="1142" y="880" as="sourcePoint" />  
+            <mxPoint x="1142" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_prd_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1136" y="485" width="12" height="165" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u47_ref35" value="ref «include» UC-35 Buscar Producto (recibe unProducto y presenta sus datos y restricciones por historial)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="65" y="165" width="760" height="60" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u47_m1" value="1: ok = modificarProducto(idProducto:Long, nuevoNombre:String, descripcion:String[0..1], tipoProductoPropuesto:String, codigoUnidadVentaPropuesto:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="111" y="265" as="sourcePoint" />  
+            <mxPoint x="456" y="265" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_m2" value="2: (unProducto, tieneHistorial, nombreDup) = revalidarUnicidadYRestriccionesHistorial(idProducto, normalizar(nuevoNombre)) [Atributo]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="315" as="sourcePoint" />  
+            <mxPoint x="796" y="315" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>
+
+        <mxCell id="u47_alt" value="alt Validación de unicidad y bloqueo de cambio de tipo/unidad con historial dependiente [UC-47]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=590;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="50" y="405" width="1310" height="415" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_g1" value="[nombreDup == false y (!cambiaTipoOUnidad || !tieneHistorial)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="430" width="540" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_m3" value="3: actualizarDatosPermitidos(nuevoNombre, nuevoNombreNormalizado, descripcion, tipoProductoPropuesto, codigoUnidadVentaPropuesto)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="510" as="sourcePoint" />  
+            <mxPoint x="1136" y="510" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_r3" value="3.1: actualiza campos permitidos preservando identidad, precios, Pedidos y Recetas" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="1136" y="585" as="sourcePoint" />  
+            <mxPoint x="468" y="585" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_r1_ok" value="3.2: informa resultado exitoso" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="645" as="sourcePoint" />  
+            <mxPoint x="111" y="645" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="50" y="695" as="sourcePoint" />  
+            <mxPoint x="1360" y="695" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u47_g2" value="[Nombre normalizado duplicado o intento de modificar tipo/unidad con historial dependiente]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="705" width="640" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u47_r1_err" value="3.3: rechaza el cambio e informa la alternativa de crear un Producto nuevo mediante UC-30" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="785" as="sourcePoint" />  
+            <mxPoint x="111" y="785" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+      </root>  
+    </mxGraphModel>  
+  </diagram>
+
+  <!-- ========================================================================= -->  
+  <!-- PÁGINA 4: DS UC-48 CAMBIAR ESTADO DE PRODUCTO («include» UC-35)           -->  
+  <!-- ========================================================================= -->  
+  <diagram id="ds-rev06a-uc48" name="DS UC-48 Cambiar Estado Producto (REV06A)">  
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="920" math="0" shadow="0">  
+      <root>  
+        <mxCell id="0" />  
+        <mxCell id="1" parent="0" />  
+        <mxCell id="u48_title" value="Diagrama de Secuencia de Diseño (DS — REV06A) — UC-48: Cambiar Estado de Producto (con «include» UC-35)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">  
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="90" y="60" width="30" height="60" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="99" y="155" width="12" height="700" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_ctrl_box" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="380" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="462" y="880" as="sourcePoint" />  
+            <mxPoint x="462" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="456" y="155" width="12" height="700" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_prd_box" value="unProducto : Producto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="920" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_prd_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="1002" y="880" as="sourcePoint" />  
+            <mxPoint x="1002" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_prd_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="996" y="420" width="12" height="190" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u48_ref35" value="ref «include» UC-35 Buscar Producto (selecciona unProducto e informa si existen Pedidos PENDIENTE sin bloquear la desactivación)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="65" y="165" width="760" height="60" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u48_m1" value="1: ok = cambiarEstadoProducto(idProducto:Long, nuevoActivo:Boolean) [Pendiente F09]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="111" y="295" as="sourcePoint" />  
+            <mxPoint x="456" y="295" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>
+
+        <mxCell id="u48_alt" value="alt Desactivación o Reactivación preservando identidad y Pedidos abiertos [UC-48]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=530;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="50" y="365" width="1310" height="455" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_g1" value="[estado y dependencias revalidados al confirmar; unProducto.activo != nuevoActivo y (nuevoActivo == false || datosActualesValidosParaUso)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="390" width="600" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_m2" value="2: establecerEstadoActivo(nuevoActivo:Boolean) [Visibilidad por Variable Local]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="468" y="465" as="sourcePoint" />  
+            <mxPoint x="996" y="465" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_r2" value="2.1: actualiza Producto.activo (si queda inactivo bloquea nuevas ventas conservando Pedidos PENDIENTE abiertos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="996" y="545" as="sourcePoint" />  
+            <mxPoint x="468" y="545" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_r1_ok" value="2.2: confirma nuevo estado del Producto" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="620" as="sourcePoint" />  
+            <mxPoint x="111" y="620" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="50" y="680" as="sourcePoint" />  
+            <mxPoint x="1360" y="680" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u48_g2" value="[Estado ya coincidente o reactivación solicitada con datos actuales inválidos]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="125" y="690" width="560" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u48_r1_err" value="2.3: informa ausencia de cambio o exige corregir datos mediante UC-47 antes de reactivar" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="456" y="775" as="sourcePoint" />  
+            <mxPoint x="111" y="775" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+      </root>  
+    </mxGraphModel>  
+  </diagram>
+
+  <!-- ========================================================================= -->  
+  <!-- PÁGINA 5: DS UC-19 ACTUALIZAR PRECIO VIGENTE («include» UC-35)            -->  
+  <!-- ========================================================================= -->  
+  <diagram id="ds-rev06a-uc19" name="DS UC-19 Actualizar Precio Vigente (REV06A)">  
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1550" pageHeight="1050" math="0" shadow="0">  
+      <root>  
+        <mxCell id="0" />  
+        <mxCell id="1" parent="0" />  
+        <mxCell id="u19_title" value="Diagrama de Secuencia de Diseño (DS — REV06A) — UC-19: Actualizar Precio Vigente (con «include» UC-35)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1" vertex="1" parent="1">  
+          <mxGeometry x="50" y="15" width="1050" height="30" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_actor" value="Administrador" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="85" y="60" width="30" height="60" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="94" y="155" width="12" height="820" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_ctrl_box" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="350" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_ctrl_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="432" y="1000" as="sourcePoint" />  
+            <mxPoint x="432" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_ctrl_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="426" y="155" width="12" height="820" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_cat_box" value=":CatalogoProductos" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="660" y="60" width="165" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_cat_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="742" y="1000" as="sourcePoint" />  
+            <mxPoint x="742" y="105" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_cat_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="736" y="340" width="12" height="90" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_np_box" value="nuevoPrecio : PrecioProducto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1020" y="510" width="210" height="45" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_np_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="1125" y="1000" as="sourcePoint" />  
+            <mxPoint x="1125" y="555" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_np_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">  
+          <mxGeometry x="1119" y="555" width="12" height="80" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u19_ref35" value="ref «include» UC-35 Buscar Producto (selecciona unProducto y recupera su precioVigente actual)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="65" y="165" width="740" height="55" as="geometry" />  
+        </mxCell>
+
+        <mxCell id="u19_m1" value="1: idPrecio = actualizarPrecioVigente(idProducto:Long, nuevoPrecioBase:BigDecimal, vigenteDesde:Timestamp, vigenteHasta:Timestamp[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="106" y="280" as="sourcePoint" />  
+            <mxPoint x="426" y="280" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_m2" value="2: verificarVigenciasYPlanificarCierre(idProducto, vigenteDesde) [atributo; primera versión posible, fecha no retroactiva; sin mutación]" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="438" y="365" as="sourcePoint" />  
+            <mxPoint x="736" y="365" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>
+
+        <mxCell id="u19_alt" value="alt Validación de nuevoPrecioBase &gt; 0 e intervalo [vigenteDesde, vigenteHasta) consistente [UC-19]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=610;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">  
+          <mxGeometry x="50" y="425" width="1440" height="500" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_g1" value="[nuevoPrecioBase &gt; 0, vigenteDesde no retroactiva, vigenteHasta válida y sin solapamiento]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="120" y="450" width="450" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_m3_new" value="3: «create» new PrecioProducto(idProducto, nuevoPrecioBase, vigenteDesde, vigenteHasta, idAdmin)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="438" y="532" as="sourcePoint" />  
+            <mxPoint x="1020" y="532" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_r1_ok" value="3.1: registra PrecioProducto y AuditoriaPrecio (sin alterar precioUnitario congelado en DetallePedido previos)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="426" y="685" as="sourcePoint" />  
+            <mxPoint x="106" y="685" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="50" y="755" as="sourcePoint" />  
+            <mxPoint x="1490" y="755" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+        <mxCell id="u19_g2" value="[precio no positivo, fecha retroactiva, intervalo inválido o solapamiento]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">  
+          <mxGeometry x="120" y="765" width="520" height="20" as="geometry" />  
+        </mxCell>  
+        <mxCell id="u19_r1_err" value="3.2: no registra ni cierra precio previo en caso de rechazo; no admite vigencia retroactiva" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">  
+          <mxGeometry relative="1" as="geometry">  
+            <mxPoint x="426" y="865" as="sourcePoint" />  
+            <mxPoint x="106" y="865" as="targetPoint" />  
+          </mxGeometry>  
+        </mxCell>  
+      <mxCell id="u19_aud_box_rev" value="evAud : AuditoriaPrecio" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="1290" y="585" width="190" height="45" as="geometry"/></mxCell>
+<mxCell id="u19_aud_line_rev" value="" style="endArrow=none;dashed=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1385" y="1000" as="sourcePoint"/><mxPoint x="1385" y="630" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u19_aud_create_rev" value="3.0: &#171;create&#187; AuditoriaPrecio(idPrecio, evento, valoresAntes, valoresDespues, idAdmin)" style="html=1;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="438" y="610" as="sourcePoint"/><mxPoint x="1290" y="610" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u19_close_guarded_rev" value="2.2: cerrar intervalo previo validado (misma transacción, sólo rama exitosa)" style="html=1;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="438" y="492" as="sourcePoint"/><mxPoint x="736" y="492" as="targetPoint"/></mxGeometry></mxCell></root>  
+    </mxGraphModel>  
+  </diagram><diagram id="ds-rev06a-uc20-completo" name="DS UC-20 Consultar Historial de Precios (REV06A)"><mxGraphModel dx="1350" dy="900" grid="1" gridSize="10" guides="1" page="1" pageScale="1" pageWidth="1350" pageHeight="930" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="ds-rev06a-uc20-completo_title" vertex="1" parent="1" value="Diagrama de Secuencia de Diseño (DS — REV06A) — DS UC-20 Consultar Historial de Precios (REV06A)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;"><mxGeometry x="40" y="16" width="1250" height="34" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_actor" vertex="1" parent="1" value="Administrador" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#000000;"><mxGeometry x="76" y="75" width="65" height="55" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_actorline" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="865" as="sourcePoint"/><mxPoint x="100" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_o0" vertex="1" parent="1" value=":ControladorCatalogo" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="330" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_l0" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="865" as="sourcePoint"/><mxPoint x="430" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_o1" vertex="1" parent="1" value=":CatalogoProductos" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="680" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_l1" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="865" as="sourcePoint"/><mxPoint x="780" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_f0" vertex="1" parent="1" value="ref «include» UC-35 Buscar Producto (identifica idProducto)" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="182" width="1260" height="70" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_m1" edge="1" parent="1" value="1: historialPrecios = consultarHistorialPrecios(idProducto:Long, fechaDesde:LocalDate[0..1], fechaHasta:LocalDate[0..1])" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="267" as="sourcePoint"/><mxPoint x="430" y="267" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_m2" edge="1" parent="1" value="2: recuperarPreciosYAuditoriaOrdenados(idProducto, fechaDesde, fechaHasta) [visibilidad por atributo]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="334" as="sourcePoint"/><mxPoint x="780" y="334" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_m3" edge="1" parent="1" value="2.1: lista PrecioProducto, AuditoriaPrecio y cambios de vigencia" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="401" as="sourcePoint"/><mxPoint x="430" y="401" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_f4" vertex="1" parent="1" value="alt [período válido] / [fechaDesde mayor que fechaHasta]" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="450" width="1260" height="135" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_m5" edge="1" parent="1" value="3.1: distingue precios históricos, precio actualmente aplicable y futuros programados; si falta precio actual lo informa; sin alterar registros" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="535" as="sourcePoint"/><mxPoint x="100" y="535" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc20-completo_m6" edge="1" parent="1" value="3.2: período inválido o acceso no autorizado: rechazar sin exponer registros; Producto sin precios: lista vacía verificable" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="602" as="sourcePoint"/><mxPoint x="100" y="602" as="targetPoint"/></mxGeometry></mxCell></root></mxGraphModel></diagram>
+<diagram id="ds-rev06a-uc24-completo" name="DS UC-24 Crear y Comunicar Promoción (REV06A)"><mxGraphModel dx="2870" dy="1330" grid="1" gridSize="10" guides="1" page="1" pageScale="1" pageWidth="2870" pageHeight="1360" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="ds-rev06a-uc24-completo_title" vertex="1" parent="1" value="Diagrama de Secuencia de Diseño (DS — REV06A) — DS UC-24 Crear y Comunicar Promoción (REV06A)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;"><mxGeometry x="40" y="16" width="2770" height="34" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_actor" vertex="1" parent="1" value="Administrador" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#000000;"><mxGeometry x="76" y="75" width="65" height="55" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_actorline" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="1295" as="sourcePoint"/><mxPoint x="100" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o0" vertex="1" parent="1" value=":ControladorPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="330" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l0" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="1295" as="sourcePoint"/><mxPoint x="430" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o1" vertex="1" parent="1" value=":CatalogoPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="680" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l1" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="1295" as="sourcePoint"/><mxPoint x="780" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o2" vertex="1" parent="1" value="nuevaPromo : Promocion" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="1030" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l2" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="1130" y="1295" as="sourcePoint"/><mxPoint x="1130" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o3" vertex="1" parent="1" value="asocProducto : PromocionProducto" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="1380" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l3" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="1480" y="1295" as="sourcePoint"/><mxPoint x="1480" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o4" vertex="1" parent="1" value="destinatario : DestinatarioPromocion" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="1730" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l4" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="1830" y="1295" as="sourcePoint"/><mxPoint x="1830" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o5" vertex="1" parent="1" value="unIntento : IntentoComunicacion" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="2080" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l5" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="2180" y="1295" as="sourcePoint"/><mxPoint x="2180" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_o6" vertex="1" parent="1" value=":AdaptadorMensajeria" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="2430" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_l6" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="2530" y="1295" as="sourcePoint"/><mxPoint x="2530" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_f0" vertex="1" parent="1" value="ref «include» UC-35 Buscar Producto: seleccionar Productos elegibles" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="182" width="2780" height="70" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m1" edge="1" parent="1" value="1: idPromocion = crearYComunicarPromocion(descripcion:String, porcentajeDescuento:BigDecimal, vigenteDesde:Timestamp, vigenteHasta:Timestamp, idsProductos:List&lt;Long&gt;, idsClientesDestinatarios:List&lt;Long&gt;)" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="267" as="sourcePoint"/><mxPoint x="430" y="267" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m2" edge="1" parent="1" value="2: validarDatosElegibilidadYColecciones(...) [por atributo, sin mutar]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="334" as="sourcePoint"/><mxPoint x="780" y="334" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_f3" vertex="1" parent="1" value="alt datos válidos y destinatarios/Productos activos / invalidación" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="383" width="2780" height="190" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m4" edge="1" parent="1" value="3: «create» Promocion(descripcion, descuento, vigencias, ACTIVA conforme vigencia, codigoAccesoOnline)" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="468" as="sourcePoint"/><mxPoint x="1130" y="468" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m5" edge="1" parent="1" value="4: «create» PromocionProducto(idPromocion, idProducto) [por Producto seleccionado]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="535" as="sourcePoint"/><mxPoint x="1480" y="535" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m6" edge="1" parent="1" value="5: «create» DestinatarioPromocion(idPromocion, idCliente) [por destinatario]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="602" as="sourcePoint"/><mxPoint x="1830" y="602" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_f7" vertex="1" parent="1" value="loop [por destinatario seleccionado; crear cada intento independiente]" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="651" width="2780" height="165" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m8" edge="1" parent="1" value="6: «create» IntentoComunicacion(idPromocion, idCliente, numeroIntento, claveIdempotencia)" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="736" as="sourcePoint"/><mxPoint x="2180" y="736" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m9" edge="1" parent="1" value="7: enviarPromocion(destinatario, referenciaAccesoOnline) [servicio externo]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="803" as="sourcePoint"/><mxPoint x="2530" y="803" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m10" edge="1" parent="1" value="7.1: resultado de envío por destinatario" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="2530" y="870" as="sourcePoint"/><mxPoint x="430" y="870" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m11" edge="1" parent="1" value="8: registrarResultadoComunicacion(resultado, referenciaExterna)" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="937" as="sourcePoint"/><mxPoint x="2180" y="937" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m12" edge="1" parent="1" value="9: confirma Promocion y resultados individuales; ante fallo de un envío conserva éxito de otros; no acumula descuentos" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="1004" as="sourcePoint"/><mxPoint x="100" y="1004" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_m13" edge="1" parent="1" value="9.1: datos inválidos: no confirmar Promocion" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="1071" as="sourcePoint"/><mxPoint x="100" y="1071" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc24-completo_n14" vertex="1" parent="1" value="RD-RP023-001: UC-21 selecciona mayor beneficio económico elegible; no se añade lógica de selección a UC-24 ni se asume equivalencia de porcentaje." style="text;html=1;fillColor=none;strokeColor=none;align=left;fontColor=#555555;"><mxGeometry x="90" y="1133" width="2690" height="40" as="geometry"/></mxCell></root></mxGraphModel></diagram>
+<diagram id="ds-rev06a-uc59-completo" name="DS UC-59 Consultar Promociones (REV06A)"><mxGraphModel dx="1350" dy="880" grid="1" gridSize="10" guides="1" page="1" pageScale="1" pageWidth="1350" pageHeight="910" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="ds-rev06a-uc59-completo_title" vertex="1" parent="1" value="Diagrama de Secuencia de Diseño (DS — REV06A) — DS UC-59 Consultar Promociones (REV06A)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;"><mxGeometry x="40" y="16" width="1250" height="34" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_actor" vertex="1" parent="1" value="Administrador" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#000000;"><mxGeometry x="76" y="75" width="65" height="55" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_actorline" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="845" as="sourcePoint"/><mxPoint x="100" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_o0" vertex="1" parent="1" value=":ControladorPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="330" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_l0" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="845" as="sourcePoint"/><mxPoint x="430" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_o1" vertex="1" parent="1" value=":CatalogoPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="680" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_l1" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="845" as="sourcePoint"/><mxPoint x="780" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_m0" edge="1" parent="1" value="1: promociones = consultarPromociones(idPromocion:Long[0..1], vigenteDesde:Timestamp[0..1], vigenteHasta:Timestamp[0..1], estado:String[0..1], idProducto:Long[0..1])" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="200" as="sourcePoint"/><mxPoint x="430" y="200" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_m1" edge="1" parent="1" value="2: buscarPromocionesYComunicaciones(filtros) [atributo; solo lectura]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="267" as="sourcePoint"/><mxPoint x="780" y="267" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_m2" edge="1" parent="1" value="2.1: Promocion, PromocionProducto, DestinatarioPromocion, IntentoComunicacion" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="334" as="sourcePoint"/><mxPoint x="430" y="334" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_f3" vertex="1" parent="1" value="alt filtros coherentes / filtros inválidos" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="383" width="1260" height="125" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_m4" edge="1" parent="1" value="3.1: selecciona Promocion, presenta Productos, destinatarios e intentos con fecha/canal/resultado; distingue estado y vigencia; sin reenvío" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="468" as="sourcePoint"/><mxPoint x="100" y="468" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc59-completo_m5" edge="1" parent="1" value="3.2: filtro o selección inválidos: no exponer detalle; sin coincidencias/intentos: mostrar ausencia verificable" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="535" as="sourcePoint"/><mxPoint x="100" y="535" as="targetPoint"/></mxGeometry></mxCell></root></mxGraphModel></diagram>
+<diagram id="ds-rev06a-uc60-completo" name="DS UC-60 Desactivar Promoción (REV06A)"><mxGraphModel dx="1470" dy="1030" grid="1" gridSize="10" guides="1" page="1" pageScale="1" pageWidth="1470" pageHeight="1060" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="ds-rev06a-uc60-completo_title" vertex="1" parent="1" value="Diagrama de Secuencia de Diseño (DS — REV06A) — DS UC-60 Desactivar Promoción (REV06A)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontStyle=1;"><mxGeometry x="40" y="16" width="1370" height="34" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_actor" vertex="1" parent="1" value="Administrador" style="shape=umlActor;html=1;verticalLabelPosition=bottom;verticalAlign=top;strokeColor=#000000;"><mxGeometry x="76" y="75" width="65" height="55" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_actorline" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="995" as="sourcePoint"/><mxPoint x="100" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_o0" vertex="1" parent="1" value=":ControladorPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="330" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_l0" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="995" as="sourcePoint"/><mxPoint x="430" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_o1" vertex="1" parent="1" value=":CatalogoPromociones" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="680" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_l1" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="995" as="sourcePoint"/><mxPoint x="780" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_o2" vertex="1" parent="1" value="unaPromocion : Promocion" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#222222;fillColor=#c9e8ff;"><mxGeometry x="1030" y="75" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_l2" edge="1" parent="1" value="" style="endArrow=none;dashed=1;strokeColor=#666666;"><mxGeometry relative="1" as="geometry"><mxPoint x="1130" y="995" as="sourcePoint"/><mxPoint x="1130" y="130" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m0" edge="1" parent="1" value="1: ok = desactivarPromocion(idPromocion:Long)" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="200" as="sourcePoint"/><mxPoint x="430" y="200" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m1" edge="1" parent="1" value="2: recuperarYRevalidarPromocion(idPromocion) [atributo]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="267" as="sourcePoint"/><mxPoint x="780" y="267" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m2" edge="1" parent="1" value="2.1: unaPromocion y estado previo" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="334" as="sourcePoint"/><mxPoint x="430" y="334" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_f3" vertex="1" parent="1" value="alt UC-60 [Administrador confirma; BORRADOR|ACTIVA|PAUSADA→CANCELADA] / [finalizada, cancelada o sin autorización]" style="shape=umlFrame;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#444444;align=left;verticalAlign=top;fontStyle=1;"><mxGeometry x="45" y="383" width="1380" height="175" as="geometry"/></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m4" edge="1" parent="1" value="3: cambiarEstado(CANCELADA) [variable local; baja definitiva de BORRADOR/ACTIVA/PAUSADA, no reactivar]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="468" as="sourcePoint"/><mxPoint x="1130" y="468" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m5" edge="1" parent="1" value="4: persistirCANCELADAConBloqueoYRevalidacion(unaPromocion) [una transacción; conserva asociaciones]" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=block;dashed=0;endFill=1;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="535" as="sourcePoint"/><mxPoint x="780" y="535" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m6" edge="1" parent="1" value="5: confirma estado CANCELADA; nuevas aplicaciones bloqueadas; descuentos de Pedidos previos inmutables" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="602" as="sourcePoint"/><mxPoint x="100" y="602" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_m7" edge="1" parent="1" value="5.1: inexistente, FINALIZADA, CANCELADA o transición/concurrencia no permitida: no modificar" style="html=1;verticalAlign=bottom;strokeColor=#333333;endArrow=open;dashed=1;endFill=0;"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="669" as="sourcePoint"/><mxPoint x="100" y="669" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="ds-rev06a-uc60-completo_n8" vertex="1" parent="1" value="F08 (MR-5 S-05): UC-60 usa BORRADOR/ACTIVA/PAUSADA→CANCELADA; PAUSADA→ACTIVA prohibida. FINALIZADA y CANCELADA terminales. Destino elegido para baja definitiva: interpretación de diseño, pendiente de ratificación explícita; sin tabla nueva." style="text;html=1;fillColor=none;strokeColor=none;align=left;fontColor=#555555;"><mxGeometry x="90" y="731" width="1290" height="40" as="geometry"/></mxCell></root></mxGraphModel></diagram></mxfile>
