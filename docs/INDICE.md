@@ -17,3 +17,8 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Guía Gemini web](GUIA_GEMINI_WEB.md): importación, limitaciones de escritura y flujo con PR.
 
 - [Informe MR-6](05-modelo-relacional/MR6_INFORME_EJECUCION_2026-10-26.md): ejecución PostgreSQL 17 y riesgos restantes.
+
+## Implementación (plan adoptado 29/10/2026)
+- [Plan rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md): prioridades, hitos y entregables E01–E12.
+- [B0, primera ejecución](01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md): inventario 64 CU/DSS/DS/contratos, trazabilidad y gate G0.
+- [Guía de delegación IA](06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md): tareas delegables, límites, PR y pruebas para Antigravity/OpenCode.
