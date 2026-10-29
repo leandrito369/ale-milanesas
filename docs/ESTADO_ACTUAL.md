@@ -29,3 +29,7 @@ Editar solo mediante PR con evidencia. Para cambios posteriores registrar fecha,
 - [Resultado real GitHub Actions #40337106012](https://github.com/leandrito369/ale-milanesas/actions/runs/40337106012): éxito.
 - Las pruebas de concurrencia y migración trabajan únicamente sobre contenedores y bases descartables.
 - **Próximo frente:** cerrar F01 y los servicios F04/F05/F06/F07/F09 y, después, revisar el Diagrama Relacional; mantener sin cambios el Diagrama de CU rechazado.
+
+## Adenda 29/10/2026 — Plan de implementación
+
+El responsable adoptó el [plan rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md) y priorizó [B0](01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md). Declaró terminados los DSS, DS y contratos de 64 CU; **queda por localizar/importar y verificar esos artefactos en Git**. El documento DOCX de 64 CU sí está en el repositorio. Las pruebas de BD MR-6 siguen siendo evidencia válida del 26/10; no hay afirmación de sistema completo ni de servicios implementados. La [delegación de programación](06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md) requiere rama+PR, contratos, trazabilidad y pruebas reproducibles. Esta adenda no reemplaza las RD vigentes ni autoriza cambios de reglas o migraciones productivas.

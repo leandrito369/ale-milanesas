@@ -31,3 +31,9 @@ Importá este repositorio desde Gemini para **consultar el contenido de la versi
 ## Licencias y fuentes
 
 Documentación para trabajo académico del proyecto; no se concede aquí ninguna licencia de reutilización de guías educativas de terceros. No se incluyeron las guías de consulta originales.
+
+## Plan de construcción adoptado — 29/10/2026
+
+Se adoptó el [plan rector B0–B10](docs/01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md), con desarrollo incremental por recorridos completos y pruebas reproducibles. Primer paso: [B0 — consolidación de línea base](docs/01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md). Para delegación de programación a Antigravity/OpenCode, consultar la [guía de agentes](docs/06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md) y `AGENTS.md`.
+
+**Precisión de evidencia:** el responsable informó DSS, DS y contratos de 64 CU terminados, pendientes de inventario/importación en Git; MR-6 ya demostró pruebas seleccionadas de PostgreSQL 17, sin demostrar backend o aplicación completa.

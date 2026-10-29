@@ -24,3 +24,11 @@ Incluí en cada PR: objetivo, fuentes consultadas, artefactos alterados, decisio
 
 ## Coordinación
 La IA no es árbitro de las decisiones comerciales no definidas. Marcá `[A CONFIRMAR]` y abrí un Issue con trazabilidad.
+
+## Plan de implementación adoptado (29/10/2026)
+- Plan rector: `docs/01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md`; primer bloque: `docs/01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md`.
+- Delegación a Antigravity, OpenCode y similares: `docs/06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md`. La raíz `AGENTS.md` es común a OpenCode y Antigravity; reglas adicionales `.agents/rules/` y revisión `.opencode/agents/`.
+- El usuario declaró completos DSS, DS y contratos de los 64 CU el 29/10; **no** se ha verificado que dichos archivos estén incorporados. B0 debe inventariarlos antes de implementar sobre supuestos.
+- El marco de construcción es CU → DSS → DS → contrato → servicio/dominio → BD/API/UI → prueba reproducible, por incrementos verticales.
+- MR-6 en PostgreSQL de laboratorio sí fue ejecutado; no atribuir a MR-6 validación de API, servicios, offline o producción. F04 funcional cerrado ≠ S-01 técnica aprobada.
+- Para nuevos encargos, cada agente debe leer una tarea acotada y entregar rama+PR con fuentes, diff, pruebas y límites. Decisiones de negocio y cambios físicos de riesgo requieren autorización.
