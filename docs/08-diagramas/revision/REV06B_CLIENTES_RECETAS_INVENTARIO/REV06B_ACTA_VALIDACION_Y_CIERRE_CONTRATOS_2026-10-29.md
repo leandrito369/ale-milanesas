@@ -64,3 +64,10 @@
 **Conforme para cierre de la cobertura documental de contratos de los 64 CU**, con 67 operaciones contractuales descritas y trazables a sus fichas de tres niveles. Se corrigen discrepancias demostrables y no se añaden tablas ni columnas.
 
 **No confundir cierre de cobertura contractual con certificación de los 67 tríos DSS/DS/Contrato**: únicamente 54 firmas tienen cotejo triple anterior. Las 13 nuevas quedan listas para su futura homologación cuando exista el diseño correspondiente; no se abrirán ni modificarán diagramas previamente inspeccionados sin decisión expresa. No fusionar PR ni editar el documento maestro automáticamente.
+
+
+## 6. Adenda de homologación triple — REV-06B.1 (29/10/2026)
+
+El dictamen de este archivo es el **corte inicial de cobertura de 13 contratos**, previo a la entrega/revisión de diagramas específicos. Con posterioridad se recibieron DSS y DS del sublote **REV-06B.1** y se corrigieron sus desviaciones respecto de Fase 4, el diccionario y los contratos aquí referidos.
+
+La [auditoría M-0 a M-7 de REV-06B.1](../REV06B1_CLIENTES_CATEGORIA/REV06B1_AUDITORIA_TRANSVERSAL_Y_HOMOLOGACION_2026-10-29.md) confirmó la coincidencia nominal de las **7 firmas** de UC-02, UC-33, UC-32, UC-38, UC-57, UC-15 y UC-16 en DSS, DS y Contrato corregidos. No altera los 13 contratos de este archivo. La trazabilidad global pasó de **54/67 a 61/67**, quedando pendientes los seis CU de REV-06B.2 y el control H01/H02 de UC-42. No se integra ni ejecuta automáticamente el DDL o el Word.
