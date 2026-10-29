@@ -43,3 +43,7 @@
 ## Evidencia B0 — 29/10/2026 (decisiones y residuales)
 
 La matriz vigente de trabajo es [B0 RBAC 0 P](B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv), no la copia histórica. BC01/02/03 cerrados funcionalmente por RD individuales; BC04 y BC10 corregidos en contratos/índice derivados. BC05 tiene [21 observaciones](BC05_RECONCILIACION_21_REFERENCIAS_RF.csv), con propagación pendiente. BC07 tiene [15 proyecciones propuestas](BC07_PROYECCIONES_MINIMAS_15_ROL_CU.csv) que requieren ratificación antes de configurar DTO o visibilidad sensible. [Dictamen](B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md). **G0 no aprobado.**
+
+## Actualización BC-05/BC-07/BC-09 y BC-06 — 29/10/2026
+
+BC05 **RATIFICADO Y PROPAGADO EN 8 COPIAS B0** (21 referencias). BC07 **RATIFICADO** (15 proyecciones sin permisos nuevos). BC09 **REGLA DOCUMENTADA** con efectos técnicos verificables futuros. BC06 **18 CASOS DEFINIDOS, 0 PRUEBAS DE IMPLEMENTACIÓN EJECUTADAS** por ausencia de servicios. La verificación automatizada de artefactos B0 es **documental** y no reemplaza la suite funcional. E01-C de responsabilidad/persistencia y ADR B1 continúan pendientes de G0.

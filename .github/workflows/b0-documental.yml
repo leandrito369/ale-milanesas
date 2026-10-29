@@ -1,0 +1,21 @@
+name: B0 - Consistencia documental (no pruebas de aplicación)
+on:
+  pull_request:
+    paths:
+      - 'docs/01-gobierno/b0/**'
+      - 'docs/08-diagramas/consolidacion-b0/**'
+      - 'tests/b0/**'
+      - '.github/workflows/b0-documental.yml'
+  workflow_dispatch:
+jobs:
+  verificar-documentos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ejecutar controles documentales B0 (no backend)
+        run: python -m unittest discover -s tests/b0 -p 'test_*.py' -v

@@ -56,6 +56,8 @@ Este archivo contiene los **8 Contratos individuales desagrupados** (`UC-14`, `r
 
 4. **Referencias cruzadas:** Caso de Uso `UC-29 — Registrar Cobro`; incluye `UC-15 — Evaluar y Actualizar Categoría Comercial`; Decisiones `RD-F01`, `RD-F04` y `RD-RP028` (`H-10`); Objetivos `OBJE-10`, `OBJE-12`; Requisitos `RF-06`, `RF-09`, `RF-12`.
 
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-06,RF-15,RF-20. Referencias contenidas en el contrato anterior: RF-06,RF-09,RF-12. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
 5. **Notas:** El cobro manual general puede ser registrado por **Administrador o Vendedor** conforme permisos ratificados, pero la **rendición de efectivo de un Repartidor al cierre del recorrido** es recibida, verificada y autorizada **exclusivamente por el Administrador** (RD-F04-002); una diferencia permanece **pendiente de conciliación** y no confirma Cobro por dinero no recibido. El Repartidor no ejecuta `UC-29`. `Cobro.estadoCobro` solo admite `CONFIRMADO` y `ANULADO` (RD-F01). El reconocimiento de pago en tránsito se retira atómicamente al contabilizar el definitivo, para evitar doble reducción del exigible. La idempotencia general necesita `claveIdempotenciaOrigen`/referencias del esquema y controles de servicio; la firma pública por sí sola no certifica su ejecución.
 
 6. **Excepciones:**
@@ -96,6 +98,8 @@ Este archivo contiene los **8 Contratos individuales desagrupados** (`UC-14`, `r
 
 4. **Referencias cruzadas:** Caso de Uso `UC-29 — Registrar Cobro`; incluye `UC-15 — Evaluar y Actualizar Categoría Comercial`; Decisiones `RD-F01` (`H-10`), `RD-RP007-001` y `RD-B0-BC03`; Objetivos `OBJE-10`, `OBJE-12`; Requisitos de UC-29 `RF-06`, `RF-15`, `RF-20`; `RF-12` como referencia complementaria por la ejecución interna de UC-15. La referencia original `RF-09` se conserva en el registro de correcciones BC-05, no como requisito vigente de esta operación.
 
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-06,RF-15,RF-20. Referencias contenidas en el contrato anterior: RF-06,RF-09. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
 5. **Notas:** Se trata de una **segunda operación pública independiente dentro del UC-29**, no de un paso opcional inmediatamente posterior a cada alta. Exige autorización comprobada en servidor y motivo, contraasientos trazables e idempotencia. Nunca se elimina físicamente un `Cobro` ni sus movimientos originales. Los cobros electrónicos (`origen = ONLINE`) no se anulan por esta vía sino mediante el circuito de reembolso electrónico (`UC-26` / `UC-49`).
 
 6. **Excepciones:**
@@ -134,6 +138,8 @@ Este archivo contiene los **8 Contratos individuales desagrupados** (`UC-14`, `r
 
 4. **Referencias cruzadas:** Caso de Uso `UC-22 — Registrar Movimiento de Caja`; Objetivo `OBJE-12`; Requisito `RF-15` (corrección editorial BC-04; `RF-09` era la referencia histórica equivocada).
 
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-15. Referencias contenidas en el contrato anterior: RF-09. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
 5. **Notas:** Los pagos de Clientes y las devoluciones automáticas no pueden registrarse como movimientos manuales aislados en `UC-22` (corresponden a `UC-29` y `UC-26`).
 
 6. **Excepciones:**
@@ -165,6 +171,8 @@ Este archivo contiene los **8 Contratos individuales desagrupados** (`UC-14`, `r
 3. **Tipo:** `Sistema`
 
 4. **Referencias cruzadas:** Caso de Uso `UC-23 — Consultar Libro Diario`; Objetivo `OBJE-12`; Requisito `RF-15` (corrección editorial BC-04; `RF-09` era la referencia histórica equivocada).
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-15. Referencias contenidas en el contrato anterior: RF-09. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
 
 5. **Notas:** El resultado monetario del período (`ingresos - egresos`) no representa un saldo físico de arqueo de Caja ni una medida de utilidad contable.
 

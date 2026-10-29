@@ -44,3 +44,9 @@ La IA no es árbitro de las decisiones comerciales no definidas. Marcá `[A CONF
 - Matriz nueva `docs/01-gobierno/b0/B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv`: **0 P en 536 celdas**. `UC-14` solo Vendedor; `UC-03/reprogramar` solo Vendedor; `UC-29/anularCobroManual` solo Administrador. Las matrices previas son históricas y no deben usarse para permisos vigentes.
 - Contratos derivados aprobados funcionalmente en `docs/08-diagramas/consolidacion-b0/`. Originales de PR #10–#19 intactos; no generar una segunda API sin cotejarlos.
 - Dictamen `docs/01-gobierno/b0/B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md`: BC-05 reconciliado con propagación editorial pendiente; **BC-07 proyección de campos sensible PROPUESTA, NO APROBADA**. No exponer costos/campos por inferencia ni afirmar G0 ratificado.
+
+## Últimas RD BC-05/BC-07 y regla BC-09 (29/10/2026)
+- **BC-05 ratificada:** `docs/01-gobierno/b0/RD_B0_BC05_2026-10-29.md`, 21 RF propagados en 8 versiones B0; originales de revisión permanecen intactos.
+- **BC-07 ratificada:** `docs/01-gobierno/b0/RD_B0_BC07_2026-10-29.md` y matriz `BC07_PROYECCIONES_MINIMAS_RATIFICADAS_2026-10-29.csv`. Los campos excluidos **NO** están autorizados por el permiso general de lectura.
+- **BC-09:** leer `docs/01-gobierno/b0/BC09_REGLA_INVOCACION_INTERNA_EXTERNA_2026-10-29.md` antes de diseñar HTTP, servicios internos, webhook o pagos. Automatismo/Cliente ONLINE/MercadoPago ≠ Rol humano interno.
+- **BC-06:** 18 casos de implementación `BC06_CASOS_PRUEBA_IMPLEMENTACION_18.csv` se encuentran **NO EJECUTADOS** por ausencia de backend. Solo `tests/b0/test_documentacion_b0.py` comprueba consistencia documental. No declarar B3/B4/B6/B8 completados.

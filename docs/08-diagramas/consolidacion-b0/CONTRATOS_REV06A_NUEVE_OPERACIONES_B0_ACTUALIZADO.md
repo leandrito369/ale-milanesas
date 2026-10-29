@@ -1,0 +1,229 @@
+> **Consolidación de referencias B0-BC05 — 29/10/2026:** 9 operación(es). Fuentes Fase 4 y propuesta revisión `64af3c3baa571c2d512242e396267a31f0da3efd`. Original REV no modificado; adenda aceptada por el responsable y propagada como anotación de trazabilidad. **No** certifica API ni contrato gráfico. 
+
+# REV-06A — Contratos de operación, Comercial, Productos, Precios y Promociones
+
+**Corte:** 28/10/2026 · **Estado:** propuesta documental completada y sujeta a cotejo literal del Word Fase 4 de 64 CU. No sustituye fichas maestras ni decisiones nuevas. **Nueve CU, nueve contratos**. Se preservan operaciones públicas exactas del DSS y DS; los detalles de diseño no alteran la firma.
+
+## 1. Contrato de la Operación `buscarProducto` (UC-35 — Buscar Producto)
+
+1. **Nombre:** `buscarProducto(idProducto:Long[0..1], nombre:String[0..1], tipoProducto:String[0..1], activo:Boolean[0..1])`
+
+2. **Responsabilidades:** Localizar Productos por criterios opcionales y devolver coincidencias o una selección contextual, sin modificar el catálogo.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-35; RD-RP007-002; UC-47, UC-48, UC-19, UC-20 y UC-24 (incluyen búsqueda contextual).
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-07. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Solo Administrador y Vendedor disponen de acceso directo o contextual conforme permisos concretos. Producción no obtiene acceso UC-35. La búsqueda contextual no concede permisos generales ni modificación.
+
+6. **Excepciones:** A1: filtros incompatibles o no autorizados: rechazar o solicitar corrección. A2: ninguna coincidencia: resultado vacío, no crear registros.
+
+7. **Salida:** Lista de Productos autorizados con id, nombre, descripción, tipo ELABORADO/REVENTA, unidad de venta y estado; o aviso de búsqueda sin resultado.
+
+8. **Precondiciones:** Actor autenticado y autorizado como Administrador o Vendedor, con alcance directo/contextual permitido.
+
+9. **Postcondiciones:** No se crean ni alteran Producto, precios ni relaciones.
+
+---
+
+## 2. Contrato de la Operación `gestionarProducto` (UC-30 — Gestionar Producto (alta))
+
+1. **Nombre:** `gestionarProducto(nombre:String, descripcion:String[0..1], tipoProducto:String, codigoUnidadVenta:String)`
+
+2. **Responsabilidades:** Registrar un Producto maestro ELABORADO o REVENTA con identidad única y estado inicial activo, sin inventar precio vigente ni Receta.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-30; RD-RP018-001; UC-19 (primer precio); UC-10 (Receta); MR-5 tabla PRODUCTO.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-07. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** El nombre normalizado es único también frente a Productos inactivos; la normalización interna debe ser determinista. Producto sin precio vigente existe, pero no puede comercializarse hasta UC-19. No se crea stock/costo de origen ficticio. La ficha maestra UC-30 comprende también mantenimiento y cambios de estado; estas funciones se trazan por UC-47 y UC-48 como operaciones independientes, evitando duplicar sus efectos. El alta exige registrar trazabilidad con mecanismo técnico aún no especificado, sin inventar tabla HISTORIAL_ESTADO_PRODUCTO.
+
+6. **Excepciones:** A1: datos obligatorios o tipo/unidad inválidos: rechazar alta. A2: nombre normalizado ya utilizado por Producto activo o inactivo: mostrar coincidencia sin duplicar.
+
+7. **Salida:** idProducto y confirmación del nuevo Producto activo, o explicación del rechazo.
+
+8. **Precondiciones:** Administrador autenticado y autorizado; código de unidad válido y nombre informado.
+
+9. **Postcondiciones:** Se crea una instancia Producto con nombre, descripción, tipoProducto, codigoUnidadVenta y activo=true. No se crean PrecioProducto, AuditoriaPrecio, Receta ni movimientos de stock a partir de esta operación. Se conserva traza de alta en el mecanismo de auditoría que corresponda, sin atribuir nuevas tablas.
+
+---
+
+## 3. Contrato de la Operación `modificarProducto` (UC-47 — Modificar Producto)
+
+1. **Nombre:** `modificarProducto(idProducto:Long, nuevoNombre:String, descripcion:String[0..1], tipoProductoPropuesto:String, codigoUnidadVentaPropuesto:String)`
+
+2. **Responsabilidades:** Actualizar datos permitidos de Producto existente, revalidando su identidad y dependencias históricas antes de confirmar.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-47 «include» UC-35; F09; MR-5 PRODUCTO y dependencias; RD-RP007-002.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-07. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Tipo y unidad no se modifican si el Producto tiene historial dependiente. Precios, Pedidos, Recetas y movimientos previos conservan su identidad; la alternativa es crear otro Producto por UC-30.
+
+6. **Excepciones:** A1: Producto no localizado o sin permiso: rechazar. A2: nombre normalizado duplicado, aun si el otro Producto está inactivo: rechazar. A3: cambio de tipo o unidad con historia dependiente: rechazar e indicar UC-30. A4: cambio concurrente de historia entre lectura y confirmación: revalidar y abortar si afecta restricciones.
+
+7. **Salida:** Confirmación de datos modificados permitidos o detalle de restricción.
+
+8. **Precondiciones:** Administrador autenticado; Producto identificado mediante UC-35.
+
+9. **Postcondiciones:** Se modifican únicamente los atributos permitidos de Producto. No se reescriben Pedidos, Recetas, precios ni movimientos históricos.
+
+---
+
+## 4. Contrato de la Operación `cambiarEstadoProducto` (UC-48 — Cambiar Estado de Producto)
+
+1. **Nombre:** `cambiarEstadoProducto(idProducto:Long, nuevoActivo:Boolean)`
+
+2. **Responsabilidades:** Activar o desactivar Producto existente preservando relaciones y Pedidos pendientes sin cancelaciones automáticas.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-48 «include» UC-35; F09; MR-5 PRODUCTO.activo.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-07. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Desactivar impide nuevas ventas/promociones sin eliminar el Producto, sus dependencias ni los Pedidos PENDIENTE existentes. Reactivar exige verificar condiciones actuales de uso; no confundir estado con habilitación comercial si falta precio.
+
+6. **Excepciones:** A1: Producto inexistente o no autorizado: rechazar. A2: estado igual al solicitado: informar que no hubo cambio. A3: reactivación con datos actuales inválidos: rechazar y señalar corrección mediante UC-47.
+
+7. **Salida:** Nuevo estado activo/inactivo o explicación de rechazo.
+
+8. **Precondiciones:** Administrador autenticado; Producto localizado por UC-35.
+
+9. **Postcondiciones:** Se modifica Producto.activo solo cuando la transición es admisible; no se borran relaciones ni se cancelan de oficio los Pedidos PENDIENTE.
+
+---
+
+## 5. Contrato de la Operación `actualizarPrecioVigente` (UC-19 — Actualizar Precio Vigente)
+
+1. **Nombre:** `actualizarPrecioVigente(idProducto:Long, nuevoPrecioBase:BigDecimal, vigenteDesde:Timestamp, vigenteHasta:Timestamp[0..1])`
+
+2. **Responsabilidades:** Registrar el primer precio o una nueva vigencia del precio base de un Producto sin solapamiento, conservando historia y auditoría.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-19 «include» UC-35; RD-RP018-001; MR-5 PRECIO_PRODUCTO y AUDITORIA_PRECIO.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-09. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Precio mayor que cero; vigenteDesde no puede ser retroactiva; vigenteHasta, si se informa, posterior a vigenteDesde. Un precio programado no rige hasta su inicio. A lo sumo un precio válido por Producto e instante. La comprobación es previa; cierre de período y nueva fila/auditoría ocurren atómicamente solo en la rama válida. Se preservan montos de Pedidos confirmados.
+
+6. **Excepciones:** A1: precio no positivo, intervalo vacío o fechas incoherentes: rechazar. A2: intervalos superpuestos o actualización concurrente incompatible: abortar sin cerrar el precio anterior. A3: Producto inexistente/sin permiso: rechazar. A4: fecha de inicio retroactiva: rechazar sin alterar la vigencia anterior. A5: falla o cancelación: no registrar parcialmente precio ni auditoría.
+
+7. **Salida:** idPrecio y vigencia creada, junto con constancia de auditoría, o motivo de rechazo.
+
+8. **Precondiciones:** Administrador autenticado; Producto seleccionado mediante UC-35.
+
+9. **Postcondiciones:** Se crea PrecioProducto para la nueva vigencia y un evento AuditoriaPrecio asociado; si corresponde se ajusta la vigencia previa sin perder su historia; ninguna venta histórica cambia.
+
+---
+
+## 6. Contrato de la Operación `consultarHistorialPrecios` (UC-20 — Consultar Historial de Precios)
+
+1. **Nombre:** `consultarHistorialPrecios(idProducto:Long, fechaDesde:LocalDate[0..1], fechaHasta:LocalDate[0..1])`
+
+2. **Responsabilidades:** Presentar diferenciadamente precios históricos, precio actualmente aplicable y precios futuros programados, junto con eventos de auditoría, opcionalmente filtrados por fechas.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-20 «include» UC-35; RD-RP018-001; MR-5 PRECIO_PRODUCTO y AUDITORIA_PRECIO.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-09. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Consulta de solo lectura; diferencias entre fecha de registro, evento auditado y período de vigencia deben conservarse en la visualización.
+
+6. **Excepciones:** A1: Producto no encontrado/no autorizado: rechazar. A2: fechaDesde posterior a fechaHasta: solicitar corrección. A3: Producto sin precios: mostrar ausencia verificable; si existe precio único no inventar versiones. A4: sin precio actualmente aplicable: informarlo aunque existan precios anteriores o futuros. A5: acceso no autorizado o falla: no exponer registros.
+
+7. **Salida:** Secuencia cronológica de precios diferenciando historia, precio actualmente aplicable y futuras vigencias, con auditoría del Administrador; o explicación de ausencia de versiones/precio actual.
+
+8. **Precondiciones:** Administrador autenticado y Producto localizado mediante UC-35.
+
+9. **Postcondiciones:** No se modifican Producto, PrecioProducto ni AuditoriaPrecio.
+
+---
+
+## 7. Contrato de la Operación `crearYComunicarPromocion` (UC-24 — Crear y Comunicar Promoción)
+
+1. **Nombre:** `crearYComunicarPromocion(descripcion:String, porcentajeDescuento:BigDecimal, vigenteDesde:Timestamp, vigenteHasta:Timestamp, idsProductos:List<Long>, idsClientesDestinatarios:List<Long>)`
+
+2. **Responsabilidades:** Crear una Promoción con Productos alcanzados y Clientes destinatarios, emitir comunicación por el proveedor de mensajería y registrar resultado por destinatario.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-24 «include» UC-35; RD-RP023-001; MR-5 PROMOCION, PROMOCION_PRODUCTO, DESTINATARIO_PROMOCION e INTENTO_COMUNICACION.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-16. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Exige al menos un destinatario. Pueden coexistir Promociones sobre mismo Producto y destinatario; no se acumulan descuentos sobre mismas unidades. La evaluación de mayor **beneficio económico** entre las elegibles y el congelamiento ocurre en UC-21, no se presupone equivalencia universal con el porcentaje más alto. La Promoción queda ACTIVA conforme a su vigencia, no disponible para uso fuera de ella; el acceso online identifica la Promoción pero no autentica al Cliente. El enlace de campaña no autentica al Cliente. Los fallos por destinatario se conservan, sin inventar un CU de reenvío.
+
+6. **Excepciones:** A1: descripción, vigencia, porcentaje o colecciones inválidas, Producto/Cliente inactivo o sin destinatarios: rechazar creación. A2: fallo parcial del servicio de mensajería: conservar la Promoción y resultados individuales registrados conforme operación confirmada; no declarar envío exitoso donde falló. A3: indisponibilidad del servicio: conservar incidencia, sin falsificar entregas. A4: no es posible generar acceso online válido: registrar la incidencia y no comunicar una referencia inutilizable.
+
+7. **Salida:** idPromocion, productos y destinatarios vinculados, y detalle de resultados por intento; o rechazo de creación.
+
+8. **Precondiciones:** Administrador autenticado; productos seleccionados mediante UC-35 y destinatarios autorizados, al menos uno.
+
+9. **Postcondiciones:** Se crea Promocion ACTIVA conforme a la vigencia y vínculos PromocionProducto/DestinatarioPromocion; se genera el acceso identificable a UC-21 y cada comunicación ejecutada crea IntentoComunicacion con fecha/hora, canal y resultado individual. No cambia descuentos de Pedidos previos ni se selecciona una Promoción para un Pedido hasta UC-21.
+
+---
+
+## 8. Contrato de la Operación `consultarPromociones` (UC-59 — Consultar Promociones)
+
+1. **Nombre:** `consultarPromociones(idPromocion:Long[0..1], vigenteDesde:Timestamp[0..1], vigenteHasta:Timestamp[0..1], estado:String[0..1], idProducto:Long[0..1])`
+
+2. **Responsabilidades:** Consultar campañas con filtros, permitir seleccionar una Promoción y mostrar su detalle de Productos, destinatarios e historial de intentos de comunicación, sin producir nuevos envíos.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-59; F08; RD-RP023-001; MR-5 PROMOCION y tablas asociadas.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-16. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** Estados conocidos: BORRADOR, ACTIVA, PAUSADA, FINALIZADA, CANCELADA. La consulta no habilita activación/reactivación ni modifica destinatarios.
+
+6. **Excepciones:** A1: estado no permitido o intervalo inválido: solicitar corrección. A2: sin resultados: respuesta vacía, sin modificar datos. A3: selección inexistente o fuera del permiso: no exponer detalle. A4: no hay destinatarios o intentos: mostrar ausencia, sin inferir que se envió comunicación.
+
+7. **Salida:** Listado de Promociones coincidentes con período, estado, Producto, destinatarios e intentos; o condición sin resultados.
+
+8. **Precondiciones:** Administrador autenticado y autorizado.
+
+9. **Postcondiciones:** Sin modificaciones a Promocion, PromocionProducto, DestinatarioPromocion ni IntentoComunicacion.
+
+---
+
+## 9. Contrato de la Operación `desactivarPromocion` (UC-60 — Desactivar Promoción)
+
+1. **Nombre:** `desactivarPromocion(idPromocion:Long)`
+
+2. **Responsabilidades:** Ejecutar la baja lógica definitiva de una Promoción mediante cambio de PROMOCION.estado a CANCELADA, revalidando autorización y estado, sin afectar Pedidos confirmados ni registros históricos.
+
+3. **Tipo:** Sistema
+
+4. **Referencias cruzadas:** UC-60; RD-F08-001 (ratificada 29/10/2026); RD-RP023-001; F08 / MR-5 S-05; PROMOCION.estado.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-16. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
+
+5. **Notas:** El Administrador examina estado y vigencia, recibe advertencia de que los Pedidos previos no cambian y confirma antes de registrar. La desactivación no elimina la Promoción ni modifica Productos, destinatarios, intentos y descuentos aplicados en Pedidos confirmados. Conforme a F08 / MR-5 S-05, las transiciones BORRADOR→CANCELADA, ACTIVA→CANCELADA y PAUSADA→CANCELADA están físicamente permitidas. Por decisión funcional **RD-F08-001 aprobada**, UC-60 establece CANCELADA como destino único de baja definitiva, no PAUSADA ni FINALIZADA. PAUSADA→ACTIVA permanece prohibida, FINALIZADA/CANCELADA son terminales, no existe CU de reactivación y no se crea CAMBIO_ESTADO_PROMOCION. **Esta asignación funcional quedó ratificada expresamente el 29/10/2026 en RD-F08-001; RC-02 está cerrada.**
+
+6. **Excepciones:** A1: Promoción no localizada o seleccionada inexistente: no modificar. A2: si PROMOCION.estado = CANCELADA, informar que ya fue cancelada sin duplicar cambio; si FINALIZADA, rechazar por estado terminal. A3: si la autorización o el estado cambia antes de confirmar, rechazar la transición inválida sin cambios parciales. A4: si el Administrador desiste antes de confirmar, conservar estado anterior. A5: ante error de persistencia, revertir por completo. A6: impedir PAUSADA→ACTIVA (no forma parte de UC-60).
+
+7. **Salida:** Confirmación de retiro para usos futuros y estado vigente, o explicación de no modificación.
+
+8. **Precondiciones:** Administrador autenticado y autorizado; Promoción localizada; estado actual BORRADOR, ACTIVA o PAUSADA; confirmación explícita; condición revalidada transaccionalmente.
+
+9. **Postcondiciones:** Si confirma el Administrador y el estado previo era BORRADOR, ACTIVA o PAUSADA, PROMOCION.estado queda CANCELADA; nuevas aplicaciones se impiden, y UC-21 revalida estado y vigencia antes de confirmar un Pedido ONLINE. Se preservan Productos, destinatarios, intentos, comunicaciones y descuentos congelados de Pedidos previos. Si la operación se rechaza, desiste o falla, no hay modificaciones parciales ni reactivación.
+
+---
+
+## Glosario y límite de revisión
+
+- **Beneficio económico:** criterio aprobado RD-RP023-001 para elegir, en UC-21, entre promociones elegibles. No se infiere una fórmula nueva ni se presupone que `max(porcentajeDescuento)` siempre lo maximice.
+- **Estado de promoción:** BORRADOR, ACTIVA, PAUSADA, FINALIZADA y CANCELADA; no se añade reactivación. El conjunto de aristas permitido proviene de F08/MR-5 y la elección de CANCELADA como destino único de UC-60 fue **ratificada expresamente en RD-F08-001 el 29/10/2026**; no se crea ningún CU de reactivación.
+- **Producto sin precio:** registro maestro válido pero no comercializable hasta primer precio UC-19 (RD-RP018-001).
+- **Versionado de precios:** preservar intervalos y auditorías sin alterar Pedidos confirmados.
+- **Visibilidad UML:** separadas las instancias PrecioProducto/AuditoriaPrecio, Promocion/PromocionProducto/DestinatarioPromocion/IntentoComunicacion; requiere posterior cotejo con diagrama de clases y Draw.io visual.

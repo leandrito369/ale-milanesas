@@ -23,3 +23,7 @@ La matriz [BC07_PROYECCIONES_MINIMAS_15_ROL_CU.csv](BC07_PROYECCIONES_MINIMAS_15
 - **BC07-R4:** Delimitar lectura comercial de UC-40 Producción; no conceder visibilidad de precios o evaluación de Proveedores por defecto.
 
 **Estado del hallazgo BC-07:** propuesta concreta entregada; **NO CERRADO funcionalmente** hasta aprobación de BC07-R1..R4. No bloquear análisis técnico de B0, pero sí implementación de proyecciones físicas sensibles.
+
+## Resolución posterior BC-07 del 29/10/2026
+
+**La propuesta precedente fue RATIFICADA** por el responsable dentro de su alcance expresamente escrito. Fuente vigente: [RD-B0-BC07](RD_B0_BC07_2026-10-29.md) y [matriz de 15 proyecciones ratificadas](BC07_PROYECCIONES_MINIMAS_RATIFICADAS_2026-10-29.csv). BC07-R1..R4 se resuelven por aceptación de las **restricciones de no exposición** expresadas en la propuesta. No se han aprobado por inferencia importes históricos de costos, precios comerciales para Producción ni datos no necesarios de personas. Cualquier ampliación exige una RD nueva.

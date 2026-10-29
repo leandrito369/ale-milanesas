@@ -9,3 +9,7 @@ El archivo [BC05_RECONCILIACION_21_REFERENCIAS_RF.csv](BC05_RECONCILIACION_21_RE
 **Clasificación:** las operaciones principales con RF ausentes o adicionales requieren corrección de metadatos en sus lotes originales; algunas operaciones secundarias como `UC-03/reprogramar` no afectan la política de precios original y no deben incorporar RF como comportamiento nuevo. En los grupos REV-06A y REV-01, varios contratos omiten el prefijo RF en referencias aun cuando detallan el CU/objetivo: se ofrece una *adenda de trazabilidad*, no se editan originales sin aprobación. 
 
 **Dictamen:** BC-05 queda **RECONCILIADO_EN_ADENDA** con 21 filas auditables, pero **NO cerrado por propagación completa a todos los contratos**; para cerrar, un integrador debe validar que la adenda sea autoridad documental suficiente o aprobar correcciones editoriales de los otros lotes. No prometer que 21 discrepancias de RF sean defectos funcionales.
+
+## Resolución posterior BC-05 del 29/10/2026
+
+El responsable aceptó la adenda. La [RD-B0-BC05](RD_B0_BC05_2026-10-29.md) la declara autoridad documental complementaria; [manifiesto de propagación](BC05_PROPAGACION_21_OPERACIONES_2026-10-29.csv) contiene **21 operaciones**, cada una con anotación de RF en los contratos derivados B0. El estado «propagación parcial» anterior queda **superado** para el paquete B0; originales de las PR #10–#19 siguen sin editar y su integración requerirá revisión.
