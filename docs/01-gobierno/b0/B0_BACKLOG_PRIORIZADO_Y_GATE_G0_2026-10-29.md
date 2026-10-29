@@ -53,3 +53,10 @@ BC05 **RATIFICADO Y PROPAGADO EN 8 COPIAS B0** (21 referencias). BC07 **RATIFICA
 El [mapa técnico 67 operaciones](B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv) asocia CU/contrato con 7 módulos candidatos, 60 tablas ya existentes, fronteras transaccionales propuestas, RBAC ratificado y pruebas futuras. La [reconciliación MR5/MR6](B0_MR5_MR6_CONCILIACION_TECNICA_2026-10-29.md) distingue evidencia SQL de servicios aún ausentes. El [backlog I0–I3](B0_BACKLOG_I0_I1_PRIMER_VERTICAL_2026-10-29.md) especifica alcance y criterios iniciales. 
 
 **Gate G0 sigue NO APROBADO** a la espera de [decisiones G0-D01..05](B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md), ratificación de [ADR candidatas](../../06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md), integración de fuentes y revisión de DS por operación. Las 18 pruebas BC06 continúan para B3/B4/B6.
+
+## Actualización de autoridad y bloqueo de B1 — 29/10/2026
+
+- **G0-D02 RESUELTO:** [RD de arquitectura](RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md) ratifica ADR-B1-01/02/03/04/06 en alcance previsto.
+- **ADR-B1-05 sigue pendiente de CR:** [CR-B0-F04-001](CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md); diseño y pruebas F04/S01 **no autorizados** como implementación.
+- **Implementación en repositorio separado:** [RD-B0-REPOS-01](RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md). **El responsable debe crear y comunicar la URL exacta**. No subir aquí scaffold, Spring Boot, Room, migraciones ni servicios.
+- Para cierre G0 permanecen **D01/D03/D04/D05**, revisión/aceptación humana y trazabilidad de PR encadenadas; el trabajo técnico de B1 inicia únicamente con **G0 aprobado + repo nuevo disponible**.

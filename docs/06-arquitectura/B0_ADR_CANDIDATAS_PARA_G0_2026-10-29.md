@@ -22,3 +22,9 @@
 ## Formato de aprobación posterior
 
 Registrar un acta `RD_B0_ADR_ARQUITECTURA_APROBADA_YYYY-MM-DD.md` con **ADR, alternativa aceptada, autoridad, fecha, cambios y restricciones**, actualizar `AGENTS.md` y el Gate G0. **No marcar ADR aprobadas por el hecho de abrir esta PR.**
+
+---
+
+## Ratificación posterior del responsable — 29/10/2026 (PREVALECE sobre estados de tabla original)
+
+La tabla anterior documenta el **estado de propuesta antes de la decisión**; no debe interpretarse como estado vigente. Por [acta RD de ratificación](../01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md), **ADR-B1-01/02/03/04/06 = RATIFICADAS** en el alcance y límites exactos descritos allí. **ADR-B1-05 = NO RATIFICADA COMO DISEÑO FÍSICO, sujeta a [CR-B0-F04-001](../01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md)**. Maven/Flyway y versiones concretas de implementación conservan sus marcas de candidato. **G0-D02 está resuelto**; **G0 global sigue pendiente** de revisión de fuentes, priorización, PR/aceptación. La implementación queda **bloqueada hasta alta por el responsable de un repositorio separado**, según [RD de separación](../01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md).

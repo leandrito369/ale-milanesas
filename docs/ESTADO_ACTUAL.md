@@ -53,3 +53,9 @@ Se preparó el [mapa técnico de 67 operaciones](01-gobierno/b0/B0_MAPA_TECNICO_
 ## Ejecución real de CI documental E01-C (29/10/2026)
 
 El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/leandrito369/ale-milanesas/actions/runs/40908456777) terminó **SUCCESS**. El job `verificar-documentos` ejecutó `python -m unittest discover -s tests/b0 -p 'test_*.py' -v`: **9 tests ejecutados / 9 aprobados / 0 fallos**, según logs. Cuatro son específicos de mapeo (67 operaciones, 64 CU, 7 módulos, 60 tablas existentes, consistencia de RBAC y carácter candidato); cinco verifican RD/BC previos. **Es comprobación documental automatizada, no test de aplicación, transacción ni PostgreSQL nuevo**. BC-06 de implementación sigue **0/18**.
+
+## Estado actual ratificado — 29/10/2026 (actualización posterior)
+
+**Arquitectura:** [ADR-B1-01/02/03/04/06 RATIFICADAS](01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md). **ADR-B1-05 / F04/S01: CR abierta y NO aprobada** ([CR](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md)). **G0-D02 RESUELTO**, G0 general sigue pendiente de D01/D03/D04/D05, validación de fuentes y PR.
+
+**Repositorios:** `leandrito369/ale-milanesas` se mantiene **solo como repositorio de análisis y diseño**. El nuevo repositorio de programación/documentación de implementación **no existe aún en el contexto disponible**: lo creará el responsable y comunicará su URL. [RD de separación](01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) y [handoff](06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md). **No programar ni iniciar B1 hasta G0 + alta del repo**. SQL MR6 probado solo en laboratorio; BC06 de implementación 0/18.

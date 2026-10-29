@@ -28,3 +28,11 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Mapa técnico 67 operaciones](01-gobierno/b0/B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv) y [60 tablas](01-gobierno/b0/B0_COBERTURA_60_TABLAS_Y_OPERACIONES_2026-10-29.csv).
 - [Arquitectura: ADR candidatas](06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md) — requieren ratificación humana.
 - [Backlog de primera entrega](01-gobierno/b0/B0_BACKLOG_I0_I1_PRIMER_VERTICAL_2026-10-29.md) y [Gate G0](01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md).
+
+## Línea base B0 — arquitectura y repositorios (ratificaciones 29/10/2026)
+
+- [ADR-B1-01/02/03/04/06 ratificadas](01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md)
+- [CR-B0-F04-001 pendiente, ADR-B1-05](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md)
+- [Separación análisis vs implementación](01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md)
+- [Traspaso preparado, repo implementación aún no creado](06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md)
+- [Gate G0, decisión D02 resuelta y restantes pendientes](01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md)
