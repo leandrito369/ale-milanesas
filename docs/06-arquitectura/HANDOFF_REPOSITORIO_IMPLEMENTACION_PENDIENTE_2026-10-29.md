@@ -40,3 +40,7 @@ No existe aún URL, repo, scaffold, código ni pipelines del nuevo repositorio. 
 
 Preparación de documentación de acceso de agentes para una PR en la app **tras G0 y permisos**:
 [plantilla AGENTS](G0_PLANTILLA_AGENTS_REPO_APP_2026-10-29.md) y [plantilla source-lock](G0_PLANTILLA_SOURCE_LOCK_REPO_APP_2026-10-29.md). **No publicadas en app**; ningún código de aplicación se ha iniciado.
+
+## Handoff habilitado por cierre posterior de G0 — 29/10/2026
+
+La condición histórica de este documento ("G0 pendiente") quedó superada: [RD-B0-G0-001](../01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) aprueba G0 y fija las fuentes en `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. El repositorio `leandrito369/ale-milanesas-app` existe y el GitHub App tiene permiso de crear ramas. Corresponde publicar `AGENTS.md` y el source-lock en la app y, posteriormente, tareas B1 mediante PR separadas. **No** usar los SHAs históricos Draft como fuente más reciente; la matriz canónica reemplaza el borrador.

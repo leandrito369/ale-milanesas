@@ -31,3 +31,9 @@
 **NO DECLARAR G0 = APROBADO por existencia de un enlace, PR o test documental.** Las fuentes están localizadas, las decisiones de arquitectura están firmadas, y la separación de repositorios es verificable. Quedan **ratificación de G0-D01/D03/D04/D05**, revisión efectiva de PR de diseño y B0 y acta formal de aceptación.
 
 Las acciones de B1 seguirán únicamente **después** de Gate G0 aprobado; ya no falta crear el repositorio, pero sí habilitarlo para la integración y congelar el source-lock. **No confundir la CR-B0-F04-001 pendiente con un bloqueo del desarrollo de módulos independientes de sincronización.**
+
+---
+
+## Dictamen posterior al cierre autorizado — 29/10/2026
+
+La condición histórica `G0 NO APROBADO` de arriba era válida al corte previo. Por aprobación expresa posterior del responsable, se cumplieron **D01/D02/D03/D04/D05**, se inspeccionaron lotes #10–#19 **según declaración del responsable** y se integraron **18 PR de gobierno/diseño**. Commit de fuentes `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. Fuente actual: [manifiesto canónico](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) y [acta final RD-B0-G0-001](RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md). Se mantienen 18/18 tests de implementación BC06 **pendientes** (no se realizaron), la CR-F04 pendiente y la distinción documental respecto de validación académica.
