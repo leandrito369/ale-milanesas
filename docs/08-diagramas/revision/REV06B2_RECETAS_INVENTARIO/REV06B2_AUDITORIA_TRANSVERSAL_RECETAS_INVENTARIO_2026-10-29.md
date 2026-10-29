@@ -50,7 +50,7 @@ Los seis marcos `sd` contienen un único receptor de frontera `:Sistema`, la fir
 | Control de calidad | DSS | DS |
 |---|---:|---:|
 | Páginas `diagram` | **2** | **7** (6 CU nuevos + UC-42) |
-| Celdas `mxCell` por página | 42 + 42 = **84** | 15, 31, 20, 22, 20, 21 y 49 = **178** |
+| Celdas `mxCell` por página | 42 + 42 = **84** | 15, 31, 21, 22, 20, 21 y 49 = **179** |
 | Identificadores duplicados por página | **0** | **0** |
 | Mensajes numerados sin `source`/`target` | **0** | **0** |
 | Referencias a celdas inexistentes | **0** | **0** |
@@ -67,7 +67,7 @@ Los diagramas se generaron como XML editable de diagrams.net. La verificación f
 |---|---|---|
 | 1 | UC-36 | Controlador/RepositorioInsumos; búsqueda solo lectura; Admin y Producción según matriz de permisos |
 | 2 | UC-10 | Refs UC-35/UC-36, validación de Producto ELABORADO e Insumos activos/unidades; Receta estable, nueva Versión y un Detalle por Insumo; transacción atómica |
-| 3 | UC-31 | Ref UC-36; `umbralMinimo`, `nivelObjetivoReposicion`, `automatizacionCompraActiva`; solo Producción; sin rondas retroactivas |
+| 3 | UC-31 | Ref UC-36; `umbralMinimo`, `nivelObjetivoReposicion`, `automatizacionCompraActiva`; solo Producción; con `opt` de advertencia al actor si hay faltante, sin ronda retroactiva |
 | 4 | UC-52 | Ref UC-36; dependencias existentes, cambio ACTIVO/INACTIVO, conservación de historia y control F09 |
 | 5 | UC-09 | Consultas separadas por tipo de inventario; stock cero visible, REVENTA sin umbral de Insumo |
 | 6 | UC-64 | Consultas separadas de `MOVIMIENTO_INSUMO` y `MOVIMIENTO_STOCK_REVENTA`; control de campos por rol |
