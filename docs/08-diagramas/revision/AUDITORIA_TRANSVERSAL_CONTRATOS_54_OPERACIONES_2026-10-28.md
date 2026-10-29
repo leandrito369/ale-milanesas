@@ -90,3 +90,10 @@ Se hizo un **cribado de 54 operaciones** mediante invariantes de negocio, roles,
 ## 8. Cierre funcional de las dos reservas (29/10/2026)
 
 **RC-01 — UC-08:** cerrada por cotejo con las tres fichas Fase 4; actor autorizado Responsable de Producción (contrato REV-03B ajustado). **RC-02 — UC-60:** cerrada por ratificación explícita del responsable; ver [RD-F08-001](../../01-gobierno/RD_F08_001_UC60_BAJA_DEFINITIVA_PROMOCION_2026-10-29.md). `desactivarPromocion` lleva `BORRADOR`, `ACTIVA` o `PAUSADA` a `CANCELADA`; se deniega `PAUSADA→ACTIVA`. La firma pública, los diagramas y el SQL permanecen intactos. La cobertura contractual de los 13 CU restantes y las pruebas técnicas son pendientes independientes; PR #16 continúa Draft.
+
+
+## 9. Adenda de cobertura contractual — REV-06B (29/10/2026)
+
+La reserva **RC-06 (ausencia de los 13 contratos restantes)** quedó superada **como cobertura documental** mediante [REV06B_ACTA_VALIDACION_Y_CIERRE_CONTRATOS_2026-10-29.md](./REV06B_CLIENTES_RECETAS_INVENTARIO/REV06B_ACTA_VALIDACION_Y_CIERRE_CONTRATOS_2026-10-29.md) y la [Matriz global de 64 CU / 67 contratos](./MATRIZ_GLOBAL_COBERTURA_64_CU_67_CONTRATOS_2026-10-29.md). El documento anterior refleja su corte histórico de **54 contratos** y no debe confundirse con el inventario vigente después de REV-06B. Resultado posterior: **67 contratos / 64 CU**, 67/67 con nueve apartados y tres CU con dos operaciones (UC-03/UC-07/UC-29).
+
+**Reserva técnica separada:** las **13 nuevas firmas REV-06B** no están cotejadas contra DSS/DS propios, porque estos artefactos no existen en la rama. Los 54 cotejos de operaciones anteriores no se reabren. Esta adenda **no** aprueba funcionamiento, API, implementación, nuevas relaciones UML ni integración automática en el Word maestro o `main`. El control visual de diagramas declarado concluido por el responsable permanece cerrado.
