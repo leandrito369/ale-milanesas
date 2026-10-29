@@ -50,3 +50,9 @@ La IA no es árbitro de las decisiones comerciales no definidas. Marcá `[A CONF
 - **BC-07 ratificada:** `docs/01-gobierno/b0/RD_B0_BC07_2026-10-29.md` y matriz `BC07_PROYECCIONES_MINIMAS_RATIFICADAS_2026-10-29.csv`. Los campos excluidos **NO** están autorizados por el permiso general de lectura.
 - **BC-09:** leer `docs/01-gobierno/b0/BC09_REGLA_INVOCACION_INTERNA_EXTERNA_2026-10-29.md` antes de diseñar HTTP, servicios internos, webhook o pagos. Automatismo/Cliente ONLINE/MercadoPago ≠ Rol humano interno.
 - **BC-06:** 18 casos de implementación `BC06_CASOS_PRUEBA_IMPLEMENTACION_18.csv` se encuentran **NO EJECUTADOS** por ausencia de backend. Solo `tests/b0/test_documentacion_b0.py` comprueba consistencia documental. No declarar B3/B4/B6/B8 completados.
+
+## B0 — Mapa técnico E01-C y puerta G0 (29/10/2026)
+- Fuente de trabajo **propuesta**: `docs/01-gobierno/b0/B0_MAPA_TECNICO_67_OPERACIONES_2026-10-29.csv` con 67 operaciones, 7 módulos lógicos candidatos, 12 subdominios funcionales y tablas relacionales **existentes**, pero **no** mapeo de clases DS aprobado ni SQL probado.
+- Leer `docs/01-gobierno/b0/B0_MAPA_TECNICO_DICTAMEN_2026-10-29.md`, `docs/01-gobierno/b0/B0_MR5_MR6_CONCILIACION_TECNICA_2026-10-29.md` y `docs/06-arquitectura/B0_ADR_CANDIDATAS_PARA_G0_2026-10-29.md`.
+- La tabla de operación/servicio/tx se identifica como **CANDIDATA**: ninguna IA debe crear una clase/método o una migración solo por su nombre propuesto. Antes de programar: abrir DS y contrato vigente, validar pre/post, datos, concurrencia, autorización y test.
+- **G0 NO APROBADO**: [informe de aprobación](docs/01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md), sujeto a fuentes canónicas, ADR ratificadas y PR apiladas revisadas. BC06 de implementación permanece 0/18.
