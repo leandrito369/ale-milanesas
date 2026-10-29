@@ -19,17 +19,11 @@
 
 6. **Excepciones:** A1 — Datos identificatorios, teléfono o domicilio obligatorios inválidos: solicitar corrección sin confirmar alta. A2 — Coincidencia exacta con Cliente ACTIVO: presentar identidad existente sin crear otra. A3 — Coincidencia exacta con Cliente INACTIVO: no duplicar; informar que solo el Administrador puede reactivarlo mediante UC-38, nunca el Vendedor. A4 — Coincidencia parcial o teléfono compartido con otro nombre: advertir para verificación; no rechazar automáticamente por similitud. A5 — Desistimiento o error de persistencia: no crear registro parcial.
 
-   * **A1 — Datos obligatorios ausentes o con formato inválido (`nombre`, `telefonoPrincipal`, `direccion`, `zona`):** Solicitar corrección sin registrar el Cliente.
-   * **A2 — Duplicado exacto (`nombreNormalizado` + `telefonoPrincipal` ya registrados):** Rechazar el alta e informar el Cliente existente.
-   * **A3 — Cancelación del actor o fallo de persistencia:** Conservar el catálogo de Clientes sin altas parciales.
 7. **Salida:**
    * Confirmación del `Cliente` registrado (`idCliente`, `estado = ACTIVO`, `categoriaComercial = CUMPLIDOR`); o mensajes de las excepciones A1–A3.
 8. **Precondiciones:**
    * El actor autorizado (`Vendedor` o `Administrador`) se encuentra autenticado.
 9. **Postcondiciones:** Se creó un `Cliente` ACTIVO, `categoriaComercial=CUMPLIDOR`, `fechaHoraAlta` y datos de identificación/contacto/domicilio mapeados a las columnas existentes (`nombres`, `apellidos` cuando proceda, `telefonoPrincipal`, `calle`, `numeroPuerta`, `piso`, `unidadFuncional`, `localidad`, `provincia`, `referenciaDomicilio`, `zona`, `diaHabitualReparto`). La normalización no implica almacenar `nombreNormalizado` como columna. No se crea Cliente ante coincidencia exacta o fallo.
-
-   * Se creó una instancia `nuevoCliente` de `Cliente` con `nombre`, `nombreNormalizado`, `telefonoPrincipal`, `direccion`, `zona`, `diaHabitualReparto` (`0..1`), `estado = ACTIVO`, `categoriaComercial = CUMPLIDOR` y `fechaHoraAlta`.
-
 ---
 
 ## 2. Contrato de la Operación `buscarCliente` (`UC-33`)
@@ -63,20 +57,11 @@
 
 6. **Excepciones:** A1 — UC-33 sin selección válida: no modificar. A2 — Datos obligatorios inválidos o coincidencia exacta de nombre y teléfono con otro Cliente, excluyendo el propio: rechazar sin modificar. A3 — Intento de alterar `estado` o `categoriaComercial` mediante UC-32: rechazar; corresponden a UC-38/UC-15. A4 — Coincidencia parcial de identidad/contacto: advertir sin bloquear automáticamente. A5 — Modificación de teléfono: invalidar OTP pendientes del número anterior, manteniendo sesiones ONLINE ya activas; toda la actualización es atómica. A6 — Cancelación, error o conflicto concurrente: conservar datos anteriores y no invalidar OTP parcialmente.
 
-   * **A1 — `UC-33` finalizó sin selección válida:** No modificar información.
-   * **A2 — Duplicado exacto con otro Cliente (`nombreNormalizado` + `telefonoPrincipal`) o datos obligatorios inválidos:** Rechazar la modificación y solicitar corrección.
-   * **A3 — Intento de modificar `Cliente.estado` o `Cliente.categoriaComercial` desde `UC-32`:** Rechazar el cambio por corresponder a `UC-38` y `UC-15`.
-   * **A4 — Cancelación o error de persistencia:** Conservar intactos los datos vigentes del Cliente.
 7. **Salida:**
    * Confirmación de la actualización de los datos comerciales del `Cliente`; o mensajes de las excepciones A1–A4.
 8. **Precondiciones:** El **Vendedor** autenticado y autorizado identificó un Cliente existente mediante UC-33; la autorización concreta de UC-32 no se infiere de la mera capacidad de búsqueda del Administrador.
 
-   * El actor autorizado (`Vendedor` o `Administrador`) se encuentra autenticado y existe el `Cliente` seleccionado mediante `UC-33`.
 9. **Postcondiciones:** Se actualizaron únicamente los datos permitidos de `CLIENTE` (identidad/contacto/domicilio/zona/día habitual); se conservaron `estado`, `categoriaComercial` y las direcciones históricas de `PEDIDO`. Si el teléfono cambió, los desafíos OTP pendientes ligados al número anterior quedaron inutilizables por validación de negocio, **sin revocar sesiones ONLINE activas**; en fallo no hay cambios parciales. El DTO no agrega columnas.
-
-   * Se modificaron los atributos comerciales y de contacto permitidos de `unCliente` (manteniendo inalterados `unCliente.estado`, `unCliente.categoriaComercial` y las direcciones congeladas en `Pedido` previos).
-   * Si cambió `unCliente.telefonoPrincipal`, se invalidaron los `DesafioAutenticacionCliente` pendientes asociados a `unCliente`.
-
 ---
 
 ## 4. Contrato de la Operación `cambiarEstadoCliente` (`UC-38` «include» `UC-33`)
@@ -97,10 +82,6 @@
 8. **Precondiciones:**
    * El `Administrador` se encuentra autenticado y autorizado, y existe el `Cliente` seleccionado mediante `UC-33`.
 9. **Postcondiciones:** Tras confirmar un cambio real, `CLIENTE.estado` se actualizó a `ACTIVO` o `INACTIVO` y se creó **una fila distinta** de `HISTORIAL_ESTADO_CLIENTE` con `idCliente`, `numeroCambio`, `estadoAnterior`, `estadoNuevo`, `fechaHoraCambio`, `motivo` opcional e `idUsuarioAdministrador`. La inactivación impide nuevas operaciones comerciales y desafíos/sesiones ONLINE según reglas de autorización; preserva Pedidos PENDIENTE, Cobros de deuda e historial. Si ya estaba en el estado solicitado, o hay cancelación/fallo, no se genera un cambio histórico artificial.
-
-   * Se modificó el atributo `unCliente.estado` al valor `nuevoEstado` (`ACTIVO` o `INACTIVO`).
-   * Si `nuevoEstado == INACTIVO`, se revocaron los `DesafioAutenticacionCliente` y sesiones online pendientes del Cliente, conservando intactos sus `Pedido` abiertos y su Cuenta Corriente.
-
 ---
 
 ## 5. Contrato de la Operación `configurarPoliticaCategoriaComercial` (`UC-57`)
@@ -115,20 +96,11 @@
 
 6. **Excepciones:** A1 — Sin autorización Administrador: rechazar. A2 — Tolerancia negativa, fechas inválidas o fin no posterior a inicio: solicitar corrección. A3 — Falta el ajuste de alguna categoría, categorías repetidas o tipo/porcentaje incompatible: rechazar. A4 — Solapamiento de vigencia o necesidad de alterar historial consolidado: impedir. A5 — Cancelación antes de confirmar: conservar versiones previas. A6 — Concurrencia/fallo al grabar: revertir en una sola transacción la política y ambos ajustes, sin registros parciales.
 
-   * **A1 — Actor sin autorización administrativa:** Rechazar la configuración.
-   * **A2 — `diasToleranciaMora < 0`, `porcentajeDescuentoCumplidor < 0` o `>= 100`, o `porcentajeRecargoMora < 0`:** Solicitar corrección de los parámetros.
-   * **A3 — Intervalo `[vigenteDesde, vigenteHasta)` inválido o superpuesto con otra versión:** Rechazar la configuración conservando la versión vigente previa.
-   * **A4 — Cancelación o conflicto concurrente de persistencia:** Revertir la operación sin cambios parciales.
 7. **Salida:** Id de `POLITICA_CATEGORIA_COMERCIAL`, vigencia y constancia de sus dos `AJUSTE_POLITICA_CATEGORIA`; o rechazo A1–A6.
 
-   * Confirmación de la nueva versión de `PoliticaCategoriaComercial` registrada y su período de vigencia; o mensajes de las excepciones A1–A4.
 8. **Precondiciones:**
    * El `Administrador` se encuentra autenticado y autorizado.
 9. **Postcondiciones:** Se creó una fila de `POLITICA_CATEGORIA_COMERCIAL` con `diasToleranciaMora`, `vigenteDesde`, `vigenteHasta`, `fechaHoraRegistro` e `idUsuarioRegistro`, junto con exactamente dos filas hijas de `AJUSTE_POLITICA_CATEGORIA` para CUMPLIDOR y EN_MORA con `tipoAjuste` y `porcentajeAjuste` válidos. Si era legal, se acotó prospectivamente el intervalo previo sin tocar políticas históricas consolidadas. Se conservaron ajustes y precios de Pedidos anteriores; ante fallo se revierte el conjunto.
-
-   * Si existía una versión vigente previa de `PoliticaCategoriaComercial`, se acotó su `vigenteHasta` sin solapamiento.
-   * Se creó una nueva instancia vigente de `PoliticaCategoriaComercial` con `diasToleranciaMora`, `porcentajeDescuentoCumplidor`, `porcentajeRecargoMora`, `vigenteDesde` y `vigenteHasta` (`0..1`), preservando inalterados los ajustes congelados en `Pedido` históricos.
-
 ---
 
 ## 6. Contrato de la Operación `evaluarYActualizarCategoriaComercial` (`UC-15`)
@@ -163,17 +135,11 @@
 
 6. **Excepciones:** A1 — UC-15 no determina categoría o falta Política vigente: no inventar categoría ni porcentaje. A2 — Base comercial negativa: rechazar. A3 — La fila de ajuste de la categoría está ausente, mal tipificada o con porcentaje inválido: rechazar, sin suponer descuento o recargo. A4 — Falta precio histórico válido de algún Detalle: no confirmar total. A5 — Política declara SIN_AJUSTE: total igual a base (rama válida, no error), conservando referencia de política.
 
-   * **A1 — Fallo o falta de `PoliticaCategoriaComercial` vigente al ejecutar `UC-15`:** Impedir confirmar el Pedido con porcentajes inventados.
-   * **A2 — `subtotalBaseLuegoPromocion < 0`:** Rechazar el cálculo por inconsistencia de importes.
 7. **Salida:**
    * Resumen comercial con `categoriaComercialAplicada`, `tipoAjuste` (`DESCUENTO` | `RECARGO` | `SIN_AJUSTE`), `porcentajeAjuste`, `importeAjuste` y `totalOriginal` resultante; o mensajes de las excepciones A1–A2.
 8. **Precondiciones:**
    * Existe el `Cliente` en estado `ACTIVO`, existe un `Pedido` en construcción (`UC-03` o `UC-21`) con `subtotalBaseLuegoPromocion >= 0` y existe una `PoliticaCategoriaComercial` vigente.
 9. **Postcondiciones:** Se ejecutó UC-15 según reglas confirmadas. En el Pedido nuevo, sin alterar precios unitarios de sus Detalles, se congelaron `categoriaComercialAplicada`, `idPoliticaComercialAplicada`, `tipoAjuste`, `porcentajeAjuste` y `totalOriginal` mediante el ajuste aplicable a la base del canal correspondiente; no se modificaron Pedidos confirmados previamente.
-
-   * Se ejecutaron las postcondiciones de `UC-15`.
-   * Quedaron determinados y congelados para el `Pedido` los atributos `categoriaComercialAplicada`, `tipoAjuste`, `porcentajeAjuste` y `totalOriginal` vinculados a la `PoliticaCategoriaComercial` vigente.
-
 ---
 
 ## 8. Contrato de la Operación `buscarInsumo` (`UC-36`)
@@ -215,11 +181,6 @@
 8. **Precondiciones:**
    * El `Administrador` se encuentra autenticado y autorizado, el `Producto` seleccionado mediante `UC-35` es de `tipoProducto = ELABORADO` y los `Insumo` seleccionados mediante `UC-36` tienen `activo = true`.
 9. **Postcondiciones:** Se creó/recuperó la única `RECETA` del Producto ELABORADO. En la rama de confirmación válida se acotó, si correspondía, la vigencia previa sin solapamientos y se creó `VERSION_RECETA` (`idReceta`, `numeroVersion`, `vigenteDesde`, `vigenteHasta`, `cantidadRendimientoBase`, `codigoUnidadRendimiento`). Se creó un `DETALLE_VERSION_RECETA` por Insumo distinto, con su `cantidadNecesaria` y `codigoUnidadCantidad` compatible; las Preparaciones históricas mantienen sus versiones. Ante error se revierte íntegramente.
-
-   * Se creó (si era la primera versión) o recuperó la instancia de `Receta` asociada al `Producto` `ELABORADO`, cerrando `vigenteHasta` de la `VersionReceta` previa sin solapamiento.
-   * Se creó una nueva instancia `nuevaVersion` de `VersionReceta` con `numeroVersion` correlativo, `cantidadRendimientoBase`, `codigoUnidadRendimiento`, `vigenteDesde` y `vigenteHasta` (`0..1`).
-   * Para cada elemento en `itemsInsumo`, se creó una instancia de `DetalleVersionReceta` asociada a `nuevaVersion` y al `Insumo`, con `cantidadNecesaria` y unidad compatible.
-
 ---
 
 ## 10. Contrato de la Operación `configurarParametrosReposicionInsumo` (`UC-31` «include» `UC-36`)
@@ -238,12 +199,7 @@
    * Confirmación de los nuevos parámetros de reposición registrados en el `Insumo`; o mensajes de las excepciones A1–A3.
 8. **Precondiciones:** El **Responsable de Producción** autenticado y autorizado seleccionó un Insumo existente mediante UC-36, en el alcance funcional permitido.
 
-   * El actor autorizado (`Responsable de Producción` o `Administrador`) se encuentra autenticado y existe el `Insumo` seleccionado mediante `UC-36`.
 9. **Postcondiciones:** Se actualizaron en `INSUMO` `umbralMinimo`, `nivelObjetivoReposicion`, `automatizacionCompraActiva`, con validación de unidad y `nivelObjetivoReposicion > umbralMinimo`. No cambia `stockActual` ni `codigoUnidadMedida`, ni se emite una Solicitud automática retroactiva, ni se cancela o cierra como efecto de esta configuración un Episodio, Solicitud u Orden abierta. Si queda un faltante, se informa para intervención administrativa; se conserva la trazabilidad de fecha/actor conforme mecanismo ya existente, **sin crear columna nueva**.
-
-   * Se modificaron en `unInsumo` los atributos `umbralMinimo`, `nivelObjetivoReposicion` y `automatizacionCompraActiva` (sin alterar `stockActual` ni `codigoUnidadMedida`).
-   * Si existía un `EpisodioFaltante` abierto para `unInsumo`, `unInsumo.stockActual >= umbralMinimo` y no existían Solicitudes abiertas ni Órdenes pendientes, se registró el cierre del episodio (`fechaHoraCierre`).
-
 ---
 
 ## 11. Contrato de la Operación `cambiarEstadoInsumo` (`UC-52` «include» `UC-36`)
@@ -277,13 +233,10 @@
 
 6. **Excepciones:** A1 — Inventario o filtros inválidos, o acceso no autorizado: rechazar/no mostrar datos. A2 — Se selecciona REVENTA: mostrar stock y unidad de venta propios de cada Producto REVENTA, sin umbral de Insumo. A3 — Stock cero: presentar `0` (no omitir por inexistencia). A4 — Sin registros coincidentes: informar resultado vacío. A5 — Falla de consulta: informar sin producir movimientos ni alterar existencias.
 
-   * **A1 — Filtros inválidos o actor sin permiso para el inventario solicitado:** Solicitar corrección o rechazar el acceso.
-   * **A2 — Sin elementos coincidentes:** Informar lista vacía sin modificar registros.
 7. **Salida:**
    * Estado actual de existencias separadas por tipo de inventario (`INSUMO` con unidad, stock, umbrales y alerta de faltante; `PRODUCTO REVENTA` con unidad y stock actual); o mensajes de las excepciones A1–A2.
 8. **Precondiciones:** El **Responsable de Producción** se encuentra autenticado y autorizado para consulta de existencias UC-09.
 
-   * El actor autorizado (`Responsable de Producción` o `Administrador`) se encuentra autenticado.
 9. **Postcondiciones:**
    * *(Sin cambios de estado en el sistema: operación de solo lectura)*.
 
