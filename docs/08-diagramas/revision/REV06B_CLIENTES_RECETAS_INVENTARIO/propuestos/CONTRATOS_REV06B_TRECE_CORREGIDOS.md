@@ -14,7 +14,7 @@
 2. **Responsabilidades:** Registrar Cliente ACTIVO y categoría inicial CUMPLIDOR; validar campos de identidad/contacto/domicilio, controlar duplicación exacta por nombre y teléfono normalizados entre Clientes activos e inactivos y advertir coincidencias parciales sin bloquearlas automáticamente.
 
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-02 — Registrar Cliente`; Objetivo `OBJE-02`; Requisito `RF-03`.
+4. **Referencias cruzadas:** Caso de Uso `UC-02 — Registrar Cliente`; Objetivo `OBJE-01`; Requisito `RF-10`.
 5. **Notas:** El `nombre` ingresado es un dato lógico de interfaz que debe mapearse a la identidad física vigente (`CLIENTE.nombres`, `apellidos` cuando corresponda); `direccion: DireccionDTO` se descompone en los campos atómicos existentes del domicilio. `nombreNormalizado` y `telefonoNormalizado` son valores calculados para búsqueda/validación, **no columnas nuevas**. `zona` y `diaHabitualReparto` son opcionales. Las coincidencias parciales se advierten y el teléfono puede compartirse si la identidad normalizada es distinta; la coincidencia exacta de nombre y teléfono impide crear un duplicado.
 
 6. **Excepciones:** A1 — Datos identificatorios, teléfono o domicilio obligatorios inválidos: solicitar corrección sin confirmar alta. A2 — Coincidencia exacta con Cliente ACTIVO: presentar identidad existente sin crear otra. A3 — Coincidencia exacta con Cliente INACTIVO: no duplicar; informar que solo el Administrador puede reactivarlo mediante UC-38, nunca el Vendedor. A4 — Coincidencia parcial o teléfono compartido con otro nombre: advertir para verificación; no rechazar automáticamente por similitud. A5 — Desistimiento o error de persistencia: no crear registro parcial.
@@ -31,7 +31,7 @@
 1. **Nombre:** `buscarCliente(idCliente: Long[0..1], nombre: String[0..1], telefonoPrincipal: String[0..1], zona: String[0..1], estado: String[0..1])`
 2. **Responsabilidades:** Localizar y presentar en modo solo lectura los `Cliente` registrados (activos o inactivos) que coincidan con los criterios informados, devolviendo la referencia seleccionada al caso de uso invocante.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-33 — Buscar Cliente`; incluido por `UC-03 — Cargar Pedido`, `UC-14 — Consultar Cuenta Corriente`, `UC-32 — Modificar Cliente` y `UC-38 — Cambiar Estado de Cliente`; Objetivo `OBJE-02`; Requisito `RF-03`.
+4. **Referencias cruzadas:** Caso de Uso `UC-33 — Buscar Cliente`; referencias funcionales `UC-03`, `UC-14`, `UC-32` y `UC-38`; permisos RD-RP007-002; Objetivos `OBJE-01`, `OBJE-10`; Requisito `RF-10`.
 5. **Notas:** Operación de solo lectura, directa/contextual para Administrador y Vendedor por RD-RP007-002. `nombre` del filtro y salida es una representación lógica derivada de `CLIENTE.nombres` y `apellidos` (sin atributo físico `nombre` ni `nombreNormalizado`); otros datos se consultan solo dentro del alcance autorizado y bajo mínimo privilegio.
 
 6. **Excepciones:**
@@ -52,7 +52,7 @@
 1. **Nombre:** `modificarCliente(idCliente: Long, nuevosDatos: DatosClienteDTO)`
 2. **Responsabilidades:** Actualizar los datos identificatorios, de contacto, domicilio, zona y/o día habitual de reparto de un `Cliente` previamente localizado mediante `UC-33`, sin modificar su estado `ACTIVO`/`INACTIVO` ni su `categoriaComercial` y preservando las direcciones ya congeladas en Pedidos históricos.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-32 — Modificar Cliente`; incluye `UC-33 — Buscar Cliente`; Objetivo `OBJE-02`; Requisito `RF-03`.
+4. **Referencias cruzadas:** Caso de Uso `UC-32 — Modificar Cliente`; incluye `UC-33 — Buscar Cliente`; Objetivos `OBJE-01`, `OBJE-10`; Requisito `RF-10`.
 5. **Notas:** El actor principal de los tres niveles Fase 4 es el **Vendedor** autorizado para modificar datos permitidos; el permiso de búsqueda UC-33 del Administrador no equivale por sí mismo a una habilitación adicional de UC-32. UC-38 (solo Administrador) modifica estado, y UC-15 actualiza categoría. Si cambia `telefonoPrincipal`, invalidar los desafíos OTP **pendientes** del teléfono anterior sin revocar sesiones ONLINE previamente activas, de acuerdo con la ficha; conservar direcciones históricas congeladas de Pedidos. El DTO agrupa exclusivamente columnas existentes de CLIENTE, no estado/categoría.
 
 6. **Excepciones:** A1 — UC-33 sin selección válida: no modificar. A2 — Datos obligatorios inválidos o coincidencia exacta de nombre y teléfono con otro Cliente, excluyendo el propio: rechazar sin modificar. A3 — Intento de alterar `estado` o `categoriaComercial` mediante UC-32: rechazar; corresponden a UC-38/UC-15. A4 — Coincidencia parcial de identidad/contacto: advertir sin bloquear automáticamente. A5 — Modificación de teléfono: invalidar OTP pendientes del número anterior, manteniendo sesiones ONLINE ya activas; toda la actualización es atómica. A6 — Cancelación, error o conflicto concurrente: conservar datos anteriores y no invalidar OTP parcialmente.
@@ -69,7 +69,7 @@
 1. **Nombre:** `cambiarEstadoCliente(idCliente: Long, nuevoEstado: String, motivo: String[0..1])`
 2. **Responsabilidades:** Activar o desactivar lógicamente un `Cliente` previamente localizado mediante `UC-33`, impidiendo nuevas cargas de Pedidos y revocando desafíos/sesiones online cuando pasa a `INACTIVO`, pero conservando su identidad, su Cuenta Corriente y sus Pedidos `PENDIENTE` abiertos.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-38 — Cambiar Estado de Cliente`; incluye `UC-33 — Buscar Cliente`; Pendiente `F09`; Objetivo `OBJE-02`; Requisito `RF-03`.
+4. **Referencias cruzadas:** Caso de Uso `UC-38 — Cambiar Estado de Cliente`; incluye `UC-33 — Buscar Cliente`; F09; Objetivos `OBJE-01`, `OBJE-10`; Requisito `RF-10`.
 5. **Notas:** Baja/reactivación lógica exclusiva del Administrador. `HISTORIAL_ESTADO_CLIENTE` es tabla **existente** en MR-5/MR-6, con clave compuesta (`idCliente`, `numeroCambio`) y estado anterior/nuevo, fecha, motivo y `idUsuarioAdministrador`. No cancelar automáticamente Pedidos PENDIENTE, no borrar Cuenta Corriente ni impedir Cobros de regularización. La desactivación bloquea nuevas ventas/promociones/ofertas; el estado vigente se revalida al confirmar.
 
 6. **Excepciones:**
@@ -91,7 +91,7 @@
 2. **Responsabilidades:** Registrar una nueva versión temporal mediante una **nueva fila** de `POLITICA_CATEGORIA_COMERCIAL` (tolerancia y vigencias) y **exactamente dos filas** de `AJUSTE_POLITICA_CATEGORIA`, una para CUMPLIDOR y otra para EN_MORA, configurando `tipoAjuste`/`porcentajeAjuste` por categoría. Validar todo transaccionalmente sin recalcular Pedidos históricos.
 
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-57 — Configurar Política de Categoría Comercial`; Caso de Uso `UC-15 — Evaluar y Actualizar Categoría Comercial`; Caso de Uso `UC-16 — Aplicar Ajuste Comercial según Categoría`; Objetivos `OBJE-10`, `OBJE-11`; Requisitos `RF-12`, `RF-15`.
+4. **Referencias cruzadas:** Caso de Uso `UC-57 — Configurar Política de Categoría Comercial`; casos relacionados `UC-15` y `UC-16`; Objetivo `OBJE-11`; Requisito `RF-12`.
 5. **Notas:** MR-5/MR-6 registra `diasToleranciaMora`, `vigenteDesde`, `vigenteHasta`, `fechaHoraRegistro`, `idUsuarioRegistro` en `POLITICA_CATEGORIA_COMERCIAL`; **no** tiene columnas `porcentajeDescuentoCumplidor` ni `porcentajeRecargoMora` ni `numeroVersion`. Cada porcentaje y tipo se almacena en `AJUSTE_POLITICA_CATEGORIA` (`idPoliticaComercial`, `categoriaComercial`, `tipoAjuste`, `porcentajeAjuste`). Los dos `AjusteCategoriaDTO` son entradas lógicas, **no tablas**. `tipoAjuste ∈ {DESCUENTO, RECARGO, SIN_AJUSTE}`; `SIN_AJUSTE` exige porcentaje 0; DESCUENTO/RECARGO requieren porcentaje positivo válido; ambos porcentajes respetan el rango 0–100 establecido por Fase 4. Ningún umbral de mora se inventa por defecto. No se alteran vigencias históricas consolidadas ni Pedidos confirmados.
 
 6. **Excepciones:** A1 — Sin autorización Administrador: rechazar. A2 — Tolerancia negativa, fechas inválidas o fin no posterior a inicio: solicitar corrección. A3 — Falta el ajuste de alguna categoría, categorías repetidas o tipo/porcentaje incompatible: rechazar. A4 — Solapamiento de vigencia o necesidad de alterar historial consolidado: impedir. A5 — Cancelación antes de confirmar: conservar versiones previas. A6 — Concurrencia/fallo al grabar: revertir en una sola transacción la política y ambos ajustes, sin registros parciales.
@@ -108,7 +108,7 @@
 1. **Nombre:** `evaluarYActualizarCategoriaComercial(idCliente: Long)`
 2. **Responsabilidades:** Evaluar automáticamente la situación de deuda de un `Cliente` en su Cuenta Corriente imputando pagos/créditos contra las deudas más antiguas (FIFO), contrastar la antigüedad de la deuda impaga más antigua contra `diasToleranciaMora` de la `PoliticaCategoriaComercial` vigente y actualizar `Cliente.categoriaComercial` (`CUMPLIDOR` o `EN_MORA`) únicamente cuando corresponda un cambio real.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-15 — Evaluar y Actualizar Categoría Comercial`; incluido por `UC-05 — Registrar Entrega`, `UC-16 — Aplicar Ajuste Comercial según Categoría`, `UC-26 — Procesar Reembolso Electrónico`, `UC-29 — Registrar Cobro` y `UC-49 — Registrar Resultado de Reembolso Electrónico`; Objetivos `OBJE-10`, `OBJE-11`; Requisitos `RF-06`, `RF-12`, `RF-15`.
+4. **Referencias cruzadas:** Caso de Uso `UC-15 — Evaluar y Actualizar Categoría Comercial`; `UC-16 «include» UC-15` según Fase 4; reevaluaciones ligadas a hechos comerciales de `UC-05`, `UC-26`, `UC-29`, `UC-49` sin establecer nuevas relaciones UML «include» por inferencia; decisiones RD-F04-003/006/007; Objetivo `OBJE-11`; Requisitos `RF-06`, `RF-12`.
 5. **Notas:** La evaluación es de sistema, no acción nueva de Cliente. La antigüedad de la deuda impaga se determina por imputación FIFO de créditos contra cargos confirmados, con fecha de origen `ENTREGA.fechaHoraEntrega` del cargo correspondiente; el efectivo declarado en tránsito no se contabiliza como Cobro confirmado para esta evaluación (RD-F04-003/006/007). La categoría EN_MORA exige saldo deudor confirmado positivo y edad **estrictamente mayor** que `diasToleranciaMora`, no igualdad. Si no existe política vigente no se usan umbrales por defecto.
 
 6. **Excepciones:**
@@ -130,7 +130,7 @@
 1. **Nombre:** `aplicarAjusteComercialSegunCategoria(idCliente: Long, subtotalBaseLuegoPromocion: BigDecimal)`
 2. **Responsabilidades:** Ejecutar `UC-15` para obtener la `categoriaComercial` actualizada del `Cliente`, recuperar la regla de ajuste de la `PoliticaCategoriaComercial` vigente (`DESCUENTO` para `CUMPLIDOR`, `RECARGO` para `EN_MORA` o `SIN_AJUSTE` si el porcentaje configurado es 0) y calcular/congelar el ajuste comercial y el `totalOriginal` del Pedido en formación (`UC-03` o `UC-21`).
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-16 — Aplicar Ajuste Comercial según Categoría`; incluye `UC-15 — Evaluar y Actualizar Categoría Comercial`; incluido por `UC-03 — Cargar Pedido` y `UC-21 — Realizar Pedido Online`; Objetivo `OBJE-11`; Requisitos `RF-12`, `RF-15`.
+4. **Referencias cruzadas:** Caso de Uso `UC-16 — Aplicar Ajuste Comercial según Categoría`; incluye `UC-15 — Evaluar y Actualizar Categoría Comercial`; utilizado por `UC-03 — Cargar Pedido` y `UC-21 — Realizar Pedido Online`; Objetivo `OBJE-11`; Requisitos `RF-01`, `RF-12`, `RF-14`.
 5. **Notas:** UC-15 obtiene primero la categoría. La política y el ajuste se recuperan de `POLITICA_CATEGORIA_COMERCIAL` y su fila hija `AJUSTE_POLITICA_CATEGORIA` de la categoría resultante, no de columnas de porcentaje directamente en POLITICA. El parámetro lógico `subtotalBaseLuegoPromocion` significa **subtotal base sin descuento en canal INTERNO**, y **subtotal posterior al único mayor beneficio promocional elegible en canal ONLINE** (RD-RP023-001). El canal se conoce del Pedido invocante. `SIN_AJUSTE` conserva dicha base; no se reescriben precios unitarios históricos ni Pedidos anteriores.
 
 6. **Excepciones:** A1 — UC-15 no determina categoría o falta Política vigente: no inventar categoría ni porcentaje. A2 — Base comercial negativa: rechazar. A3 — La fila de ajuste de la categoría está ausente, mal tipificada o con porcentaje inválido: rechazar, sin suponer descuento o recargo. A4 — Falta precio histórico válido de algún Detalle: no confirmar total. A5 — Política declara SIN_AJUSTE: total igual a base (rama válida, no error), conservando referencia de política.
@@ -147,7 +147,7 @@
 1. **Nombre:** `buscarInsumo(idInsumo: Long[0..1], nombre: String[0..1], activo: Boolean[0..1])`
 2. **Responsabilidades:** Localizar y presentar en modo solo lectura los `Insumo` registrados (activos o inactivos) que cumplan los criterios informados, devolviendo el `Insumo` seleccionado al caso de uso invocante.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-36 — Buscar Insumo`; incluido por `UC-10 — Configurar Receta de Producto`, `UC-31 — Configurar Parámetros de Reposición de Insumo`, `UC-51 — Modificar Insumo` *(aprobada 25/10)* y `UC-52 — Cambiar Estado de Insumo` *(aprobada 25/10)*; Objetivo `OBJE-07`; Requisitos `RF-04`, `RF-05`.
+4. **Referencias cruzadas:** Caso de Uso `UC-36 — Buscar Insumo`; incluido por `UC-10`, `UC-31`, `UC-51` y `UC-52` conforme relaciones vigentes; permisos RD-RP007-002; Objetivos `OBJE-07`, `OBJE-09`; Requisitos `RF-04`, `RF-05`, `RF-11`.
 5. **Notas:** Solo lectura. `RD-RP007-002` autoriza **Administrador y Responsable de Producción** tanto en acceso directo como contextual. El CU invocante valida, cuando corresponda, que el Insumo esté `activo=true`; la búsqueda puede mostrar inactivos a quienes tienen permiso, sin cambiar valores de stock.
 
 6. **Excepciones:**
@@ -188,7 +188,7 @@
 1. **Nombre:** `configurarParametrosReposicionInsumo(idInsumo: Long, umbralMinimo: BigDecimal, nivelObjetivoReposicion: BigDecimal, automatizacionCompraActiva: Boolean)`
 2. **Responsabilidades:** Actualizar los parámetros de control de reposición (`umbralMinimo`, `nivelObjetivoReposicion` y `automatizacionCompraActiva`) de un `Insumo` previamente localizado mediante `UC-36` para futuras evaluaciones de stock.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-31 — Configurar Parámetros de Reposición de Insumo`; incluye `UC-36 — Buscar Insumo`; Proceso `PRA-01`; Objetivo `OBJE-07`; Requisito `RF-05`.
+4. **Referencias cruzadas:** Caso de Uso `UC-31 — Configurar Parámetros de Reposición de Insumo`; incluye `UC-36 — Buscar Insumo`; Proceso PRA-01; Objetivos `OBJE-07`, `OBJE-09`; Requisitos `RF-05`, `RF-11`.
 5. **Notas:** UC-31 pertenece exclusivamente al **Responsable de Producción** en Fase 4. La actualización no dispara nuevas rondas automáticas retroactivas ni modifica/cancela Solicitudes, Órdenes o Episodios existentes. Si el nuevo umbral muestra un faltante, informar para intervención administrativa **sin iniciar ronda automática**. No confundir esta operación de configuración con cierre automático de EpisodioFaltante (PRA-01): no hay evento físico de stock que lo justifique.
 
 6. **Excepciones:**
@@ -228,7 +228,7 @@
 1. **Nombre:** `consultarStock(tipoInventario: String[0..1], idElemento: Long[0..1], soloBajoUmbral: Boolean[0..1])`
 2. **Responsabilidades:** Consultar y presentar en modo solo lectura las existencias actuales separadas del inventario de `Insumo` (`stockActual`, `umbralMinimo`, `nivelObjetivoReposicion` y alertas de `EpisodioFaltante`) y del inventario de `Producto` de `REVENTA` (`stockActualReventa`), sin combinarlos como una única existencia.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-09 — Consultar Stock`; Caso de Uso `UC-64 — Consultar Movimientos de Inventario`; Decisión `RD-RP022-001`; Objetivos `OBJE-05`, `OBJE-07`; Requisitos `RF-04`, `RF-05`.
+4. **Referencias cruzadas:** Caso de Uso `UC-09 — Consultar Stock`; referencia informativa a UC-64 (consulta histórica); RD-RP022-001; Objetivo `OBJE-07`; Requisito `RF-04`.
 5. **Notas:** Solo el **Responsable de Producción** está identificado como actor de UC-09 en sus tres niveles Fase 4; esta búsqueda de stock no concede por inferencia permiso al Administrador. Separar INSUMO de REVENTA (RD-RP022-001): Productos ELABORADO no tienen stock general y los Productos REVENTA no poseen los mismos umbrales mínimos de INSUMO. El filtro lógico `soloBajoUmbral` solo es aplicable al inventario de INSUMO. Mostrar explícitamente los valores de stock cero, sin ocultarlos.
 
 6. **Excepciones:** A1 — Inventario o filtros inválidos, o acceso no autorizado: rechazar/no mostrar datos. A2 — Se selecciona REVENTA: mostrar stock y unidad de venta propios de cada Producto REVENTA, sin umbral de Insumo. A3 — Stock cero: presentar `0` (no omitir por inexistencia). A4 — Sin registros coincidentes: informar resultado vacío. A5 — Falla de consulta: informar sin producir movimientos ni alterar existencias.
@@ -247,7 +247,7 @@
 1. **Nombre:** `consultarMovimientosInventario(tipoInventario: String, idElemento: Long[0..1], tipoMovimiento: String[0..1], fechaDesde: LocalDate[0..1], fechaHasta: LocalDate[0..1])`
 2. **Responsabilidades:** Consultar en modo solo lectura el historial cronológico de movimientos de `MOVIMIENTO_INSUMO` o de `MOVIMIENTO_STOCK_REVENTA` según el inventario elegido, presentando cantidades, `stockResultante` y referencias de origen (`Preparacion`, `RecepcionCompra`, `Entrega`, ajustes o `SALDO_INICIAL`), manteniendo estrictamente separados ambos inventarios y ocultando costos si el rol no tiene autorización para verlos.
 3. **Tipo:** `Sistema`
-4. **Referencias cruzadas:** Caso de Uso `UC-64 — Consultar Movimientos de Inventario`; Caso de Uso `UC-09 — Consultar Stock`; Decisión `RD-RP022-001`; Objetivo `OBJE-07`; Requisitos `RF-04`, `RF-05`.
+4. **Referencias cruzadas:** Caso de Uso `UC-64 — Consultar Movimientos de Inventario`; consulta relacionada UC-09; RD-RP022-001; Objetivo `OBJE-07`; Requisitos `RF-04`, `RF-05`.
 5. **Notas:** Consulta de solo lectura por Responsable de Producción o Administrador (Fase 4); se aplican filtros de alcance y visibilidad de campos sensibles, sin inferir permisos adicionales. `MOVIMIENTO_INSUMO` y `MOVIMIENTO_STOCK_REVENTA` son hechos separados y no se suman como un solo saldo; los Productos ELABORADO se gestionan mediante Preparaciones/Excedentes. No se editan costos históricos ni movimientos desde UC-64.
 
 6. **Excepciones:**
