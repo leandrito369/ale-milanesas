@@ -37,3 +37,7 @@
 | B0-T06 | Las fuentes DSS/DS/contratos de PR #10–#19 siguen sin fusionarse; versiones B0 corregidas viven en PR encadenadas | Integrador ratifica paquete canónico; G0 formal pendiente |
 
 **Dictamen:** E01-C tiene cobertura de las **67 operaciones a nivel candidato** y dependencias documentadas. No se puede marcar «técnicamente ratificado» hasta ADR e inspección puntual de diseños, ni «implementado/probado» antes de código ejecutable.
+
+## Ejecución real de CI documental E01-C (29/10/2026)
+
+El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/leandrito369/ale-milanesas/actions/runs/40908456777) terminó **SUCCESS**. El job `verificar-documentos` ejecutó `python -m unittest discover -s tests/b0 -p 'test_*.py' -v`: **9 tests ejecutados / 9 aprobados / 0 fallos**, según logs. Cuatro son específicos de mapeo (67 operaciones, 64 CU, 7 módulos, 60 tablas existentes, consistencia de RBAC y carácter candidato); cinco verifican RD/BC previos. **Es comprobación documental automatizada, no test de aplicación, transacción ni PostgreSQL nuevo**. BC-06 de implementación sigue **0/18**.

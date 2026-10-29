@@ -37,3 +37,7 @@
 Las 64 fichas y los 67 contratos están documentados; su **arquitectura de aplicación** todavía es **propuesta**. El esquema PostgreSQL 17.11 tiene evidencia MR6 en laboratorio; la aplicación **no** ha sido programada. B0 prepara la **línea base de construcción**, no la aplicación construida.
 
 **Dictamen:** material de G0 listo para decidir; **G0 NO APROBADO** hasta ratificación y revisión efectiva. No se realizará merge ni migración de producción por este informe.
+
+## Ejecución real de CI documental E01-C (29/10/2026)
+
+El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/leandrito369/ale-milanesas/actions/runs/40908456777) terminó **SUCCESS**. El job `verificar-documentos` ejecutó `python -m unittest discover -s tests/b0 -p 'test_*.py' -v`: **9 tests ejecutados / 9 aprobados / 0 fallos**, según logs. Cuatro son específicos de mapeo (67 operaciones, 64 CU, 7 módulos, 60 tablas existentes, consistencia de RBAC y carácter candidato); cinco verifican RD/BC previos. **Es comprobación documental automatizada, no test de aplicación, transacción ni PostgreSQL nuevo**. BC-06 de implementación sigue **0/18**.
