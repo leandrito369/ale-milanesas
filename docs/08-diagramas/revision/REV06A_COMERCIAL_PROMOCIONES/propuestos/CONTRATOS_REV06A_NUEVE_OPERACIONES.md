@@ -186,24 +186,24 @@
 
 3. **Tipo:** Sistema
 
-4. **Referencias cruzadas:** UC-60; RD-RP023-001; F08; MR-5 PROMOCION.estado.
+4. **Referencias cruzadas:** UC-60; RD-F08-001 (ratificada 29/10/2026); RD-RP023-001; F08 / MR-5 S-05; PROMOCION.estado.
 
-5. **Notas:** El Administrador examina estado y vigencia, recibe advertencia de que los Pedidos previos no cambian y confirma antes de registrar. La desactivación no elimina la Promoción ni modifica Productos, destinatarios, intentos y descuentos aplicados en Pedidos confirmados. Conforme a F08 / MR-5 S-05, las transiciones BORRADOR→CANCELADA, ACTIVA→CANCELADA y PAUSADA→CANCELADA están físicamente permitidas. Para UC-60 se propone CANCELADA como destino único de la baja definitiva, no PAUSADA ni FINALIZADA. PAUSADA→ACTIVA permanece prohibida, FINALIZADA/CANCELADA son terminales, no existe CU de reactivación y no se crea CAMBIO_ESTADO_PROMOCION. **Asignar exclusivamente CANCELADA a UC-60 es una interpretación de diseño trazable a F08, pendiente de ratificación explícita como regla funcional**.
+5. **Notas:** El Administrador examina estado y vigencia, recibe advertencia de que los Pedidos previos no cambian y confirma antes de registrar. La desactivación no elimina la Promoción ni modifica Productos, destinatarios, intentos y descuentos aplicados en Pedidos confirmados. Conforme a F08 / MR-5 S-05, las transiciones BORRADOR→CANCELADA, ACTIVA→CANCELADA y PAUSADA→CANCELADA están físicamente permitidas. Por decisión funcional **RD-F08-001 aprobada**, UC-60 establece CANCELADA como destino único de baja definitiva, no PAUSADA ni FINALIZADA. PAUSADA→ACTIVA permanece prohibida, FINALIZADA/CANCELADA son terminales, no existe CU de reactivación y no se crea CAMBIO_ESTADO_PROMOCION. **Esta asignación funcional quedó ratificada expresamente el 29/10/2026 en RD-F08-001; RC-02 está cerrada.**
 
-6. **Excepciones:** A1: idPromocion no encontrado o falta autorización: rechazar. A2: si PROMOCION.estado = CANCELADA, responder sin crear una segunda transición; si FINALIZADA, rechazar por estado terminal. A3: si el estado o autorización cambia concurrentemente, abortar o revalidar dentro de la misma transacción, sin cambio parcial. A4: no permitir PAUSADA→ACTIVA ni interpretar una pausa como reactivación habilitada.
+6. **Excepciones:** A1: Promoción no localizada o seleccionada inexistente: no modificar. A2: si PROMOCION.estado = CANCELADA, informar que ya fue cancelada sin duplicar cambio; si FINALIZADA, rechazar por estado terminal. A3: si la autorización o el estado cambia antes de confirmar, rechazar la transición inválida sin cambios parciales. A4: si el Administrador desiste antes de confirmar, conservar estado anterior. A5: ante error de persistencia, revertir por completo. A6: impedir PAUSADA→ACTIVA (no forma parte de UC-60).
 
 7. **Salida:** Confirmación de retiro para usos futuros y estado vigente, o explicación de no modificación.
 
 8. **Precondiciones:** Administrador autenticado y autorizado; Promoción localizada; estado actual BORRADOR, ACTIVA o PAUSADA; confirmación explícita; condición revalidada transaccionalmente.
 
-9. **Postcondiciones:** Si el proceso confirma, PROMOCION.estado queda CANCELADA, se impiden nuevos usos y se preservan Productos, destinatarios, intentos, enlaces históricos y descuentos de Pedidos confirmados; ante excepción no hay cambio parcial ni reactivación.
+9. **Postcondiciones:** Si confirma el Administrador y el estado previo era BORRADOR, ACTIVA o PAUSADA, PROMOCION.estado queda CANCELADA; nuevas aplicaciones se impiden, y UC-21 revalida estado y vigencia antes de confirmar un Pedido ONLINE. Se preservan Productos, destinatarios, intentos, comunicaciones y descuentos congelados de Pedidos previos. Si la operación se rechaza, desiste o falla, no hay modificaciones parciales ni reactivación.
 
 ---
 
 ## Glosario y límite de revisión
 
 - **Beneficio económico:** criterio aprobado RD-RP023-001 para elegir, en UC-21, entre promociones elegibles. No se infiere una fórmula nueva ni se presupone que `max(porcentajeDescuento)` siempre lo maximice.
-- **Estado de promoción:** BORRADOR, ACTIVA, PAUSADA, FINALIZADA y CANCELADA; no se añade reactivación. El conjunto de aristas permitido proviene de F08/MR-5; proponer CANCELADA como único destino de UC-60 se documenta como decisión de diseño pendiente de ratificación expresa, no como nueva regla previamente aprobada.
+- **Estado de promoción:** BORRADOR, ACTIVA, PAUSADA, FINALIZADA y CANCELADA; no se añade reactivación. El conjunto de aristas permitido proviene de F08/MR-5 y la elección de CANCELADA como destino único de UC-60 fue **ratificada expresamente en RD-F08-001 el 29/10/2026**; no se crea ningún CU de reactivación.
 - **Producto sin precio:** registro maestro válido pero no comercializable hasta primer precio UC-19 (RD-RP018-001).
 - **Versionado de precios:** preservar intervalos y auditorías sin alterar Pedidos confirmados.
 - **Visibilidad UML:** separadas las instancias PrecioProducto/AuditoriaPrecio, Promocion/PromocionProducto/DestinatarioPromocion/IntentoComunicacion; requiere posterior cotejo con diagrama de clases y Draw.io visual.

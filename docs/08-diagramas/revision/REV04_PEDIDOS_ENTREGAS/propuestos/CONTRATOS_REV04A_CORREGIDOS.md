@@ -16,9 +16,9 @@
 
 3. **Tipo:** `Sistema`
 
-4. **Referencias cruzadas:** Caso de Uso `UC-34 — Buscar Pedido`; incluido por `UC-05 — Registrar Entrega`, `UC-06 — Cancelar Pedido`, `UC-28 — Registrar Preparación de Pedido` y `UC-43 — Asignar y Reasignar Pedidos a Repartidores`; Objetivo `OBJE-01`; Requisito `RF-01`.
+4. **Referencias cruzadas:** Caso de Uso `UC-34 — Buscar Pedido`; incluido por `UC-05 — Registrar Entrega`, `UC-06 — Cancelar Pedido`, `UC-28 — Registrar Preparación de Pedido` y `UC-43 — Asignar y Reasignar Pedidos a Repartidores`; permisos `RD-RP007-002`; Objetivo `OBJE-01`; Requisito `RF-01`.
 
-5. **Notas:** Operación estrictamente de solo lectura. No modifica el estado ni el contenido de ningún Pedido.
+5. **Notas:** Operación estrictamente de solo lectura. `RD-RP007-002`: `Administrador` acceso directo; `Vendedor` directo/contextual; `Responsable de Producción` **solo contextual**; `Repartidor` **solo contextual a sus Pedidos con asignación vigente**. Ni búsqueda general ni visualización de campos sensibles se infiere de una consulta contextual. No modifica el estado ni el contenido de ningún Pedido.
 
 6. **Excepciones:**
 
@@ -26,13 +26,15 @@
 
    * **A2 — Criterios con formato inválido:** Solicitar corrección sin ejecutar la consulta.
 
+   * **A3 — Actor sin permiso, consulta fuera del CU contextual permitido o `Repartidor` intentando consultar un Pedido sin asignación vigente a su nombre:** Denegar la consulta y no exponer información ni datos sensibles del Pedido.
+
 7. **Salida:**
 
-   * Listado de `Pedido` coincidentes (`idPedido`, `Cliente`, `fechaHoraCarga`, `fechaReparto`, `canalOrigen` `INTERNO` \| `ONLINE`, `estado` `PENDIENTE` \| `ENTREGADO` \| `CANCELADO`) y referencia del `Pedido` seleccionado; o mensajes de las excepciones A1–A2.
+   * Listado de `Pedido` coincidentes (`idPedido`, `Cliente`, `fechaHoraCarga`, `fechaReparto`, `canalOrigen` `INTERNO` \| `ONLINE`, `estado` `PENDIENTE` \| `ENTREGADO` \| `CANCELADO`) y referencia del `Pedido` seleccionado; o mensajes de las excepciones A1–A3.
 
 8. **Precondiciones:**
 
-   * El actor interno se encuentra autenticado y autorizado.
+   * El actor interno se encuentra autenticado y autorizado según `RD-RP007-002`: `Administrador` (directo), `Vendedor` (directo/contextual), `Responsable de Producción` (solo contextual) o `Repartidor` (solo contextual de Pedidos propios asignados). La consulta efectiva verifica dicho ámbito antes de devolver resultados.
 
 9. **Postcondiciones:**
 

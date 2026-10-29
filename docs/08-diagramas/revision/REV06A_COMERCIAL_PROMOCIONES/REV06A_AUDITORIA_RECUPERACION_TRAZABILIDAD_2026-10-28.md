@@ -49,7 +49,7 @@ El usuario aportó `LOTE 6.md`, cuyo contenido se preservó íntegro en [`origin
 | **R6A-03 — Alto** | El DS UC-19 cerraba el precio previo **antes** de la guarda de validación; la rama de rechazo afirmaba no alterarlo | Se sustituyó esa operación inicial por verificación sin mutación; el cierre efectivo se ubica en la rama válida, junto al alta y auditoría transaccionales | Corregido documentalmente; prueba de transacción pendiente |
 | **R6A-04 — Medio** | UC-30 usaba `nombreNormalizado` en búsqueda antes de indicar su obtención | Mensaje de búsqueda usa `normalizar(nombre)`; unicidad de activos/inactivos preservada | Corregido |
 | **R6A-05 — Alto** | Fuente adjunta termina en mitad del DS UC-20 y carece de las páginas UC-24/59/60 y nueve contratos | Reconstrucción conservadora de cuatro páginas y nueve contratos | Completado como propuesta nueva |
-| **R6A-06 — Medio (actualizado)** | El contrato MR-5 S-05 y su parche F08 especifican aristas admitidas, incluida BORRADOR/ACTIVA/PAUSADA→CANCELADA; PAUSADA→ACTIVA prohibida | UC-60 propone CANCELADA como único resultado de baja lógica administrativa definitiva, sin nuevos estados ni tablas, con revalidación transaccional | **Diseño especificado; ratificación funcional pendiente** |
+| **R6A-06 — Medio (actualizado)** | El contrato MR-5 S-05 y su parche F08 especifican aristas admitidas, incluida BORRADOR/ACTIVA/PAUSADA→CANCELADA; PAUSADA→ACTIVA prohibida | UC-60 propone CANCELADA como único resultado de baja lógica administrativa definitiva, sin nuevos estados ni tablas, con revalidación transaccional | **Diseño especificado; ratificación funcional obtenida posteriormente en RD-F08-001 (29/10/2026)** |
 | **R6A-07 — Medio** | Riesgo de atribuir permisos UC-35 a Responsable de Producción | Se mantiene RBAC expreso Admin/Vendedor y ámbito contextual (RD-RP007-002) | Documentado |
 | **R6A-08 — Medio** | Riesgo de tratar Producto nuevo como comercializable sin precio | UC-30 y contrato distinguen alta y primera vigencia mediante UC-19 (RD-RP018-001) | Documentado |
 
@@ -74,7 +74,7 @@ El usuario aportó `LOTE 6.md`, cuyo contenido se preservó íntegro en [`origin
 | Escáner de elementos/entidades XML (pila de etiquetas y ampersands ilegales) | Sin anomalías detectadas | **No** parser XML completo ni round-trip Draw.io |
 | Cotejo literal de 27 fichas (9 CU × 3 niveles) en Word Fase 4 | **Completado posteriormente** | Ver acta REV06A_COTEJO_WORD_64_CU_Y_CONDICION_INTEGRACION; no implica certificación gráfica |
 | Verificación gráfica Draw.io de 11 páginas | **Pendiente** | Abrir–guardar–reabrir |
-| Estados F08 en detalle y transición terminal UC-60 | **F08 revisado posteriormente** | Se propone CANCELADA como baja definitiva; pendiente ratificación expresa de este destino para UC-60 |
+| Estados F08 en detalle y transición terminal UC-60 | **F08 revisado posteriormente** | CANCELADA es baja definitiva; decisión ratificada posteriormente en RD-F08-001 el 29/10/2026 |
 | Pruebas SQL, concurrencia, promoción elegible y mensajería | **Pendiente** | No software implementado |
 
 ## Dictamen
@@ -85,6 +85,11 @@ El usuario aportó `LOTE 6.md`, cuyo contenido se preservó íntegro en [`origin
 
 ## Adenda de cierre de cotejo 28/10/2026
 
-La fuente [CASOS_DE_USO_64_TRES_NIVELES](https://docs.google.com/document/d/1BMF2Yfsh2ki353fU2dS5eZtIsYrOntpkjjAzulNy1uY/edit) fue inspeccionada después de esta primera auditoría; el detalle de las correcciones y reservas está en [REV06A_COTEJO_WORD_64_CU_Y_CONDICION_INTEGRACION_2026-10-28.md](./REV06A_COTEJO_WORD_64_CU_Y_CONDICION_INTEGRACION_2026-10-28.md). Asimismo, F08 del [MR5_PATCH_NO_EJECUTADO.sql](../../../05-modelo-relacional/sql/MR5_PATCH_NO_EJECUTADO.sql) confirma las aristas BORRADOR/ACTIVA/PAUSADA→CANCELADA y prohíbe PAUSADA→ACTIVA. Se propone **CANCELADA para la baja definitiva de UC-60** como decisión de diseño pendiente de ratificación funcional. No se cambia el SQL ni se habilita reactivación. Los originales conservan su estado histórico.
+La fuente [CASOS_DE_USO_64_TRES_NIVELES](https://docs.google.com/document/d/1BMF2Yfsh2ki353fU2dS5eZtIsYrOntpkjjAzulNy1uY/edit) fue inspeccionada después de esta primera auditoría; el detalle de las correcciones y reservas está en [REV06A_COTEJO_WORD_64_CU_Y_CONDICION_INTEGRACION_2026-10-28.md](./REV06A_COTEJO_WORD_64_CU_Y_CONDICION_INTEGRACION_2026-10-28.md). Asimismo, F08 del [MR5_PATCH_NO_EJECUTADO.sql](../../../05-modelo-relacional/sql/MR5_PATCH_NO_EJECUTADO.sql) confirma las aristas BORRADOR/ACTIVA/PAUSADA→CANCELADA y prohíbe PAUSADA→ACTIVA. La baja definitiva de UC-60 a **CANCELADA** fue **ratificada funcionalmente en RD-F08-001 el 29/10/2026**. No se cambia el SQL ni se habilita reactivación. Los originales conservan su estado histórico.
 
 Para inspección se publicó [Índice de diagramas y contratos REV-01 a REV-06A](../INDICE_INSPECCION_DIAGRAMAS_CONTRATOS_REV01_A_REV06A_2026-10-28.md).
+
+
+## Adenda de ratificación de UC-60 — 29/10/2026
+
+La reserva de destino único de UC-60 fue **resuelta mediante ratificación expresa del responsable del proyecto**. La decisión [RD-F08-001](../../../01-gobierno/RD_F08_001_UC60_BAJA_DEFINITIVA_PROMOCION_2026-10-29.md) fija `PROMOCION.estado = CANCELADA` desde `BORRADOR`, `ACTIVA` o `PAUSADA`; estados `FINALIZADA` y `CANCELADA` no admiten nueva baja; `PAUSADA→ACTIVA` permanece prohibida. Este registro actualiza **únicamente la situación funcional de la reserva**; no anula otros requisitos de inspección, QA de implementación ni los hallazgos originales del 28/10. No se tocaron los diagramas.

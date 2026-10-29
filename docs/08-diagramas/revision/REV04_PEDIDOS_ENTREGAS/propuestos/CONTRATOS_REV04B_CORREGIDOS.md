@@ -112,7 +112,7 @@
 
 3. **Tipo:** `Sistema`
 
-4. **Referencias cruzadas:** Caso de Uso `UC-06 — Cancelar Pedido`; incluye `UC-34 — Buscar Pedido`; extendido condicionalmente por `UC-26 — Procesar Reembolso Electrónico`; Objetivos `OBJE-01`, `OBJE-05`, `OBJE-13`; Requisitos `RF-01`, `RF-13`, `RF-20`.
+4. **Referencias cruzadas:** Caso de Uso `UC-06 — Cancelar Pedido`; incluye `UC-34 — Buscar Pedido`; extendido condicionalmente por `UC-26 — Procesar Reembolso Electrónico`; permiso contextual de UC-34 para Repartidor según `RD-RP007-002` (solo Pedidos propios asignados); Objetivos `OBJE-01`, `OBJE-05`, `OBJE-13`; Requisitos `RF-01`, `RF-13`, `RF-20`.
 
 5. **Notas:** No revierte consumos de Insumos (`CONSUMO_PRODUCCION`). Si el Pedido tenía un Cobro manual previo, dicho monto permanece como saldo a favor en Cuenta Corriente sin salida automática de Caja.
 
@@ -122,13 +122,25 @@
 
    * **A2 — `motivoCancelacion` ausente o vacío:** Solicitar el motivo obligatorio antes de confirmar.
 
+   * **A3 — Pedido inexistente o fuera del alcance autorizado:** No cancelar. Si actúa un `Repartidor`, debe conservar una `AsignacionReparto` vigente al Pedido al momento de confirmar; de lo contrario, rechazar sin cambios (`RD-RP007-002`).
+
+   * **A4 — Sin cantidad `ELABORADO` disponible:** La cancelación no inventa un `Excedente`; continúa la baja del Pedido si las demás condiciones se cumplen.
+
+   * **A5 — Costo histórico de cantidad ELABORADA no determinable completamente:** Conservar evidencia de la inconsistencia para su regularización, sin asignar costo cero ni fabricar una valorización histórica.
+
+   * **A6 — Desistimiento antes de confirmar:** No modificar el `Pedido`, el inventario ni sus relaciones.
+
+   * **A7 — Fallo de persistencia o estado/asignación alterados antes de confirmar:** Revalidar el contexto y no confirmar parcialmente Cancelación, Excedentes ni sus relaciones.
+
+   * **A8 — Sin Cobro electrónico reembolsable:** No activar `UC-26`; los Cobros manuales o anticipos quedan en Cuenta Corriente según las reglas financieras, sin EGRESO de Caja automático.
+
 7. **Salida:**
 
-   * Confirmación del `Pedido` en estado `CANCELADO`, detalle de `Excedente` preservados y estado del eventual inicio de reembolso electrónico (`UC-26`); o mensajes de las excepciones A1–A2.
+   * Confirmación del `Pedido` en estado `CANCELADO`, detalle de `Excedente` preservados y estado del eventual inicio de reembolso electrónico (`UC-26`); o mensajes de las excepciones A1–A8.
 
 8. **Precondiciones:**
 
-   * El actor interno autorizado se encuentra autenticado y el `Pedido` seleccionado mediante `UC-34` está en estado `PENDIENTE`.
+   * El actor es un **Vendedor** autenticado y autorizado, o un **Repartidor** autenticado y autorizado **únicamente respecto de un Pedido asignado de forma vigente a él** al confirmar (`RD-RP007-002` / UC-34 contextual). El `Pedido` seleccionado mediante `UC-34` está en estado `PENDIENTE`. La autorización, asignación y estado se revalidan antes de persistir.
 
 9. **Postcondiciones:**
 
@@ -137,6 +149,10 @@
    * Para cada `Producto` `ELABORADO` del Pedido que poseía unidades disponibles (preparadas en `UC-28` o recibidas en `UC-07`), se creó una instancia de `Excedente` en estado `DISPONIBLE` (`origenGeneracion = CANCELACION`) conservando su costo histórico ponderado.
 
    * Si existía un `Cobro` electrónico reembolsable asociado a `unPedido`, se invocó por extensión `UC-26`.
+
+   * No se revierte `CONSUMO_PRODUCCION`, no se reintegran Insumos ya consumidos ni se altera stock de `REVENTA` por una Entrega no realizada. Los importes históricos permanecen trazables; la ausencia de costo histórico no se sustituye por cero.
+
+   * **Ante rechazo o fallo**, se conserva el Pedido y sus movimientos confirmados previamente, sin cancelar parcialmente ni crear `Excedente` o reembolso ficticio.
 
 ---
 
