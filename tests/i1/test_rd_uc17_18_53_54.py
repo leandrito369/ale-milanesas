@@ -40,8 +40,11 @@ class RevisionI1Test(unittest.TestCase):
             with self.subTest(xml=filename):
                 path = SEC / filename
                 tree = ET.parse(path)
-                ids = [x.get("id") for x in tree.findall(".//mxCell") if x.get("id")]
-                self.assertEqual(len(ids),len(set(ids)))
+                # IDs '0'/'1' se repiten legítimamente entre páginas Draw.io;
+                # la unicidad se exige dentro de cada <diagram>, no del mxfile.
+                for page in tree.findall(".//diagram"):
+                    ids = [x.get("id") for x in page.findall(".//mxCell") if x.get("id")]
+                    self.assertEqual(len(ids),len(set(ids)), page.get("name"))
                 values = " ".join(x.get("value","") for x in tree.findall(".//mxCell"))
                 for marker in ("RD-UC17-001", "ASIGNACION", "REVOCACION",
                                "identidadComercialVerificada", "credencialActual"):
