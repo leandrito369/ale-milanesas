@@ -37,7 +37,7 @@ UC-51 — Modificar Insumo; «include» UC-36 — Buscar Insumo (aprobado 25/10)
 Confirmación de la modificación permitida o rechazo con causa específica. No se devuelve un movimiento ni una transferencia de inventario.
 
 ## 8. Precondiciones
-Usuario autenticado y autorizado; Insumo existente y seleccionado mediante UC-36; datos editables y unidad propuesta, si existe, conforme a restricciones vigentes. Para modificar unidad, ausencia de movimientos y costos históricos verificada a la confirmación.
+**Administrador** autenticado y autorizado; Insumo existente y seleccionado mediante UC-36; datos editables y unidad propuesta, si existe, conforme a restricciones vigentes. Para modificar unidad, ausencia de movimientos y costos históricos verificada a la confirmación.
 
 ## 9. Postcondiciones
 **Éxito:** se actualizan únicamente atributos autorizados de la instancia `unInsumo:Insumo`. Si se solicitó cambio de `codigoUnidadMedida`, se modifica únicamente cuando **no existe movimiento ni costo histórico** y esa condición fue verificada al confirmar. `stockActual`, movimientos y costos históricos existentes permanecen intactos. No se crean otras instancias de Insumo ni transferencias.
