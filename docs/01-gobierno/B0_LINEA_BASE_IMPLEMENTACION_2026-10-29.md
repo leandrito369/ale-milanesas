@@ -59,3 +59,9 @@ Usar una fila por **operación significativa**, no necesariamente una por CU. De
 **Responsable humano:** ratifica límites, priorización y cualquier decisión comercial, física o de autorización no aprobada.
 
 **Regla de cierre:** B0 no produce por sí mismo un sistema funcional; habilita B1/I0 con decisiones rastreables.
+
+## Ejecución documental del 29/10/2026 (adenda sin alterar el plan)
+
+Se generaron el [inventario B0](b0/B0_INVENTARIO_FUENTES_2026-10-29.md), [matriz 64 CU/67 operaciones](b0/B0_MATRIZ_64_CU_67_OPERACIONES.csv), [manifiesto de Git SHA](b0/B0_MANIFIESTO_RUTAS_SHA.csv), [reconciliación RD/RP/MR](b0/B0_RECONCILIACION_RD_RP_PERMISOS_2026-10-29.md), [arquitectura candidata](../06-arquitectura/B0_ARQUITECTURA_CANDIDATA_2026-10-29.md) y [backlog/G0](b0/B0_BACKLOG_PRIORIZADO_Y_GATE_G0_2026-10-29.md).
+
+**Resultado:** identificación de fuentes y cotejo automatizado de rutas alcanzado; G0 **no aprobado** por revisión semántica y RBAC exhaustivos pendientes, más integración y aprobación de PR encadenadas y ADR. Las fuentes DSS/DS/contrato están presentes en PR #10–#19, NO en `main`. No se modificaron originales ni SQL.

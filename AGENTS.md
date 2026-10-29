@@ -32,3 +32,9 @@ La IA no es árbitro de las decisiones comerciales no definidas. Marcá `[A CONF
 - El marco de construcción es CU → DSS → DS → contrato → servicio/dominio → BD/API/UI → prueba reproducible, por incrementos verticales.
 - MR-6 en PostgreSQL de laboratorio sí fue ejecutado; no atribuir a MR-6 validación de API, servicios, offline o producción. F04 funcional cerrado ≠ S-01 técnica aprobada.
 - Para nuevos encargos, cada agente debe leer una tarea acotada y entregar rama+PR con fuentes, diff, pruebas y límites. Decisiones de negocio y cambios físicos de riesgo requieren autorización.
+
+## Fuentes comprobadas en B0 (29/10/2026)
+- Índice y manifiesto inmutable: `docs/01-gobierno/b0/B0_INVENTARIO_FUENTES_2026-10-29.md` y `B0_MANIFIESTO_RUTAS_SHA.csv`.
+- Matriz 64 CU/67 operaciones: `docs/01-gobierno/b0/B0_MATRIZ_64_CU_67_OPERACIONES.csv`, con rutas concretas a propuestas de PR #10–#19, **no fusionadas**. No aprobar diseño por existencia de archivo.
+- Reconciliación RD/RP/RBAC: `docs/01-gobierno/b0/B0_RECONCILIACION_RD_RP_PERMISOS_2026-10-29.md`. Respetar UC-14 vigente en catálogo de 64; evitar equivalencias con 49 CU históricos.
+- **Gate G0 NO aprobado**: la matriz operativa requiere cotejo semántico, roles y contrato/persistencia, aceptación humana y ADR. Los agentes pueden auditar y proponer sin programación de lógica de negocio basada en supuestos.

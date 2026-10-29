@@ -33,3 +33,7 @@ Editar solo mediante PR con evidencia. Para cambios posteriores registrar fecha,
 ## Adenda 29/10/2026 — Plan de implementación
 
 El responsable adoptó el [plan rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md) y priorizó [B0](01-gobierno/B0_LINEA_BASE_IMPLEMENTACION_2026-10-29.md). Declaró terminados los DSS, DS y contratos de 64 CU; **queda por localizar/importar y verificar esos artefactos en Git**. El documento DOCX de 64 CU sí está en el repositorio. Las pruebas de BD MR-6 siguen siendo evidencia válida del 26/10; no hay afirmación de sistema completo ni de servicios implementados. La [delegación de programación](06-arquitectura/GUIA_DELEGACION_AGENTES_2026-10-29.md) requiere rama+PR, contratos, trazabilidad y pruebas reproducibles. Esta adenda no reemplaza las RD vigentes ni autoriza cambios de reglas o migraciones productivas.
+
+## B0 en ejecución — 29/10/2026
+
+Se recuperaron fuentes 64 CU / 67 operaciones DSS–DS–Contrato en ramas de revisión PR #10–#19; la cobertura de firmas de PR #19 es **estática/documental**, no API ni ejecución de negocio. Se generó el inventario [B0](01-gobierno/b0/B0_INVENTARIO_FUENTES_2026-10-29.md) y matriz [64/67](01-gobierno/b0/B0_MATRIZ_64_CU_67_OPERACIONES.csv) en rama apilada sobre PR #20. **G0 permanece NO APROBADO** hasta cotejo semántico exhaustivo, RBAC y ratificación de ADR, e integración controlada. Las pruebas MR-6 de PostgreSQL siguen válidas y no fueron reejecutadas aquí.
