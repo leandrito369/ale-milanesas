@@ -74,3 +74,12 @@ Se generaron el [inventario B0](b0/B0_INVENTARIO_FUENTES_2026-10-29.md), [matriz
 - [Dictamen contractual y de seguridad residual](b0/B0_DICTAMEN_CIERRE_CONTRACTUAL_Y_SEGURIDAD_2026-10-29.md): BC-05 conciliado con propagación pendiente, BC-07 propuesto y sujeto a ratificación, BC-08 comprobado, BC-10 corregido en índice B0.
 
 **G0 NO APROBADO** hasta aprobación de matriz de campos sensibles, mapeo de servicios/DB y ADR.
+
+## Cierre documental adicional 29/10/2026 (sin adelantar B1)
+
+- BC05: adenda ratificada, 21 observaciones RF integradas como anotación en 8 documentos derivados B0, sin tocar originales.
+- BC07: las 15 proyecciones de datos y sus exclusiones quedan ratificadas en [RD_B0_BC07](b0/RD_B0_BC07_2026-10-29.md). No otorga roles/acciones nuevos.
+- BC09: [regla de invocación interna/externa](b0/BC09_REGLA_INVOCACION_INTERNA_EXTERNA_2026-10-29.md) incorporada para agentes.
+- BC06: [18 pruebas previstas, 0 ejecutadas](b0/BC06_INFORME_EJECUCION_Y_BLOQUEO_2026-10-29.md) por falta de aplicación; pruebas estáticas B0 separadas.
+
+**G0 sigue NO APROBADO**, pendientes mapa servicio/transacción/persistencia, ADR, y aceptación/fusión de cadena de PR.

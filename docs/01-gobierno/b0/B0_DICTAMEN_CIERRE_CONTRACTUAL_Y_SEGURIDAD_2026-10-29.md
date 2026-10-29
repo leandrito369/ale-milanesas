@@ -28,3 +28,16 @@ La matriz [RBAC 67 operaciones](B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.
 3. BC-10: al integrar PR #19 o consolidar versiones, preservar el índice derivado B0 y corregir la mención de UC-50 en el índice finalmente ratificado.
 
 **Conclusión:** BC01-04/08/10 resueltos en las fuentes derivadas y documentados; BC05 tratado pero requiere criterio de cierre documental; BC07 necesita decisión de negocio/seguridad. G0 **continúa NO APROBADO** porque también faltan mapeo de servicios/tabla/transacción, ADR, aprobación de fuentes y PR.
+
+## Actualización posterior — RD del responsable de 29/10/2026 (prevalece sobre estados previos)
+
+- **BC-05 = CERRADO DOCUMENTALMENTE EN B0:** adenda aceptada y [21 anotaciones propagadas](BC05_PROPAGACION_21_OPERACIONES_2026-10-29.csv) a ocho contratos derivados, pendiente de revisión/fusión del PR.
+- **BC-07 = CERRADO FUNCIONALMENTE:** el responsable ratificó [15 proyecciones](BC07_PROYECCIONES_MINIMAS_RATIFICADAS_2026-10-29.csv), con exclusiones en [RD-B0-BC07](RD_B0_BC07_2026-10-29.md). Campos excluidos no se autorizan por defecto; ejecución API pendiente.
+- **BC-09 = DOCUMENTADO** en [regla explícita](BC09_REGLA_INVOCACION_INTERNA_EXTERNA_2026-10-29.md), sin actor/rol adicional.
+- **BC-06 = PENDIENTE PRUEBAS REALES:** [18 casos](BC06_CASOS_PRUEBA_IMPLEMENTACION_18.csv), **0 ejecutados** por ausencia de backend. Controles de documentos B0 separados.
+
+**G0 permanece NO APROBADO:** faltan mapeo servicio/DB/transacción, ADR e integración aprobada de PR.
+
+## Evidencia ejecutada de CI documental — 29/10/2026
+
+GitHub Actions [run 40903529545](https://github.com/leandrito369/ale-milanesas/actions/runs/40903529545) sobre PR #23 concluyó **SUCCESS** (job `verificar-documentos`), con comando `python -m unittest discover -s tests/b0 -p 'test_*.py' -v`: **5 tests, 5 OK, 0 fallos**. Son pruebas **estáticas de consistencia documental**: 67 operaciones con 0 P, tres decisiones RBAC, 15 proyecciones ratificadas, 21 adendas en ocho documentos y regla BC09. Ningún test invocó un backend, webhook real, sandbox de Mercado Pago ni recibió un Cobro. Estado **BC06 0/18 de implementación** sin modificar.

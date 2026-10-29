@@ -100,6 +100,8 @@
 
 4. **Referencias cruzadas:** Caso de Uso `UC-03 — Cargar Pedido`; Caso de Uso `UC-34 — Buscar Pedido`; Caso de Uso `UC-43 — Asignar y Reasignar Pedidos a Repartidores`; Caso de Uso `UC-25 — Generar Ruta Sugerida de Reparto`; Decisión `RD-RP020-001` (`H-23`); Objetivo `OBJE-01`; Requisito `RF-01`.
 
+**Adenda B0-BC05 (trazabilidad, no nuevo comportamiento):** la ficha Fase 4 de UC-03 relaciona RF-01,RF-09,RF-12; esta operación secundaria `reprogramarFechaRepartoPedido` se limita a la reprogramación y conserva la inmutabilidad de precios/ajustes. No se interpreta la referencia general RF como nueva postcondición.
+
 5. **Notas:** Esta operación resuelve la reprogramación de un Pedido pendiente dentro del ciclo de gestión del Pedido sin crear un caso de uso adicional fuera de los 64 canónicos (`RD-RP020-001`). No altera los precios, promociones ni el ajuste comercial congelados originalmente. **Nota de diseño:** RD-RP020 exige historial y cierre atómico de la asignación; el diccionario vigente de 60 tablas no define una tabla específica de historial de fechas ni de rutas, por lo que el mecanismo de persistencia queda pendiente y no se presume una tabla nueva.
 
 6. **Excepciones:**
@@ -137,6 +139,8 @@
 3. **Tipo:** `Sistema`
 
 4. **Referencias cruzadas:** Caso de Uso `UC-21 — Realizar Pedido Online`; incluye `UC-16 — Aplicar Ajuste Comercial según Categoría`, `UC-15 — Evaluar y Actualizar Categoría Comercial` y `UC-29 — Registrar Cobro`; Decisiones `RD-RP001/RP019` (`H-05`) y `RD-RP023-001` (`H-06`); Objetivos `OBJE-01`, `OBJE-10`, `OBJE-11`, `OBJE-13`, `OBJE-16`; Requisitos `RF-01`, `RF-06`, `RF-10`, `RF-12`, `RF-15`, `RF-16`, `RF-20`.
+
+**Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-12,RF-14,RF-16,RF-20. Referencias contenidas en el contrato anterior: RF-01,RF-06,RF-10,RF-12,RF-15,RF-16,RF-20. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
 
 5. **Notas:**
 
