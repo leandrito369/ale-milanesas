@@ -234,7 +234,7 @@
 6. **Excepciones:** A1 — Inventario o filtros inválidos, o acceso no autorizado: rechazar/no mostrar datos. A2 — Se selecciona REVENTA: mostrar stock y unidad de venta propios de cada Producto REVENTA, sin umbral de Insumo. A3 — Stock cero: presentar `0` (no omitir por inexistencia). A4 — Sin registros coincidentes: informar resultado vacío. A5 — Falla de consulta: informar sin producir movimientos ni alterar existencias.
 
 7. **Salida:**
-   * Estado actual de existencias separadas por tipo de inventario (`INSUMO` con unidad, stock, umbrales y alerta de faltante; `PRODUCTO REVENTA` con unidad y stock actual); o mensajes de las excepciones A1–A2.
+   * Estado actual de existencias separadas por tipo de inventario (`INSUMO` con unidad, stock, umbrales y alerta de faltante; `PRODUCTO REVENTA` con unidad y stock actual); o mensajes de las excepciones A1–A5.
 8. **Precondiciones:** El **Responsable de Producción** se encuentra autenticado y autorizado para consulta de existencias UC-09.
 
 9. **Postcondiciones:**
