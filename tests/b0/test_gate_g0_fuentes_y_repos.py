@@ -51,7 +51,7 @@ class GateG0Fuentes(unittest.TestCase):
         acta = (B0 / "G0_ACTA_PARA_RATIFICACION_2026-10-29.md").read_text(encoding="utf-8")
         self.assertIn("https://github.com/leandrito369/ale-milanesas-app", handoff)
         self.assertIn("403", handoff)
-        self.assertIn("repository_selection=selected", handoff)
+        self.assertIn("repositorios **seleccionados**", handoff)
         self.assertIn("G0 NO APROBADO", acta)
         self.assertIn("G0-D01", acta)
         self.assertIn("G0-D03", acta)
