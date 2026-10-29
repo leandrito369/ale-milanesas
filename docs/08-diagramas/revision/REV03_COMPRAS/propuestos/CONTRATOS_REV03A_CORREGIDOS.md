@@ -206,13 +206,13 @@
 
 6. **Excepciones:**
 
-   * ***A1 — Recepción aún `ABIERTA`, Solicitud ya resuelta o sin ofertas elegibles:** Impedir la resolución mediante `UC-12` (si cerró con 0 respuestas o 0 ofertas elegibles, rige el cierre automático `SIN_RESPUESTAS` / `SIN_OFERTAS_ELEGIBLES`).
+   * **A1 — Recepción aún `ABIERTA`, Solicitud ya resuelta o sin ofertas elegibles:** Impedir la resolución mediante `UC-12` (si cerró con 0 respuestas o 0 ofertas elegibles, rige el cierre automático `SIN_RESPUESTAS` / `SIN_OFERTAS_ELEGIBLES`).
 
-   * ***A2 — En `COMPRAR`, la oferta seleccionada es tardía, parcial, incompleta para cubrir la solicitud o su `Proveedor` dejó de estar `ACTIVO`:** Impedir confirmar la compra y solicitar revisar alternativas.
+   * **A2 — En `COMPRAR`, la oferta seleccionada es tardía, parcial, incompleta para cubrir la solicitud o su `Proveedor` dejó de estar `ACTIVO`:** Impedir confirmar la compra y solicitar revisar alternativas.
 
-   * ***A3 — Falta `justificacionOMotivo` obligatorio (justificación de la elección al comprar o motivo de cierre al no comprar):** Rechazar la confirmación.
+   * **A3 — Falta `justificacionOMotivo` obligatorio (justificación de la elección al comprar o motivo de cierre al no comprar):** Rechazar la confirmación.
 
-   * ***A4 — La necesidad de reposición desapareció antes de confirmar (`stockActual >= umbralMinimo`):** Informar el cambio y bloquear la emisión de una `OrdenCompra` innecesaria, permitiendo cerrar justificadamente `SIN_COMPRA`.
+   * **A4 — La necesidad de reposición desapareció antes de confirmar (`stockActual >= umbralMinimo`):** Informar el cambio y bloquear la emisión de una `OrdenCompra` innecesaria, permitiendo cerrar justificadamente `SIN_COMPRA`.
 
 7. **Salida:**
 
@@ -228,32 +228,30 @@
 
 9. **Postcondiciones:**
 
-   * ***Si `decision = COMPRAR`:
+   * **Si `decision = COMPRAR`:**
+     * Se creó una instancia `unaDecision` de `DecisionCompra` con `resultado = CON_COMPRA`, `fechaHoraDecision` y `justificacion = justificacionOMotivo`, asociada a la `SolicitudCotizacion`, a la `PoliticaCompra` aplicada, a la `RespuestaCotizacion` elegida y al `Usuario` Administrador.
 
-     ** Se creó una instancia `unaDecision` de `DecisionCompra` con `resultado = CON_COMPRA`, `fechaHoraDecision` y `justificacion = justificacionOMotivo`, asociada a la `SolicitudCotizacion`, a la `PoliticaCompra` aplicada, a la `RespuestaCotizacion` elegida y al `Usuario` Administrador.
+     * Se crearon las instancias de `DetalleDecision` y `DetalleDecisionCriterio` preservando los valores, ponderaciones, identificación de cotizaciones incompletas y puntajes evaluados (`RD-RP013-001`).
 
-     ** Se crearon las instancias de `DetalleDecision` y `DetalleDecisionCriterio` preservando los valores, ponderaciones, identificación de cotizaciones incompletas y puntajes evaluados (`RD-RP013-001`).
+     * Se creó una única instancia `unaOrden` de `OrdenCompra` en estado `PENDIENTE` asociada a `unaDecision`, congelando `cantidadOrdenada`, `precioUnitarioAcordado`, `fechaHoraEmision` y `fechaHoraComprometidaEntrega`.
 
-     ** Se creó una única instancia `unaOrden` de `OrdenCompra` en estado `PENDIENTE` asociada a `unaDecision`, congelando `cantidadOrdenada`, `precioUnitarioAcordado`, `fechaHoraEmision` y `fechaHoraComprometidaEntrega`.
+     * Se modificó el estado de la `SolicitudCotizacion` a resuelta `CON_COMPRA`.
 
-     ** Se modificó el estado de la `SolicitudCotizacion` a resuelta `CON_COMPRA`.
-
-   * ***Si `decision = NO_COMPRAR`:
-
-     ** Se modificó el estado de la `SolicitudCotizacion` a finalizada `SIN_COMPRA` registrando `motivoCierre = justificacionOMotivo`, fecha/hora y `Usuario` Administrador responsable, sin crear `OrdenCompra`.
+   * **Si `decision = NO_COMPRAR`:**
+     * Se modificó el estado de la `SolicitudCotizacion` a finalizada `SIN_COMPRA` registrando `motivoCierre = justificacionOMotivo`, fecha/hora y `Usuario` Administrador responsable, sin crear `OrdenCompra`.
 
 ---
 
 ## 7. Glosario de Términos Asociados (`REV-03A`)
 
-** **`PoliticaCompra` (Tipo / Concepto — Tabla `POLITICA_COMPRA`):** Versión histórica de reglas de evaluación de cotizaciones con intervalo `[vigenteDesde, vigenteHasta)` y ventana `periodoCalculoDias`.
+- **`PoliticaCompra` (Tipo / Concepto — Tabla `POLITICA_COMPRA`):** Versión histórica de reglas de evaluación de cotizaciones con intervalo `[vigenteDesde, vigenteHasta)` y ventana `periodoCalculoDias`.
 
-** **`CriterioPoliticaCompra` (Tipo / Concepto — Tabla `CRITERIO_***POLITICA*_COMPRA`):** Criterio integrante de una `PoliticaCompra` con `codigoCriterio`, `pesoRelativo` (cuya suma entre criterios activos es 100 % según `RD-RP013-001`) y `ordenDesempate`.
+- **`CriterioPoliticaCompra` (Tipo / Concepto — Tabla `CRITERIO_POLITICA_COMPRA`):** Criterio integrante de una `PoliticaCompra` con `codigoCriterio`, `pesoRelativo` (cuya suma entre criterios activos es 100 % según `RD-RP013-001`) y `ordenDesempate`.
 
-** **`SolicitudCotizacion` (Tipo / Concepto — Tabla `SOLICITUD_COTIZACION`):** Requerimiento formal de cotización de un `Insumo` dentro de un `EpisodioFaltante`, con `cantidadSolicitada` y `fechaHoraVencimiento` congeladas al emitirse (`RD-RP012-001`).
+- **`SolicitudCotizacion` (Tipo / Concepto — Tabla `SOLICITUD_COTIZACION`):** Requerimiento formal de cotización de un `Insumo` dentro de un `EpisodioFaltante`, con `cantidadSolicitada` y `fechaHoraVencimiento` congeladas al emitirse (`RD-RP012-001`).
 
-** **`InvitacionCotizacion` (Tipo / Concepto — Tabla `INVITACION_COTIZACION`):** Vínculo histórico e irrevocable entre una `SolicitudCotizacion` y un `Proveedor` invitable al momento de la emisión.
+- **`InvitacionCotizacion` (Tipo / Concepto — Tabla `INVITACION_COTIZACION`):** Vínculo histórico e irrevocable entre una `SolicitudCotizacion` y un `Proveedor` invitable al momento de la emisión.
 
-** **`RespuestaCotizacion` (Tipo / Concepto — Tabla `RESPUESTA_COTIZACION`):** Oferta estructurada única, definitiva e inmutable registrada por un `Proveedor` invitado dentro del plazo de recepción.
+- **`RespuestaCotizacion` (Tipo / Concepto — Tabla `RESPUESTA_COTIZACION`):** Oferta estructurada única, definitiva e inmutable registrada por un `Proveedor` invitado dentro del plazo de recepción.
 
-** **`DecisionCompra` (Tipo / Concepto — Tabla `DECISION_COMPRA`):** Resolución comercial humana tomada por el `Administrador` en `UC-12` que fundamenta la elección y origina una `OrdenCompra`.
+- **`DecisionCompra` (Tipo / Concepto — Tabla `DECISION_COMPRA`):** Resolución comercial humana tomada por el `Administrador` en `UC-12` que fundamenta la elección y origina una `OrdenCompra`.
