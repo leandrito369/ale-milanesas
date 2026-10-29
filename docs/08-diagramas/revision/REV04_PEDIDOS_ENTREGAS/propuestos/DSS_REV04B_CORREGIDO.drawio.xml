@@ -1,0 +1,565 @@
+<mxfile host="app.diagrams.net" modified="2026-10-28T12:15:00.000Z" agent="Gemini-REV04B" version="24.7.17" type="device">
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 1: DSS CAJA NEGRA — PRODUCCIÓN (UC-28, UC-61, UC-41)               -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev04b-prod" name="DSS REV04B - Producción (UC-28, UC-61, UC-41)">
+
+    <mxGraphModel dx="1500" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="1350" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="p1_title" value="DSS (Caja Negra — REV04B) — Actor: Responsable de Producción — Escenarios Independientes UC-28, UC-61 y UC-41 [Sin UC-35 en rótulo — H-17]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1320" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_actor" value="Responsable de&#xa;Producción" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="940" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1010" y="1300" as="sourcePoint" />
+
+            <mxPoint x="1010" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1004" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <!-- MARCO UC-28 -->
+
+        <mxCell id="p1_sd28" value="sd Escenario Independiente — UC-28: Registrar Preparación de Pedido (con «include» UC-34)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=580;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1100" height="340" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_28_ref34" value="ref «include» UC-34 Buscar Pedido (selecciona el Pedido PENDIENTE y el Producto ELABORADO con preparación propia pendiente)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="205" width="780" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_28_m1" value="1: idPreparacion = registrarPreparacionPedido(idPedido:Long, idProducto:Long, cantidadPreparada:BigDecimal)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="295" as="sourcePoint" />
+
+            <mxPoint x="1004" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_28_r1" value="1.1: [0 &lt; cantidadPreparada &lt;= (cantidadOriginal - preparadaPropiaAcumulada), Receta vigente activa, stock suficiente y costos históricos válidos] registra Preparación, consume Insumos y evalúa reposición automática (PRA-01)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="375" as="sourcePoint" />
+
+            <mxPoint x="131" y="375" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_28_r2" value="1.2: [Pedido no PENDIENTE, supera cantidadOriginal propia, sin Receta vigente, stock insuficiente o sin fuente de costo histórico] bloquea el registro sin descontar stock parcial" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="465" as="sourcePoint" />
+
+            <mxPoint x="131" y="465" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-61 -->
+
+        <mxCell id="p1_sd61" value="sd Escenario Independiente — UC-61: Buscar Excedente" style="shape=umlFrame;whiteSpace=wrap;html=1;width=380;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="540" width="1100" height="200" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_61_m1" value="1: excedentes = buscarExcedente(idProducto:Long[0..1], idPedidoOrigen:Long[0..1], fechaGeneracion:LocalDate[0..1], soloDisponibles:Boolean)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="590" as="sourcePoint" />
+
+            <mxPoint x="1004" y="590" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_61_r1" value="1.1: muestra Excedentes de Productos ELABORADO (Producto, Pedido origen, fechaHoraGeneracion, cantidadInicial, cantidadDisponible) y devuelve la referencia seleccionada sin reservar saldo" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="685" as="sourcePoint" />
+
+            <mxPoint x="131" y="685" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-41 (+ INCLUDE UC-61) -->
+
+        <mxCell id="p1_sd41" value="sd Escenario Independiente — UC-41: Registrar Descarte de Excedente (con «include» aprobado 25/10 UC-61)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=660;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="770" width="1100" height="330" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_41_ref61" value="ref «include» UC-61 Buscar Excedente (aprobada 25/10 — selecciona un Excedente DISPONIBLE con cantidadDisponible &gt; 0)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="805" width="780" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="p1_41_m1" value="1: idMovimientoExcedente = registrarDescarteExcedente(idExcedente:Long, cantidadDescartada:BigDecimal, motivoDescarte:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="895" as="sourcePoint" />
+
+            <mxPoint x="1004" y="895" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_41_r1" value="1.1: [0 &lt; cantidadDescartada &lt;= cantidadDisponible actual, motivoDescarte informado y costo histórico determinable] registra descarte, reduce cantidadDisponible (DISPONIBLE o AGOTADO) y preserva Preparación histórica" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="975" as="sourcePoint" />
+
+            <mxPoint x="131" y="975" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="p1_41_r2" value="1.2: [Cantidad inválida/supera disponible por concurrencia, falta motivo o costo histórico indeterminable] rechaza el descarte sin modificar el Excedente" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1004" y="1060" as="sourcePoint" />
+
+            <mxPoint x="131" y="1060" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 2: DSS CAJA NEGRA — REPARTIDOR (UC-05 CON EFECTIVO EN TRÁNSITO)    -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev04b-rep" name="DSS REV04B - Repartidor (UC-05 Efectivo en Tránsito)">
+
+    <mxGraphModel dx="1500" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="950" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="r2_title" value="DSS (Caja Negra — REV04B) — Actor: Repartidor — UC-05: Registrar Entrega [RD-F04 Efectivo en Tránsito y Validación Offline]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1300" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_actor" value="Repartidor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="110" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="119" y="155" width="12" height="720" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="960" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1030" y="900" as="sourcePoint" />
+
+            <mxPoint x="1030" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="r2_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1024" y="155" width="12" height="720" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_sd05" value="sd Escenario Independiente — UC-05: Registrar Entrega («include» UC-34 y UC-15) [RD-F04 / RD-RP028]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=680;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="170" width="1120" height="670" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_ref34" value="ref «include» UC-34 Buscar Pedido (selecciona el Pedido PENDIENTE asignado al Repartidor autenticado)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=260;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="90" y="205" width="780" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_05_m1" value="1: confirmacionEntrega = registrarEntrega(idPedido:Long, detallesEntrega:List&lt;ItemEntregaDTO&gt;, efectivoDeclaradoRecibido:BigDecimal[0..1], claveIdempotencia:UUID)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="131" y="295" as="sourcePoint" />
+
+            <mxPoint x="1024" y="295" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="r2_ref15" value="ref «include» UC-15 Evaluar y Actualizar Categoría Comercial (ejecutado tras confirmar el cargo por venta efectiva en Cuenta Corriente)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="250" y="325" width="760" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_alt05" value="alt Confirmación de Entrega, Cargo Efectivo y Declaración de Efectivo en Tránsito [UC-05 — RD-F04 / RD-RP028]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=690;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="75" y="395" width="1070" height="415" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_g1" value="[Pedido PENDIENTE con asignación vigente del Repartidor; captura offline solo se confirma tras conciliación servidor RD-F04 y sin invalidación por reprogramación RP-020; límites comerciales/físicos válidos; efectivoDeclaradoRecibido &gt;= 0]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="420" width="960" height="25" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_r1" value="1.1: registra Entrega definitiva, marca Pedido ENTREGADO, genera Excedente por elaborado no entregado, registra cargo por venta efectiva en Cuenta Corriente, ejecuta UC-15 y registra efectivoDeclaradoRecibido como EFECTIVO EN TRÁNSITO VALIDADO (sin ejecutar UC-29 ni ingresar aún en Caja)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1024" y="510" as="sourcePoint" />
+
+            <mxPoint x="131" y="510" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="r2_div" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="75" y="610" as="sourcePoint" />
+
+            <mxPoint x="1145" y="610" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="r2_g2" value="[Sin asignación válida o invalidada, cantidades/costos inválidos, conflicto de sincronización: no confirmar; idempotencia repetida devuelve Entrega existente sin duplicarla]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+
+          <mxGeometry x="145" y="620" width="840" height="20" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="r2_r2" value="1.2: rechaza entrega inválida o reconoce idempotentemente la entrega ya sincronizada sin duplicar cargos, Excedentes ni efectivo en tránsito" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1024" y="730" as="sourcePoint" />
+
+            <mxPoint x="131" y="730" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+  <!-- ========================================================================= -->
+
+  <!-- PÁGINA 3: DSS CAJA NEGRA — VENDEDOR (UC-06 Y UC-07 DESAGRUPADO)           -->
+
+  <!-- ========================================================================= -->
+
+  <diagram id="dss-rev04b-vend" name="DSS REV04B - Vendedor (UC-06 y UC-07)">
+
+    <mxGraphModel dx="1550" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1350" math="0" shadow="0">
+
+      <root>
+
+        <mxCell id="0" />
+
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="v2_title" value="DSS (Caja Negra — REV04B) — Actor: Vendedor — Escenarios Independientes UC-06 y UC-07 (Oferta y Respuesta separadas)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1" vertex="1" parent="1">
+
+          <mxGeometry x="50" y="15" width="1280" height="30" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_actor" value="Vendedor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="100" y="60" width="30" height="60" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_actor_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="109" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_sys_box" value=":Sistema" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=13;" vertex="1" parent="1">
+
+          <mxGeometry x="860" y="60" width="140" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_sys_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="930" y="1300" as="sourcePoint" />
+
+            <mxPoint x="930" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_sys_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="924" y="155" width="12" height="1120" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_mp_box" value=":MercadoPago" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+
+          <mxGeometry x="1240" y="60" width="150" height="45" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_mp_line" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="1315" y="1300" as="sourcePoint" />
+
+            <mxPoint x="1315" y="105" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_mp_bar" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#7FD6FF;strokeColor=#000000;" vertex="1" parent="1">
+
+          <mxGeometry x="1309" y="340" width="12" height="90" as="geometry" />
+
+        </mxCell>
+
+        <!-- MARCO UC-06 -->
+
+        <mxCell id="v2_sd06" value="sd Escenario Independiente — UC-06: Cancelar Pedido («include» UC-34 y «extend» condicional UC-26)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=630;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="45" y="170" width="1395" height="420" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_06_ref34" value="ref «include» UC-34 Buscar Pedido (selecciona el Pedido PENDIENTE)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=250;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="205" width="760" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_06_m1" value="1: resultadoCancelacion = cancelarPedido(idPedido:Long, motivoCancelacion:String)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="121" y="290" as="sourcePoint" />
+
+            <mxPoint x="924" y="290" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_06_opt26" value="opt «extend» UC-26 Procesar Reembolso Electrónico [solo si el Pedido posee Cobro electrónico reembolsable]" style="shape=umlFrame;whiteSpace=wrap;html=1;width=680;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="680" y="330" width="680" height="80" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_06_r1" value="1.1: [Pedido PENDIENTE y motivo informado] marca Pedido CANCELADO, preserva elaborados preparados/reasignados como Excedente (con costo histórico ponderado) e inicia UC-26 si tenía Cobro electrónico (el Cobro manual queda como saldo a favor)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="465" as="sourcePoint" />
+
+            <mxPoint x="121" y="465" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_06_r2" value="1.2: [Pedido ya ENTREGADO/CANCELADO o falta motivo obligatorio] rechaza la cancelación" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="545" as="sourcePoint" />
+
+            <mxPoint x="121" y="545" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <!-- MARCO UC-07 (+ INCLUDE UC-61) -->
+
+        <mxCell id="v2_sd07" value="sd Escenario Independiente — UC-07: Ofrecer y Reasignar Excedente (con «include» aprobado 25/10 UC-61)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=670;height=22;fillColor=none;strokeColor=#000000;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="45" y="620" width="1100" height="580" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_07_ref61" value="ref «include» UC-61 Buscar Excedente (aprobada 25/10 — selecciona un Excedente DISPONIBLE y presenta Pedidos candidatos PENDIENTE)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=280;height=22;fillColor=#F5F5F5;strokeColor=#000000;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+
+          <mxGeometry x="85" y="655" width="780" height="50" as="geometry" />
+
+        </mxCell>
+
+        <mxCell id="v2_07_m1" value="1: idOfertaExcedente = registrarOfertaExcedente(idExcedente:Long, idPedidoReceptor:Long, cantidadOfrecida:BigDecimal)" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="121" y="745" as="sourcePoint" />
+
+            <mxPoint x="924" y="745" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_07_r1" value="1.1: calcula importeInformado y registra Oferta de Excedente sin reservar existencias" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="805" as="sourcePoint" />
+
+            <mxPoint x="121" y="805" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_07_m2" value="2: resultadoReasignacion = registrarRespuestaOfertaExcedente(idOfertaExcedente:Long, aceptada:Boolean, cantidadAceptada:BigDecimal[0..1])" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="121" y="885" as="sourcePoint" />
+
+            <mxPoint x="924" y="885" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_07_r2" value="2.1: [aceptada == true, Pedido receptor PENDIENTE y cantidadAceptada &lt;= cantidadDisponible] incorpora unidades adicionales e importeAceptado al Pedido receptor (sin alterar cantidadOriginal ni totalOriginal y sin volver a preparar ni ejecutar UC-15/UC-16), transfiere costo histórico y reduce cantidadDisponible" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="990" as="sourcePoint" />
+
+            <mxPoint x="121" y="990" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+        <mxCell id="v2_07_r3" value="2.2: [aceptada == false o sin disponibilidad física suficiente al confirmar] registra rechazo o impide la transferencia sin modificar cantidadDisponible ni el Pedido receptor" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+
+          <mxGeometry relative="1" as="geometry">
+
+            <mxPoint x="924" y="1120" as="sourcePoint" />
+
+            <mxPoint x="121" y="1120" as="targetPoint" />
+
+          </mxGeometry>
+
+        </mxCell>
+
+      </root>
+
+    </mxGraphModel>
+
+  </diagram>
+
+</mxfile>
