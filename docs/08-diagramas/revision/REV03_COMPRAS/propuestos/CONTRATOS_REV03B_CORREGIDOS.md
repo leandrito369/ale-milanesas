@@ -16,9 +16,9 @@
 
 3. **Tipo:** `Sistema`
 
-4. **Referencias cruzadas:** Caso de Uso `UC-37 — Buscar Proveedor`; incluido por `UC-45 — Modificar Proveedor` y `UC-46 — Cambiar Estado de Proveedor`; Objetivo `OBJE-09`; Requisito `RF-11`.
+4. **Referencias cruzadas:** Caso de Uso `UC-37 — Buscar Proveedor`; incluido por `UC-45 — Modificar Proveedor` y `UC-46 — Cambiar Estado de Proveedor`; `RD-RP007-002` (búsqueda directa/contextual solo Administrador); Objetivo `OBJE-09`; Requisito `RF-11`.
 
-5. **Notas:** Operación estrictamente de solo lectura. Si el caso de uso invocante exige que el Proveedor se encuentre `ACTIVO`, dicha condición es validada por ese caso de uso.
+5. **Notas:** Operación estrictamente de solo lectura, de acceso **directo o contextual solo para Administrador**, conforme `RD-RP007-002`; no se hereda a Vendedor, Producción ni Repartidor. Si el caso de uso invocante exige que el Proveedor se encuentre `ACTIVO`, dicha condición es validada por ese caso de uso.
 
 6. **Excepciones:**
 
@@ -32,7 +32,7 @@
 
 8. **Precondiciones:**
 
-   * El actor interno se encuentra autenticado y autorizado.
+   * El **Administrador** se encuentra autenticado y autorizado para UC-37, ya sea como búsqueda directa o contextual (`RD-RP007-002`).
 
 9. **Postcondiciones:**
 
@@ -156,9 +156,9 @@
 
 3. **Tipo:** `Sistema`
 
-4. **Referencias cruzadas:** Caso de Uso `UC-40 — Buscar Orden de Compra`; incluido por `UC-39 — Cancelar Orden de Compra`; extiende condicionalmente a `UC-08 — Registrar Ingreso de Stock por Compra`; Objetivo `OBJE-09`; Requisito `RF-11`.
+4. **Referencias cruzadas:** Caso de Uso `UC-40 — Buscar Orden de Compra`; incluido por `UC-39 — Cancelar Orden de Compra`; extiende condicionalmente a `UC-08 — Registrar Ingreso de Stock por Compra`; permisos `RD-RP007-002`; Objetivo `OBJE-09`; Requisito `RF-11`.
 
-5. **Notas:** Operación estrictamente de solo lectura. Si el caso invocante exige un estado específico (`PENDIENTE` o `PARCIALMENTE_RECIBIDA`), dicha validación se ejecuta en el caso invocante.
+5. **Notas:** Operación estrictamente de solo lectura. `Administrador`: búsqueda directa o contextual. `Responsable de Producción`: consulta **solo contextual** dentro de una operación autorizada, sin menú de búsqueda general y sin autorización para cancelar/modificar/aprobar Órdenes (`RD-RP007-002`). Si el caso invocante exige un estado específico (`PENDIENTE` o `PARCIALMENTE_RECIBIDA`), dicha validación se ejecuta en el caso invocante.
 
 6. **Excepciones:**
 
@@ -172,7 +172,7 @@
 
 8. **Precondiciones:**
 
-   * El actor interno (`Administrador` o `Responsable de Producción`) se encuentra autenticado y autorizado.
+   * El `Administrador` se encuentra autenticado y autorizado para búsqueda directa o contextual, o el `Responsable de Producción` se encuentra autenticado y autorizado **solo para consulta contextual de lectura** dentro de otro CU habilitado (`RD-RP007-002`).
 
 9. **Postcondiciones:**
 
