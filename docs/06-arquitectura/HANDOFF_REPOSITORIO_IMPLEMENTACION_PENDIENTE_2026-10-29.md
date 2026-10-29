@@ -31,3 +31,12 @@
 ## No confundir con un hito ejecutado
 
 No existe aún URL, repo, scaffold, código ni pipelines del nuevo repositorio. Este documento **no** crea el repositorio, no ejecuta migraciones ni concede permiso de despliegue. Es el material para activar el **B1** cuando las condiciones estén dadas.
+
+---
+
+## Actualización posterior de la condición de alta — 29/10/2026
+
+**Repo creado y comprobado:** [leandrito369/ale-milanesas-app](https://github.com/leandrito369/ale-milanesas-app), `main` inicializado con README. El título histórico «pendiente» refiere al **handoff**, ya no al alta. **Escritura desde GitHub App bloqueada (403)** por selección de repositorios: [registro y configuración](../01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md).
+
+Preparación de documentación de acceso de agentes para una PR en la app **tras G0 y permisos**:
+[plantilla AGENTS](G0_PLANTILLA_AGENTS_REPO_APP_2026-10-29.md) y [plantilla source-lock](G0_PLANTILLA_SOURCE_LOCK_REPO_APP_2026-10-29.md). **No publicadas en app**; ningún código de aplicación se ha iniciado.

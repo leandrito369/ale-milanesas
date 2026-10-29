@@ -61,3 +61,15 @@ El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/le
 **CR-B0-F04-001** está **abierta y no aprobada** para diseño físico de F04/S-01, sin bloquear G0 en las partes iniciales ajenas a F04 ni autorizar nuevas tablas.
 
 **Estado formal final de este informe: G0 NO APROBADO** hasta resolver G0-D01/D03/D04/D05, revisar PR, y obtener acta formal de aceptación. La ratificación de cinco ADR no aprueba por sí sola las demás condiciones.
+
+---
+
+## Corte G0 de 29/10/2026 tras alta comprobada de la APP (prevalece sobre notas anteriores)
+
+**`leandrito369/ale-milanesas-app` EXISTE**, creado por el responsable y verificado en GitHub: [registro de alta](G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md). GitHub App instalado con alcance de repositorios **seleccionados** no recibió aún acceso al nuevo repo (403 al crear rama): **pendiente de configurar**. No inferir inexistencia del repo de la descripción histórica anterior.
+
+**D01:** se preparó [manifiesto de 67 fuentes inmutables](G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv) con **40 contratos B0** y **27 REV** junto a DSS/DS y DOCX Fase4; todas las rutas existen, la **selección canónica aún debe ratificarse** y las PR integrarse. [Plan de integración](G0_PLAN_INTEGRACION_CONTROLADA_PR_2026-10-29.md).
+
+**D02:** ADR ratificadas, resuelta. **D03/D04/D05**: propuesta de aceptación expresa en [Acta G0](G0_ACTA_PARA_RATIFICACION_2026-10-29.md). [Dictamen](G0_DICTAMEN_APTITUD_CIERRE_2026-10-29.md).
+
+**Estado vigente: G0 NO APROBADO**. No iniciar B1 solo por haber creado el repositorio; es independiente de la aprobación del Gate.
