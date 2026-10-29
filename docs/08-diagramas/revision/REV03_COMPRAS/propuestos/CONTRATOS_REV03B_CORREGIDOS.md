@@ -158,7 +158,7 @@
 
 4. **Referencias cruzadas:** Caso de Uso `UC-40 — Buscar Orden de Compra`; incluido por `UC-39 — Cancelar Orden de Compra`; extiende condicionalmente a `UC-08 — Registrar Ingreso de Stock por Compra`; permisos `RD-RP007-002`; Objetivo `OBJE-09`; Requisito `RF-11`.
 
-5. **Notas:** Operación estrictamente de solo lectura. `Administrador`: búsqueda directa o contextual. `Responsable de Producción`: consulta **solo contextual** dentro de una operación autorizada, sin menú de búsqueda general y sin autorización para cancelar/modificar/aprobar Órdenes (`RD-RP007-002`). Si el caso invocante exige un estado específico (`PENDIENTE` o `PARCIALMENTE_RECIBIDA`), dicha validación se ejecuta en el caso invocante.
+5. **Notas:** Operación estrictamente de solo lectura. `Administrador`: búsqueda directa o contextual. `Responsable de Producción`: búsqueda **directa o contextual, exclusivamente de solo lectura**, sin autorización para cancelar, modificar o aprobar Órdenes (`RD-RP007-002`, matriz aprobada el 27/10/2026). Si el caso invocante exige un estado específico (`PENDIENTE` o `PARCIALMENTE_RECIBIDA`), dicha validación se ejecuta en el caso invocante.
 
 6. **Excepciones:**
 
@@ -172,7 +172,7 @@
 
 8. **Precondiciones:**
 
-   * El `Administrador` se encuentra autenticado y autorizado para búsqueda directa o contextual, o el `Responsable de Producción` se encuentra autenticado y autorizado **solo para consulta contextual de lectura** dentro de otro CU habilitado (`RD-RP007-002`).
+   * El `Administrador` se encuentra autenticado y autorizado para búsqueda directa o contextual, o el `Responsable de Producción` se encuentra autenticado y autorizado para búsqueda **directa o contextual, exclusivamente de solo lectura** (`RD-RP007-002`).
 
 9. **Postcondiciones:**
 
@@ -244,19 +244,21 @@
 
    * **A4 — Unidad no convertible, factor nulo/no positivo o conversión inválida:** Rechazar completamente, sin movimientos ni costos ficticios.
 
+   * **A5 — Actor distinto del Responsable de Producción o sin autorización UC-08:** Rechazar la recepción; el acceso de consulta a UC-40 no concede permiso para registrar ingresos de stock.
+
 7. **Salida:**
 
-   * Confirmación de la `RecepcionCompra` (`idRecepcion`), nuevo stock resultante, nuevo costo histórico o promedio ponderado móvil vigente y estado actualizado de la `OrdenCompra` (`PARCIALMENTE_RECIBIDA` o `RECIBIDA`) cuando aplica; o mensajes de las excepciones A1–A4.
+   * Confirmación de la `RecepcionCompra` (`idRecepcion`), nuevo stock resultante, nuevo costo histórico o promedio ponderado móvil vigente y estado actualizado de la `OrdenCompra` (`PARCIALMENTE_RECIBIDA` o `RECIBIDA`) cuando aplica; o mensajes de las excepciones A1–A5.
 
 8. **Precondiciones:**
 
-   * El actor autorizado (`Responsable de Producción` o `Administrador`) se encuentra autenticado.
+   * El **Responsable de Producción** se encuentra autenticado y autorizado para registrar la recepción física por compra (UC-08). El `Administrador` no está habilitado para ejecutar UC-08 por el solo hecho de administrar cotizaciones y Órdenes de Compra; cualquier ampliación de este rol requiere decisión expresa.
 
    * Existe el `Insumo` o el `Producto` con `tipoProducto = REVENTA` identificado por `idElemento` (y, si se vinculó mediante `UC-40`, existe la `OrdenCompra` en estado `PENDIENTE` o `PARCIALMENTE_RECIBIDA`).
 
 9. **Postcondiciones:**
 
-   * Se creó `unaRecepcion:RecepcionCompra` con fecha/hora, cantidad **original** recibida, `codigoUnidadMedida = codigoUnidadMedidaRecibida`, `factorConversionAplicado` positivo, `costoUnitarioReal = costoUnitarioCompra` original y `referenciaComercial = comprobante` cuando corresponda, vinculada al Usuario y opcionalmente a Orden (`0..1`).
+   * Se creó `unaRecepcion:RecepcionCompra` por actuación del **Responsable de Producción** autorizado, con fecha/hora, cantidad **original** recibida, `codigoUnidadMedida = codigoUnidadMedidaRecibida`, `factorConversionAplicado` positivo, `costoUnitarioReal = costoUnitarioCompra` original y `referenciaComercial = comprobante` cuando corresponda, vinculada al Usuario y opcionalmente a Orden (`0..1`).
 
    * Se calcularon `cantidadBaseConvertida` y `costoUnitarioBaseConvertido` antes de afectar inventarios; la unidad, factor, cantidad y costo originales permanecen congelados en Recepción.
 
