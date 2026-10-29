@@ -36,3 +36,12 @@ Los documentos de requisitos 23/10 se incluyen como **línea base histórica**, 
 - [Separación análisis vs implementación](01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md)
 - [Traspaso preparado, repo implementación aún no creado](06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md)
 - [Gate G0, decisión D02 resuelta y restantes pendientes](01-gobierno/b0/B0_INFORME_GATE_G0_PARA_APROBACION_2026-10-29.md)
+
+## Expediente Gate G0 29/10/2026
+
+- [Dictamen de aptitud](01-gobierno/b0/G0_DICTAMEN_APTITUD_CIERRE_2026-10-29.md)
+- [Manifiesto inmutable de 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv)
+- [Plan integración de PR #9–#25](01-gobierno/b0/G0_PLAN_INTEGRACION_CONTROLADA_PR_2026-10-29.md)
+- [Acta preparada para decisión](01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md)
+- [Alta confirmada del repositorio app y permiso GitHub pendiente](01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md)
+- [Plantillas AGENTS/source-lock para app, aún no publicadas allí](06-arquitectura/G0_PLANTILLA_AGENTS_REPO_APP_2026-10-29.md)

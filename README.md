@@ -49,3 +49,9 @@ El responsable **ratificó ADR-B1-01/02/03/04/06**; ADR-B1-05 queda condicionada
 **Este repositorio sigue siendo el de análisis, diseño y gobierno.** El código Spring Boot, las interfaces, Android, migraciones versionadas y pruebas de implementación irán a **otro repositorio que creará el responsable**. Hasta entonces no se crea un repositorio nuevo ni se empieza programación. [Política de repositorios](docs/01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) · [Handoff pendiente](docs/06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md).
 
 **G0 no aprobado**: queda revisar integración de fuentes y PR, backlog y aceptación formal. Una ADR aprobada no habilita por sí sola B1.
+
+## Gate G0 e implementación en repositorio independiente — actualización 29/10/2026
+
+[**Repositorio de aplicación creado**](https://github.com/leandrito369/ale-milanesas-app), con README inicial. Aún no contiene código y el GitHub App debe ser habilitado para escribir en él. [Registro de acceso](docs/01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md).
+
+Este repositorio conserva [manifiesto G0 de 67 fuentes](docs/01-gobierno/b0/G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv) y [acta preparada para ratificación](docs/01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md). **G0 no está aprobado ni las PR #9–#25 fusionadas**. No iniciar B1 aún.

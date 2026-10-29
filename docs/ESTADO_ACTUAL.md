@@ -59,3 +59,11 @@ El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/le
 **Arquitectura:** [ADR-B1-01/02/03/04/06 RATIFICADAS](01-gobierno/b0/RD_B0_ADR_ARQUITECTURA_APROBADA_2026-10-29.md). **ADR-B1-05 / F04/S01: CR abierta y NO aprobada** ([CR](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md)). **G0-D02 RESUELTO**, G0 general sigue pendiente de D01/D03/D04/D05, validación de fuentes y PR.
 
 **Repositorios:** `leandrito369/ale-milanesas` se mantiene **solo como repositorio de análisis y diseño**. El nuevo repositorio de programación/documentación de implementación **no existe aún en el contexto disponible**: lo creará el responsable y comunicará su URL. [RD de separación](01-gobierno/b0/RD_B0_SEPARACION_REPOSITORIOS_2026-10-29.md) y [handoff](06-arquitectura/HANDOFF_REPOSITORIO_IMPLEMENTACION_PENDIENTE_2026-10-29.md). **No programar ni iniciar B1 hasta G0 + alta del repo**. SQL MR6 probado solo en laboratorio; BC06 de implementación 0/18.
+
+## Actualización G0 y alta del repositorio de implementación — 29/10/2026
+
+**Repositorio nuevo confirmado**: [ale-milanesas-app](https://github.com/leandrito369/ale-milanesas-app) creado por responsable, `main` inicial, **sin implementación**. La instalación GitHub actual permite leer pero **rechaza la escritura (403)** hasta añadir el repo seleccionado. Ver [acta de alta](01-gobierno/b0/G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md).
+
+**Expediente Gate:** [manifiesto 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_67_OPERACIONES_FUENTES_INMUTABLES_2026-10-29.csv), [dictamen](01-gobierno/b0/G0_DICTAMEN_APTITUD_CIERRE_2026-10-29.md), [plan PR](01-gobierno/b0/G0_PLAN_INTEGRACION_CONTROLADA_PR_2026-10-29.md), [acta para ratificación](01-gobierno/b0/G0_ACTA_PARA_RATIFICACION_2026-10-29.md). **D02 resuelta; D01/D03/D04/D05 y revisión/merge pendientes**. Fuentes origen verificadas, **no aprobadas como paquete canónico final**.
+
+**G0 NO APROBADO.** No iniciar B1 hasta resolución formal.

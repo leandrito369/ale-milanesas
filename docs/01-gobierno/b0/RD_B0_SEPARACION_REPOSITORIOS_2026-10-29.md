@@ -37,3 +37,13 @@
 **Solo después de ambos:** elaborar o incorporar allí el scaffold y documentación operativa de B1, en rama y PR, sin escribir código en `leandrito369/ale-milanesas`.
 
 **Estado:** arquitectura aprobada parcialmente por ADR; **G0 pendiente** y repositorio de implementación **pendiente de alta por el usuario**.
+
+---
+
+## Adenda de alta verificada — 29/10/2026 (actualiza únicamente la condición de existencia)
+
+El responsable aportó la URL **[leandrito369/ale-milanesas-app](https://github.com/leandrito369/ale-milanesas-app)** y se verificó que el repositorio **sí existe**, tiene `main` inicial y `README.md`. **Queda satisfecha la condición «alta por el responsable»** del texto inicial. No implica habilitación de B1 ni modifica la separación documental/código.
+
+**Permisos del conector:** la instalación GitHub seleccionada #175453350 no incluye todavía el repo nuevo: intento de crear rama → **403 Resource not accessible by integration**. [Configuración](https://github.com/settings/installations/175453350) para agregar el repo a los seleccionados; **no escribir en `main` como alternativa**.
+
+**Condición restante:** aprobar formalmente G0 y resolver acceso para PR de documentación técnica en el repositorio nuevo. [Registro auditable](G0_ALTA_REPO_IMPLEMENTACION_2026-10-29.md).
