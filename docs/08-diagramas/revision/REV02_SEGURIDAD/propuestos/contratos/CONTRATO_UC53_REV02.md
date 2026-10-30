@@ -8,7 +8,7 @@
 
 3. **Tipo:** `Sistema`
 
-4. **Referencias cruzadas:** UC-53, UC-01, UC-54, RD-RP010-001, RD-UC53-001, RF-08, RNF-02, OBJE-03, Fase4 ficha Real Paso 3 y ficha Extendida Pasos 2-3/A2.
+4. **Referencias cruzadas:** UC-53, UC-01, UC-54, RD-RP010-001, RD-UC53-001, RD-UC53-002, RF-08, RNF-02, OBJE-03, Fase4 ficha Real Paso 3 y ficha Extendida Pasos 2-3/A2.
 
 5. **Notas:** Revalidar cuenta HABILITADO, sesión vigente y tipo de cambio. La nueva contraseña debe cumplir política de seguridad y no reutilizar la misma clave temporal. Hash seguro, jamás secretos en claro/logs; sin tabla de historial de contraseñas inventada.
 
@@ -18,8 +18,10 @@
 
 8. **Precondiciones:** Existe `SESION_USUARIO` vigente vinculada a un Usuario HABILITADO, incluso si la sesión está restringida a UC-53 por `cambioCredencialPendiente=true`.
 
-9. **Postcondiciones:** Se reemplazó `USUARIO.credencialProtegida` exclusivamente por hash de `nuevaCredencial` y `USUARIO.cambioCredencialPendiente=false`. El Usuario recupera el alcance derivado de sus Roles existentes y sesión válida (sin ampliación de permisos ni columnas). En fallo todo permanece intacto.
+9. **Postcondiciones:** Se reemplazó `USUARIO.credencialProtegida` exclusivamente por hash de `nuevaCredencial` y `USUARIO.cambioCredencialPendiente=false`. Los Roles vigentes se conservan, pero todas las sesiones activas previas (incluida la invocante) son revocadas por `tg_mr5_revocar_sesiones_usuario`. Para volver a operar con los permisos de esos Roles se exige **nuevo inicio de sesión**; ninguna sesión anterior se reactiva. En fallo A1/A2/A3 se conservan hash e indicador sin revocar sesiones por UC-53. Prevalece `RD-UC53-002` sobre toda referencia histórica a continuidad de la misma sesión.
 
 ---
 
 **PATCH controlado vigente (RD-UC53-001) — 29/10/2026:** prevalecen las reglas de los apartados 1–9 corregidos sobre la propuesta histórica (incluidas sus reservas ya resueltas). Los valores SQL físicos de MR5 permanecen intactos. Historial anterior preservado en Git; antes de implementar validar DSS/DS y pruebas de concurrencia.
+
+**PATCH RD-UC53-002 — 29/10/2026:** ratificada revocación de todas las sesiones por cambio exitoso y exigencia de nuevo inicio de sesión; prevalece sobre texto de continuidad de sesión anterior. Contrato y modelo físico permanecen versionados sin reescribir G0.

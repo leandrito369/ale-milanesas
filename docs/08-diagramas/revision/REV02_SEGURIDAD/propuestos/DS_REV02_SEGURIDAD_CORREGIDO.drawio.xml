@@ -1053,7 +1053,7 @@
 
         </mxCell>
 
-        <mxCell id="u53_r1_ok" value="3.2: confirma cambio de contraseña y habilita en la sesión los permisos propios de sus Roles vigentes" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
+        <mxCell id="u53_r1_ok" value="3.2: confirma cambio, revoca todas las sesiones previas (incluida la invocante); requiere nuevo inicio de sesión para Roles vigentes [RD-UC53-002/MR5]" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endFill=0;strokeColor=#000000;" edge="1" parent="1">
 
           <mxGeometry relative="1" as="geometry">
 
