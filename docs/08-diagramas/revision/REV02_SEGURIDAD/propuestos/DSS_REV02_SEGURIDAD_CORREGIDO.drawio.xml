@@ -222,7 +222,7 @@
 
         </mxCell>
 
-        <mxCell id="d1_53_g1" value="[Sesión válida, cuenta habilitada, nueva clave confirmada; si cambioCredencialPendiente=false exige credencialActual válida; si true no la exige (RD-UC53-001)]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="d1_53_g1" value="[Sesión válida, cuenta habilitada, nueva clave confirmada; credencialActual condicional RD-UC53-001; éxito revoca TODAS las sesiones e impone nuevo ingreso RD-UC53-002/MR5]" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
 
           <mxGeometry x="145" y="730" width="680" height="20" as="geometry" />
 
