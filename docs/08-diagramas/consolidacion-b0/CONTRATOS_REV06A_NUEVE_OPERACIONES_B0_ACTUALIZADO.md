@@ -36,11 +36,11 @@
 
 3. **Tipo:** Sistema
 
-4. **Referencias cruzadas:** UC-30; RD-RP018-001; UC-19 (primer precio); UC-10 (Receta); MR-5 tabla PRODUCTO.
+4. **Referencias cruzadas:** UC-30; RD-RP018-001; **RD-UC30-001 (31/10/2026)**; UC-19 (primer precio); UC-10 (Receta); MR-5 tabla PRODUCTO.
 
 **Adenda B0-BC05 (referencias canónicas de Fase 4):** RF-07. Referencias contenidas en el contrato anterior: sin RF literal. Esta adenda complementa/rectifica la trazabilidad del apartado 4, sin incorporar requisitos, pre/postcondiciones, roles ni operaciones nuevos. Cualquier dependencia transversal se identifica en el contrato del CU invocado.
 
-5. **Notas:** El nombre normalizado es único también frente a Productos inactivos; la normalización interna debe ser determinista. Producto sin precio vigente existe, pero no puede comercializarse hasta UC-19. No se crea stock/costo de origen ficticio. La ficha maestra UC-30 comprende también mantenimiento y cambios de estado; estas funciones se trazan por UC-47 y UC-48 como operaciones independientes, evitando duplicar sus efectos. El alta exige registrar trazabilidad con mecanismo técnico aún no especificado, sin inventar tabla HISTORIAL_ESTADO_PRODUCTO.
+5. **Notas:** El nombre normalizado es único también frente a Productos inactivos; la normalización interna debe ser determinista. Producto sin precio vigente existe, pero no puede comercializarse hasta UC-19. No se crea stock/costo de origen ficticio. La ficha maestra UC-30 comprende también mantenimiento y cambios de estado; estas funciones se trazan por UC-47 y UC-48 como operaciones independientes, evitando duplicar sus efectos. **Adenda aprobada RD-UC30-001 (31/10/2026):** la trazabilidad aceptada consiste en identidad estable (`idProducto`), `nombreNormalizado` único (pero modificable vía UC-47), autorizaciones transaccionales y preservación de registros dependientes; no constituye auditoría de eventos con actor/fecha de alta o modificación. No se crea HISTORIAL_ESTADO_PRODUCTO.
 
 6. **Excepciones:** A1: datos obligatorios o tipo/unidad inválidos: rechazar alta. A2: nombre normalizado ya utilizado por Producto activo o inactivo: mostrar coincidencia sin duplicar.
 
@@ -48,7 +48,7 @@
 
 8. **Precondiciones:** Administrador autenticado y autorizado; código de unidad válido y nombre informado.
 
-9. **Postcondiciones:** Se crea una instancia Producto con nombre, descripción, tipoProducto, codigoUnidadVenta y activo=true. No se crean PrecioProducto, AuditoriaPrecio, Receta ni movimientos de stock a partir de esta operación. Se conserva traza de alta en el mecanismo de auditoría que corresponda, sin atribuir nuevas tablas.
+9. **Postcondiciones:** Se crea una instancia Producto con nombre, descripción, tipoProducto, codigoUnidadVenta y activo=true. No se crean PrecioProducto, AuditoriaPrecio, Receta ni movimientos de stock a partir de esta operación. Según **RD-UC30-001**, se conserva `idProducto` como identidad histórica, la unicidad de `nombreNormalizado`, el estado inicial activo y la integridad referencial sin modificar historias. **No se registra un evento separado de auditoría del alta ni su autor/fecha en PRODUCTO**, porque MR-5 carece de ese mecanismo; tal ampliación requeriría CR.
 
 ---
 
