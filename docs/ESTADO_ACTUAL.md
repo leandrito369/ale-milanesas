@@ -1,4 +1,77 @@
-# Estado operativo — actualizado al 26/10/2026
+# Estado general vigente — corte técnico 09/11/2026 (Argentina)
+
+**Carácter:** seguimiento informativo del [Plan Rector B0–B10](01-gobierno/PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md); **no es acta de aceptación, autorización de despliegue ni nueva RD**. La sección «Histórico de estado» al final conserva los cortes anteriores como antecedentes. En caso de discrepancia, prevalecen G0, las RD ratificadas y los resultados verificables de los repositorios.
+
+**Fuentes del corte:** `leandrito369/ale-milanesas` `main` en `1f6a4c7` y [`leandrito369/ale-milanesas-app`](https://github.com/leandrito369/ale-milanesas-app) `main` en `d5f7607`. Estas referencias son un *snapshot*, no una afirmación de que las ramas sigan inmóviles.
+
+**Evolución 08/11 → 09/11/2026:** el corte del 08/11 (app `main` en `df9b2e2`) registraba I3-01a y I3-01b integrados e I3-01c (UC-28) pendiente. Al 09/11 se integraron en la app: UC-28 por [PR #82](https://github.com/leandrito369/ale-milanesas-app/pull/82) (`20ce82d`), el fix de alineación con RD-I301-001 por [PR #83](https://github.com/leandrito369/ale-milanesas-app/pull/83) (`62bc3b0`) y el [acta de cierre técnico de I3-01](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607/docs/traceability/ACTA_CIERRE_TECNICO_I3_01_2026-11-09.md) por [PR #84](https://github.com/leandrito369/ale-milanesas-app/pull/84) (`d5f7607`). **I3-01 queda cerrado técnicamente**; esto **no** equivale a finalización de I3, aceptación funcional humana, habilitación en producción ni cierre de la Issue #28. El gobierno `main` no cambió (`1f6a4c7`).
+
+## 1. Dictamen y línea base
+
+- **B0/G0 APROBADOS documentalmente** por [RD-B0-G0-001](01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md). `source_commit = 1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`, `governance_commit = 27738b089afdd2698cdae915f75c0e8089a6248a`; 64 CU y manifiesto de 67 operaciones. Las fuentes G0 no se reescriben.
+- **I0:** base técnica B1/B2 y GitHub Actions implantadas. PostgreSQL/Flyway utiliza V1 (MR5), V2 (F01) y **V3 (MR-6, `PARTIDA_INSUMO` y `DETALLE_MOVIMIENTO_PARTIDA`)**, incorporada mediante [app PR #67](https://github.com/leandrito369/ale-milanesas-app/pull/67) (`ab648c0`), conforme [RD-MR-PARTIDAS-001](01-gobierno/b0/RD_MR_PARTIDAS_001_AMPLIACION_MR_PARTIDA_INSUMO_2026-11-06.md). El modelo de aplicación incorpora **62 tablas**. Validación en PostgreSQL descartable ≠ certificación del host/BD de aceptación o de producción.
+- **I1:** **6/6 paquetes integrados y cerrados técnicamente**, no aceptados integralmente. [Acta técnica I1](https://github.com/leandrito369/ale-milanesas-app/blob/51f8ff5/docs/traceability/ACTA_CIERRE_TECNICO_I1_2026-11-10.md) fusionada en app PR #75 (`51f8ff5`).
+- **I2:** **3/3 paquetes integrados y cerrados técnicamente**, no aceptados integralmente. [Acta técnica I2](https://github.com/leandrito369/ale-milanesas-app/blob/ebbc398/docs/traceability/ACTA_CIERRE_TECNICO_I2_2026-11-11.md) fusionada en app PR #79 (`ebbc398`).
+- **I3:** **iniciada; I3-01 cerrado técnicamente, I3 sin cerrar** (faltan I3-02 e I3-03). `I3-01a` UC-09 Consultar Stock (`GET /api/v1/stock`) por [app PR #80](https://github.com/leandrito369/ale-milanesas-app/pull/80) (`aae5c3c`); `I3-01b` UC-10 Configurar Receta (`POST /api/v1/productos/{idProducto}/receta`) por [app PR #81](https://github.com/leandrito369/ale-milanesas-app/pull/81) (`df9b2e2`); `I3-01c` UC-28 Registrar Preparación (`POST /api/v1/pedidos/{idPedido}/preparaciones`) y extensión contextual de UC-34 para `RESPONSABLE_PRODUCCION` por [app PR #82](https://github.com/leandrito369/ale-milanesas-app/pull/82) (`20ce82d`); fix contractual de alineación con RD-I301-001 (`partidas` vacío = selección automática; `marcarApertura` conserva la apertura previa) por [PR #83](https://github.com/leandrito369/ale-milanesas-app/pull/83) (`62bc3b0`). [Acta técnica I3-01](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607/docs/traceability/ACTA_CIERRE_TECNICO_I3_01_2026-11-09.md) fusionada en [PR #84](https://github.com/leandrito369/ale-milanesas-app/pull/84) (`d5f7607`). [RD-I301-001](01-gobierno/b0/RD_I301_001_DECISIONES_I3_01_RECETAS_PREPARACION_2026-11-11.md) es la decisión que rige estas definiciones.
+
+| Incremento del backlog | Alcance y evidencia | Estado técnico del corte |
+|---|---|---|
+| I1-01 — Usuarios | UC-01/17/18/53/54/55/56; seguridad, sesiones, servicios y HTTP | **INTEGRADO**; E2E UC-54 pendientes |
+| I1-02 — Clientes | UC-02/32/33/38 | **INTEGRADO** |
+| I1-03 — Productos | UC-30/35/47/48 | **INTEGRADO** |
+| I1-04 — Precios | UC-19/20, [PR #72](https://github.com/leandrito369/ale-milanesas-app/pull/72), merge `15f4b6c` | **INTEGRADO** |
+| I1-05 — Categorías | UC-15/16 como servicios internos y UC-57 HTTP, [PR #73](https://github.com/leandrito369/ale-milanesas-app/pull/73), merge `12e30c5` | **INTEGRADO** |
+| I1-06 — Insumos | UC-50/51/52 y consulta UC-36 preexistente, [PR #74](https://github.com/leandrito369/ale-milanesas-app/pull/74), merge `f4a89db` | **INTEGRADO** |
+| I2-01/02/03 — Pedidos | UC-03/34/43, [PR #76](https://github.com/leandrito369/ale-milanesas-app/pull/76), [#78](https://github.com/leandrito369/ale-milanesas-app/pull/78), [#77](https://github.com/leandrito369/ale-milanesas-app/pull/77) | **INTEGRADO** con reservas documentadas |
+| I3-01 — Recetas, preparación y stock | UC-09 ([#80](https://github.com/leandrito369/ale-milanesas-app/pull/80), `aae5c3c`), UC-10 ([#81](https://github.com/leandrito369/ale-milanesas-app/pull/81), `df9b2e2`), UC-28 + UC-34 contextual ([#82](https://github.com/leandrito369/ale-milanesas-app/pull/82), `20ce82d`), fix contractual ([#83](https://github.com/leandrito369/ale-milanesas-app/pull/83), `62bc3b0`), acta ([#84](https://github.com/leandrito369/ale-milanesas-app/pull/84), `d5f7607`) | **INTEGRADO — cierre técnico**, con reservas |
+| I3-02 — Entrega y Excedentes | UC-05 Registrar Entrega; UC-07 Ofrecer y Reasignar Excedente; UC-41 Registrar Descarte de Excedente (catálogo canónico; UC-61 es la búsqueda incluida) | **PENDIENTE** |
+| I3-03 — Cuenta Corriente, Cobro y Caja | UC-14 Consultar Cuenta Corriente; UC-29 Registrar Cobro; UC-22 Registrar Movimiento de Caja; UC-23 Consultar Libro Diario | **PENDIENTE** |
+| I4–I7 | Compras, ONLINE, integraciones, offline y aceptación | **PENDIENTE** según alcance de cada iteración, con adelantos puntuales |
+
+**Adelantos respecto del Plan Rector:** [app PR #68](https://github.com/leandrito369/ale-milanesas-app/pull/68) y [#69](https://github.com/leandrito369/ale-milanesas-app/pull/69) integraron UC-08 Insumo y REVENTA (prevista en I5), y [#70](https://github.com/leandrito369/ale-milanesas-app/pull/70) incorporó UC-42 Insumo (I4–I7). Son cortes motivados por la validación funcional de MR-6; no implican completar I5 ni todo UC-42. [RD-UC42-001](01-gobierno/b0/RD_UC42_001_DECISIONES_PENDIENTES_AJUSTE_INVENTARIO_2026-11-07.md) resolvió cuatro gaps; la idempotencia **RD-UC42-002** permanece pendiente.
+
+## 2. Madurez de B0–B10 y límites de validación
+
+| Bloque | Estado diferenciado |
+|---|---|
+| B0 | **APROBADO**: G0, 64 CU y decisiones canónicas; nuevas RD se registran por separado |
+| B1/B2 | **IMPLEMENTADOS/PROBADOS EN CI**: arquitectura Spring Boot, GitHub Actions, migraciones y PostgreSQL efímero |
+| B3/B4 | **IMPLEMENTADOS POR RECORRIDO** en I1, I2 e I3-01 (UC-09/10/28); no implica 64 CU completos |
+| B5 | **PARCIAL**: pantallas web básicas de acceso; no UI integral web/Android ni E2E de usuario |
+| B6/B7 | **PENDIENTES**: integraciones externas y sincronización offline; F04 aprobada funcionalmente no equivale a S-01 implementado |
+| B8 | **PARCIAL**: tests unitarios, integración PostgreSQL, API, RBAC y workflows; aceptación humana y BC06 pendientes |
+| B9 | **BLOQUEADO**: artefacto/runbook disponibles, sin infraestructura certificada ni despliegue autorizado |
+| B10 | **EN CURSO**: trazabilidad y actas técnicas; falta entrega/demostración/aceptación final |
+
+**No confundir:** el éxito de GitHub Actions, SonarCloud o Testcontainers acredita su ámbito; **no** demuestra un E2E humano ni habilita despliegue. La [Issue app #35](https://github.com/leandrito369/ale-milanesas-app/issues/35) de duplicación de advice fue **cerrada tras el refactor #63**, pero ello no acredita una calidad o cobertura global del 100 %.
+
+## 3. Bloqueos y deuda viva
+
+1. **[App Issue #28](https://github.com/leandrito369/ale-milanesas-app/issues/28) ABIERTA:** entorno pausado por el responsable; faltan host/FQDN/TLS, operador/revisor y certificación. No desplegar ni habilitar escrituras productivas. **Seguridad de los endpoints de I3-01 (diferenciada):** `GET /api/v1/stock` (UC-09) es lectura con autorización RBAC exclusiva de `RESPONSABLE_PRODUCCION`, **sin** triple gate de escritura; `POST /api/v1/productos/{idProducto}/receta` (UC-10, ADMINISTRADOR) y `POST /api/v1/pedidos/{idPedido}/preparaciones` (UC-28, RESPONSABLE_PRODUCCION) conservan el **triple gate no-prod** (`@Profile("!prod")`, flag `ale.http.writes.*` en `false` por defecto y veto de `PrecondicionesDespliegue`); `GET /api/v1/pedidos` (UC-34) es una consulta con autorización por rol, extendida de forma **contextual** para Producción (sin gate de escritura). No se afirma que todos los endpoints nuevos tengan triple gate: los GET tienen controles de autorización pero no esos mismos tres gates.
+2. **[App Issue #10](https://github.com/leandrito369/ale-milanesas-app/issues/10) ABIERTA:** UC-54, **0/4 E2E humanos acreditados**.
+3. **[App Issue #13](https://github.com/leandrito369/ale-milanesas-app/issues/13) ABIERTA:** **0/18 escenarios funcionales BC06 acreditados**; un workflow que marca escenarios como *skipped* no los ejecuta.
+4. **I2 con reservas:** saldo exigible provisional `RD-F04-006` diferido al diseño F04; invalidación de rutas UC-25 diferida; segunda operación de UC-03 (reprogramar reparto) pendiente por persistencia; UC-21 ONLINE se reserva a I6. El rol `RESPONSABLE_PRODUCCION` en UC-34 quedó integrado de forma contextual junto con UC-28 ([app PR #82](https://github.com/leandrito369/ale-milanesas-app/pull/82)).
+5. **F04/S-01:** [CR-B0-F04-001](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md) sin ratificación física; [Issue documental #6](https://github.com/leandrito369/ale-milanesas/issues/6) conserva el seguimiento de offline y conciliación. No conceder UC-29 al Repartidor por inferencia.
+6. **Modelo y coherencia documental:** [Issue documental #32](https://github.com/leandrito369/ale-milanesas/issues/32) sobre `nombreComercial` UC-37 vs MR5/MR6 **sin decisión formal**. No agregar columnas, derivar alias ni retirar el campo del contrato por cuenta propia. **Reservas de I3-01:** la idempotencia de UC-28 queda **diferida a `RD-UC28-002`** (riesgo residual: un reintento puede duplicar una preparación parcial si aún cabe en el saldo); la invalidación de rutas sugeridas de UC-25 al reasignar o preparar queda **diferida** hasta que UC-25 exista (`RutaReparto` es conceptual, sin tabla física); la **aceptación humana** de I3-01 está **pendiente**.
+
+**Higiene de PR históricos:** en la app permanecen abiertos #9, #11, #12 y #20/#22/#24. Los últimos tres ya tienen B4 integrados en otros PR, pero su posible cierre exige nuevo contraste por **contenido propio** y decisión de conservación; no fusionarlos automáticamente.
+
+**Higiene de fechas:** las actas I1 e I2 tienen títulos/fechas **10/11 y 11/11/2026**, pese a que los commits `51f8ff5` y `ebbc398` fueron registrados el **08/11/2026**; la RD-I301-001 también está fechada 11/11 y ya figura fusionada en el corte. Se deja constancia del desfase **sin alterar esas fuentes ratificadas**. Proponer corrección editorial/adenda en PR independiente y con revisión del responsable. El acta de I3-01 lleva fecha 09/11/2026 y fue fusionada el 09/11/2026 (coherente). **Corrección editorial pendiente:** las actas I2 (sección 8) e I3-01 (sección 6) rotulan UC-14 como «Cancelaciones»; el catálogo canónico (`B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv`) define **UC-14 = Consultar Cuenta Corriente** (la cancelación es UC-06 Cancelar Pedido, no asignada a I3-03 en el backlog). Este estado usa los nombres canónicos y no altera las actas ya fusionadas.
+
+## 4. Siguiente secuencia de trabajo
+
+1. **I3-02:** UC-05 Registrar Entrega, UC-07 Ofrecer y Reasignar Excedente y UC-41 Registrar Descarte de Excedente (UC-61 Buscar Excedente es la búsqueda incluida), sin confundir declaración/captura offline con confirmación de servidor ni Entrega con Cobro. Requiere auditoría documental previa y, de corresponder, RD propia.
+2. **I3-03:** UC-14 Consultar Cuenta Corriente, UC-29 Registrar Cobro, UC-22 Registrar Movimiento de Caja y UC-23 Consultar Libro Diario, preservando RBAC y reglas F01/F04 (solo Administrador anula cobros; UC-05 declarado no es Cobro). Acta final de I3 al cerrar I3-03.
+3. **RD-UC28-002** (idempotencia de preparación) y definición de UC-25 (invalidación de rutas): reservas que no bloquean el cierre técnico de I3-01.
+4. Seguir I4–I7; realizar aceptación humana/BC06 y certificación B9 **solo** cuando el responsable levante formalmente la pausa de #28 y se cumplan los gates.
+
+**Criterio de estado:** `INTEGRADO` = código en `main`; `PROBADO EN CI` = pruebas del SHA indicado; `ACEPTADO` = evidencia funcional y humana requerida; `DESPLEGADO` = infraestructura certificada y autorización del responsable. **I1, I2 e I3-01 están cerrados técnicamente, no aceptados ni desplegados; I3 completo permanece sin cerrar.**
+
+---
+
+# Histórico de estado — cortes 26/10 a 29/10/2026 (conservado)
+
+> Los párrafos siguientes documentan la evolución histórica (cortes del 26/10 al 29/10/2026; el corte intermedio del 08/11/2026 queda superado por el encabezado «Evolución 08/11 → 09/11/2026»). Las frases anteriores a la ratificación G0, al alta de `ale-milanesas-app` y a la implementación I1/I2/I3 describen el estado **en su fecha**, no el actual. El corte vigente está al inicio de este archivo.
 
 **Hito anterior:** corte documental del 25/10/2026. Este archivo agrega el estado de MR-5 y la habilitación de GitHub.
 
@@ -73,3 +146,17 @@ El [workflow B0 documental de GitHub Actions #40908456777](https://github.com/le
 **B0 y G0: APROBADOS DOCUMENTALMENTE**, conforme [RD-B0-G0-001](01-gobierno/b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) después de las fusiones controladas #9, #10–#19 y #20–#26. Las decisiones D01–D05 están ratificadas y la fuente queda fijada en `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`. La [bitácora de 18 merges](01-gobierno/b0/G0_BITACORA_FUSION_18_PR_2026-10-29.md) identifica cada operación. [Manifiesto canónico 67 operaciones](01-gobierno/b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) con **40 B0 + 27 REV**, todas integradas, reemplaza el uso del manifiesto provisional como fuente para implementar. Se espera CI final de este paquete para registrar su aprobación operativa.
 
 **Sin programación en este repo.** `ale-milanesas-app` recibe B1 y `source-lock` vinculado a G0. **BC06 0/18 ejecutadas**, CR física F04 sigue pendiente; validación académica y pruebas de aplicación son posteriores.
+
+## Cierre funcional F04 — 26/10/2026 (incorporado desde el PR #7, no fusionado)
+
+> Reconciliación documental: el [PR #7](https://github.com/leandrito369/ale-milanesas/pull/7) —abierto, sin fusionar— agrega esta síntesis a `docs/ESTADO_ACTUAL.md` sobre una base anterior al corte vigente. Se conserva aquí como antecedente histórico para evitar que su contenido se pierda; el PR #7 no se cierra ni se fusiona desde este cambio.
+
+**Estado:** ANÁLISIS FUNCIONAL CERRADO. RD-F04-001 a RD-F04-007 aprobadas y versionadas en `main` por [PR #5](https://github.com/leandrito369/ale-milanesas/pull/5) (merge `d681ff88ea4f4689e7390ac4ec68b81dea8edd2f`). [Acta maestra](06-arquitectura/F04_CIERRE_FUNCIONAL_MAESTRO_2026-10-26.md).
+
+- **Captura offline:** UC-03 y UC-05 admitidas, con aceptación condicionada al servidor; UC-43 asignación solo online.
+- **Dinero en reparto:** Repartidor puede declarar efectivo recibido en UC-05, sin permiso UC-29. Administrador recibe la rendición al terminar el recorrido, autoriza contabilización y gestiona diferencias. Las diferencias quedan pendientes de conciliación, sin ampliar F04 a investigaciones.
+- **Cuenta Corriente:** pagos en tránsito validados quedan fuera de COBRO, Caja y asientos definitivos; reducen solo deuda exigible provisional. Esta se usa al evaluar deuda para nuevos Pedidos, sin recategorizar ni suspender el ajuste `EN_MORA` hasta reevaluación formal.
+- **F01:** estados de `COBRO` exclusivamente `CONFIRMADO`/`ANULADO` (PR #4 integrado en `main`).
+- **Técnica:** contrato S-01 borrador **PROPUESTO**; inbox, persistencia, API, seguridad, migraciones, concurrencia y pruebas de servicio **PENDIENTES / NO IMPLEMENTADOS / NO PROBADOS** (el cierre funcional no implica sistema desplegado; CR física [CR-B0-F04-001](01-gobierno/b0/CR_B0_F04_001_DISENO_FISICO_SINCRONIZACION_PENDIENTE_2026-10-29.md) sigue sin ratificar).
+
+**Nota de lectura:** el cuadro histórico anterior refleja un corte previo al cierre de F01/F04; para estos frentes prevalecen las RD y el presente apartado con fecha 26/10/2026.

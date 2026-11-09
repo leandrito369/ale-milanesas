@@ -2,6 +2,7 @@ name: B0 - Consistencia documental (no pruebas de aplicación)
 on:
   pull_request:
     paths:
+      - 'docs/ESTADO_ACTUAL.md'
       - 'docs/01-gobierno/b0/**'
       - 'docs/08-diagramas/consolidacion-b0/**'
       - 'tests/b0/**'
