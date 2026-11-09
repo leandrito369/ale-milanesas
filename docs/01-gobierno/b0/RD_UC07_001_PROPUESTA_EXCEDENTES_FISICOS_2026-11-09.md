@@ -1,7 +1,7 @@
 # RD-UC07-001 (PROPUESTA) — Decisiones de arquitectura y diseño para reasignación de excedentes físicos (UC-07)
 
 **Fecha de redacción:** 09/11/2026
-**Estado:** **PROPUESTA — NO RATIFICADA.** Este documento consolida las decisiones funcionales y de arquitectura **D1-B, D2-A, D3-B (orientación CR-B), D4-A y D5-B aprobadas expresamente por el responsable del proyecto el 09/11/2026**, cuya **ratificación documental definitiva permanece pendiente**. No declara implementado `UC-07`, no cierra el bloque `I3-02`, no autoriza cambios físicos en la base de datos ni habilita el despliegue.
+**Estado:** **PROPUESTA — NO RATIFICADA.** Este documento consolida las decisiones funcionales y de arquitectura **D1-B, D2-A, D3-B (orientación CR-B), D4-A y D5-B aprobadas expresamente por el responsable del proyecto el 09/11/2026**, cuya **ratificación documental definitiva permanece pendiente**. Incorpora además la decisión expresa RT-UC07-01 opción A y la consolidación de las obligaciones RT-UC07-02/04, del diferimiento RT-UC07-03 y de la regresión UC-03 solicitadas por el responsable en esta revisión. No declara implementado `UC-07`, no cierra el bloque `I3-02`, no autoriza cambios físicos en la base de datos ni habilita el despliegue.
 **Autoridad que decide:** Victor Leandro Machado (responsable del proyecto).
 **Numeración:** `RD-UC07-001` (provisional). Verificado en `docs/01-gobierno/` y `docs/01-gobierno/b0/` al 09/11/2026: no existe ninguna RD previa para `UC-07`.
 **Alcance:** Definiciones funcionales, reglas de tarificación comercial, compatibilidad relacional, aceptación expresa en dos pasos e invariantes de concurrencia para el caso de uso `UC-07 — Ofrecer y Reasignar Excedente` (operaciones `registrarOfertaExcedente` y `registrarRespuestaOfertaExcedente`), articulado con `UC-61` (Buscar Excedente), `UC-41` (Registrar Descarte de Excedente), `UC-06` (Cancelar Pedido) y `UC-05` (Registrar Entrega).
@@ -30,7 +30,7 @@ El caso de uso `UC-07 — Ofrecer y Reasignar Excedente` forma parte del bloque 
 
 El modelo relacional MR-5 (`V1__baseline_mr5.sql`) ya cuenta con las tablas `EXCEDENTE`, `OFERTA_EXCEDENTE`, `MOVIMIENTO_EXCEDENTE` e `IMPUTACION_ENTREGA_ADICIONAL`. Tras la auditoría previa y la revisión de alternativas por el responsable del proyecto el 09/11/2026, se consolidan en este documento las decisiones **D1-B, D2-A, D3-B, D4-A y D5-B** para resolver cinco aspectos críticos antes de iniciar la construcción en B3:
 
-1. **Compatibilidad relacional del Pedido receptor (`D1-B`):** La tabla `IMPUTACION_ENTREGA_ADICIONAL` exige FK hacia `DETALLE_ENTREGA(idPedido, numeroDetalle)`, que a su vez referencia a `DETALLE_PEDIDO(idPedido, numeroDetalle)`. Se consolida el uso de una línea técnica con `cantidadOriginal = 0` cuando el producto no integraba originalmente el pedido receptor, dejando registrada la reserva técnica sobre productos desactivados frente al trigger `tg_mr3_validar_producto_detalle_nuevo`.
+1. **Compatibilidad relacional del Pedido receptor (`D1-B`):** La tabla `IMPUTACION_ENTREGA_ADICIONAL` exige FK hacia `DETALLE_ENTREGA(idPedido, numeroDetalle)`, que a su vez referencia a `DETALLE_PEDIDO(idPedido, numeroDetalle)`. Se consolida el uso de una línea técnica con `cantidadOriginal = 0` cuando el producto no integraba originalmente el pedido receptor, aplicando RT-UC07-01 opción A: no crear nuevas ofertas de productos inactivos y conservar intacto el trigger `tg_mr3_validar_producto_detalle_nuevo`. Las ofertas previas conservan su evidencia; su tratamiento tras una desactivación se contrasta con G0 sin permisos ni cancelaciones inferidos.
 2. **Tarificación comercial e integridad histórica (`D2-A`):** Cálculo del `importeInformado` a partir del `precioBase` vigente en `PRECIO_PRODUCTO` al momento de la oferta y del ajuste comercial congelado en el pedido receptor, identificando con transparencia el alcance y los límites de reconstrucción histórica en el esquema actual.
 3. **Aceptación expresa en dos pasos (`D3-B`):** Adopción de un protocolo funcional en dos pasos (Cotización y conformidad + Confirmación con la firma canónica intacta de 3 parámetros) bajo la orientación funcional `CR-B`, manteniendo explícitamente pendiente el diseño técnico del mecanismo de obtención, vinculación y persistencia de la evidencia de conformidad.
 4. **Separación documental y consistencia con la entrega (`D4-A`):** Independencia entre `RD-UC07-001` y `RD-I302-001`, distinción de los cinco niveles de importes/cargos, y articulación estricta con `UC-05` y `UC-06` sin introducir operaciones inexistentes de cancelación o reversión de entregas.
@@ -41,13 +41,14 @@ El modelo relacional MR-5 (`V1__baseline_mr5.sql`) ya cuenta con las tablas `EXC
 ## 2. Fuentes canónicas y SHAs verificados
 
 SHAs efectivos verificados el 09/11/2026 antes de consolidar esta revisión:
-* **Gobierno (`leandrito369/ale-milanesas`):** `origin/main` en [`d848f73`](https://github.com/leandrito369/ale-milanesas/commit/d848f73); HEAD previo de la rama `docs/rd-uc07-001-propuesta-2026-11-09` (PR #45) en [`acf236e`](https://github.com/leandrito369/ale-milanesas/commit/acf236e).
+* **Gobierno (`leandrito369/ale-milanesas`):** `origin/main` en [`d848f73`](https://github.com/leandrito369/ale-milanesas/commit/d848f73); HEAD inicial de esta consolidación de la rama `docs/rd-uc07-001-propuesta-2026-11-09` (PR #45) en [`a18914cd2f3b75e8423329ee13af7cdbfb923600`](https://github.com/leandrito369/ale-milanesas/commit/a18914cd2f3b75e8423329ee13af7cdbfb923600).
 * **Implementación (`leandrito369/ale-milanesas-app`):** `origin/main` en [`d5f7607`](https://github.com/leandrito369/ale-milanesas-app/commit/d5f7607).
 * **Propuesta hermana de I3-02 (PR #44, solo lectura):** rama `origin/docs/rd-i302-001-propuesta-2026-11-09` en [`e5e82f8`](https://github.com/leandrito369/ale-milanesas/commit/e5e82f8) (`RD-I302-001`, sección 14.2 sobre pendientes de `UC-07`).
 
 ### Fuentes consultadas:
 * [Plan Rector de Implementación](../PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md), [Backlog priorizado G0](B0_BACKLOG_PRIORIZADO_Y_GATE_G0_2026-10-29.md) y [Estado Actual](../../ESTADO_ACTUAL.md).
 * [Contratos canónicos REV-04B](../../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md): §1 `UC-28`, §2 `UC-05`, §3 `UC-06`, §4 `UC-61`, §5 `UC-07 Parte A`, §6 `UC-07 Parte B`, §7 `UC-41`, §8 Glosario.
+* [Contrato canónico UC-48, REV06A §4](../../08-diagramas/consolidacion-b0/CONTRATOS_REV06A_NUEVE_OPERACIONES_B0_ACTUALIZADO.md): desactivación sin cancelar pedidos pendientes y reactivación condicionada a elegibilidad actual.
 * [Manifiesto canónico de 67 operaciones](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) y [Matriz RBAC de cierre](B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv) L9–10 (`UC-07` exclusivo `VENDEDOR=D`).
 * [RD-007](../RD_01_REGISTRO_DECISIONES_v1.1_2026-10-25.md#L25) y [RD-012](../RD_01_REGISTRO_DECISIONES_v1.1_2026-10-25.md#L30) (congelamiento de condiciones e inmutabilidad de pedidos confirmados salvo el incremento comercial de `UC-07`).
 * Decisiones [A2](../RD_01_REGISTRO_DECISIONES_v1.1_2026-10-25.md#L48), [A23](../RD_01_REGISTRO_DECISIONES_v1.1_2026-10-25.md#L90), [A24](../RD_01_REGISTRO_DECISIONES_v1.1_2026-10-25.md#L92) y requerimiento [RF-13](../../03-requisitos/historico-2026-10-23/A_REQUISITOS.md#L2030).
@@ -101,26 +102,28 @@ Se permite ofrecer y reasignar excedentes físicos de productos elaborados que n
 4. **Respeto a `uq_detalle_pedido_0` y restricciones referenciales:** La reutilización del detalle por `(idPedido, idProducto)` preserva la restricción `uq_detalle_pedido_0 UNIQUE ("idPedido", "idProducto")` y satisface `ck_detalle_pedido_3` (`V1 L189`), que admite expresamente `("cantidadOriginal"=0 AND "precioUnitarioOriginal" IS NULL AND "porcentajePromocionOriginal"=0 AND "idPromocionAplicada" IS NULL)`.
 5. **Momento transaccional de creación:** La línea técnica se crea **única y exclusivamente cuando se acepta la oferta** (`registrarRespuestaOfertaExcedente` con `aceptada == true`), dentro de la misma transacción atómica. **Nunca** se crea al registrar la oferta (`registrarOfertaExcedente`) ni cuando la oferta es rechazada.
 6. **Exclusión de preparación propia (`UC-28`):** Las unidades procedentes de excedentes reasignados no se envían a preparación propia. En el código implementado, `RegistrarPreparacionService.java` (L98–110) rechaza cualquier intento de preparar sobre una línea con `cantidadOriginal = 0` (`CANTIDAD_EXCEDE_ORIGINAL`), y `BuscarPedidoService.java` (L69–75) filtra `d."cantidadOriginal" > COALESCE(...)`, excluyendo automáticamente las líneas técnicas de los pedidos preparables.
-7. **Preservación de consultas existentes sobre `DETALLE_PEDIDO`:** Se detectó en `CargarPedidoService.java` (L69) que la consulta de replay idempotente de `UC-03` calcula `SELECT count(*) FROM "DETALLE_PEDIDO" d WHERE d."idPedido"=p."idPedido" AS items`. Durante la implementación de B3, toda consulta que cuente ítems originales o lea `precioUnitarioOriginal` deberá contemplar la existencia de líneas técnicas (`WHERE d."cantidadOriginal" > 0` para conteo de ítems originales y manejo nulo-seguro de `precioUnitarioOriginal`).
+7. **Preservación de consultas existentes sobre `DETALLE_PEDIDO`:** Se detectó en `CargarPedidoService.java` (L69) que la consulta de replay idempotente de `UC-03` calcula `SELECT count(*) FROM "DETALLE_PEDIDO" d WHERE d."idPedido"=p."idPedido" AS items`. Es un **hallazgo estático**, no una corrección implementada: después de que UC-07 agregue una línea técnica, ese replay devuelve un `cantidadItems` mayor que el del pedido original. El corte de implementación deberá auditar todos los consumidores de `DETALLE_PEDIDO`, distinguir ítems originales de líneas técnicas y corregir las consultas afectadas (por ejemplo, `d."cantidadOriginal" > 0` para contar ítems originales, sin excluir líneas técnicas donde se necesiten adicionales). Deberá manejar `precioUnitarioOriginal` nulo e incorporar pruebas de regresión UC-03: alta original, aceptación UC-07 con producto ausente, replay con el UUID original y conteo original preservado; también reutilización de línea técnica. **Correcciones y regresión deben completarse antes de fusionar UC-07.** No se modifica `CargarPedidoService` en este PR.
 8. **Preservación del costo histórico y compatibilidad con `RD-012`:** El costo histórico del excedente se transfiere mediante `MOVIMIENTO_EXCEDENTE.costoHistoricoSalida` sin usar la columna `precioUnitarioOriginal` de la línea técnica. La inserción de la línea técnica con `cantidadOriginal = 0` instrumenta exclusivamente el *"incremento comercial de UC-07"* expresamente exceptuado en `RD-012` (`RD_01 L30`), sin habilitar modificaciones generales del pedido confirmado. Asimismo, conforme a la decisión `A24`, el `Cliente` del pedido receptor debe mantenerse en estado `ACTIVO`.
 
-#### Reserva técnica obligatoria (`RT-UC07-01`) — Producto físicamente en excedente pero desactivado en catálogo:
+#### RT-UC07-01 — Opción A decidida: productos inactivos y nuevas ofertas
 
-> [!WARNING]
-> **Conflicto detectado con `tg_mr3_validar_producto_detalle_nuevo` (PENDIENTE DE DECISIÓN):**
-> En `V1__baseline_mr5.sql` (L1274–1283), el trigger `tg_mr3_validar_producto_detalle_nuevo` (`BEFORE INSERT ON "DETALLE_PEDIDO"`) ejecuta:
-> ```sql
-> IF NOT EXISTS (SELECT 1 FROM "PRODUCTO" p WHERE p."idProducto"=NEW."idProducto" AND p."activo") THEN
->   RAISE EXCEPTION 'Producto no habilitado para pedido nuevo';
-> END IF;
-> ```
-> **Análisis del caso:** Un `EXCEDENTE` físico puede haberse generado legítimamente cuando el producto estaba activo (`activo = TRUE`), y con posterioridad el Administrador puede haber desactivado el producto en el catálogo mediante `UC-48` (`PRODUCTO.activo = FALSE`, baja lógica según `A24`).
-> * Si el pedido receptor **ya incluía** ese producto desde antes de su desactivación, `UC-07` reutiliza el `numeroDetalle` existente sin ejecutar `INSERT INTO "DETALLE_PEDIDO"`, por lo que el trigger no se dispara.
-> * En cambio, si el pedido receptor **no incluía** ese producto y se intenta insertar la línea técnica con `cantidadOriginal = 0` al aceptar la oferta, **el trigger `tg_mr3_validar_producto_detalle_nuevo` bloqueará la inserción** con la excepción `'Producto no habilitado para pedido nuevo'`.
->
-> **Regla de gobierno:** No se modifica automáticamente el comportamiento del trigger de productos activos. Este conflicto queda registrado y **pendiente de decisión expresa del responsable** entre dos opciones:
-> 1. **Restricción funcional (sin cambio DDL):** Prohibir en `UC-07` ofrecer/reasignar excedentes de productos actualmente inactivos (`PRODUCTO.activo = FALSE`) hacia pedidos que no contengan ya dicho producto (o restringir cualquier oferta de producto inactivo, canalizando el sobrante a `UC-41 — Registrar Descarte de Excedente`).
-> 2. **Cambio físico controlado (requiere CR y migración futura):** Autorizar una Solicitud de Cambio para que `fn_mr3_validar_producto_detalle_nuevo` solo exija `PRODUCTO.activo = TRUE` cuando `NEW."cantidadOriginal" > 0`, manteniendo el bloqueo para altas de pedidos nuevos.
+**Decisión expresa del responsable:** un producto inactivo no puede utilizarse para crear nuevas ofertas comerciales de excedentes físicos. La elección A queda incorporada; la RD completa sigue **PROPUESTA — NO RATIFICADA**. No se modifica `tg_mr3_validar_producto_detalle_nuevo` ni se autoriza una excepción para `cantidadOriginal = 0`.
+
+En V1 L1274–1283 el trigger rechaza insertar un `DETALLE_PEDIDO` cuyo `PRODUCTO.activo = FALSE`. Reutilizar una fila existente evita ese INSERT, pero **no permite eludir la prohibición de nuevas ofertas**: la decisión A se aplica tanto si el producto ya estaba en el pedido receptor como si no.
+
+| Escenario | Tratamiento y fuente |
+|---|---|
+| Excedente disponible de producto activo | Ofertable solo si cumple las condiciones canónicas: cantidades/disponibilidad, estado, precio vigente válido, pedido receptor y demás reglas aplicables (REV04B §5 y D2-A). |
+| Excedente disponible de producto inactivo | No se admiten nuevas ofertas comerciales; no alterar el trigger ni reutilizar líneas como vía de excepción. |
+| Producto reactivado mediante UC-48 | Puede volver a evaluarse su elegibilidad. Reactivar no garantiza disponibilidad comercial: revalidar cantidades, estado, vigencia del precio y demás condiciones (REV06A §4, UC-48). |
+| Oferta registrada antes de desactivar el producto | Conservar la evidencia histórica y las condiciones comunicadas. No borrar ni reinterpretar la oferta; su fecha previa no concede autorización automática para cualquier operación posterior. |
+| Oferta aceptada antes de desactivar, todavía no entregada | REV04B §6 ya incorpora las unidades al pedido receptor; UC-48 preserva relaciones y pedidos pendientes sin cancelarlos automáticamente. UC-05 (REV04B §2) exige asignación válida, pedido PENDIENTE, disponibilidad física, cantidades y costo histórico. No define expresamente el efecto de esta desactivación sobre la entrega ya comprometida: **aclaración contractual pendiente antes de implementar ese caso**; no cancelar ni habilitar automáticamente la entrega por inferencia. |
+
+La opción A decide **nuevas ofertas**, no introduce una política implícita de aceptación para ofertas pendientes anteriores a la desactivación. REV04B §6 exige revalidar disponibilidad, pedido y costo; si luego se requiere insertar una línea técnica con producto inactivo, el trigger seguirá rechazándola. El diseño debe identificar ese caso sin crear aceptación parcial, cancelar de oficio ni saltar el trigger. La regla complementaria, si fuera necesaria, requiere decisión expresa; no se crea una RD aquí.
+
+**Tratamiento del excedente no ofertable ya previsto en G0:** UC-41 (REV04B §7) permite al Responsable de Producción descartar un excedente DISPONIBLE con cantidad positiva, motivo obligatorio y costo histórico determinable. Ni sus precondiciones/excepciones ni UC-61 (§4) exigen `PRODUCTO.activo = TRUE`. Por tanto, admite el descarte de existencias de productos inactivos bajo esas condiciones; no es un descarte automático ni justifica crear otra operación o RD. Debe conservar cantidad/costo y coordinarse con UC-07.
+
+**Estado de la reserva:** elección funcional A resuelta expresamente, pendiente de ratificación documental. Permanecen las verificaciones de implementación y la aclaración del tratamiento de ofertas históricas ante desactivación; no se declara toda RT-UC07-01 probada o cerrada técnicamente.
 
 ---
 
@@ -167,14 +170,28 @@ BigDecimal importeCalculado = switch (pedidoReceptor.tipoAjuste()) {
 | `totalOriginal` | `PEDIDO.totalOriginal` | `NUMERIC(18,2)` (2 dec.) | Importe comercial congelado al confirmar el pedido en `UC-03` / `UC-21`. Es **inmutable** durante todo el ciclo de vida del pedido. |
 | `totalVigente` | Derivado en memoria / consultas | Escala 2 (`BigDecimal`) | Compromiso comercial vigente del pedido: `PEDIDO.totalOriginal + SUM(OFERTA_EXCEDENTE.importeAceptado WHERE respuesta = 'ACEPTADA')`. No es columna física ni equivale al cargo contable de entrega. |
 
-#### Verificación de trazabilidad histórica e identificación de gap (`RT-UC07-02`):
-Se verificó la estructura física de `OFERTA_EXCEDENTE` (`V1__baseline_mr5.sql` L243–261) para comprobar si permite reconstruir íntegramente la cotización y su aceptación:
-* **Datos persistidos actualmente:** `OFERTA_EXCEDENTE` conserva `idExcedente`, `idPedidoReceptor`, `idUsuarioVendedor`, `fechaHoraOferta`, `cantidadOfrecida`, `importeInformado`, `respuesta`, `fechaHoraRespuesta`, `cantidadAceptada` e `importeAceptado`. A su vez, `PEDIDO` conserva `tipoAjuste`, `porcentajeAjuste`, `categoriaComercialAplicada` e `idPoliticaComercialAplicada`.
-* **Reconstrucción indirecta por vigencia temporal:** Dado que `ActualizarPrecioVigenteService.java` (L74) prohíbe precios retroactivos (`vigenteDesde < ahora`) y `ck_precio_producto_2` (`V1 L305`) prohíbe cancelar precios cuya vigencia ya comenzó (`fechaHoraCancelacion < vigenteDesde`), el `precioBase` vigente en `fechaHoraOferta` puede consultarse históricamente en `PRECIO_PRODUCTO` para el `idProducto` del excedente.
-* **Gap de persistencia identificado (`RT-UC07-02` — sin proponer cambios físicos como aprobados):**
-  1. `OFERTA_EXCEDENTE` **no posee una columna física `idPrecio` ni `precioBaseUnitarioAplicado`** que congele por referencia directa o valor atómico el precio base utilizado al crear la oferta (y en `DETALLE_PEDIDO`, cuando se usa una línea técnica bajo `D1-B`, `ck_detalle_pedido_3` exige `precioUnitarioOriginal IS NULL`). La reconstrucción depende por completo de la consulta por intervalo temporal `fechaHoraOferta` sobre `PRECIO_PRODUCTO`.
-  2. Cuando `cantidadAceptada < cantidadOfrecida`, `OFERTA_EXCEDENTE` guarda el `importeInformado` original y el `importeAceptado` final al cerrarse la respuesta, pero no posee columnas adicionales para persistir un estado intermedio de "recotización comunicada pendiente de confirmación" (pues `ck_oferta_excedente_3` exige que mientras `respuesta = 'PENDIENTE'`, `fechaHoraRespuesta`, `cantidadAceptada` e `importeAceptado` sean `NULL`).
-  3. **No se proponen ni asumen como aprobadas nuevas columnas ni tablas.** Queda identificado este límite para que el responsable determine si la reconstrucción temporal vía `PRECIO_PRODUCTO` + `PEDIDO` junto con los campos actuales de `OFERTA_EXCEDENTE` es suficiente para B3, o si requiere un ajuste futuro sujeto a CR.
+#### RT-UC07-02 — Obligación arquitectónica pendiente de verificación histórica
+
+La implementación deberá demostrar reconstrucción **inequívoca** de la cotización y su aceptación. La referencia temporal del precio es **`fechaHoraOferta`**, nunca `fechaHoraEntrega`; no se recalcula una oferta con el precio vigente al entregarla.
+
+| Dato a reconstruir | Evidencia física actual / alcance verificado estáticamente |
+|---|---|
+| Precio base usado en `fechaHoraOferta` | `OFERTA_EXCEDENTE.idExcedente` conduce al producto; `PRECIO_PRODUCTO` conserva `idPrecio`, `precioBase` e intervalo `[vigenteDesde, vigenteHasta)`. La oferta no congela `idPrecio` ni precio base; la recuperación depende del historial. |
+| Tipo y porcentaje de ajuste congelados | `OFERTA_EXCEDENTE.idPedidoReceptor` referencia `PEDIDO.tipoAjuste` / `porcentajeAjuste`. Usar las condiciones congeladas, sin UC-15/16 ni política actual. |
+| Cantidad ofrecida | Persistida en `OFERTA_EXCEDENTE.cantidadOfrecida`. |
+| Importe informado | Persistido en `OFERTA_EXCEDENTE.importeInformado`. |
+| Importe finalmente aceptado | Persistido en `OFERTA_EXCEDENTE.importeAceptado` al aceptar, junto con `cantidadAceptada` y `fechaHoraRespuesta`; nulo mientras está PENDIENTE según `ck_oferta_excedente_3`. No demuestra por sí solo la conformidad del cliente (RT-UC07-03). |
+
+**Controles históricos observados, sin certificar suficiencia:**
+
+- V1 L1041–1043 impone `ex_precio_producto_no_solape` para intervalos de precios no cancelados; evita solapes, no garantiza que exista precio para toda fecha ni inmutabilidad histórica completa.
+- `ActualizarPrecioVigenteService` L74 impide altas retroactivas por ese servicio. L114–130 cierra una vigencia en la nueva fecha inicial y registra `AUDITORIA_PRECIO`; no cambia el precio base previo. El corte debe probar que cambios posteriores conservan el precio recuperable de toda oferta anterior, incluyendo límites de intervalo y concurrencia con UC-19.
+- `ck_precio_producto_2` solo exige `fechaHoraCancelacion < vigenteDesde` y actor de cancelación. **No comprueba la fecha real de ejecución de la cancelación ni impide por sí solo una actualización histórica con fecha informada anterior.** La revisión de `src/main/java` no encontró un escritor de cancelación de precios; no se presume validado ese ciclo. Deben verificarse todos los escritores autorizados y la integridad de las vigencias ante cancelaciones y cambios posteriores.
+- No se detectó en V1 una protección general de inmutabilidad de `PRECIO_PRODUCTO` equivalente a la de asientos. `AUDITORIA_PRECIO` aporta evidencia, pero su existencia no demuestra que todos los cambios se registren ni que toda cotización pueda reconstruirse. No se ejecutó la prueba de reconstrucción con ofertas reales del flujo UC-07.
+
+**Conclusión:** cantidad e importes están representados; el precio base histórico y su correspondencia con el ajuste congelado tienen una vía de reconstrucción temporal, **todavía no demostrada de extremo a extremo**. No inferir el precio base dividiendo importes redondeados: puede perderse información.
+
+Si el historial no permite demostrar el precio efectivamente usado, el diseño deberá comparar alternativas de persistencia: referencia durable a una versión de precio preservada, snapshot del precio/ajuste aplicado o evidencia auditable de la cotización. Son **alternativas para decisión complementaria**, no columnas, tablas ni migración V4 aprobadas. No se reserva un identificador RD adicional en esta sección. El resultado de esa verificación y, si hace falta, la decisión deberán documentarse antes de implementar la tarificación dependiente de ella.
 
 ---
 
@@ -203,15 +220,25 @@ Para cumplir la exigencia contractual de que, ante una aceptación parcial (`can
 5. **Conservación de evidencia verificable:** Deben conservarse de forma auditable la cantidad aceptada, el importe aceptado, el instante de respuesta y el vendedor actuante.
 6. **Protección frente a invalidación concurrente:** Un cambio concurrente (sobre el excedente, el pedido o la oferta) no puede invalidar silenciosamente las condiciones bajo las cuales se obtuvo la conformidad; ante cualquier alteración concurrente de disponibilidad o estado, la confirmación debe rechazarse de forma atómica (excepciones `A2` / `A3`).
 
-#### Pendiente técnico obligatorio (`RT-UC07-03`) — Mecanismo de obtención, vinculación y persistencia de la evidencia de aceptación:
+#### RT-UC07-03 — Diferimiento formal del diseño de evidencia
 
-> [!IMPORTANT]
-> **Mecanismo de evidencia NO resuelto — Pendiente de diseño técnico antes de implementar B3:**
-> El recálculo matemático en el servidor garantiza exactitud aritmética, pero por sí solo no demuestra que el cliente haya prestado conformidad al nuevo importe recalculado cuando `cantidadAceptada < cantidadOfrecida`.
->
-> * **Orientación funcional aprobada (`CR-B`):** El responsable aprobó la alternativa `CR-B` como orientación funcional para evitar modificar innecesariamente la firma canónica de G0.
-> * **Restricción técnica abierta:** Actualmente, en el manifiesto canónico de 67 operaciones (`G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv`) solo existen las dos operaciones de `UC-07` (`registrarOfertaExcedente` y `registrarRespuestaOfertaExcedente`), la firma del Paso 2 solo admite `(idOfertaExcedente, aceptada, cantidadAceptada)`, y la restricción SQL `ck_oferta_excedente_3` (`V1 L260`) impide guardar `cantidadAceptada` o `importeAceptado` en `OFERTA_EXCEDENTE` mientras `respuesta = 'PENDIENTE'`.
-> * **Deber de diseño y regla de bloqueo:** Queda **PENDIENTE** determinar técnicamente cómo se obtiene, vincula y persiste la evidencia de aceptación del Paso 1 con la confirmación del Paso 2 sin introducir una ampliación contractual o de esquema no autorizada (por ejemplo, evaluando si una segunda oferta por la cantidad exacta deseada cuando el cliente pide menos unidades o un mecanismo de sesión/auditoría interna satisface las invariantes, o si ambos presentan limitaciones). **No se presenta este mecanismo como resuelto.** Si durante el diseño detallado previo a B3 se comprueba que no puede implementarse preservando simultáneamente G0 y todas las invariantes vigentes, se deberá **detener la implementación de ese punto, registrar formalmente el impedimento y solicitar autorización expresa al responsable para una modificación contractual (`CR-B0-UC07-001` / Alternativa `CR-A`)**.
+**Decisión expresa de esta revisión:** diferir dónde y cómo se persiste la evidencia a una decisión complementaria, identificada **provisionalmente** como `RD-UC07-002`, sujeta a verificar nuevamente la numeración al redactarla. No se crea ese documento, no se considera su identificador reservado ni su contenido ratificado.
+
+D3-B permanece **APROBADA POR EL RESPONSABLE**, pendiente de ratificación documental definitiva: protocolo en dos pasos, firma G0 intacta, aceptación expresa de cantidad e importe y evidencia verificable vinculada a la oferta correspondiente. El diferimiento afecta al mecanismo técnico, no elimina ninguna de esas obligaciones.
+
+**Hallazgo:** el manifiesto G0 contiene únicamente las dos operaciones de UC-07; el Paso 2 admite `(idOfertaExcedente, aceptada, cantidadAceptada)` y `ck_oferta_excedente_3` impide guardar cantidad/importe aceptados mientras la oferta está PENDIENTE. El recálculo correcto y `fechaHoraRespuesta` no demuestran por sí solos que el cliente aceptó el importe exacto comunicado en el Paso 1.
+
+La decisión complementaria deberá estudiar alternativas, su vinculación durable a `idOfertaExcedente`, cantidad, importe, instante y actor, y su integridad ante concurrencia/reintentos:
+
+| Alternativa a evaluar, no aprobada técnicamente | Pregunta o límite que debe resolver |
+|---|---|
+| Mecanismo interno de sesión/auditoría vinculado a la oferta | Cómo preserva de forma durable y verificable la aceptación expresa, sin depender solo de memoria, logs o un cálculo reproducible; no se presume un mecanismo existente suficiente. |
+| Nueva oferta por la cantidad exacta solicitada, dentro de las operaciones G0 | Cómo relaciona las ofertas y prueba la conformidad efectiva sobre cantidad/importe; emitir otra oferta no prueba aceptación y no debe duplicar transferencias. |
+| Registro durable específico o referencia/snapshot de evidencia | Qué soporte requiere y cómo conserva la firma G0; cualquier cambio físico o contractual necesita autorización específica. No se crea ni aprueba tabla o columna. |
+
+**No es evidencia suficiente agregar un timestamp a `ENTREGA` o `IMPUTACION_ENTREGA_ADICIONAL`:** corresponden a la entrega/imputación posterior y no prueban la conformidad previa a la aceptación de la oferta. Tampoco basta un timestamp aislado en otra entidad sin vínculo verificable con las condiciones aceptadas.
+
+**Condición de salida obligatoria:** **no se autoriza implementar el flujo de aceptación de UC-07 hasta que este mecanismo esté diseñado y aprobado** en la decisión complementaria. Si se demuestra inviable preservar G0, registrar el impedimento y pedir decisión expresa; la referencia anterior `CR-B0-UC07-001` sigue siendo solo una denominación tentativa, no una CR creada, reservada o autorizada. No se inventan nuevos CU ni se modifican contratos en este PR.
 
 ---
 
@@ -284,11 +311,21 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 7. **Compatibilidad transaccional con `UC-05`:** El protocolo de bloqueo de `UC-07` debe ser plenamente compatible con `UC-05` (y con `UC-06`), impidiendo que una entrega o cancelación cierre un pedido mientras una aceptación de excedente está modificándolo, o viceversa.
 8. **Verificación empírica de ausencia de deadlocks:** Las condiciones de ausencia de interbloqueos (*deadlocks*) deben comprobarse obligatoriamente mediante pruebas automatizadas de concurrencia sobre PostgreSQL real.
 
-#### 2. Reserva técnica obligatoria (`RT-UC07-04`) e hipótesis técnica de secuencia de locks:
+#### 2. RT-UC07-04 — Obligación del corte de implementación e hipótesis de locks:
 
 > [!IMPORTANT]
 > **Reserva técnica `RT-UC07-04` (PROPUESTO — NO RATIFICADO NI PROBADO):**
 > El orden concreto de adquisición de locks queda **pendiente de diseño detallado y de validación empírica mediante PostgreSQL / Testcontainers en CI**. La secuencia que se describe a continuación se conserva únicamente como **hipótesis técnica de trabajo**, y no debe interpretarse como un orden ratificado ni como comportamiento probado.
+
+**Obligaciones del corte de implementación, expresamente requeridas por el responsable:**
+
+1. Documentar el diseño del orden de locks y sus recursos compartidos antes de implementar las transacciones.
+2. Demostrar compatibilidad entre UC-07, UC-41, UC-05 y UC-06; incluir UC-19 y cambios del catálogo donde interactúen con oferta/precio.
+3. Coordinar los generadores de identificadores de ofertas, movimientos de excedentes y líneas de detalle con todos sus escritores; no basta un lock por fila si `MAX+1` es global.
+4. Ejecutar pruebas concurrentes sobre **PostgreSQL real con Testcontainers**, verificando saldos/costos, unicidades, rollback y rechazos controlados.
+5. Conservar **evidencia de resultados en GitHub Actions para el commit de código antes de fusionar código funcional**. Este PR documental y su CI no sustituyen esa evidencia.
+
+Los locks del inventario de **REVENTA no son un patrón universal** para excedentes ELABORADO. El orden concreto sigue siendo hipótesis técnica hasta su verificación; no se modifica aquí ningún servicio ni generador.
 
 ```text
 +---------------------------------------------------------------------------------------------------+
@@ -323,11 +360,11 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 
 | Código | Tema | Estado funcional (09/11/2026) | Estado documental / técnico | Reserva o pendiente asociado |
 |---|---|---|---|---|
-| **D1-B** | Compatibilidad del pedido receptor mediante línea técnica (`cantidadOriginal = 0`) | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-01`:** Conflicto con trigger `tg_mr3_validar_producto_detalle_nuevo` cuando `PRODUCTO.activo = FALSE` y el producto no existía en el pedido; ajuste de `count(*)` en `CargarPedidoService`. |
-| **D2-A** | Tarificación comercial con `precioBase` vigente + ajuste congelado del pedido receptor | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-02`:** `OFERTA_EXCEDENTE` no persiste columna física `idPrecio` / `precioBase`; la reconstrucción histórica depende del intervalo temporal en `PRECIO_PRODUCTO`. |
-| **D3-B** | Aceptación expresa en dos pasos conservando firma canónica G0 (orientación `CR-B`) | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-03`:** Falta diseñar cómo se obtiene, vincula y persiste la evidencia de aceptación sin ampliar contratos G0; si fuera inviable, activar `CR-B0-UC07-001`. |
+| **D1-B** | Compatibilidad del pedido receptor mediante línea técnica (`cantidadOriginal = 0`) | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-01`:** opción A decidida: no nuevas ofertas de productos inactivos, trigger intacto. Ofertas históricas: aclaración de aceptación/entrega sin automatismos; UC-41 ya previsto. Regresión UC-03 obligatoria antes de fusionar implementación. |
+| **D2-A** | Tarificación comercial con `precioBase` vigente + ajuste congelado del pedido receptor | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-02`:** obligación arquitectónica pendiente: demostrar precio en `fechaHoraOferta`, ajuste congelado, cantidades e importes frente a cambios/cancelaciones; alternativas de persistencia solo si la reconstrucción resulta insuficiente. |
+| **D3-B** | Aceptación expresa en dos pasos conservando firma canónica G0 (orientación `CR-B`) | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | **`RT-UC07-03`:** diseño diferido a decisión complementaria provisional RD-UC07-002 (numeración a verificar, no creada/reservada). Bloquea implementar aceptación hasta diseño y aprobación; G0 intacto. |
 | **D4-A** | Separación documental (`RD-I302-001` vs `RD-UC07-001`) y 5 niveles de importe/cargo | **APROBADA POR RESPONSABLE** | Pendiente de ratificación documental; 0% implementado en código | Sin reversión de entregas registradas (fuera de alcance). Articulación estricta con `UC-05` y `UC-06`. |
-| **D5-B** | Ocho invariantes obligatorias de concurrencia y atomicidad | **APROBADA POR RESPONSABLE** | Invariantes aprobadas; orden de locks **PROPUESTO** (no ratificado); 0 pruebas ejecutadas | **`RT-UC07-04`:** El orden concreto de locks requiere diseño detallado y validación empírica con PostgreSQL/Testcontainers en CI. |
+| **D5-B** | Ocho invariantes obligatorias de concurrencia y atomicidad | **APROBADA POR RESPONSABLE** | Invariantes aprobadas; orden de locks **PROPUESTO** (no ratificado); 0 pruebas ejecutadas | **`RT-UC07-04`:** obligación del corte de implementación: orden documentado, compatibilidad UC-07/41/05/06, generadores coordinados y PostgreSQL/Testcontainers con resultados GitHub Actions antes del merge funcional. Orden aún hipotético. |
 
 ---
 
@@ -335,12 +372,12 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 
 | ID | Riesgo / Residuo técnico | Severidad | Estado / Mitigación |
 |---|---|---|---|
-| **R-UC07-01** | Rechazo por trigger `tg_mr3_validar_producto_detalle_nuevo` al crear línea técnica para un excedente cuyo producto fue desactivado (`PRODUCTO.activo = FALSE`). | **ALTA** | Documentado en **`RT-UC07-01`**. No se altera el trigger automáticamente; requiere decisión del responsable antes de implementar. |
+| **R-UC07-01** | Rechazo por trigger `tg_mr3_validar_producto_detalle_nuevo` al crear línea técnica para un excedente cuyo producto fue desactivado (`PRODUCTO.activo = FALSE`). | **ALTA** | Documentado en **`RT-UC07-01`**. Opción A expresamente decidida: no nuevas ofertas de inactivos; trigger intacto. No dar por resuelto el tratamiento de aceptación/entrega de ofertas previas (4.1). |
 | **R-UC07-02** | Violación de `uq_detalle_pedido_0` ante múltiples ofertas aceptadas del mismo producto para el mismo pedido receptor. | **ALTA** | Mitigado por regla obligatoria de `D1-B`: consultar y reutilizar siempre el `numeroDetalle` existente para `(idPedido, idProducto)`. |
-| **R-UC07-03** | Alteración del conteo `items` en replay idempotente de `UC-03` (`CargarPedidoService.java` L69) tras insertar líneas técnicas con `cantidadOriginal = 0`. | **MEDIA** | Mitigado especificando que el conteo de ítems originales en `CargarPedidoService` debe filtrar `WHERE d."cantidadOriginal" > 0`. |
-| **R-UC07-04** | Ausencia de columna `idPrecio` / `precioBase` en `OFERTA_EXCEDENTE` para reconstrucción directa sin cruce temporal con `PRECIO_PRODUCTO`. | **MEDIA** | Documentado en **`RT-UC07-02`**. No se proponen cambios físicos como aprobados; sujeto a validación de suficiencia. |
-| **R-UC07-05** | Falta de diseño del mecanismo técnico para vincular y persistir la evidencia de conformidad del cliente en el protocolo de dos pasos (`D3-B`). | **ALTA** | Documentado en **`RT-UC07-03`**. Debe diseñarse antes de B3; si no pudiera resolverse respetando G0, solicitar autorización para `CR-B0-UC07-001`. |
-| **R-UC07-06** | Carrera concurrente o deadlock entre `UC-07`, `UC-41`, `UC-05`, `UC-06` y `UC-19`. | **ALTA** | Documentado en **`RT-UC07-04`**. Requiere diseño detallado del orden global de locks y suite de concurrencia con Testcontainers. |
+| **R-UC07-03** | Alteración del conteo `items` en replay idempotente de `UC-03` (`CargarPedidoService.java` L69) tras insertar líneas técnicas con `cantidadOriginal = 0`. | **MEDIA** | **Corrección pendiente**, no mitigación implementada: auditar consumidores, distinguir ítems originales y técnicos, corregir consultas y ejecutar regresión UC-03 antes de fusionar UC-07 (4.1.7). |
+| **R-UC07-04** | Ausencia de columna `idPrecio` / `precioBase` en `OFERTA_EXCEDENTE` para reconstrucción directa sin cruce temporal con `PRECIO_PRODUCTO`. | **MEDIA** | Documentado en **`RT-UC07-02`**. Obligación arquitectónica pendiente: probar suficiencia temporal en fechaHoraOferta ante cancelaciones/cambios. Si falla, decidir alternativa de persistencia antes de implementar; sin columnas/V4 aprobadas. |
+| **R-UC07-05** | Falta de diseño del mecanismo técnico para vincular y persistir la evidencia de conformidad del cliente en el protocolo de dos pasos (`D3-B`). | **ALTA** | Documentado en **`RT-UC07-03`**. Diferido formalmente a decisión complementaria provisional RD-UC07-002, sin crearla ni reservar numeración. No implementar aceptación sin mecanismo diseñado y aprobado; no inferir evidencia de timestamps de entrega. |
+| **R-UC07-06** | Carrera concurrente o deadlock entre `UC-07`, `UC-41`, `UC-05`, `UC-06` y `UC-19`. | **ALTA** | Documentado en **`RT-UC07-04`**. Obligación del corte de implementación: orden documentado, generadores coordinados y pruebas PostgreSQL/Testcontainers con evidencia GitHub Actions antes de fusionar código funcional; orden aún hipotético. |
 | **R-UC07-07** | Residuo de redondeo en `EXCEDENTE.costoHistoricoDisponible` (`NUMERIC(18,4)`) al agotar el saldo disponible en múltiples reasignaciones/descartes. | **MEDIA** | Cuando `cantidadAceptada == cantidadDisponible`, `costoHistoricoSalida` toma exactamente el `costoHistoricoDisponible` remanente (4 decimales). |
 
 ---
@@ -348,13 +385,13 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 ## 7. Impacto transversal y trazabilidad cruzada (`UC-05`, `UC-06`, `UC-41`, `RD-I302-001`)
 
 1. **Trazabilidad con `RD-I302-001` (PR #44) y `UC-05 — Registrar Entrega`:**
-   * Las decisiones `D1-B` (línea técnica `cantidadOriginal = 0`) y `D2-A` (tarificación de `importeInformado` / `importeAceptado`) resuelven en este documento los dos pendientes de `UC-07` referenciados en la sección 14.2 de `RD-I302-001`.
+   * Las decisiones `D1-B` (línea técnica `cantidadOriginal = 0`) y `D2-A` (tarificación de `importeInformado` / `importeAceptado`) incorporan decisiones funcionales para los dos pendientes de UC-07 referenciados en la sección 14.2 de RD-I302-001, **sin declarar su cierre documental/técnico**: quedan ratificación, verificación histórica, evidencia de aceptación y regresiones pendientes. El PR #44 no se modifica.
    * Durante `UC-05`, el servicio de entrega lee las líneas de `DETALLE_PEDIDO` (incluidas las líneas técnicas creadas por `UC-07` bajo `D1-B`) y los movimientos `MOVIMIENTO_EXCEDENTE` (`REASIGNACION`) asociados a ofertas aceptadas del pedido, registrando `DETALLE_ENTREGA` e `IMPUTACION_ENTREGA_ADICIONAL` y calculando el único `CARGO_POR_VENTA` sobre lo efectivamente entregado.
 2. **Trazabilidad con `UC-06 — Cancelar Pedido`:**
    * `UC-06` solo cancela pedidos en estado `PENDIENTE`. Si el pedido cancelado tenía unidades adicionales aceptadas vía `UC-07`, `UC-06` genera un nuevo `EXCEDENTE` con `origenGeneracion = 'CANCELACION'` y su costo histórico preservado (`REV-04B §3.9 L155`). No existe operación de cancelación de una entrega ya registrada.
 3. **Trazabilidad con `UC-41 — Registrar Descarte de Excedente` y `UC-61 — Buscar Excedente`:**
    * `UC-61` consulta excedentes sin reservar stock ni exponer costos internos al `VENDEDOR` (`BC07`).
-   * `UC-41` y `UC-07` consumen de manera excluyente y coordinada `EXCEDENTE.cantidadDisponible` y `EXCEDENTE.costoHistoricoDisponible`, registrando su trazabilidad en `MOVIMIENTO_EXCEDENTE`.
+   * `UC-41` y `UC-07` deberán consumir de manera excluyente y coordinada `EXCEDENTE.cantidadDisponible` y `EXCEDENTE.costoHistoricoDisponible`, con trazabilidad en `MOVIMIENTO_EXCEDENTE` (RT-UC07-04). UC-41 ya admite descarte de existencias de productos inactivos bajo sus condiciones G0, según 4.1; no se crea una operación adicional.
 
 ---
 
@@ -362,21 +399,21 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 
 * **Contratos canónicos G0 (`CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md`):**
   * **Se preservan intactas las firmas y las 9 secciones** de `registrarOfertaExcedente` (§5) y `registrarRespuestaOfertaExcedente` (§6), así como el manifiesto canónico de 67 operaciones.
-  * Bajo `D3-B`, la alternativa `CR-B` queda aprobada como orientación funcional. La Solicitud de Cambio Contractual `CR-B0-UC07-001` (ampliación de firma o contrato) permanece **no activada / condicionada**, y solo se elevará para autorización expresa del responsable si durante el diseño detallado de `RT-UC07-03` se demuestra imposible persistir la evidencia de aceptación preservando G0.
+  * Bajo `D3-B`, la alternativa `CR-B` queda aprobada como orientación funcional. La Solicitud de Cambio Contractual `CR-B0-UC07-001` (ampliación de firma o contrato) permanece **no activada / condicionada**, como referencia tentativa (no creada ni reservada); solo se propondrá para autorización si la decisión complementaria de RT-UC07-03 demuestra imposible preservar G0. Ese diseño no se da por resuelto aquí.
 * **Modelo Relacional MR-5 / MR-6 (`V1`–`V3`):**
   * **Cero cambios de DDL autorizados.** Las migraciones `V1__baseline_mr5.sql`, `V2__f01_cobro_estados.sql` y `V3__trazabilidad_partidas_insumo.sql` permanecen inalteradas.
-  * Cualquier eventual cambio físico futuro derivado de `RT-UC07-01`, `RT-UC07-02` o `RT-UC07-03` exigirá una Solicitud de Cambio (CR) y aprobación expresa antes de tocar SQL.
+  * RT-UC07-01 opción A mantiene intacto el trigger, sin cambio físico. Cualquier eventual alternativa física derivada de RT-UC07-02/03 exigirá decisión complementaria, CR y aprobación expresa antes de tocar SQL; no se aprueba V4 ni se ejecuta DDL en esta revisión.
 
 ---
 
 ## 9. Pruebas de aceptación y concurrencia propuestas (NO EJECUTADAS)
 
 > [!NOTE]
-> **Evidencia actual de ejecución:** En este PR se ejecutaron únicamente las **21 pruebas documentales de `tests/b0`** en el repositorio de gobierno. **Ninguna de las pruebas de aplicación o concurrencia listadas a continuación (`T-U07-01` a `T-U07-13`) ha sido implementada ni ejecutada.** Deberán construirse con PostgreSQL real / Testcontainers en `ale-milanesas-app` durante B3/B4.
+> **Evidencia actual de ejecución:** En esta consolidación se ejecutaron **21 pruebas documentales B0 y 8 I1, todas aprobadas**, además de revisión del diff limitado a esta RD y `git diff --check`. Estos controles no demuestran la implementación de UC-07 ni sustituyen la revisión semántica de sus reservas. **Ninguna de las pruebas de aplicación o concurrencia listadas a continuación (`T-U07-01` a `T-U07-19`) ha sido implementada ni ejecutada.** Deberán construirse con PostgreSQL real / Testcontainers en `ale-milanesas-app` durante B3/B4.
 
 | Código | Escenario | Resultado esperado |
 |---|---|---|
-| **T-U07-01** | Registro de oferta sobre excedente disponible para pedido `PENDIENTE` y cliente `ACTIVO`. | `201 Created`. `OFERTA_EXCEDENTE` en `PENDIENTE`, `importeInformado` calculado según `D2-A`. `EXCEDENTE.cantidadDisponible` y `DETALLE_PEDIDO` intactos. |
+| **T-U07-01** | Registro de oferta sobre excedente disponible de producto ACTIVO, para pedido `PENDIENTE` y cliente `ACTIVO`. | `201 Created`. `OFERTA_EXCEDENTE` en `PENDIENTE`, `importeInformado` calculado según `D2-A`. `EXCEDENTE.cantidadDisponible` y `DETALLE_PEDIDO` intactos. |
 | **T-U07-02** | Registro de oferta con `cantidadOfrecida <= 0` o `cantidadOfrecida > cantidadDisponible`. | Rechazo `400 / 409 Conflict` (Excepción A1). Cero escrituras. |
 | **T-U07-03** | Registro de oferta sobre pedido no `PENDIENTE` o producto sin `PRECIO_PRODUCTO` vigente. | Rechazo `409 Conflict` (Excepción A2). Cero escrituras. |
 | **T-U07-04** | Tarificación `D2-A` en los tres casos (`SIN_AJUSTE`, `DESCUENTO`, `RECARGO`). | `importeInformado` coincide al centavo (`HALF_UP` escala 2) con el ajuste congelado en `PEDIDO`, sin invocar `UC-15`/`UC-16`. |
@@ -389,34 +426,50 @@ Toda implementación de `UC-07` y de los casos de uso que interactúan con `EXCE
 | **T-U07-11** | Concurrencia: dos aceptaciones simultáneas (`UC-07`) o aceptación (`UC-07`) vs descarte (`UC-41`) sobre el mismo `EXCEDENTE` que superan el saldo disponible. | Ejecución serializada sin deadlock; una transacción confirma y la otra falla limpiamente con `409 Conflict` (A2). `cantidadDisponible >= 0` siempre. |
 | **T-U07-12** | Concurrencia: aceptación de oferta (`UC-07`) simultánea con entrega (`UC-05`) o cancelación (`UC-06`) del mismo pedido receptor. | Ejecución serializada sin deadlock; si el pedido dejó de estar `PENDIENTE`, `UC-07` rechaza con `409 Conflict` (A3). |
 | **T-U07-13** | Control RBAC: invocación de `UC-07` por `ADMINISTRADOR`, `REPARTIDOR` o `RESPONSABLE_PRODUCCION`. | `403 Forbidden`. Solo `VENDEDOR` autorizado. |
+| **T-U07-14** | Nuevas ofertas con producto inactivo, con y sin línea en pedido; reactivación UC-48; ofertas anteriores a desactivación. | Inactivo: no crear nuevas ofertas ni saltar trigger. Reactivado: reevaluar todas las condiciones, sin elegibilidad automática. Conservar ofertas previas; aceptación/entrega posterior sujeta a aclaración contractual de 4.1, sin cancelar o habilitar por inferencia. |
+| **T-U07-15** | UC-41 sobre excedente DISPONIBLE de producto inactivo. | Descarte conforme a G0: actor autorizado, cantidad válida, motivo y costo histórico; no exige producto activo, no reintegra insumos ni descarta automáticamente. |
+| **T-U07-16** | Reconstruir oferta en fechaHoraOferta luego de cambios/cancelaciones de precios, límites de vigencia y concurrencia UC-19. | Demostrar un precio base inequívoco, ajuste congelado, cantidad, importe informado y aceptado; no usar fechaHoraEntrega ni invertir importes redondeados. Si no puede demostrarse, RT-UC07-02 exige decisión complementaria previa a implementación dependiente. |
+| **T-U07-17** | Evidencia de conformidad ausente, no durable o vinculada a otra oferta/cantidad/importe. | Diseño y aprobación previos RT-UC07-03; no confirmar sin evidencia vinculada. Un timestamp de ENTREGA/IMPUTACION_ENTREGA_ADICIONAL no acredita aceptación anterior. |
+| **T-U07-18** | Alta UC-03, inserción/reutilización por UC-07 de líneas técnicas y replay UC-03 con UUID original. | Respuesta del pedido original conserva cantidadItems originales y totalOriginal; conteo no aumenta con líneas técnicas. Auditar/corregir consumidores y probar antes del merge funcional UC-07, sin modificar código aquí. |
+| **T-U07-19** | Generadores concurrentes de ofertas/movimientos y detalles, entre pedidos/excedentes compartidos y distintos. | Sin colisiones ni deadlocks; compatibilidad UC-07/41/05/06 según diseño documentado. Pruebas PostgreSQL/Testcontainers y evidencia GitHub Actions del commit antes de fusionar código funcional. |
 
 ---
 
 ## 10. Reservas técnicas y decisiones pendientes de resolución
 
-Aunque las decisiones **D1-B, D2-A, D3-B, D4-A y D5-B** cuentan con aprobación expresa del responsable del 09/11/2026, quedan pendientes de resolución formal los siguientes puntos antes de declarar cerrada esta especificación e iniciar la codificación:
+Se distinguen las decisiones expresas del responsable de esta **propuesta documental no ratificada**, las verificaciones aún abiertas y las obligaciones del corte de implementación:
 
-1. **Ratificación documental definitiva de `RD-UC07-001`:**
-   Formalización del cierre y firma de este documento por parte de Victor Leandro Machado conforme al flujo de gobierno del repositorio.
-2. **Resolución de la Reserva Técnica `RT-UC07-01` (Excedente de producto desactivado en catálogo):**
-   Definir si se prohíbe funcionalmente reasignar excedentes de productos con `PRODUCTO.activo = FALSE` hacia pedidos que no contengan ya ese producto (conservando intacto el trigger `tg_mr3_validar_producto_detalle_nuevo`), o si se tramita una CR futura sobre dicho trigger para líneas técnicas con `cantidadOriginal = 0`.
-3. **Verificación sobre el Gap `RT-UC07-02` (Reconstrucción histórica de la cotización):**
-   Confirmar si la reconstrucción del `precioBase` mediante cruce temporal de `OFERTA_EXCEDENTE.fechaHoraOferta` con `PRECIO_PRODUCTO` y los atributos congelados de `PEDIDO` se considera suficiente sin agregar columnas físicas a `OFERTA_EXCEDENTE`.
-4. **Resolución del Pendiente Técnico `RT-UC07-03` (Evidencia verificable en el protocolo de dos pasos `D3-B`):**
-   Especificar el diseño técnico exacto mediante el cual se obtiene, vincula y persiste la evidencia de aceptación expresa del importe recalculado bajo la orientación `CR-B` sin vulnerar G0 ni `ck_oferta_excedente_3`; o, en caso de comprobarse inviable, elevar para autorización la modificación contractual `CR-B0-UC07-001`.
-5. **Resolución de la Reserva Técnica `RT-UC07-04` (Diseño detallado y prueba empírica del orden de locks `D5-B`):**
-   Definir el orden definitivo de adquisición de locks entre `UC-07`, `UC-41`, `UC-05`, `UC-06` y `UC-19`, y validarlo mediante pruebas reales de concurrencia con PostgreSQL / Testcontainers en CI.
+| Punto | Estado consolidado | Condición pendiente |
+|---|---|---|
+| Ratificación RD-UC07-001 | **PENDIENTE**; D1-B/D2-A/D3-B/D4-A/D5-B expresamente aprobadas, sin ratificar toda la RD | Revisión y formalización por el responsable. Este PR no fusiona ni ratifica. |
+| RT-UC07-01 | **Opción A expresamente decidida:** no nuevas ofertas de inactivos; trigger intacto | Verificar aplicación y conservación histórica. Aclarar aceptación/entrega de ofertas previas frente a desactivación antes de implementar esos casos. UC-41 ya cubre el descarte bajo G0 (4.1); no precisa otra operación. |
+| RT-UC07-02 | **Obligación arquitectónica pendiente de verificación** | Demostrar reconstrucción inequívoca en fechaHoraOferta y preservación histórica ante cancelaciones/cambios (4.2). Si falla, comparar alternativas de persistencia y obtener decisión complementaria; sin columnas/V4 aprobadas. |
+| RT-UC07-03 | **Diferimiento formal a decisión complementaria obligatoria** | Identificador provisional RD-UC07-002 sujeto a verificar numeración al redactar; no creada ni reservada. Diseñar/aprobar evidencia durable vinculada a la oferta antes de implementar aceptación; firma G0 y D3-B intactas (4.3). |
+| RT-UC07-04 | **Obligación del corte de implementación** | Documentar orden y compatibilidad UC-07/41/05/06, coordinar generadores, probar PostgreSQL/Testcontainers y obtener evidencia GitHub Actions antes de fusionar código funcional. El orden concreto es hipótesis (4.5). |
+| Regresión UC-03 por D1-B | **Hallazgo estático; corrección/pruebas pendientes** | Auditar consumidores de DETALLE_PEDIDO, distinguir líneas originales/técnicas, corregir consultas afectadas y probar replay antes de fusionar UC-07 (4.1.7 y T-U07-18). |
+
+No se crea una decisión complementaria ni se reserva un nuevo identificador RD/CR en esta revisión. Las obligaciones anteriores no constituyen pruebas ejecutadas ni autorizaciones físicas.
 
 ---
 
 ## 11. Condiciones previas para implementar UC-07 en B3
 
-No se deberá iniciar la implementación de código de `UC-07` en `leandrito369/ale-milanesas-app` hasta que se cumplan las siguientes condiciones:
+**Antes de implementar el flujo correspondiente:**
 
-1. Ratificación documental definitiva de `RD-UC07-001` y merge del PR #45 en `leandrito369/ale-milanesas`.
-2. Resolución explícita de las reservas técnicas **`RT-UC07-01`** (producto inactivo frente a trigger de `DETALLE_PEDIDO`) y **`RT-UC07-03`** (mecanismo de evidencia de aceptación en dos pasos).
-3. Diseño operacional detallado del orden de locks (`RT-UC07-04`) y ajuste del conteo de ítems originales en `CargarPedidoService.java` (L69) para ignorar líneas técnicas con `cantidadOriginal = 0`.
-4. Coordinación con las definiciones de `UC-05` (`RD-I302-001`, PR #44) para la lectura e imputación de líneas adicionales en `IMPUTACION_ENTREGA_ADICIONAL`.
+1. Ratificación documental definitiva de RD-UC07-001 y merge del PR #45 por el flujo de gobierno; ambos siguen pendientes y no se realizan en esta tarea.
+2. Aplicar RT-UC07-01 opción A sin modificar el trigger, preservando ofertas anteriores. Resolver expresamente los casos de aceptación/entrega tras desactivación identificados en 4.1, sin autorizaciones o cancelaciones inferidas.
+3. Cumplir la verificación histórica RT-UC07-02; si es insuficiente, obtener la decisión complementaria sobre persistencia antes de implementar la tarificación dependiente, sin asumir columnas nuevas aprobadas.
+4. **No implementar aceptación UC-07 hasta diseñar y aprobar el mecanismo de evidencia** en la decisión complementaria provisional RD-UC07-002, previa verificación de numeración (RT-UC07-03). Conservar D3-B y la firma G0 intactas.
+5. Documentar el diseño operacional del orden de locks y coordinación de generadores (RT-UC07-04); no extrapolar el patrón REVENTA ni dar por validada la hipótesis.
+6. Coordinar con UC-05 (RD-I302-001, PR #44) la lectura e imputación de líneas adicionales sin modificar ese PR ni otros documentos en esta revisión.
+
+**Obligaciones del corte antes de fusionar código funcional UC-07:**
+
+- Auditar consumidores de DETALLE_PEDIDO y completar las correcciones que correspondan para distinguir líneas originales y técnicas; ejecutar regresiones UC-03 que preserven su respuesta original tras D1-B (4.1.7).
+- Ejecutar las pruebas de aceptación y concurrencia propuestas con PostgreSQL real/Testcontainers, incluyendo UC-07/41/05/06 y generadores compartidos. Conservar en GitHub Actions resultados verificables del commit a fusionar; no basta CI documental ni una hipótesis de locks.
+- Documentar el resultado de RT-UC07-02/03 y las reservas que pudieran impedir el corte. No declarar probado ni cerrado un punto por la aprobación funcional D1–D5.
+
+Esta propuesta queda preparada para **revisión de ratificación con reservas y condiciones explícitas**, no para declarar cerrado el diseño técnico ni habilitar implementación o despliegue.
 
 ---
 
