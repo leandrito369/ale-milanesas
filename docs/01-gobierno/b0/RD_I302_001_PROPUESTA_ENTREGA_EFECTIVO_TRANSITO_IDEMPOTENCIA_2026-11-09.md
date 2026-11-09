@@ -1,7 +1,7 @@
 # RD-I302-001 (PROPUESTA) — Decisiones de arquitectura para I3-02: Entrega, efectivo en tránsito e idempotencia
 
 **Fecha de redacción:** 09/11/2026
-**Estado:** **PROPUESTA — NO RATIFICADA.** Este documento no es una decisión del responsable, no aprueba estructura física alguna, no autoriza migraciones ni implementación de `UC-05`.
+**Estado:** **PROPUESTA — NO RATIFICADA.** Este documento incorpora D2 (Opción B), decisión funcional expresada por el responsable, **pendiente de ratificación documental**. No ratifica la RD, no aprueba estructura física ni autoriza migraciones o implementación de `UC-05`.
 **Autoridad que debe decidir:** Victor Leandro Machado (responsable del proyecto).
 **Numeración:** `RD-I302-001` es provisional. Verificado en `docs/01-gobierno/` y `docs/01-gobierno/b0/` el 09/11/2026: no existe ninguna RD `I302`; la última del bloque es `RD-I301-001`.
 **Alcance:** persistencia del efectivo en tránsito declarado en `UC-05`, idempotencia de `UC-05` y dependencias con F04. Los gaps de tarificación de excedentes y de líneas adicionales de `UC-07` se **conservan sin resolver** en la sección 14.
@@ -33,7 +33,7 @@ El responsable pidió una propuesta para persistir el efectivo en tránsito de f
 
 ## 2. Fuentes canónicas consultadas
 
-SHAs verificados el 09/11/2026 antes de redactar: gobierno `main` = `d848f73`; implementación `main` = `d5f7607`. Ambos árboles limpios.
+SHAs verificados el 09/11/2026: gobierno `origin/main` = `d848f73f45130dc3353ede467d6c5d3735e6b8bc`; implementación `main` = `d5f7607afb430a251cbf5cc9190a879a7d41416b`. HEAD inicial del PR #44 = `07d09bb1e8618e9f062d352a86136e938cae54a0`. D2=B procede de la instrucción expresa del responsable para esta revisión; su ratificación documental está pendiente.
 
 ### 2.1 Gobierno (`leandrito369/ale-milanesas`)
 
@@ -78,7 +78,7 @@ SHAs verificados el 09/11/2026 antes de redactar: gobierno `main` = `d848f73`; i
 | `finanzas/EvaluadorCategoriaComercialInterno.java` L14, L43–49, L64 | `UC-15` usa **deuda confirmada** (`MOVIMIENTO_CUENTA`), `CLIENTE FOR UPDATE`; usa `ENTREGA.fechaHoraEntrega` para antigüedad. |
 | `abastecimiento/RegistrarIngresoStockReventaService.java` L38–39 | Locks `(808,0)` y `advisory(idProducto)` para stock de reventa. |
 
-Búsqueda de locks (`pg_advisory_xact_lock`) en `src/main/java`: los prefijos vigentes son `9172001`+`(60505,7)` (acceso y reparto), `2929001` (cobro), `(3003,0)`+`idCliente` (pedido), `(808,0)`+id de elemento (inventario), `5715001`, `5051052`, `3030047`, `1919001`, `3202001` (maestros y política). Ningún servicio toma dos de estos grupos en orden inverso a otro.
+Búsqueda de locks (`pg_advisory_xact_lock`) en `src/main/java`: los prefijos vigentes son `9172001`+`(60505,7)` (acceso y reparto), `2929001` (cobro), `(3003,0)`+`idCliente` (pedido), `(808,0)`+id de elemento (inventario), `5715001`, `5051052`, `3030047`, `1919001`, `3202001` (maestros y política). Este inventario estático no demuestra ausencia de inversión de locks ni valida una secuencia completa entre servicios; requiere DS y prueba PostgreSQL real (8.3).
 
 ### 2.3 Qué no se pudo verificar
 
@@ -156,7 +156,7 @@ Se recomienda **dividir el diseño en tres fases** (opción C del punto 14 del e
 
 | Fase | Contenido | Estado |
 |---|---|---|
-| **PE-1 — Persistencia online mínima** | `PAGO_EN_TRANSITO` (A) + una columna de clave `idOperacionOrigen` en `ENTREGA` (rescate de B) | **PROPUESTO** para ratificación; habilita `UC-05` en I3-02c |
+| **PE-1 — Persistencia online mínima** | `PAGO_EN_TRANSITO` (A) + una columna de clave `idOperacionOrigen` en `ENTREGA` (rescate de B) | **PROPUESTO**, pendiente D1; solo registro durable, sin habilitar por este PR el efecto funcional sobre saldo exigible ni UC-05 completo |
 | **PE-2 — Rendición y aplicación** | Tabla de aplicación que enlaza la declaración con `COBRO` (N:M) y la operación de rendición del Administrador | **PROPUESTO conceptualmente**; requiere decisiones propias (sección 14) y su propia RD |
 | **PE-3 — Sincronización offline** | Inbox (C): rechazos, conflictos, retención, dispositivo | **PENDIENTE**; pertenece a B7 y a la CR |
 
@@ -181,13 +181,13 @@ Si el responsable prefiere **no alterar `ENTREGA`**: guardar la clave en una tab
 | Columna | Tipo | Nulabilidad | Notas |
 |---|---|---|---|
 | `idPedido` | `BIGINT` | NOT NULL | **PK** y **FK → `ENTREGA(idPedido)`** `ON UPDATE/DELETE RESTRICT`. Una declaración por Entrega. |
-| `importeDeclarado` | `NUMERIC(18,2)` | NOT NULL | `CHECK (importeDeclarado > 0)`. Misma precisión que `COBRO.importe`. Con `efectivoDeclaradoRecibido` nulo o 0 **no se crea fila**. |
+| `importeDeclarado` | `NUMERIC(18,2)` | NOT NULL | `CHECK (importeDeclarado > 0)`. Misma precisión que `COBRO.importe`. Con `efectivoDeclaradoRecibido` nulo o 0 **no se crea fila** (alternativa física propuesta). Conserva íntegro el importe positivo declarado según D2; no lo equipara automáticamente al importe validado financieramente. |
 | `fechaHoraRegistroServidor` | `TIMESTAMPTZ` | NOT NULL | Reloj del servidor (`clock_timestamp()`), igual que las demás entidades. |
 
 - **Inmutable:** trigger `BEFORE UPDATE OR DELETE` con `fn_mr5_bloquear_mutacion_asiento` (L1391).
 - **Repartidor y Cliente no se duplican:** se obtienen de `ENTREGA.idUsuarioRepartidor` y `PEDIDO.idCliente`. `PEDIDO.idCliente` está protegido por `tg_mr5_validar_pedido_cambio_cliente` (V1 L1675). Esto garantiza por construcción la consistencia pedido–entrega–cliente–repartidor (R3) sin `UNIQUE` extra en tablas base.
 - **Índices:** la PK cubre la búsqueda por Pedido. La suma por Cliente se resuelve por join con `PEDIDO`; el índice por `idCliente` debe **verificarse en el DS** (no se confirmó en V1).
-- **No se agregan estados.** No hay columna de estado de rendición (ver 7.3).
+- **No se agregan estados.** No hay columna de estado de rendición (ver 7.3). La diferencia monetaria se señala como **importe pendiente de conciliación** (D2); su representación y base de cálculo quedan pendientes. No se aprueba columna `excedentePendiente` ni regla de imputación; no es un excedente físico de UC-07.
 - Campos de captura offline (`fechaHoraCapturaLocal`, dispositivo) **no se incluyen**: son PE-3 y se agregarían como columnas nulas.
 
 ### 7.2 Columna `ENTREGA.idOperacionOrigen` (PE-1)
@@ -203,7 +203,7 @@ Cambio **aditivo**: no altera columnas, PK ni FK existentes. `EvaluadorCategoria
 
 ### 7.3 Tabla de aplicación `APLICACION_PAGO_EN_TRANSITO` (PE-2, conceptual)
 
-Para cumplir R5 se **propone conceptualmente**; su diseño físico final requiere su propia RD (sección 14).
+Para cumplir R5 se **propone conceptualmente**; su diseño físico final requiere su propia RD (D6, sección 14). Ninguna columna está ratificada, incluido `importeAplicado`: aquí designa solo una aplicación futura en rendición PE-2, no una fórmula para recortar `importeDeclarado` ni un importe legítimamente imputable ya decidido.
 
 | Columna | Notas |
 |---|---|
@@ -236,7 +236,7 @@ La unicidad del Pedido y la idempotencia por identidad de operación son dos cos
 
 ### 8.2 Escenarios (PROPUESTO)
 
-Resumen de comportamiento. «Replay» = devolver el resultado previo reconstruido desde filas persistidas, sin escribir.
+Resumen de comportamiento **propuesto, pendiente de ratificación**. «Replay» = devolver el resultado de negocio previo reconstruido desde filas persistidas, sin escribir. Debe verificarse la suficiencia de los datos para reconstruirlo íntegramente; no se presume por existir una clave.
 
 | # | Escenario | Comportamiento propuesto | Resultado HTTP sugerido |
 |---|---|---|---|
@@ -244,8 +244,8 @@ Resumen de comportamiento. «Replay» = devolver el resultado previo reconstruid
 | 2 | Misma clave, mismo contenido | Se halla `ENTREGA` por la clave; el contenido coincide; **replay** sin escrituras. Respuesta marcada como repetida. | 200 |
 | 3 | Misma clave, contenido distinto | Se halla la `ENTREGA`; el contenido difiere (`idPedido`, cantidades, importe declarado, repartidor). **Sin modificar nada.** Mensaje genérico, sin revelar datos. | 409 `CLAVE_YA_UTILIZADA` |
 | 4 | Clave nueva, Pedido ya entregado | No existe la clave; el Pedido no está `PENDIENTE` (contrato A1). No es replay. | 409 |
-| 5 | Respuesta perdida después de commit | Reintento con la misma clave → escenario 2. Todo el resultado (cargo, excedentes, efectivo) se reconstruye desde `MOVIMIENTO_CUENTA`/`ORIGEN`, `EXCEDENTE` y `PAGO_EN_TRANSITO`. | 200 |
-| 6 | Dos solicitudes concurrentes | Se serializan por locks (8.3); la segunda ve el commit y cae en 2 o 3. Mismo Pedido, otra clave → 4. | 200/409 |
+| 5 | Respuesta perdida después de commit | Reintento con la misma clave → escenario 2. Debe reconstruir el resultado completo (cargo, excedentes físicos y efectivo); verificar suficiencia de movimientos, detalles, imputaciones adicionales y pago en tránsito antes de ratificar. | 200 |
+| 6 | Dos solicitudes concurrentes | El DS debe diseñar y probar la serialización (8.3); el resultado esperado de la segunda tras el commit es 2 o 3. Mismo Pedido, otra clave → 4. | 200/409 |
 | 7 | Reintento de sincronización offline | Igual que 2: el UUID de captura es `idOperacionOrigen`. Reintentar tras un rechazo vuelve a evaluarse con el estado actual; no hay estado «rechazado» persistido en PE-1. | 200/409 |
 | 8 | Rechazo por asignación invalidada | La validación falla antes de cualquier escritura; **rollback total**, la clave **no queda consumida**. Sin éxito simulado. En offline, el registro del conflicto para conciliación requiere PE-3. | 409 |
 
@@ -253,35 +253,42 @@ Resumen de comportamiento. «Replay» = devolver el resultado previo reconstruid
 - **Retención:** la clave vive en `ENTREGA`, entidad permanente. No hay purga ni caducidad en PE-1. La retención del inbox (PE-3) queda **PENDIENTE**.
 - **Validación previa a consumir la clave:** una solicitud rechazada por validación (400/403) no escribe nada, por lo que no consume la clave. Es una decisión de comportamiento que el responsable debe confirmar (D3).
 
-### 8.3 Orden de locks (PROPUESTO; a validar en el DS con prueba de concurrencia)
+### Identidad de negocio vs identidad HTTP
 
-**No se modifica el orden de ningún servicio existente.** Los prefijos actuales son parciales y consistentes entre sí (sección 2.2). La propuesta para `UC-05` sigue las mismas convenciones:
+- **Identidad de negocio:** mismo `idEntrega`, mismo `importeDeclarado`, mismo `idOperacionOrigen`. Lo que el test verifica. `idEntrega` designa aquí la Entrega cuya PK real es `idPedido`; no propone una columna nueva con ese nombre.
+- **Identidad literal HTTP:** mismo status code + mismo body byte-a-byte. **NO es lo que el test debe verificar** porque:
+  - Primera ejecución: HTTP 201.
+  - Reintento válido: HTTP 200.
+  - El status code varía; el resultado de negocio no. Los códigos son los sugeridos en 8.2, pendientes de ratificación.
 
-| Paso | Lock | Motivo y precedente |
-|---|---|---|
-| 0 | Autorización de sesión (rol `REPARTIDOR`) antes y **después** de tomar locks | Patrón `AsignarRepartoService` L26–30. |
-| 1 | `advisory(9172001)` y `advisory(60505,7)` | Serializa con `UC-43` y con cambios de usuario/rol: la asignación vigente y la habilitación del Repartidor no cambian durante la entrega. Mismo orden que `AsignarRepartoService` L28–29. |
-| 2 | `advisory(2929001)` | **Dependencia nueva:** `UC-05` genera ids con `MAX+1` en `MOVIMIENTO_CUENTA`/`ORIGEN`, generador ya protegido por este lock en `CobroManualService` L184. Si `UC-05` no lo toma, ambos pueden obtener el mismo `idMovimientoCuenta` o `numeroSecuenciaCliente`. |
-| 3 | Lock de la clave: `advisory` en espacio de dos enteros dedicado (a definir en DS) | Evita que dos Pedidos distintos con la misma clave lleguen al `INSERT` y fallen por violación de `UNIQUE` dentro de la transacción. |
-| 4 | `advisory(idCliente)` (un entero) | Serializa con `CargarPedidoService` L48 por Cliente (futura evaluación de deuda exigible provisional, RD-F04-006). El `idCliente` se lee sin lock y se **reverifica** bajo lock. |
-| 5 | `PEDIDO … FOR UPDATE` | Serializa estados del Pedido. |
-| 6 | `ASIGNACION_REPARTO` vigente `… FOR UPDATE` | Mismo tramo final que `UC-43`. |
-| 7 | `CLIENTE … FOR UPDATE` | Orden «cliente → histórico de cuenta» de `CobroManualService` (L58) y requisito de `UC-15`. |
-| 8 | Stock `REVENTA`: `(808,0)` y `advisory(idProducto)` en **orden ascendente de id** | Patrón de `RegistrarIngresoStockReventaService` L38–39 y orden de `CargarPedidoService` (ids ordenados). Su posición exacta en la cadena queda **PENDIENTE** del DS. |
+**Verificación adicional requerida antes de ratificar:** confirmar que las tablas persistidas contienen todos los datos necesarios para reconstruir el resultado completo, incluso en casos borde: entregas sin efectivo, cantidades cero, excedentes físicos (productos sobrantes de UC-07), líneas adicionales fuera del pedido original. La comparación también debe cubrir todos los datos de negocio canónicos, sin confundir marca de replay con cambio del resultado.
 
-**Riesgos de deadlock identificados:**
+### 8.3 Coordinación de generadores de identificadores
 
-- Un servicio que tome `2929001` después de un lock de cliente por fila invertiría el orden del paso 2–7. Hoy ninguno lo hace.
-- El generador `MAX+1` de `EXCEDENTE` necesita un lock común con los futuros `UC-06`/`UC-07`/`UC-41`; **PENDIENTE** (riesgo residual).
-- La cadena larga con locks globales (`9172001`, `2929001`) serializa todas las entregas. Es aceptable a la escala del proyecto, pero debe medirse.
-- El DS debe incluir una prueba de concurrencia `UC-05` vs `UC-43`, `UC-05` vs `UC-29` y `UC-05` vs `UC-05`.
+El lock `2929001` protege la generación de identificadores de **movimientos de cuenta**. **No se le atribuyen otras funciones** (no protege `ENTREGA`, `PAGO_EN_TRANSITO` ni `COBRO` por sí solo).
+
+**Ratificable en esta propuesta:** obligación de coordinar la generación de IDs entre UC-05 y UC-29 para evitar colisiones en movimientos contables. Sigue **PROPUESTA**, no ratificada por este PR.
+
+**NO ratificable todavía:** orden completo de locks entre UC-05, UC-08, UC-42, UC-28 y UC-29. Requiere diseño de secuencia + prueba de concurrencia real con PostgreSQL (patrón `RegistrarPreparacionConcurrenciaIntegrationTest` de I3-01).
+
+Los recursos siguientes son un inventario para el DS, **no una secuencia aprobada ni verificada**:
+
+| Recurso / precedente existente | Coordinación que debe diseñarse y probarse |
+|---|---|
+| Sesión/rol, `9172001`, `(60505,7)` y `ASIGNACION_REPARTO … FOR UPDATE` (UC-43) | Revalidar autorización y asignación bajo la coordinación que determine el DS. |
+| `2929001` (`CobroManualService`) | Coordinar los generadores de movimientos de cuenta de UC-05 y UC-29, exclusivamente. |
+| Clave de operación, `PEDIDO`, `CLIENTE` y `advisory(idCliente)` | Deduplicación y cambios de estado/cliente; espacio de claves y orden pendientes. |
+| Stock, partidas y preparación (UC-08, UC-42, UC-28) | Analizar interacción con UC-05 y con todos los locks ya usados por esos servicios. |
+| Generadores de `EXCEDENTE` y movimientos de stock | Definir coordinación compartida con UC-06/07/41 y otros escritores; no inferir cobertura de `2929001`. |
+
+No se modifica el orden de servicios existentes. El DS debe comprobar inversión de locks, colisiones de IDs y serialización, incluyendo UC-05 vs UC-43, UC-29, UC-08, UC-42, UC-28 y UC-05. El rendimiento de locks globales debe medirse; su aceptabilidad no está demostrada.
 
 ### 8.4 Secuencia de escritura y atomicidad (PROPUESTO)
 
 Todo en **una única transacción** (`@Transactional` sin `REQUIRES_NEW`). Cualquier fallo → rollback total (R4: ni dos entregas, ni dos declaraciones, ni dos cargos, ni dos movimientos de inventario).
 
 1. Validar sesión, rol, `claveIdempotencia`, importes (≥0, escala ≤2, precisión ≤18).
-2. Tomar locks (8.3). Buscar `ENTREGA` por clave → replay (2) o conflicto (3).
+2. Aplicar la coordinación que se diseñe y pruebe según 8.3 (orden pendiente). Buscar `ENTREGA` por clave → replay (2) o conflicto (3).
 3. Verificar Pedido `PENDIENTE` y asignación vigente del Repartidor autenticado (A1).
 4. Validar cantidades, límites y costos (A2–A4).
 5. `INSERT ENTREGA` (con `idOperacionOrigen`).
@@ -290,23 +297,40 @@ Todo en **una única transacción** (`@Transactional` sin `REQUIRES_NEW`). Cualq
 8. Egreso de `REVENTA`: `MOVIMIENTO_STOCK_REVENTA` y stock.
 9. `EXCEDENTE` por sobrantes `ELABORADO`.
 10. `MOVIMIENTO_CUENTA` `CARGO_POR_VENTA` y `ORIGEN_MOVIMIENTO_CUENTA` (`idPedidoEntrega`).
-11. **`INSERT PAGO_EN_TRANSITO`** si `efectivoDeclaradoRecibido > 0` (sin `COBRO`, sin `MOVIMIENTO_CAJA`).
-12. `UC-15` (`EvaluadorCategoriaComercialInterno`).
+11. **`INSERT PAGO_EN_TRANSITO`** propuesto si `efectivoDeclaradoRecibido > 0`, conservando íntegro `importeDeclarado` según D2 (sin `COBRO`, `MOVIMIENTO_CAJA`, crédito ni asiento contable por el excedente monetario). Persistir no equivale a validar financieramente según F04.
+12. `UC-15` (`EvaluadorCategoriaComercialInterno`), sujeto a D8/F04 (9.3); esta secuencia no habilita cálculos financieros nuevos.
 13. `PEDIDO.estado = ENTREGADO` y cierre de `ASIGNACION_REPARTO`.
 
 Restricciones SQL que respaldan el resultado: `pk_entrega`, `UNIQUE` propuesto de `ENTREGA.idOperacionOrigen`, `uq_origen_movimiento_cuenta_0`, `uq_movimiento_stock_reventa_2`, PK/FK de `PAGO_EN_TRANSITO`, triggers de inmutabilidad. La FK de `ORIGEN_MOVIMIENTO_CUENTA → ENTREGA` (L993) impone crear `ENTREGA` antes del cargo.
 
 ## 9. Efectos financieros provisionales
 
-### 9.1 Magnitudes (PROPUESTO como cálculo; la fórmula está APROBADA conceptualmente)
+### 9.1 Magnitudes y dependencia con RD-F04-003
 
-- `saldoConfirmado`: saldo contable de `MOVIMIENTO_CUENTA` (sin cambios por la declaración). **APROBADO** (RD-F04-003 §2).
-- `pagosEnTransitoValidados(cliente)` = Σ `importeDeclarado` de sus Pedidos − Σ `importeAplicado` (PE-2). **PROPUESTO.**
-- `saldoExigibleProvisional` = `saldoConfirmado − pagosEnTransitoValidados`, **solo proyección de consulta** (RD-F04-003 §2; CONTRATOS_REV05 L37).
+- `importeDeclarado`: hecho auditable íntegro de UC-05 (D2). **Declarado no significa automáticamente validado ni aplicado.**
+- `saldoConfirmado`: saldo contable de `MOVIMIENTO_CUENTA`, sin cambios por la declaración. **APROBADO** (RD-F04-003 §2). El cargo por la venta es un hecho distinto.
+- `importeEnTransitoValidado`: importes sincronizados, aceptados por el servidor y todavía no aplicados definitivamente, conforme a RD-F04-003 §2. La base de reconocimiento ante exceso monetario y pagos parciales requiere decisión específica.
+- `saldoExigibleProvisional = saldoConfirmado − importeEnTransitoValidado`: proyección conceptual de consulta de RD-F04-003 §2 y CONTRATOS_REV05. **No se suspende esa regla funcional ratificada.**
 
-La convención de signo de `MOVIMIENTO_CUENTA` es: `CARGO_POR_VENTA` suma y `PAGO` resta (`CobroManualService` L96; verificado). En `UC-05` el `CARGO_POR_VENTA` sube el saldo y la declaración baja solo el exigible.
+Se retira de esta propuesta la equiparación automática `pagosEnTransitoValidados = Σ importeDeclarado − Σ importeAplicado`: no prueba qué parte de una declaración en exceso puede validarse financieramente. D2 aprueba guardar la declaración sin truncarla, pero no define el importe legítimamente imputable. **Requiere aclaración previa** (futura RD-I302-002) antes de habilitar el efecto sobre saldo exigible.
 
-### 9.2 Cómo se evita descontar dos veces (R5)
+El contrato UC-05 (REV04B §2) deriva el importe efectivo de venta de las cantidades realmente entregadas; no es una columna de `ENTREGA`. No se asume que `totalPedido`, cargo de la entrega e importe realmente adeudado sean iguales (puede haber entregas parciales, adicionales o cobros previos). La fórmula `importeAplicado = min(importeDeclarado, totalPedido)` **no está ratificada**.
+
+### Diferencia entre registro durable y efecto financiero
+
+- **PE-1 (registro durable):** UC-05 persiste el importe declarado como hecho auditable.
+- **Efecto sobre saldo exigible provisional (F04):** requiere análisis explícito contra `RD-F04-003`. **No suspender una regla F04 ya ratificada** sin identificar contradicción formal.
+- **Rendición y contabilización definitiva (PE-2):** proceso separado, RD propia.
+
+**Riesgo de doble imputación:** si UC-29 registra un cobro definitivo sin descontar el pago en tránsito previamente declarado, el importe se cuenta dos veces contra el saldo exigible. La propuesta debe especificar el mecanismo de precondición para evitarlo antes de habilitar PE-1 funcionalmente.
+
+**Lo que este PR NO autoriza:** habilitar el efecto funcional sobre el saldo exigible. Solo propone la persistencia del hecho declarado.
+
+### 9.2 Prevención de doble imputación (R5; diseño conceptual pendiente)
+
+**Precondición pendiente antes de habilitar PE-1 funcionalmente:** especificar y probar cómo UC-29 identifica el tránsito validado todavía no aplicado y retira su efecto provisional al contabilizar, incluso con cobros parciales/concurrentes. El servicio UC-29 vigente no incorpora tránsito UC-05/F04; no basta con proponer una tabla. Hasta resolverlo, este PR no habilita el efecto sobre saldo exigible ni declara UC-05 completo.
+
+Mecanismos **conceptuales** a evaluar en PE-2; ninguno está ratificado ni probado:
 
 1. **Consulta de una sola sentencia:** `saldoConfirmado` y `pagosEnTransitoValidados` se leen en el mismo `SELECT` (un único snapshot), como hace `BuscarPedidoService` (L58–102). Con dos lecturas separadas en `READ COMMITTED` podría verse el saldo ya rebajado y el tránsito aún completo.
 2. **Cese atómico:** la operación de rendición inserta `COBRO`, `MOVIMIENTO_CUENTA` (`PAGO`), `MOVIMIENTO_CAJA` y `APLICACION_PAGO_EN_TRANSITO` en **la misma transacción**. Al confirmarse, el saldo confirmado baja y el tránsito pendiente baja a la vez.
@@ -320,13 +344,15 @@ La convención de signo de `MOVIMIENTO_CUENTA` es: `CARGO_POR_VENTA` suma y `PAG
 | `UC-14` | Muestra las tres magnitudes (CONTRATOS_REV05 L37). RBAC: **solo Vendedor**; Administrador `X`. | **PENDIENTE (D6):** el Administrador recibe la rendición pero `UC-14` no se lo muestra. Debe resolverse qué vista usa el Administrador sin inferir permisos. |
 | `UC-15` | Usa deuda **confirmada** (`EvaluadorCategoriaComercialInterno` L14). | **PROPUESTO:** sin cambios en `UC-15` por el tránsito, coherente con RD-F04-006/007 (sin recategorización automática). Que el tránsito influya en `UC-15` es una pregunta abierta de RD-F04-004 (**PENDIENTE D8**). |
 | `UC-29` | Rendición definitiva por el Administrador (L61). La firma canónica `registrarCobro(idCliente, idPedido, importe, medioPago, origen, referenciaExterna)` no tiene parámetro para enlazar la declaración, y el RBAC permite también al Vendedor. | **PENDIENTE (D6):** qué operación ejecuta la rendición, cómo restringirla al Administrador y cómo enlazarla; no se modifica el contrato aquí. |
-| `UC-43` | La asignación vigente es precondición de `UC-05` y se cierra al final; reprogramar invalida la asignación (RD-RP020-001). | Cubierto por locks 1 y 6. |
+| `UC-43` | La asignación vigente es precondición de `UC-05` y se cierra al final; reprogramar invalida la asignación (RD-RP020-001). | Coordinación pendiente de DS y prueba real (8.3); no se afirma cobertura por un orden de locks aún no validado. |
 | `UC-03` | RD-F04-006 exige evaluar deuda de nuevos Pedidos con saldo exigible provisional. `CargarPedidoService` **no consulta saldo ni deuda** (verificado, sin referencias a saldo). | **Dependencia fuera de I3-02;** no se amplía el alcance. |
 | `anularCobroManual` | Un cobro aplicado a una declaración puede anularse (contraasiento). Efecto en el tránsito: no definido. | **PENDIENTE (D7).** |
 
 ### 9.4 Reglas que NO se inventan
 
-Quedan **PENDIENTES** y no se resuelven: tope del importe declarado, saldo exigible negativo, importes superiores a la deuda, pagos parciales, tratamiento definitivo del saldo al cerrar una conciliación con diferencia (RD-F04-005 lo deja sin decidir), prueba de recepción física. Para `UC-05` en I3-02 se propone implementar **solo** las validaciones ya contratadas: `efectivoDeclaradoRecibido < 0` se rechaza (A2), y escala/precisión compatibles con `NUMERIC(18,2)`.
+D2 (14.1) fija la conservación íntegra del importe declarado y prohíbe rechazarlo únicamente por exceder el importe de la entrega; su ratificación documental está pendiente. No se define un tope financiero ni se acredita el exceso.
+
+Quedan **PENDIENTES** la base e importe reconocido frente a deuda real (futura RD-I302-002), saldo exigible negativo, pagos parciales, tratamiento definitivo al cerrar conciliación con diferencia y prueba de recepción física. Se conservan las validaciones contratadas: `efectivoDeclaradoRecibido < 0` se rechaza (A2); escala/precisión compatibles con `NUMERIC(18,2)` son propuestas técnicas. Esto no autoriza implementar UC-05 por este PR.
 
 ## 10. Seguridad y auditoría
 
@@ -335,7 +361,7 @@ Quedan **PENDIENTES** y no se resuelven: tope del importe declarado, saldo exigi
 | Rol que declara | Solo `REPARTIDOR` en `UC-05` (matriz L7). La identidad del Repartidor se toma **de la sesión**, nunca del cuerpo de la solicitud. |
 | Roles que validan/concilian | Administrador (RD-F04-002). Vendedor no recibe rendiciones (RD-RP007-001). |
 | Roles que consultan | `UC-14` solo Vendedor (matriz L17). **No hay proyección BC-07 ratificada** para el registro de pago en tránsito: no se expone a ningún rol por inferencia (**PENDIENTE D9**). |
-| Asignación | Validación en servidor de asignación vigente y usuario habilitado, bajo locks 1 y 6. |
+| Asignación | Validación en servidor de asignación vigente y usuario habilitado; coordinación pendiente de DS y prueba según 8.3, sin orden de locks aprobado. |
 | Inmutabilidad | `PAGO_EN_TRANSITO` y la aplicación son inmutables por trigger; las correcciones serían contraasientos futuros. |
 | Auditoría | Quién (`ENTREGA.idUsuarioRepartidor`), cuándo (`fechaHoraRegistroServidor`), qué (importe), sobre qué (Pedido/Entrega) y bajo qué identidad de operación (`idOperacionOrigen`). No se guarda el id de sesión (puede revocarse). |
 | Fuente primaria | Siempre filas relacionales. Los logs **no** son almacenamiento primario ni deben incluir importes ni claves. |
@@ -360,15 +386,17 @@ Quedan **PENDIENTES** y no se resuelven: tope del importe declarado, saldo exigi
 |---|---|---|
 | RR1 | `ENTREGA.idOperacionOrigen` nullable no impide filas sin clave | Exigencia en servicio y prueba; evaluar `NOT NULL` en una migración posterior si no hay filas heredadas. |
 | RR2 | Generadores `MAX+1` sin lock común (`EXCEDENTE`, `MOVIMIENTO_STOCK_REVENTA`) | Fijar locks compartidos en el DS; prueba de concurrencia. |
-| RR3 | Cadena de locks globales serializa entregas | Medir; aceptable a escala actual. |
+| RR3 | Locks globales pueden serializar entregas; orden completo no verificado | Diseñar secuencia y medir contención; no dar por aceptable ni ratificar el orden antes de prueba PostgreSQL real (8.3). |
 | RR4 | Declaración falsa o disputada | Sin prueba objetiva de recepción (pendiente RD-F04-004). La declaración es evidencia operativa, no cobro. |
-| RR5 | Importe declarado superior a la deuda | **Sin regla aprobada.** No se fija tope por defecto. |
+| RR5 | Importe declarado superior al importe de la entrega o a la deuda real | D2=B expresada, pendiente de ratificación documental: conservar íntegro, no rechazar solo por exceso ni acreditar. Base de reconocimiento y diferencia monetaria pendientes (futura RD-I302-002). |
 | RR6 | Rechazos offline no persistidos hasta PE-3 | UC-05 offline no debe habilitarse antes de PE-3 (B7). |
-| RR7 | La comparación de contenido depende de qué filas persiste `DETALLE_ENTREGA` (¿líneas con cantidad 0?) | El DS debe fijar la forma canónica de comparación. |
+| RR7 | Reconstrucción incompleta del resultado de negocio en un replay | Antes de ratificar, verificar datos persistidos: sin efectivo, cantidades cero, excedentes físicos y líneas adicionales fuera del Pedido. T-03/T-07/T-19 verifican identidad de negocio, no identidad literal HTTP. |
 | RR8 | Operación de rendición sin definir (no está entre las 67) | Decisión D6; no inventar CU. |
 | RR9 | `UC-14` excluye al Administrador | Decisión D6. |
 | RR10 | Anular cobro aplicado a un tránsito | Decisión D7. |
 | RR11 | Dependencia de `UC-07` (imputación adicional) con gaps sin resolver | Sección 14. |
+| RR12 | Doble imputación: UC-29 definitivo y tránsito aún descontado simultáneamente | Precondición de habilitación funcional: definir y probar retiro atómico del efecto provisional (9.2). D6 permanece reservado a RD propia; este PR solo propone persistencia. |
+| RR13 | Confundir importe declarado durable con importe validado financieramente | Aclaración previa contra RD-F04-003 (9.1); no suspender F04 ni habilitar el saldo exigible desde este PR. |
 
 ## 13. Pruebas de aceptación propuestas (NO EJECUTADAS)
 
@@ -378,40 +406,66 @@ Deben implementarse con PostgreSQL real. **Ninguna está ejecutada.**
 |---|---|---|
 | T-01 | Entrega válida con efectivo | Una `ENTREGA`, un `PAGO_EN_TRANSITO`, un `CARGO_POR_VENTA`; cero `COBRO` y cero `MOVIMIENTO_CAJA`; saldo confirmado = anterior + cargo. |
 | T-02 | Entrega sin efectivo o con 0 | Sin fila en `PAGO_EN_TRANSITO`; la clave queda registrada. |
-| T-03 | Replay (misma clave y contenido) N veces y desde dos sesiones | Un efecto; respuesta repetida idéntica. |
+| T-03 | Replay (misma clave y contenido) N veces y desde dos sesiones | Un efecto; mismo `idEntrega` (PK `idPedido`), `importeDeclarado` e `idOperacionOrigen`, y mismo resultado completo de negocio. Alta 201 y replay 200: no exigir mismo status ni body byte-a-byte (8.2). |
 | T-04 | Misma clave, importe o cantidades distintos | 409; ninguna fila nueva ni modificada. |
 | T-05 | Clave nueva para Pedido entregado | 409 sin replay. |
 | T-06 | Fallo simulado entre pasos 5 y 11 | Rollback total (cero filas, stock y saldo intactos). |
-| T-07 | Respuesta perdida tras commit | Reintento devuelve el resultado reconstruido. |
+| T-07 | Respuesta perdida tras commit | Reintento devuelve el resultado completo reconstruido desde persistencia, con la misma identidad de negocio; no basta la PK ni una respuesta parcial. |
 | T-08 | Dos solicitudes concurrentes: misma clave; mismo Pedido distinta clave; mismo clave distinto Pedido | Un solo efecto; sin deadlock ni error 500. |
 | T-09 | `UC-05` vs `UC-43` concurrentes | Solo un resultado coherente; no se entrega con asignación cerrada. |
-| T-10 | `UC-05` vs `UC-29` concurrentes sobre el mismo Cliente | Sin ids duplicados (`2929001`); saldos consistentes. |
+| T-10 | `UC-05` vs `UC-29` concurrentes sobre el mismo Cliente | Sin IDs de movimientos de cuenta duplicados (`2929001`); sin atribuirle protección de ENTREGA, PAGO_EN_TRANSITO o COBRO. Coherencia financiera sujeta a las precondiciones de 9.2. |
 | T-11 | Asignación invalidada o Repartidor deshabilitado | 409/403; cero filas; clave no consumida. |
 | T-12 | Rol no autorizado (Administrador, Vendedor, Producción) | 403; cero filas. |
 | T-13 | Intento de `UPDATE`/`DELETE` de `PAGO_EN_TRANSITO` | Rechazado por trigger. |
-| T-14 | `UC-14` (cuando exista la vista) con tránsito pendiente | `saldoConfirmado` sin cambios; exigible = confirmado − tránsito, en una sola sentencia. |
+| T-14 | `UC-14` con tránsito validado (futura habilitación financiera, fuera del registro durable) | Tras resolver 9.1/9.2 y ratificar, saldo confirmado sin cambios por la declaración; exigible = confirmado − tránsito validado, no todo lo declarado; lectura consistente. No habilitado por este PR. |
 | T-15 | Rendición total, parcial y concurrente (PE-2) | Efecto provisional cesa en la misma transacción; Σ aplicado ≤ declarado; sin doble descuento. |
 | T-16 | Importe negativo, escala > 2, precisión > 18 | 400; cero filas. |
 | T-17 | Logs y errores | Sin importes ni claves de terceros. |
+| T-18 | Declaración superior al importe de la entrega (D2=B) | Se conserva íntegra y no se rechaza solo por exceso. Diferencia como importe pendiente de conciliación; cero COBRO, MOVIMIENTO_CAJA, crédito o asiento por el exceso. Sin fórmula de imputación ni columna nueva ratificada. |
+| T-19 | Replay sin efectivo, con cantidades cero, excedentes físicos y líneas adicionales fuera del Pedido | Verificar antes de ratificar que persistencia/comparación permiten reconstruir el resultado completo. No aceptar casos inválidos por A2 ni dar por resuelto el gap de UC-07: las líneas adicionales siguen sujetas a 14.2. |
+| T-20 | UC-05 concurrente con UC-08, UC-42 y UC-28 | Diseñar secuencia y probar en PostgreSQL con el patrón de I3-01; sin colisiones ni deadlocks. Orden completo todavía no ratificable. |
 
 ## 14. Decisiones pendientes del responsable
 
 ### 14.1 Sobre esta propuesta
 
-| ID | Decisión | Recomendación (PROPUESTO) |
-|---|---|---|
-| D1 | ¿Aprobar PE-1 (`PAGO_EN_TRANSITO` + `ENTREGA.idOperacionOrigen`) como diseño físico objetivo de `UC-05`? | Aprobar; alternativa de respaldo en sección 6. |
-| D2 | Tope y política del importe declarado (superior al cargo, superior a la deuda, parciales). | Sin tope hasta decidirlo; no inventar defaults. |
-| D3 | ¿Una solicitud rechazada antes de escribir consume la clave? | No consume; confirma sección 8.2. |
-| D4 | Evidencia de recepción del efectivo (comprobante, firma, confirmación). | Pendiente de RD-F04-004; fuera de PE-1. |
-| D5 | Saldo exigible negativo / importes superiores a la deuda: truncar o mostrar crédito provisional. | RD-F04-003 exige decisión explícita; no truncar en silencio. |
-| D6 | Operación de rendición: ¿qué operación (no hay entre las 67), cómo restringirla al Administrador (`UC-29` también permite Vendedor), cómo enlazar la declaración (la firma de `UC-29` no lo prevé) y cómo ve el Administrador los tránsitos pendientes (`UC-14` lo excluye)? | Requiere RD propia; no inventar CU ni permisos. |
-| D7 | Efecto sobre el tránsito al anular un cobro aplicado (`anularCobroManual`). | Pendiente. |
-| D8 | ¿El pago en tránsito influye en `UC-15`? | Pendiente; mientras tanto `UC-15` sigue con deuda confirmada. |
-| D9 | Proyección BC-07 de los campos de `PAGO_EN_TRANSITO` por rol. | Pendiente; no exponer por inferencia. |
-| D10 | Cierre de una conciliación con diferencia: tratamiento definitivo del saldo (RD-F04-005). | Pendiente. |
-| D11 | Retención y política de rechazos/conflictos offline (PE-3). | Dentro de la CR. |
-| D12 | Tratamiento de la CR-B0-F04-001: A (resolverla completa), B (decisión complementaria) o C (dividir). | **C**, sección 11. |
+| ID | Decisión | Estado | Recomendación / alcance |
+|---|---|---|---|
+| D1 | ¿Aprobar PE-1 (`PAGO_EN_TRANSITO` + `ENTREGA.idOperacionOrigen`) como diseño físico objetivo de UC-05? | **Pendiente (recomendación, no ratificación)** | Se recomienda ese diseño; alternativa de respaldo en sección 6. No habilita por sí solo efectos financieros. |
+| D2 | Efectivo declarado en exceso al importe de la entrega | **Decisión del responsable expresada**, pendiente de ratificación formal | Opción B; definición única en el apartado D2 siguiente. |
+| D3 | ¿Una solicitud rechazada antes de escribir consume la clave? | **Pendiente (recomendación)** | Se recomienda no consumir; confirmar 8.2. |
+| D4 | Evidencia de recepción del efectivo (comprobante, firma, confirmación) | **Pendiente** | Pendiente de RD-F04-004; fuera de PE-1. |
+| D5 | Base de reconocimiento ante deuda real, saldo exigible negativo y pagos parciales | **Pendiente** | Aclaración específica contra RD-F04-003 (9.1 y futura RD-I302-002). Sin truncar la declaración ni otorgar crédito por inferencia. |
+| D6 | Operación de rendición, restricción al Administrador, enlace con UC-29 y vista del Administrador (UC-14 lo excluye) | **Reserva mantenida (RD específica)** | No inventar CU ni permisos. Precondición de coordinación con UC-29 antes de habilitar PE-1 funcionalmente (9.2). |
+| D7 | Efecto sobre el tránsito al anular un cobro aplicado (`anularCobroManual`) | **Pendiente** | RD propia de rendición; no decidir aquí. |
+| D8 | ¿El pago en tránsito influye en UC-15? | **Pendiente** | El servicio vigente usa deuda confirmada; no introducir cálculo nuevo ni suspender reglas F04. |
+| D9 | Proyección BC-07 de los campos de `PAGO_EN_TRANSITO` por rol | **Pendiente** | No exponer por inferencia. |
+| D10 | Cierre de conciliación con diferencia: tratamiento definitivo del saldo (RD-F04-005) | **Pendiente** | Decisión propia de PE-2. |
+| D11 | Retención y política de rechazos/conflictos offline (PE-3) | **Pendiente** | Dentro de la CR. |
+| D12 | Tratamiento de CR-B0-F04-001: A (resolver completa), B (complementaria) o C (dividir) | **Pendiente (recomendación)** | Se recomienda C, sección 11; no ratificada. |
+
+### D2 — Efectivo declarado en exceso al importe de la entrega
+
+**Estado:** decisión funcional expresada por el responsable. **Pendiente de ratificación documental.**
+
+**Regla funcional aprobada:**
+
+1. UC-05 registra íntegramente `importeDeclarado`, sin truncarlo.
+2. No rechaza una declaración únicamente porque exceda el importe de la entrega.
+3. No crea automáticamente `COBRO`, `MOVIMIENTO_CAJA`, crédito del Cliente ni asiento contable por el excedente.
+4. Conserva trazabilidad de la declaración y señala la diferencia como **importe pendiente de conciliación**.
+5. Mantiene exclusivamente al Administrador como responsable de recibir y autorizar la rendición (conforme RD-F04 vigentes).
+6. **No confunde diferencias monetarias con excedentes físicos de productos gestionados en UC-07** (conceptos distintos).
+
+**NO ratificado en este documento:**
+
+- Fórmula `importeAplicado = min(importeDeclarado, totalPedido)`.
+- Columna `excedentePendiente`.
+- Cualquier regla contable que defina el "importe legítimamente imputable".
+
+**Pendiente de decisión específica:** verificar si `totalPedido` (o el importe realmente adeudado al momento de la entrega) puede calcularse con las RDs F04 vigentes sin introducir reglas nuevas. Si no, registrar como decisión pendiente (`RD-I302-002`).
+
+**Diferido a PE-2 (rendición):** tratamiento contable del excedente, conciliación con UC-29, devolución o acreditación al Cliente.
 
 ### 14.2 Pendientes de I3-02 que NO se resuelven aquí
 
@@ -420,19 +474,20 @@ Se conservan para decidir antes de la RD definitiva:
 - **Tarificación del excedente reasignado (`UC-07`, `importeInformado`):** el contrato dice «calculando el `importeInformado`» sin definir la fuente de precio (CONTRATOS_REV04B L203, L215). No se fija una política.
 - **Representación de líneas adicionales de `UC-07`:** `IMPUTACION_ENTREGA_ADICIONAL` tiene FK a `DETALLE_ENTREGA(idPedido, numeroDetalle)` (V1 L922), que a su vez referencia `DETALLE_PEDIDO` (L914). No se decide aquí cómo representar unidades adicionales de un producto ausente del Pedido receptor ni si se restringe a líneas existentes.
 - **Orden de implementación:** el paso 7 de `UC-05` depende de `UC-07`; el orden de sub-cortes de I3-02 no se modifica aquí.
+- **Futura RD-I302-002 (pendiente, no creada):** decidir la base del importe reconocido (importe realmente entregado/adeudado y cobros previos), distinguirla del íntegro declarado, y definir la diferencia monetaria sin inventar `min(importeDeclarado, totalPedido)` ni columna `excedentePendiente`. Verificar si puede derivarse solo con reglas vigentes; si no, requiere decisión nueva. D5 y el cálculo de 9.1 permanecen abiertos. La operación de rendición y su mecanismo de no doble imputación mantienen la reserva D6 a RD específica PE-2.
 
 ## 15. Condiciones previas para implementar `UC-05`
 
-Todas **PENDIENTES**; ninguna está cumplida.
+**PENDIENTES.** D2=B ya fue expresada funcionalmente por el responsable, pero su ratificación documental y las condiciones de habilitación siguen pendientes. Este PR no ratifica ni habilita UC-05.
 
-1. Ratificación expresa por el responsable de esta RD (o de una versión modificada), con D1, D2, D3 y D12 resueltas.
-2. Decisión sobre D6, o confirmación de que la rendición queda fuera de I3-02 y no se habilita el tránsito hacia la rendición hasta su RD.
+1. Ratificación expresa de esta RD (o versión modificada): D1, D3 y D12 decididas y D2=B ratificada documentalmente. No confundir decisión funcional expresada con aprobación de columnas, fórmulas o implementación.
+2. Mantener D6 reservado a RD propia PE-2. Antes de habilitar PE-1 funcionalmente, especificar y probar la precondición contra doble imputación con UC-29 (9.2) y aclarar el importe financiero reconocido frente a RD-F04-003 (D5 / futura RD-I302-002). Diferir la rendición no autoriza a habilitar un efecto financiero incompleto; el registro durable propuesto no suspende F04.
 3. Anotación formal de la CR-B0-F04-001 (resolución parcial) en el repositorio de gobierno.
-4. Migración V4 con tests en PostgreSQL real (no creada, no probada).
-5. Documento DS/contrato operacional de `UC-05` en `ale-milanesas-app` con orden de locks verificado y pruebas T-01 a T-17.
+4. **Requiere migración V4 si se ratifica** el diseño físico: V1 no tiene importes ni clave de operación en ENTREGA ni tabla PAGO_EN_TRANSITO. Crear y probar solo en una tarea de implementación posterior; V1/V2/V3 permanecen intactas.
+5. DS/contrato operacional de UC-05 en `ale-milanesas-app`: reconstrucción completa del resultado de negocio verificada antes de ratificar, secuencia de locks diseñada y probada en PostgreSQL, pruebas T-01 a T-20. No aprobar todavía el orden completo UC-05/08/42/28/29; `2929001` solo coordina IDs de movimientos de cuenta.
 6. Resolución o delimitación de los pendientes de `UC-07` (sección 14.2), dado que el paso 7 depende de ellos.
 7. Reafirmar que el despliegue permanece **PAUSADO** (Issue #28 abierta) y que `UC-05` offline no se habilita antes de PE-3 (B7).
 
 ---
 
-**Estado de verificación de este documento:** análisis estático contra las fuentes de la sección 2. **No hay código ejecutado, ni DDL, ni pruebas.** Estado de `UC-05` en implementación: **NO IMPLEMENTADO.** BC06 de implementación para `UC-05`: **NO EJECUTADO.**
+**Estado de verificación de este documento:** revisión de consistencia contra las fuentes de la sección 2 y comprobación del diff limitado a esta RD. Controles documentales existentes ejecutados: **21 B0 + 8 I1 aprobados**; no validan la implementación propuesta ni sustituyen la revisión semántica de esta RD. **No se ejecutaron código de aplicación, DDL ni las pruebas de aceptación T-01 a T-20.** Estado de `UC-05` en implementación: **NO IMPLEMENTADO.** BC06 de implementación para `UC-05`: **NO EJECUTADO.** Riesgos y próximo paso: resolver las reservas de las secciones 12/14/15 antes de ratificar o implementar; no hay ratificación en esta revisión.
