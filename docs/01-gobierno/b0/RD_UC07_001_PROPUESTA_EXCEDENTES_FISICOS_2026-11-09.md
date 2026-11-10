@@ -443,7 +443,7 @@ No se crea una decisión complementaria ni se reserva un nuevo identificador RD/
 - Ejecutar las pruebas de aceptación y concurrencia propuestas con PostgreSQL real/Testcontainers, incluyendo UC-07/41/05/06 y generadores compartidos. Conservar en GitHub Actions resultados verificables del commit a fusionar; no basta CI documental ni una hipótesis de locks.
 - Documentar el resultado de RT-UC07-02/03 y las reservas que pudieran impedir el corte. No declarar probado ni cerrado un punto por la aprobación funcional D1–D5.
 
-Esta propuesta queda preparada para **revisión de ratificación con reservas y condiciones explícitas**, no para declarar cerrado el diseño técnico ni habilitar implementación o despliegue.
+Esta RD se encuentra **RATIFICADA PARCIALMENTE** (D1–D5 + RT-UC07-01) al 09/11/2026. Las reservas RT-UC07-02, RT-UC07-03, RT-UC07-04 y la regresión de UC-03 permanecen abiertas y bloquean la implementación de UC-07 hasta ser resueltas y ratificadas en RD complementaria.
 
 ---
 
@@ -451,7 +451,7 @@ Esta propuesta queda preparada para **revisión de ratificación con reservas y 
 
 * **El entorno de despliegue permanece en estado PAUSADO.**
 * La **Issue #28** de `leandrito369/ale-milanesas-app` continúa **ABIERTA**.
-* La consolidación de las decisiones D1–D5 en esta propuesta documental no autoriza la activación de endpoints de escritura en producción, no levanta la pausa operativa ni habilita despliegues.
+* La ratificación parcial de las decisiones D1–D5 en esta RD no autoriza la activación de endpoints de escritura en producción, no levanta la pausa operativa ni habilita despliegues.
 
 ---
 
@@ -461,7 +461,7 @@ La implementación de UC-07 en código **NO está autorizada** por esta ratifica
 
 1. **RT-UC07-02 resuelta:** reconstrucción histórica del precio demostrada con las columnas existentes, o alternativa aprobada (posible migración V4 vía RD complementaria).
 2. **RT-UC07-03 resuelta:** diseño aprobado y ratificado de evidencia de aceptación del cliente (nueva entidad, extensión de auditoría u otro mecanismo compatible con G0).
-3. **RT-UC07-04 resuelta:** orden de locks definido y testeado con concurrencia real en PostgreSQL/Testcontainers.
+3. **RT-UC07-04 resuelta en dos fases:** (a) **antes de implementar** las transacciones, diseño documentado de orden de locks y coordinación de generadores de identificadores entre UC-05, UC-06, UC-07 y UC-41; (b) **antes del merge de código funcional**, pruebas de concurrencia reales con PostgreSQL/Testcontainers aprobadas en CI. Las pruebas reales son parte del corte de implementación, no una precondición para iniciarlo.
 4. **Regresión UC-03 corregida:** `CargarPedidoService` filtrado para no contar líneas técnicas (`cantidadOriginal > 0`), con test de regresión verde.
 5. **Issue #28 cerrada o autorización explícita de despliegue** (si el corte pretende activarse en producción).
 
