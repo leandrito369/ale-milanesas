@@ -1,6 +1,6 @@
 # RD-UC07-002 — Evidencia de aceptación de oferta y congelamiento del precio comercial
 
-**Estado: BORRADOR DE TRABAJO — NO RATIFICADO INTEGRALMENTE — NO AUTORIZA IMPLEMENTACIÓN NI MIGRACIONES.**
+**Estado: RATIFICADA PARCIALMENTE — 4 decisiones ratificadas el 11/11/2026 (D-UC07-02-B, D-UC07-COT, D-UC07-CRC, D-UC07-P2B). RD integral pendiente de ratificación documental. NO AUTORIZA IMPLEMENTACIÓN NI MIGRACIONES hasta CR-C/CR-F.**
 
 **Fecha de redacción:** 10/11/2026 (Argentina). **Actualización:** 11/11/2026; cuatro decisiones expresas del responsable incorporadas, sin ratificación integral.
 
