@@ -6,7 +6,7 @@
 
 **Estado:** OPEN / DRAFT — NO AUTORIZADA INTEGRALMENTE — NO CREA MIGRACIONES.
 
-**Fecha de redacción:** 11/11/2026, Argentina; no es fecha de autorización. **Historial Etapa B:** 12/11/2026, convergencia propuesta. **Actualización C1:** 12/11/2026, A–C ratificadas; D–E candidatas especificadas; F–H pendientes.
+**Fecha de redacción:** 11/11/2026, Argentina; no es fecha de autorización. **Historial Etapa B:** 12/11/2026, convergencia propuesta. **Actualización C1:** 12/11/2026, A–C ratificadas; D–E candidatas especificadas; F–H pendientes. **Actualización C2:** 12/11/2026, F/G especificadas para revisión, no ratificadas; F8 bloqueante y H abierta.
 
 **Responsable de autorización:** Victor Leandro Machado (`leandrito369`).
 
@@ -46,6 +46,12 @@ Fuentes de aplicación, todas al SHA `d5f7607afb430a251cbf5cc9190a879a7d41416b`:
 
 Publicación/merge documental, ratificación parcial, autorización integral, implementación, prueba y despliegue son estados distintos. No hay autorización integral de estas CR ni implementación UC-07 por este corte.
 
+### Actualización C2 — fuentes y alcance
+
+Se revalidaron gobierno main `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`, app main `4dbe38668fc5cbc08d04e10920e3bf165c71be11`, PR #85/#86 MERGED e Issue app #28 OPEN. Bases documentales C1: PR #47 `0b75eb4ca32db9481e22a34c80eb637b80351a31` y PR #48 `4105e60bd7ac35b089c683e206a95aec9ae77fd6`; se releen ambas CR completas. CR-C coordinada C2: [commit 9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b](https://github.com/leandrito369/ale-milanesas/commit/9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b), en especial §13.1. No se inventa el SHA futuro de esta CR-F ni se crea dependencia circular.
+
+Fuentes físicas al SHA app 4dbe386: V1–V3, servicios UC03/19/28, controles HTTP, AutorizacionSesionInterna y TokenSesionInterna; se releen contratos UC05/06/07/41, RDs UC07/UC19/RP022 y protecciones V1. V1 mantiene blob `9c6099e475577499252d12c196685d12dcbbab67`; no contiene columnas snapshot ni tablas nuevas. No se consultó una base destino, ejecutó SQL, creó migración ni modificó app. C2 preserva A–C ratificadas y el texto íntegro D/E candidato de C1. La corrección F6-A/F6-B fue indicada expresamente por el responsable durante este corte; sus mecanismos siguen siendo propuestas.
+
 ### 1.2. Inventario físico comprobado
 
 | Tabla V1 | PK / relaciones y reglas relevantes |
@@ -57,6 +63,8 @@ Publicación/merge documental, ratificación parcial, autorización integral, im
 | EXCEDENTE, L222 | idExcedente BIGINT; fk_excedente_0 a detalle origen compuesto y fk_excedente_1 a movimiento origen; cantidades NUMERIC(18,3), costos NUMERIC(18,4), disponibilidad no negativa y no superior a inicial |
 | OFERTA_EXCEDENTE, L243 | idOfertaExcedente BIGINT, uq_oferta_excedente_0 por oferta/excedente; FK excedente (_0), pedido receptor (_1), vendedor (_2); cantidades escala 3, importes escala 2; ck_oferta_excedente_3 gobierna respuesta/fecha/cantidad/importe y queda intacto |
 | PRECIO_PRODUCTO, L292 | idPrecio BIGINT; FK producto/usuarios; precioBase NUMERIC(18,4), rango TIMESTAMPTZ; ck_precio_producto_2 limita cancelación previa al comienzo; exclusión GiST ex_precio_producto_no_solape L1041–1043, [desde,hasta), no cancelados |
+| ENTREGA/DETALLE_ENTREGA, L206/L213 | PK entrega por pedido y detalle compuesto; fk_detalle_entrega_0/1 hacia ENTREGA/DETALLE_PEDIDO (L911–914); se crean en UC05, no al aceptar UC07 |
+| IMPUTACION_ENTREGA_ADICIONAL, L280 | PK (idPedido,numeroDetalle,idMovimientoExcedente), cantidadImputada escala 3, importeImputado escala 2; uq_imputacion_entrega_adicional_0 por movimiento; fk_imputacion_entrega_adicional_0 a DETALLE_ENTREGA y _1 a MOVIMIENTO_EXCEDENTE (L922–923) |
 | MOVIMIENTO_EXCEDENTE, L263 | idMovimientoExcedente BIGINT; FK excedente y (oferta,excedente); uq_movimiento_excedente_0 por oferta; REASIGNACION/DESCARTE, cantidad positiva y costo no negativo |
 
 Convenciones: V1 usa nombres pk_/fk_/uq_/ck_ e índices/EXCLUDE; identificadores BIGINT mayormente sin secuencias. V3 sí incorpora seq_partida_insumo: no extrapolar universalmente ninguno de los patrones. Se observaron triggers MR3/MR5 de inmutabilidad en movimientos financieros/inventario y protección de entidades activas; no hay protección existente del nuevo snapshot, cotizaciones, evidencia o eventos propuestos, ni trigger de inmutabilidad en PRECIO_PRODUCTO. No reutilizar un prefijo histórico como nombre aprobado de mecanismos nuevos.
@@ -77,7 +85,7 @@ Alcance físico: snapshot, cotizaciones, evidencia PostgreSQL P2b, bitácora y c
 
 **RATIFICADA EN RD:** D1–D5/RT-UC07-01 en su alcance y D-UC07-02-B, D-UC07-COT, D-UC07-CRC, D-UC07-P2B parcialmente en RD-UC07-002. La RD integral y estas CR no quedan autorizadas por la convergencia. El detalle A–H conserva la clasificación común de CR-C:
 
-### Matriz A–H — estado vigente del Corte C1 (12/11/2026)
+### Matriz A–H — estado vigente C2 (ratificaciones C1 preservadas)
 
 **Autoridad:** Victor Leandro Machado, decisión expresa del 12/11/2026 comunicada en el encargo Corte C1. Esta constancia asienta A–C en las CR existentes; no crea una RD ni atribuye autorización integral. **Historial:** A–C eran propuestas preferentes en Etapa B y pasan ahora a RATIFICADAS. D–E siguen sin ratificar; F–H no se cierran por pruebas parciales.
 
@@ -88,13 +96,12 @@ Alcance físico: snapshot, cotizaciones, evidencia PostgreSQL P2b, bitácora y c
 | C | **RATIFICADA — responsable, 12/11/2026** | Intento INTEGER NOT NULL positivo, secuencial por oferta, UNIQUE(oferta,intento), bajo lock padre. Rechazo previo/replay no consumen; INVALIDADA persistida conserva número; rollback no confirma intento ni permite reutilizar uno ya persistido. numeroVersion no cuenta evidencias |
 | D | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | §10: clave 1–128 ASCII, huella UTF-8 versionada, protocolo, replay/errores y retención candidata. Requiere decisión expresa; C1 no implementa ni prueba esa política |
 | E | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | Pipeline P2b y calibración; 1 MiB app/2 MiB físico/4096² solo umbrales experimentales. Parámetros definitivos condicionados a muestra y aprobación |
-| F | **PENDIENTE / NO RATIFICADA — Corte C2** | Índice conjunto, integridad cruzada, inmutabilidad, funciones/triggers/privilegios y estado final transaccional. Tipos/FK ratificados por B no ratifican todos los mecanismos |
-| G | **PENDIENTE / NO RATIFICADA — Corte C2** | Preflight por destino y política uniforme/determinista de históricos; no elegir rama ni ejecutar consultas de destino en C1 |
+| F | **ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA** | Cuerpos SQL candidatos y F6-A/F6-B separados; F8/identidad y pruebas C3 bloqueantes, F no completamente cerrada. Tipos/FK B no ratifican mecanismos |
+| G | **ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA** | Preflight sin columnas inexistentes, ruta vacía bloqueada/atómica y alternativa legado uniforme; ninguna ruta elegida ni consulta destino en C2 |
 | H | **PENDIENTE / NO RATIFICADA — Corte C3; RT-UC07-04 ABIERTA** | Orden global todavía candidato. Corte 3 reprodujo el defecto puntual UC-03/19 y PR #86 integró corrección; faltan escritores y pruebas globales |
 
 **EXCLUIDA:** autorización integral de CR-C/CR-F, implementación UC-07, nuevos CU/firmas G0, modificación de RDs/migraciones/source-lock/RBAC, merge documental y despliegue. Issue #28 permanece OPEN/PAUSADO.
 
-Los fragmentos SQL de §15 son DOCUMENTACIÓN CANDIDATA — NO EJECUTAR: tipos/identidad/FK de B e intento C están ratificados en su alcance; otras restricciones y funciones siguen sujetas a F/G/H y autorización integral. No se crea migración ni se ejecuta DDL en C1.
 
 ## 4. Snapshot comercial y procedencia
 
@@ -176,7 +183,7 @@ Evidencia comercial inválida no sustituye a la previa. El candidato guarda úni
 
 Estados preservados: CAPTURADA, VERIFICADA, UTILIZADA, INVALIDADA. Transiciones: CAPTURADA→VERIFICADA, CAPTURADA→INVALIDADA, VERIFICADA→UTILIZADA, VERIFICADA→INVALIDADA. UTILIZADA/INVALIDADA terminales. Persistir inicialmente CAPTURADA y luego transición controlada a VERIFICADA. Si ambas ocurren en O2, registrar ambos hechos: NULL→CAPTURADA y CAPTURADA→VERIFICADA, en orden y una transacción; INSERT directo VERIFICADA con un único evento no satisface el candidato. VERIFICADA es validación automática técnica/comercial, no autenticación criptográfica ni aprobación humana ADMIN.
 
-El CHECK de evento puede restringir pares; el estado anterior debe coincidir con último evento/estado real mediante servicio/trigger y locking. Evaluar operación controlada o trigger de transición que registre evento obligatorio y rechace actualización directa sin historial. Resolver actor/motivo confiables y quién puede ejecutar esa operación; un valor de sesión SQL controlable por app no autentica al vendedor. Deshabilitar UPDATE/DELETE de eventos para rol operativo y evaluar triggers defensivos; nombres y funciones no fijados ni código de función ejecutable en esta CR.
+El CHECK de evento puede restringir pares; el estado anterior debe coincidir con último evento/estado real mediante servicio/trigger y locking. Evaluar operación controlada o trigger de transición que registre evento obligatorio y rechace actualización directa sin historial. Resolver actor/motivo confiables y quién puede ejecutar esa operación; un valor de sesión SQL controlable por app no autentica al vendedor. Deshabilitar UPDATE/DELETE de eventos para rol operativo y evaluar triggers defensivos; nombres/cuerpos candidatos desarrollados en §15.8, no ejecutados ni autorizados por esta CR.
 
 Sustitución O2: bloquear oferta y respaldos, validar nueva evidencia completamente; solo entonces anterior VERIFICADA→INVALIDADA por SUPERADA_POR_RECOTIZACION y nueva CAPTURADA→VERIFICADA con eventos. Commit único; cualquier fallo revierte todo y conserva anterior. Emitir una nueva versión sola no invalida respaldo anterior. Parte B posterior consume la VERIFICADA inequívoca y, al transferir con éxito, la pasa a UTILIZADA con evento en la misma transacción que movimiento/stock/oferta. Falta de stock hace rollback, dejando VERIFICADA y sin incremento aceptado/deuda ni movimiento. Rechazo sin evidencia conserva historial e invalida pendientes según contrato que se autorice, sin transferir ni reactivar terminales.
 
@@ -191,7 +198,7 @@ Sustitución O2: bloquear oferta y respaldos, validar nueva evidencia completame
 
 Invariantes cruzadas restantes: producto correcto del precio (§4), cantidad<=ofrecida, cantidad/importe confirmados iguales a versión, versión calculada D2-A, temporalidad entre tablas, oferta/pedido PENDIENTE y rol activo. FK prueba existencia/pertenencia si es compuesta; UNIQUE máximo una fila de clave; CHECK comprueba fila. Validación comercial, autorización, transición y aislamiento requieren servicio/triggers/locking. El cumplimiento debe mantenerse ante escritores SQL no cooperantes bajo permisos del rol operativo, no solo frente al controlador HTTP.
 
-## 9. Restricciones y generadores — B/C ratificadas; F pendiente C2
+## 9. Restricciones y generadores — B/C ratificadas; F especificada C2, no ratificada
 
 Un **único índice único parcial conjunto** `uq_evidencia_utilizable_por_oferta` por idOfertaExcedente, WHERE estadoEvidencia IN ('VERIFICADA','UTILIZADA'), reemplaza los dos índices separados del candidato anterior. Impide físicamente dos VERIFICADA, dos UTILIZADA **y una de cada estado para la misma oferta**. No impide múltiples INVALIDADA/CAPTURADA ni sustituye validación de oferta PENDIENTE.
 
@@ -358,7 +365,7 @@ Errores/logs sin eco de bytes, contacto, declaración, tokens ni clave de idempo
 
 ## 12. Matriz Global de Adquisición de Locks — RT-UC07-04 ABIERTA
 
-**H PENDIENTE C3, ORDEN GLOBAL NO RATIFICADO.** Matriz originada en auditoría histórica Etapa B al SHA app d5f7607; C1 revalida las correcciones #85/#86 sobre main `4dbe38668fc5cbc08d04e10920e3bf165c71be11`, con contratos de gobierno `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`. El Corte 3 previo ejecutó parcialmente R/P; no prueba ausencia global de deadlocks. No ejecutar DDL ni experimentos en C1.
+**H PENDIENTE C3, ORDEN GLOBAL NO RATIFICADO.** Matriz originada en auditoría histórica Etapa B al SHA app d5f7607; C1/C2 revalidan las correcciones #85/#86 sobre main `4dbe38668fc5cbc08d04e10920e3bf165c71be11`, con contratos de gobierno `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`. El Corte 3 previo ejecutó parcialmente R/P; no prueba ausencia global de deadlocks. No ejecutar DDL ni experimentos en C1/C2.
 
 ### 12.1. Convenciones y fuentes reproducibles
 
@@ -400,6 +407,10 @@ Los modos conservadores U sacrifican concurrencia para revisar un protocolo cohe
 
 ### 12.4. Pares que comparten recursos y ciclos posibles
 
+**Precisión del candidato C2 respecto de §12.3:** fn_uc07_abrir_contexto (§15.6) materializa el subgrafo de raíces. Para A/B toma CLIENTE U de origen y receptor, PEDIDO U y, conservadoramente, todos sus DETALLE_PEDIDO U por PK (más fuerte que S del detalle de origen en la alternativa de la tabla). UC05 toma las raíces/detalles de su receptor; UC41 solo EXCEDENTE U. O1/O2/rechazo no toman EXCEDENTE ni precio actual. En O1/O2, A2(70702,hash del ámbito completo) es un namespace nuevo candidato que C3 debe inventariar/reservar; los generadores BIGINT necesarios deben coordinarse antes de entrar a las raíces, sin reutilizar 1919/808 por analogía.
+
+El gateway completa después de OFERTA U la lectura/lock de COTIZACION S y EVIDENCIA U en orden de identificador cuando corresponda, antes de sus escrituras; abrir_contexto no contiene esos SELECT ni constituye por sí sola un servicio UC07. Las guardias se apoyan en oferta bloqueada, versiones inmutables y escrituras de estado controladas; no toman después nuevas raíces PRODUCTO/PRECIO/PEDIDO. FKs inmediatas, índice conjunto, AFTER de eventos, constraint triggers al commit y la prueba privada agregan aristas que C3 debe observar. Las guardias selectivas de maestros no son una prueba de aislamiento global frente a escritores cuyos grants/protocolos no se hayan incorporado al inventario F8/H.
+
 | Par | Espera/grafo a examinar | Tratamiento / incertidumbre |
 |---|---|---|
 | UC-03 ↔ UC-19 | **Defecto histórico CONFIRMADO:** con idCliente=1919001, UC-03 retiene A1(1919001) y espera PRODUCTO S; UC-19 antiguo retiene PRODUCTO U y espera A1(1919001). Corte 3 reportó 3/3 SQLSTATE 40P01 | **IMPLEMENTADO/INTEGRADO:** #86 sustituye UC-19 por A2(1919,1), main 4dbe386. Seis intercalados experimentales sin ese ciclo y prueba permanente específica incorporada; no certifica orden global ni se reejecuta aquí |
@@ -416,7 +427,7 @@ El primer ciclo dejó de ser hipótesis: el Corte 3 lo reprodujo y #86 integró 
 
 ### 12.5. Plan histórico Corte 3 y ampliación pendiente C3
 
-**Historial:** el plan Etapa B siguiente tuvo ejecución parcial reportada en Corte 3: L1 real, L2/L3 mixtos y L4/L5 prototipos. No se acredita ejecución total de esta lista ni de recibos/HTTP. **Pendiente C3:** pruebas con cuerpos físicos definitivos C2 y escritores restantes.
+**Historial:** el plan Etapa B siguiente tuvo ejecución parcial reportada en Corte 3: L1 real, L2/L3 mixtos y L4/L5 prototipos. No se acredita ejecución total de esta lista ni de recibos/HTTP. **Pendiente C3:** pruebas con cuerpos físicos candidatos C2 y escritores restantes.
 
 1. Para la futura ampliación, autorización específica del experimento; checkout/artefacto descartable separado de app/main y de PR #85, sin despliegue. PostgreSQL 17.11 (precedente `postgres:17.11-alpine` de `RegistrarPreparacionConcurrenciaIntegrationTest.java` L20–44), Flyway V1–V3 sin editar y esquema candidato solo en sandbox de prueba autorizado. Ninguna migración/DDL se ejecuta en Etapa B.
 2. Dos o tres conexiones/transacciones reales READ COMMITTED con IDs sintéticos controlados, incluidos cliente=1919001, insumo=1919001 y dos productos/pedidos. Barreras CountDownLatch en puntos de lock para forzar cada intercalado; no depender de sleeps. Confirmar que el primer lock se adquirió consultando observabilidad antes de liberar la otra sesión. Repetir ambos órdenes de llegada y múltiples raíces con IDs invertidos.
@@ -427,69 +438,262 @@ El primer ciclo dejó de ser hipótesis: el Corte 3 lo reprodujo y #86 integró 
 
 **RT-UC07-04: ABIERTA / PENDIENTE DE AMPLIACIÓN DE PRUEBAS REALES Y COORDINACIÓN DE OPERACIONES PENDIENTES.** No se certifica ausencia de deadlocks ni se autoriza implementar el protocolo por este documento.
 
-## 13. Integridad física cruzada, inmutabilidad y bitácora protegida — F
+## 13. F — mecanismos físicos candidatos, invariantes y límites
 
-**Compatibilidad F1–F5 verificada para preparar C2:** tabla real PRECIO_PRODUCTO, columna precioBase NUMERIC(18,4); no existe precioBaseUnitario en esa tabla. El snapshot futuro se llama precioBaseUnitarioAplicado NUMERIC(18,4) y se coteja con precioBase/producto origen. Conservar ck_oferta_excedente_3 y respuestas PENDIENTE/ACEPTADA/RECHAZADA: una guardia permite PENDIENTE→ACEPTADA/RECHAZADA con campos coherentes y condiciones originales inmutables, sin exigir vigencia actual del precio al responder. No se impone cantidad fija de triggers: deben cubrir padres comerciales, evidencia/eventos y comandos además de las relaciones directas.
+**F ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA.** Se desarrollan cuerpos SQL en §15.6–15.13; **F no queda completamente cerrada**: persisten el límite de identidad F8, revisión de permisos efectivos, alcance UC05 de la imputación parcial y pruebas C3. Ninguna definición autoriza implementar UC-07, ejecutar migraciones ni desplegar.
 
-**Estado final transaccional a diseñar C2:** oferta ACEPTADA, evidencia UTILIZADA, movimiento de reasignación único, imputación al pedido receptor, cantidades/importes aceptados y saldo/costo histórico deben coincidir al commit. Evaluar constraint triggers diferidos para invariantes entre varias sentencias; no exigir cada estado final intermedio ni permitir commit incongruente. O2 debe reflejar NULL→CAPTURADA y CAPTURADA→VERIFICADA como dos hechos causales ordenados. Sin cuerpos PL/pgSQL ni GRANT/REVOKE definitivos en C1.
+### 13.1. Corrección de F6 acordada durante C2
 
-**F PENDIENTE / NO RATIFICADA — Corte C2:** los siguientes controles son requisitos del futuro diseño ejecutable; no se suplen con validación Java. Los cuerpos de funciones/triggers y GRANT/REVOKE se especificarán/probarán en corte autorizado, nunca se ejecutan aquí.
+Por aclaración expresa del responsable del 12/11/2026, se sustituye la exigencia de imputación inmediata al aceptar por dos controles preferentes, **técnicos y no ratificados**:
 
-| Entidad / operación | Garantía física candidata obligatoria |
-|---|---|
-| OFERTA_EXCEDENTE BEFORE INSERT | Exigir snapshot completo nuevo; bajo raíces bloqueadas recorrer excedente→detalle origen→producto; contrastar precio.idProducto, no cancelado y vigencia [desde,hasta) en fechaHoraOferta única servidor. Snapshot debe ser exactamente precioBase NUMERIC(18,4); la operación controlada calcula importeInformado con D2-A y ajuste congelado, sin importe de autoridad aportado por cliente. No aceptar fecha/P arbitrarios como hechos por venir desde SQL operativo. Inserción solo mediante operación controlada que toma reloj DB posterior a esperas y revalida estados |
-| OFERTA BEFORE UPDATE/DELETE | UPDATE compara OLD/NEW: identidad, excedente, receptor, fechaHoraOferta, cantidadOfrecida, importeInformado, idPrecio/P inmutables; solo transición PENDIENTE→ACEPTADA/RECHAZADA legítima según ck_oferta_excedente_3 y protocolo Parte B/rechazo; preservar ofertas ya cerradas. DELETE prohibido operativo. Excepción histórica delimitada en §14, sin obligación retroactiva de snapshot |
-| Padres comerciales/procedencia | Proteger relación producto del detalle origen, vínculo del excedente y ajuste tipo/porcentaje del pedido receptor contra cambios retroactivos por escritor operativo. Para PRECIO_PRODUCTO referido, guardia ante UPDATE/DELETE impide cambiar producto/precioBase o eliminar procedencia; cierres futuros UC-19 permitidos si no excluyen el instante ya registrado de ofertas. Cancelación/rangos no pueden invalidar retrospectivamente la captura. Coordinación por PRODUCTO antes de precio; no agregar lock tardío de oferta desde UC-19. Cuerpos/privilegios exactos y compatibilidad con UC-19 requieren prueba |
-| COTIZACION BEFORE INSERT/UPDATE/DELETE | INSERT bloquea oferta padre, exige estado admisible y 0<q<=cantidadOfrecida, V1 igual a padre y versiones >=2 parciales; coteja cálculo D2-A con snapshot y ajuste protegido, no precio actual. UNIQUE padre/version y padre/id. UPDATE/DELETE rechazan alteraciones de cualquier campo comercial/identidad/autor/instante: toda recotización es nueva fila. Excepción solo por mantenimiento autorizado fuera del rol app |
-| EVIDENCIA BEFORE INSERT/UPDATE/DELETE | INSERT exige padre/cotización coherentes (FK compuesta), q/importe iguales a versión, tiempo válido, intento positivo único asignado bajo padre; hash SHA-256 servidor sobre bytes. Verificación física hash/bytes necesita función hash instalada/autorizada (no asumir pgcrypto existente). UPDATE permite solo transición controlada, no cambiar intento, padre/cotización, bytes, hashes, MIME, cantidad/importe, contacto/declaración/autor/fechas. UTILIZADA/INVALIDADA terminales. DELETE prohibido operativo |
-| Estado y eventos obligatorios | BEFORE INSERT/UPDATE de evidencia valida creación CAPTURADA y cada par OLD→NEW; mecanismo trigger transaccional inserta automáticamente evento inicial/transición con ordenEvento siguiente bajo lock, actor/motivo confiables. Fallo de evento revierte cambio de estado. BEFORE INSERT de evento solo admite origen controlado, coteja evidencia real/último evento/orden; no se permite insertar historia falsa por DML libre. Si se usa trigger posterior para leer estado ya escrito, complementar con constraint trigger diferido que verifique estado final=último evento al commit. El estado debe existir antes de la FK del evento; **no insertar evento inicial en BEFORE INSERT antes de crear evidencia**. Detalle de combinación BEFORE/AFTER/diferido y prueba es pendiente, no garantía aportada solo por CHECK |
-| EVENTO BEFORE UPDATE/DELETE | Rechazo incondicional para rol operativo; bitácora append-only, sin editar fechas/motivos/estados. UNIQUE(evidencia,ordenEvento), evento inicial único y cadena causal comprobada. BIGINT identidad no sustituye ordenEvento |
-| COMANDO BEFORE INSERT/UPDATE/DELETE | INSERT solo desde operación controlada, recurso/operación/oferta/actor coincidentes, huella y recibo conforme esquema contractual/efecto creado en misma transacción. FKs compuestas no prueban igualdad del JSON: guardia coteja IDs, importe/cantidad/estado original/instante según efecto. UPDATE/DELETE rechazan cambios operativos de clave/huella/vínculo/recibo; retención excepcional aprobada sin reactivar claves |
+- **F6-A, UC-07 Parte B:** al commit, oferta ACEPTADA, una evidencia UTILIZADA de la oferta/cotización, cantidades/importes coincidentes, un movimiento REASIGNACION correcto, costo proporcional con remanente exacto al agotar y descuento de saldo en la misma transacción; línea receptora original o técnica. **No exige ENTREGA, DETALLE_ENTREGA ni IMPUTACION_ENTREGA_ADICIONAL.**
+- **F6-B, UC-05 posterior:** detalle de entrega e imputaciones corresponden al receptor/producto/movimiento, sin doble imputación ni cantidades sobre lo aceptado/entregado; originales primero y adicionales por orden cronológico. Entrega parcial puede imputar menos que la aceptación. El cargo contable sigue exclusivamente en UC05; no modifica totalOriginal.
 
-**Modelo de privilegios explícito:** rol runtime app distinto del propietario/migrador; sin SUPERUSER/BYPASSRLS, propiedad de tablas, CREATE sobre esquema, ALTER/DROP/TRUNCATE ni capacidad de deshabilitar triggers/cambiar session_replication_role. Revocar UPDATE/DELETE de cotización/eventos/comandos y DML directo de estado/evidencia/snapshot; conceder solo SELECT mínimo y EXECUTE de operaciones controladas del dominio. Sin INSERT directo de eventos/recibos. Las operaciones elevadas, si SECURITY DEFINER, usan propietario separado sin login, search_path fijo seguro, objetos cualificados, EXECUTE revocado a PUBLIC y chequeo de argumentos/sesión/ámbito; no autorizar por GUC/variable de sesión falsificable. La identidad comercial requiere puente confiable con principal autenticado/validación de sesión, **no** un idUsuario enviado por SQL o HTTP. Diseño exacto de ese puente y privilegios del rol real es bloqueante.
+Fundamento verificado: V1 L280–290, L922–923, FK de IMPUTACION_ENTREGA_ADICIONAL a DETALLE_ENTREGA; DETALLE_ENTREGA requiere ENTREGA (L911–914). G0 REV04B §2 L97/L105 crea entrega/imputaciones en UC05, mientras §6 A3 L251 exige pedido PENDIENTE al aceptar. RD-UC07-001 §4.1 y §4.4 describe la **futura** entrega adicional. No se adelanta una entrega ni se cambia ninguna FK para forzar un trigger imposible.
 
-Los triggers de integridad bloquean además a escritores no cooperantes con DML permitido; la privación de DML evita que esos escritores eludan la operación. No se afirma resistencia contra propietario/superusuario: mantenimiento excepcional con autorización, motivo, respaldo y auditoría fuera del runtime. Ninguna cuenta de mantenimiento se usa para el servicio normal. Integridad física comercial y autenticidad humana son garantías diferentes; no se atribuye a una FK ni al hash verificación criptográfica de WhatsApp.
+### 13.2. Matriz de invariantes y garantía física propuesta
 
-## 14. Históricos y estrategia determinista — G PENDIENTE / NO RATIFICADA (C2)
+| Invariante | Mecanismo / momento | Garantía y límite |
+|---|---|---|
+| Oferta nueva con precio exacto de origen y vigente a su instante | FKs V1 intactas; fn_uc07_oferta_guard BEFORE INSERT y contexto con reloj tras locks | P contra PRECIO_PRODUCTO.precioBase NUMERIC(18,4), pertenencia EXCEDENTE→DETALLE_PEDIDO→PRODUCTO, no cancelado y [desde,hasta), importe D2-A/ajuste congelado; no “precioBaseUnitario” inexistente |
+| Contexto comercial inmutable y respuesta legítima | BEFORE UPDATE/DELETE oferta + ck_oferta_excedente_3 | No-op devuelve fila; PENDIENTE→ACEPTADA/RECHAZADA con campos coherentes; cerradas no reabren; sin revalidar vigencia actual al responder; legado según G |
+| Oferta y única V1 atómicas | UNIQUE(oferta,numeroVersion); ct_uc07_oferta_final/cotizacion_final/contexto_final diferidos | Relectura final exige exactamente V1 igual al padre; no bloquea el INSERT inicial antes de insertar V1 |
+| Versiones parciales, importe y código | CHECKs/UNIQUE existentes candidatos + cotizacion_guard | V1 total original; >=2 parciales con snapshot, no P2; sin UPDATE/DELETE ni estados comerciales nuevos |
+| Evidencia pertenece a versión/oferta y confirma sus valores | FK compuesta ratificada B; checks y evidencia_guard | Igualdad cantidad/importe/tiempo, intento serializado, bytes/MIME declarados/detectados/huella inmutables |
+| Intentos y evidencia utilizable | UNIQUE(oferta,intento), CHECK positivo, lock padre; uq_evidencia_utilizable_por_oferta | Rechazo previo/replay no consumen; INVALIDADA conserva número; como máximo una fila en la unión VERIFICADA/UTILIZADA |
+| Máquina de estados y ambos eventos O2 | BEFORE evidencia, AFTER emisor, BEFORE evento invoker y diferidos estado_evento | NULL→CAPTURADA y CAPTURADA→VERIFICADA; terminales; cadena consecutiva y último evento=estado final; fallo de auditoría revierte transición |
+| Antifalsificación de eventos | Sin INSERT de runtime/gateway, AFTER SECURITY DEFINER owner y BEFORE evento SECURITY INVOKER | Actor/motivo del canal controlado; no GUC/pg_trigger_depth como autenticación; no prueba identidad de cliente/WhatsApp ni posesión de Bearer |
+| Recibo ligado al efecto nuevo y misma transacción | Contexto privado, comando_guard y contexto_final diferido | Operación/ámbito/actor/huella/clave/recurso coinciden; JSON mínimo generado desde efecto; sin huérfanos ni reserva PENDIENTE; inmutable tras commit |
+| F6-A: aceptación/stock/costo | movimiento_guard/registro privado de transferencia, saldo guard y diferidos oferta/evidencia/movimiento/contexto | Cantidad/costo proporcionales, saldo atómico y prueba histórica inmutable; no compara saldo de una aceptación vieja con el saldo de descartes futuros |
+| F6-B: entrega/imputación | FKs y uq_imputacion_entrega_adicional_0 de V1; imputacion_guard + entrega_diferida | Receptor/producto/movimiento, cantidad parcial y orden cronológico; no doble imputación; costo/finanzas completos de UC05 no se certifican por este subgrafo |
+| Historia después de aceptar | Guardias de evidencia, movimiento, imputación, detalle, pedido, precio y producto | No se depende solo de UPDATE OF respuesta; protege relaciones y datos ya usados sin congelar toda modificación del maestro |
+| UC19 y UC48 compatibles | Guardias selectivas precio/producto | Permite cierre prospectivo que preserve fechaHoraOferta y cambio activo/nombre; no borra historia ni salta veto V1 a línea técnica inactiva |
+| Escritores no cooperantes bajo rol runtime | REVOKE DML y EXECUTE sensible; owner/gateway separados | Runtime no puede insertar eventos/recibos ni modificar historia; escritores con credencial gateway forman parte del límite confiable pendiente F8 |
+| Históricos | Preflight y registro privado certificado, o ruta NOT NULL uniforme | Ningún precio inventado ni fallback por datos; nuevos INSERT completos; rutas no elegidas en C2 |
 
-### 14.1. Antecedentes comprobados y límite
+### 13.3. Catálogo de objetos nuevos y existentes
 
-La auditoría de código Etapa B al SHA d5f7607 no encontró INSERT de OFERTA_EXCEDENTE en migraciones/fixtures; no era inspección de bases destino. El Corte 3 ensayó únicamente datos sintéticos/guardias en PostgreSQL descartable. Ninguno certifica destinos vacíos. C1 no ejecuta preflight en ninguna BD, no elige rama y no crea/ejecuta migración. V1/V2/V3 y sus checksums permanecen intactos.
+**Preexistentes, conservados:** fk_oferta_excedente_0/1/2, ck_oferta_excedente_3, EXCLUDE de precios, fk_excedente_0/1, uq_movimiento_excedente_0, ck_movimiento_excedente_0/3, uq_imputacion_entrega_adicional_0 y fk_imputacion_entrega_adicional_0/1, FKs ENTREGA/DETALLE_ENTREGA, uq_detalle_pedido_0 y ck_detalle_pedido_3. No se renumeran ni sustituyen. El nombre nuevo fk_oferta_excedente_precio no colisiona con _2 del vendedor.
 
-### 14.2. Restricciones del futuro preflight
+**Nuevos propuestos:** columnas snapshot, tablas/PK/FK/UNIQUE/CHECK de §15.1–15.5, índice parcial conjunto, schema uc07_privado con contexto_tx/transferencia/legado_oferta y los catálogos de funciones/triggers de abajo. Estos registros privados adicionales requieren revisión del alcance físico: contexto evita GUC manipulable; transferencia conserva saldo/costo anterior; legado identifica excepciones aprobadas sin dar permiso general. No estaban en V1 ni quedan autorizados.
 
-Antes de elegir política física: identificar destino/versión, inventariar filas, respuestas ya ACEPTADA/RECHAZADA y snapshots nulos; coordinar pausa de escritores incompatibles para impedir cambios entre comprobación y migración. No inventar precio por importe/cantidad ni usar P actual como histórico. Conservar estados/comercial original e historia; rechazo masivo por conveniencia migratoria queda excluido.
+**Funciones nuevas propuestas (25; 22 PL/pgSQL y 3 SQL):**
 
-**Una misma versión Flyway no debe producir esquemas distintos según datos de cada destino.** La comparación Etapa B de tabla vacía versus legado era análisis de alternativas, no autorización para IF por datos que cree NOT NULL en un destino y columnas nullable/otros triggers en otro.
+| Función pública candidata | Lenguaje / privilegio | Cuerpo |
+|---|---|---|
+| fn_uc07_contexto | plpgsql / SECURITY DEFINER | §15.6 |
+| fn_uc07_actor | plpgsql / SECURITY DEFINER | §15.6 |
+| fn_uc07_abrir_contexto | plpgsql / SECURITY DEFINER | §15.6 |
+| fn_uc07_importe | plpgsql / SECURITY INVOKER | §15.6 |
+| fn_uc07_campo | sql / SECURITY INVOKER | §15.6 |
+| fn_uc07_huella_cotizacion | sql / SECURITY INVOKER | §15.6 |
+| fn_uc07_huella_evidencia | sql / SECURITY INVOKER | §15.6 |
+| fn_uc07_oferta_guard | plpgsql / SECURITY DEFINER | §15.7 |
+| fn_uc07_cotizacion_guard | plpgsql / SECURITY DEFINER | §15.7 |
+| fn_uc07_evidencia_guard | plpgsql / SECURITY DEFINER | §15.7 |
+| fn_uc07_evento_guard | plpgsql / SECURITY INVOKER | §15.8 |
+| fn_uc07_emitir_evento | plpgsql / SECURITY DEFINER | §15.8 |
+| fn_uc07_estado_evento_final | plpgsql / SECURITY DEFINER | §15.8 |
+| fn_uc07_movimiento_guard | plpgsql / SECURITY DEFINER | §15.9 |
+| fn_uc07_registrar_transferencia | plpgsql / SECURITY DEFINER | §15.9 |
+| fn_uc07_inmutable | plpgsql / SECURITY INVOKER | §15.9 |
+| fn_uc07_excedente_guard | plpgsql / SECURITY DEFINER | §15.9 |
+| fn_uc07_validar_oferta | plpgsql / SECURITY DEFINER | §15.9 |
+| fn_uc07_oferta_diferida | plpgsql / SECURITY DEFINER | §15.9 |
+| fn_uc07_imputacion_guard | plpgsql / SECURITY DEFINER | §15.10 |
+| fn_uc07_validar_entrega | plpgsql / SECURITY DEFINER | §15.10 |
+| fn_uc07_entrega_diferida | plpgsql / SECURITY DEFINER | §15.10 |
+| fn_uc07_comando_guard | plpgsql / SECURITY DEFINER | §15.11 |
+| fn_uc07_contexto_final | plpgsql / SECURITY DEFINER | §15.11 |
+| fn_uc07_padre_guard | plpgsql / SECURITY DEFINER | §15.12 |
 
-### 14.3. Ruta candidata de tabla vacía
+**Triggers nuevos propuestos (27; 10 constraint triggers diferidos):** Todos FOR EACH ROW.
 
-Solo tras certificación y decisión C2: proponer migración **determinista** con NOT NULL para nuevas columnas, FK/guardias y precondición que aborte íntegramente si aparecen filas inesperadas. La misma migración debe dar el mismo esquema autorizado en todos los destinos donde se aplique. Fallar una precondición no autoriza continuar con otra estructura ni rellenar P ficticio; decidir tratamiento específico antes de reintentar.
+| Trigger | Tabla | Momento / evento | Función |
+|---|---|---|---|
+| tg_uc07_oferta_guard | public."OFERTA_EXCEDENTE" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_oferta_guard |
+| tg_uc07_cotizacion_guard | public."COTIZACION_OFERTA_EXCEDENTE" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_cotizacion_guard |
+| tg_uc07_evidencia_guard | public."EVIDENCIA_ACEPTACION_OFERTA" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_evidencia_guard |
+| tg_uc07_evento_guard | public."EVENTO_ESTADO_EVIDENCIA_OFERTA" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_evento_guard |
+| tg_uc07_emitir_evento | public."EVIDENCIA_ACEPTACION_OFERTA" | AFTER INSERT OR UPDATE | fn_uc07_emitir_evento |
+| ct_uc07_estado_evento | public."EVIDENCIA_ACEPTACION_OFERTA" | AFTER INSERT OR UPDATE; DEFERRABLE INITIALLY DEFERRED | fn_uc07_estado_evento_final |
+| ct_uc07_evento_estado | public."EVENTO_ESTADO_EVIDENCIA_OFERTA" | AFTER INSERT; DEFERRABLE INITIALLY DEFERRED | fn_uc07_estado_evento_final |
+| tg_uc07_movimiento_guard | public."MOVIMIENTO_EXCEDENTE" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_movimiento_guard |
+| tg_uc07_registrar_transferencia | public."MOVIMIENTO_EXCEDENTE" | AFTER INSERT | fn_uc07_registrar_transferencia |
+| tg_uc07_transferencia_inmutable | uc07_privado.transferencia | BEFORE UPDATE OR DELETE | fn_uc07_inmutable |
+| tg_uc07_excedente_guard | public."EXCEDENTE" | BEFORE UPDATE OR DELETE | fn_uc07_excedente_guard |
+| ct_uc07_oferta_final | public."OFERTA_EXCEDENTE" | AFTER INSERT OR UPDATE; DEFERRABLE INITIALLY DEFERRED | fn_uc07_oferta_diferida |
+| ct_uc07_cotizacion_final | public."COTIZACION_OFERTA_EXCEDENTE" | AFTER INSERT; DEFERRABLE INITIALLY DEFERRED | fn_uc07_oferta_diferida |
+| ct_uc07_evidencia_aceptacion | public."EVIDENCIA_ACEPTACION_OFERTA" | AFTER INSERT OR UPDATE; DEFERRABLE INITIALLY DEFERRED | fn_uc07_oferta_diferida |
+| ct_uc07_movimiento_aceptacion | public."MOVIMIENTO_EXCEDENTE" | AFTER INSERT; DEFERRABLE INITIALLY DEFERRED | fn_uc07_oferta_diferida |
+| tg_uc07_imputacion_guard | public."IMPUTACION_ENTREGA_ADICIONAL" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_imputacion_guard |
+| ct_uc07_imputacion_final | public."IMPUTACION_ENTREGA_ADICIONAL" | AFTER INSERT; DEFERRABLE INITIALLY DEFERRED | fn_uc07_entrega_diferida |
+| ct_uc07_detalle_entrega_final | public."DETALLE_ENTREGA" | AFTER INSERT OR UPDATE OR DELETE; DEFERRABLE INITIALLY DEFERRED | fn_uc07_entrega_diferida |
+| ct_uc07_entrega_final | public."ENTREGA" | AFTER INSERT OR UPDATE OR DELETE; DEFERRABLE INITIALLY DEFERRED | fn_uc07_entrega_diferida |
+| tg_uc07_comando_guard | public."COMANDO_AUXILIAR_UC07" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_comando_guard |
+| ct_uc07_contexto_final | uc07_privado.contexto_tx | AFTER INSERT; DEFERRABLE INITIALLY DEFERRED | fn_uc07_contexto_final |
+| tg_uc07_precio_padre | public."PRECIO_PRODUCTO" | BEFORE UPDATE OR DELETE | fn_uc07_padre_guard |
+| tg_uc07_pedido_padre | public."PEDIDO" | BEFORE UPDATE OR DELETE | fn_uc07_padre_guard |
+| tg_uc07_detalle_padre | public."DETALLE_PEDIDO" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_padre_guard |
+| tg_uc07_producto_padre | public."PRODUCTO" | BEFORE UPDATE OR DELETE | fn_uc07_padre_guard |
+| tg_uc07_entrega_guard | public."ENTREGA" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_padre_guard |
+| tg_uc07_detalle_entrega_guard | public."DETALLE_ENTREGA" | BEFORE INSERT OR UPDATE OR DELETE | fn_uc07_padre_guard |
 
-### 14.4. Si existen históricos: detener ruta y decidir tratamiento
+### 13.4. Secuencias, dependencias y estados intermedios
 
-Cualquier legado o incertidumbre detiene la ruta vacía. Someter a decisión C2 un tratamiento específico con fuentes inequívocas, preservación de ofertas ACEPTADA/RECHAZADA, regularización/auditoría y política de respuesta de pendientes sin bloquear UPDATE histórico legítimo. No ejecutar tal decisión en C1.
+Orden de definición: roles → ruta snapshot aprobada → cotización/UNIQUE → evidencia/FK → eventos/identidad → comandos → esquema privado/tablas → helpers/contexto/aritmética → guardias/emisor → validadores F6-A/F6-B → constraint triggers diferidos → ownership/ACL → pruebas C3. Las escrituras permanecen pausadas hasta completar todas las dependencias. El bloque de ACL contiene una parte de provisión previa y otra posterior; no se ejecuta linealmente antes de sus tablas.
 
-CHECK(... NOT VALID) omite escaneo inicial pero se evalúa en todo INSERT/UPDATE posterior: un CHECK global que exija snapshot no nulo puede bloquear el cierre de una fila antigua. Este defecto se reprodujo en Corte 3; no usar NOT VALID como solución retroactiva. El CHECK del par completo/ausente de §15 no exige presencia en filas nuevas.
+Parte A inserta oferta y V1, y el constraint diferido exige ambas al commit. O2 valida previamente contenido en Java, abre contexto, invalida la VERIFICADA anterior cuando corresponde, inserta CAPTURADA (evento inicial), transiciona a VERIFICADA (segundo evento) y confirma efecto/recibo juntos. El índice conjunto obliga a invalidar anterior antes de verificar la nueva; fallo restaura todo. No se pospone sustitución hasta Parte B.
 
-La solución estudiada en Etapa B (BEFORE INSERT estricto, BEFORE UPDATE diferenciado para OLD legado y prohibición de fabricar procedencia) queda como **alternativa técnica pendiente**, no ruta adoptada. Requiere identificar legado de forma protegida, impedir oferta nueva incompleta y conservar cierres legítimos sin reasignar un precio inventado. Aceptación de legado sin prueba histórica sigue bloqueada hasta política aprobada; no declarar autorizado aceptar, rechazar o alterar registros por este texto. Si se elige un esquema con legado, deberá definirse explícitamente su esquema objetivo uniforme, versiones y rollout, sin ramas divergentes dentro de una misma migración Flyway.
+Parte B puede crear/reutilizar DETALLE_PEDIDO técnico, escribir movimiento/descontar saldo, pasar evidencia a UTILIZADA y actualizar respuesta en el orden que satisfaga FKs y locks; los diferidos verifican estado final releyendo relaciones. No se inventa DETALLE_ENTREGA en ese flujo. UC05 crea ENTREGA antes de DETALLE_ENTREGA y luego IMPUTACION_ENTREGA_ADICIONAL, conforme FKs inmediatas V1; el control final permite varias sentencias válidas sin exigir estados finales prematuros.
 
-### 14.5. Preparación de recuperación y dependencias C2
+El candidato limita un contexto comercial por transacción (una oferta/comando o un descarte; UC05 admite sus múltiples imputaciones). Batch comercial distinto necesita protocolo explícito posterior, sin reutilizar contexto/actor para otros ámbitos. Los generadores BIGINT de otros escritores y el namespace candidato 70702 de comando no están ratificados: inventario/reserva y pruebas corresponden a H/C3. El candidato no genera IDs MAX+1 sin coordinación.
 
-Inventario/decisión de tratamiento → esquema objetivo uniforme y precondiciones → dependencias ordenadas snapshot/raíces, cotizaciones/UNIQUE compuesta, evidencias, eventos y recibos → funciones/privilegios definitivos de C2 → pruebas descartables/backup/restore → autorización de implementación y activación correspondiente. Funciones que consultan tablas nuevas se instalan después de sus dependencias; no reabrir escritor incompatible en una ventana sin protección.
+### 13.5. Comportamiento histórico y mantenimiento
 
-Medir conteos, huellas, nulos/referencias, locks, duración y espacio. No editar checksums, reaplicar a ciegas ni borrar evidencia al retroceder código. Diseño de restauración/forward-fix y tratamiento de escrituras posteriores requieren aprobación. Sin preflight ni elección de rama en C1; Issue #28 sigue OPEN/PAUSADO.
+UPDATE oferta sin cambio real no altera historia ni respuesta. Si ya está ACEPTADA/RECHAZADA, cualquier cambio real se rechaza; no se reabre. Condiciones comerciales originales quedan inmutables, pero la respuesta puede evolucionar legítimamente desde PENDIENTE, conservando ck_oferta_excedente_3. La legitimidad del precio se valida al crear y se preserva con guardias de procedencia; no se exige que siga vigente hoy.
+
+No hay excepción cotidiana de DELETE para un rol amplio. Owner/migrador separado puede hacer mantenimiento excepcional con autorización, motivo, respaldo y auditoría; no se promete resistencia contra propietario/superusuario. Retención/anonimización de D/E y de los nuevos registros privados requiere plan aprobado sin reciclar claves o destruir prueba de aceptación.
+
+### 13.6. F8 — confianza Java/SQL y bloqueo explícito
+
+| Canal / rol candidato | Acceso propuesto | Identidad realmente garantizada |
+|---|---|---|
+| uc07_runtime | Sin DML/EXECUTE UC07 sensible; solo proyecciones BC07 aprobadas aparte | No puede forjar contexto, eventos o recibos mediante SQL directo |
+| uc07_gateway | Pool privilegiado solo del módulo autorizado; EXECUTE abrir_contexto y DML acotado con triggers | DB valida sesión declarada vigente/rol y ámbito estructural; **no valida posesión del Bearer** |
+| uc07_owner | NOLOGIN; owner de funciones/nuevas tablas; sin membresía operativa | Emisor técnico de eventos y guardias; no identidad humana |
+| Migrador/administrador | Provisionamiento/mantenimiento separado y auditado | Fuera del adversario operativo; nunca credencial diaria del servicio |
+
+**Bloqueo de autorización F8:** la aplicación actual no tiene esta separación de pools/roles configurada por estas CR. El actor obtenido por idSesion sigue siendo una **afirmación del gateway tras autenticar Bearer en Spring**, no prueba criptográfica de PostgreSQL. Un escritor que posea esa misma credencial gateway y otra sesión válida podría atribuirse el actor; no se oculta este límite. Comprobar vigencia/rol SQL no equivale a autenticar token, y ningún idUsuario/GUC resuelve el puente.
+
+Alternativas para decisión: (a) gateway Java confiable aislado, runtime sin credencial ni DML, auditoría de acceso y aceptación expresa de ese límite —preferencia compatible con el monolito actual—; (b) SQL verifica Bearer o capacidad firmada con protocolo seguro y pruebas de revocación/ámbito —mayor alcance, no implementado—; (c) roles SQL por principal —implica otra estrategia de pool/identidad—. Deben decidirse custodia de credenciales, ACL efectivas y autorización por objeto antes de autorizar F. No se concede automáticamente un permiso por ser ADMIN ni se declara probado el aislamiento de JVM/pools.
+
+Java conserva: autenticación Bearer, ámbito comercial, prevalidación E (decodificación/recursos), exactitud de entrada antes de typmod, DTO/no-store y reautorización en replay. PostgreSQL propone: relaciones, snapshot consistente, inmutabilidad, cadena causal, hash físico, cantidades/importes persistidos, unicidad y atomicidad final. C3 debe demostrar la frontera con conexiones de roles reales, sin asumir que el usuario propietario de laboratorio representa al runtime.
+
+
+## 14. G — preflight real y migración determinista candidata
+
+**G ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA.** C2 no ejecuta preflight de destinos ni elige ruta. V1–V3 al SHA app 4dbe386 no contienen idPrecio/precioBaseUnitarioAplicado en OFERTA_EXCEDENTE. Su ausencia se distingue de una fila con snapshot NULL: no puede consultarse una columna inexistente.
+
+### 14.1. Fase administrativa, solo con autorización del destino
+
+Registrar entorno/base, servidor, fecha, esquema efectivo, versión/checksums Flyway, extensiones, propietarios/ACL, escritores, respaldo y restauración. El ejemplo usa public según las fuentes examinadas; otro esquema exige adaptar y revisar explícitamente todas las referencias.
+
+**CONSULTAS CANDIDATAS DE SOLO LECTURA — NO EJECUTADAS EN C2.** Antes de ejecutarlas en un destino persistente se requiere autorización administrativa específica.
+
+~~~sql
+BEGIN TRANSACTION READ ONLY;
+SELECT current_database(),current_schema(),version(),clock_timestamp();
+SELECT to_regclass('public."OFERTA_EXCEDENTE"') AS oferta,
+       to_regclass('public.flyway_schema_history') AS historial_flyway,
+       to_regprocedure('pg_catalog.sha256(bytea)') AS sha256_integrada;
+SELECT column_name,data_type,is_nullable,numeric_precision,numeric_scale
+FROM information_schema.columns
+WHERE table_schema='public' AND table_name='OFERTA_EXCEDENTE'
+ORDER BY ordinal_position;
+-- Continuar solo si existe la tabla esperada; no crearla desde el preflight.
+SELECT count(*) AS total FROM public."OFERTA_EXCEDENTE";
+SELECT "respuesta",count(*) AS total FROM public."OFERTA_EXCEDENTE"
+GROUP BY "respuesta" ORDER BY "respuesta";
+SELECT count(*) AS referencias_incompletas
+FROM public."OFERTA_EXCEDENTE" o
+LEFT JOIN public."EXCEDENTE" x ON x."idExcedente"=o."idExcedente"
+LEFT JOIN public."PEDIDO" p ON p."idPedido"=o."idPedidoReceptor"
+LEFT JOIN public."USUARIO" u ON u."idUsuario"=o."idUsuarioVendedor"
+WHERE x."idExcedente" IS NULL OR p."idPedido" IS NULL OR u."idUsuario" IS NULL;
+SELECT conname,convalidated,pg_get_constraintdef(oid)
+FROM pg_constraint WHERE conrelid='public."OFERTA_EXCEDENTE"'::regclass
+ORDER BY conname;
+DO $inventario$
+DECLARE n integer; vacios bigint; filas record;
+BEGIN
+  IF to_regclass('public.flyway_schema_history') IS NULL THEN
+    RAISE EXCEPTION 'Falta historial Flyway esperado';
+  END IF;
+  FOR filas IN EXECUTE
+    'SELECT version,description,checksum,success FROM public.flyway_schema_history ORDER BY installed_rank'
+  LOOP RAISE NOTICE 'Flyway: %',row_to_json(filas); END LOOP;
+  SELECT count(*) INTO n FROM information_schema.columns
+    WHERE table_schema='public' AND table_name='OFERTA_EXCEDENTE'
+      AND column_name IN ('idPrecio','precioBaseUnitarioAplicado');
+  IF n=0 THEN
+    RAISE NOTICE 'Esquema V1-V3: columnas snapshot AUSENTES; no consultar sus nulos';
+  ELSIF n=2 THEN
+    EXECUTE 'SELECT count(*) FROM public."OFERTA_EXCEDENTE"
+      WHERE "idPrecio" IS NULL OR "precioBaseUnitarioAplicado" IS NULL' INTO vacios;
+    RAISE NOTICE 'Extension encontrada; verificar su autorizacion y tipos. Filas sin snapshot: %',vacios;
+  ELSE
+    RAISE EXCEPTION 'Extension parcial inesperada: detener y revisar';
+  END IF;
+END;
+$inventario$;
+COMMIT;
+~~~
+
+Encontrar dos columnas no prueba que la extensión esté autorizada: cotejar migración/CR/versión y sus tipos/FKs antes de aceptarla. El conteo de nulos se usa solo tras comprobar existencia; no se incluye en el SELECT inicial de V1–V3. Los conteos de Git/fixtures no certifican un destino vacío. Registrar los resultados y recomendar una ruta; no seleccionarla por IF que altere el esquema final.
+
+### 14.2. Fase posterior: ruta vacía determinista con exclusión de escritores
+
+**EJEMPLO DE MIGRACIÓN CANDIDATA — NO AUTORIZADA — NO EJECUTAR EN BASES PERSISTENTES.** Este bloque sustituiría §15.1, no se concatena con su alternativa nullable. Solo tras certificar vacío y autorizar esa ruta; no reservar V4. Flyway/PostgreSQL debe mantener estas sentencias en una única transacción (executeInTransaction=true), sin COMMIT intermedio.
+
+~~~sql
+LOCK TABLE public."OFERTA_EXCEDENTE" IN ACCESS EXCLUSIVE MODE;
+DO $vacia$
+BEGIN
+  IF EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE") THEN
+    RAISE EXCEPTION 'Precondicion vacia incumplida: abortar, no cambiar de ruta';
+  END IF;
+END;
+$vacia$;
+ALTER TABLE public."OFERTA_EXCEDENTE"
+  ADD COLUMN "idPrecio" bigint NOT NULL,
+  ADD COLUMN "precioBaseUnitarioAplicado" numeric(18,4) NOT NULL,
+  ADD CONSTRAINT fk_oferta_excedente_precio
+    FOREIGN KEY ("idPrecio") REFERENCES public."PRECIO_PRODUCTO" ("idPrecio")
+    ON UPDATE RESTRICT ON DELETE RESTRICT,
+  ADD CONSTRAINT ck_oferta_snapshot_positivo CHECK ("precioBaseUnitarioAplicado">0);
+~~~
+
+ACCESS EXCLUSIVE se adquiere **antes** de la aserción y se conserva durante ALTER/instalación hasta commit; impide INSERT entre conteo y cambio. Puede bloquear lecturas y escritores: no se promete cero downtime. Si aparecen filas, conflicto de nombres o esquema extendido inesperado, rollback completo y decisión administrativa; no fallback automático a nullable. Se preservan ck_oferta_excedente_3 y fk_oferta_excedente_0/1/2; la nueva FK no reutiliza _2.
+
+### 14.3. Históricos: detener la ruta vacía y decidir tratamiento específico
+
+No fabricar precio/idPrecio por división ni por precio actual; no alterar ofertas ACEPTADA/RECHAZADA ni rechazar masivamente pendientes. Preservar relaciones, movimientos e importes legítimos. La política y fuentes para regularización/aceptación histórica requieren aprobación del responsable.
+
+**Alternativa uniforme, NO elegida:** columnas nullable en todos los destinos de esa versión, par completo/ausente y FK/positivo de §15.1; registro protegido uc07_privado.legado_oferta cargado solo por el migrador desde inventario aprobado. La lista certifica IDs y contexto original tras agregar columnas; no se llena automáticamente con “cualquier NULL” que aparezca. Runtime/gateway no pueden añadir o modificar marcas. El mismo esquema objetivo y los mismos guards se aplican a todos los destinos: solo difieren las filas del inventario autorizado, no el DDL de una versión Flyway.
+
+Las guardias F rechazan nuevos INSERT sin snapshot; solo legado certificado puede conservar ambos NULL. UPDATE no-op no cambia historia; pendientes certificados pueden cerrarse por rechazo legítimo según política, sin exigir retroactivamente idPrecio; aceptación sin procedencia demostrada sigue bloqueada. Ofertas ya cerradas no se reabren/reinterpretan para generar evidencia retroactiva. Los chequeos diferidos nuevos no obligan a reconstruir V1/evidencia inexistentes del legado certificado; tampoco convierten esa excepción en habilitación de nuevas ofertas incompletas. UC05 legado, en especial entrega parcial sin P, necesita política comercial explícita antes de habilitar ese caso.
+
+CHECK NOT VALID omite el escaneo inicial pero valida cada INSERT/UPDATE posterior: no se usa un CHECK no nulo global que bloquee el cierre legítimo de filas antiguas. Una regularización debe conservar fuentes, aprobación y auditoría, sin actualizar silenciosamente snapshot inmutable. Las rutas vacía y legado requieren planes/versiones aprobados y coherentes; una misma migración no produce esquemas distintos según la presencia de datos.
+
+### 14.4. Dependencias, rollout, disponibilidad y recuperación
+
+1. Inventario real y política aprobada, verificación de nombres/funciones/ACL/extensiones.
+2. Pausa coordinada de escritores incompatibles; bloqueo de tabla en la migración elegida.
+3. Snapshot de oferta y protecciones iniciales, preservando V1/V2/V3.
+4. Cotizaciones y UNIQUE(oferta,idCotizacion)/versión.
+5. Evidencias, FK compuesta e índice único parcial conjunto.
+6. Eventos/identidad y control causal.
+7. Comandos/recibos; esquema privado, contexto y prueba histórica de transferencia.
+8. Guardias y constraint triggers diferidos sobre oferta, evidencia, movimientos, entrega e imputación.
+9. Owner/roles/grants mínimos; sin ventana operativa con funciones PUBLIC ni triggers desactivados.
+10. Compilación y pruebas descartables PostgreSQL 17.11/Testcontainers, incluyendo cuerpos F e intercalados H.
+11. Backup/restore y forward-fix ensayados, conteos/huellas/referencias y medición de locks/espacio/duración.
+12. Autorización posterior de integración y, separadamente, despliegue.
+
+Los roles se provisionan antes de funciones SECURITY DEFINER; no reabrir escritores hasta instalar dependencias, validaciones diferidas y ACL. Las funciones que consultan tablas nuevas se crean después de ellas; §15.6–15.13 se instalan con escritura pausada. Rollback de código no borra evidencia; no editar checksums ni reaplicar migraciones a ciegas. El plan debe evaluar pérdida de escrituras posteriores ante restauración. C2 no elige ruta, no consulta bases destino, no crea migración ni levanta Issue #28.
+
 
 ## 15. DDL candidato consolidado y decisiones abiertas
 
-**PROPUESTA DOCUMENTAL — NO EJECUTAR.** Fragmentos en este Markdown exclusivamente: no archivo SQL ejecutable, no migración lista para aplicar, sin cuerpos de triggers. Contienen tipos/identidad y FK compuesta RATIFICADOS por B, intento RATIFICADO C y resto de mecanismos/documentación candidata; no autorizan migración ni reglas D/E/F/G/H. UUID de servidor sin algoritmo único impuesto; idEvento BIGINT mediante identidad PostgreSQL ratificada. El conjunto no cierra guards cruzados y privilegios descritos en §§4–13; tampoco es afirmación de compilación en PostgreSQL.
+**PROPUESTA SQL — NO ES MIGRACIÓN AUTORIZADA — NO EJECUTAR EN BASES PERSISTENTES.** Solo bloques Markdown: §15.1–15.5 estructuras candidatas y §15.6–15.13 cuerpos de funciones, triggers, controles diferidos y ACL. **REVISADO ESTÁTICAMENTE / COMPILACIÓN Y COMPORTAMIENTO NO PROBADOS.** Tipos/FK B e intento C ratificados no autorizan D/E/F/G/H ni esta migración. El orden administrativo de roles y dependencias se explica en §13.4/§14.4; alternativas §14/§15.1 no se ejecutan juntas. F8 y revisión C3 siguen bloqueando la autorización integral.
 
 ### 15.1. Extensión de oferta, compatible con auditoría de históricos
 
 ```sql
 -- PROPUESTA DOCUMENTAL. NO EJECUTAR.
--- Antecedente Etapa B nullable para analizar legado: NO es ruta elegida en C1.
--- C2 debe definir esquema uniforme/precondiciones; sin IF por datos que cambie el esquema.
+-- Alternativa uniforme nullable para legado: NO elegida en C1 ni C2.
+-- La ruta vacía NOT NULL de §14.2 sustituye este bloque; nunca aplicar ambas.
 ALTER TABLE "OFERTA_EXCEDENTE"
   ADD COLUMN "precioBaseUnitarioAplicado" NUMERIC(18,4),
   ADD COLUMN "idPrecio" BIGINT;
@@ -504,7 +708,7 @@ ALTER TABLE "OFERTA_EXCEDENTE"
     CHECK ("precioBaseUnitarioAplicado" > 0);
 ```
 
-No cambiar fk_oferta_excedente_2 ni ck_oferta_excedente_3. NULL histórico no habilita nuevas ofertas sin snapshot: §14 define BEFORE INSERT obligatorio y BEFORE UPDATE diferenciado o NOT NULL bajo tabla vacía certificada; cuerpos y autorización pendientes. Este fragmento nullable es antecedente de análisis de legado; no habilitarlo ni elegir rama en C1. C2 deberá definir esquema uniforme/precondiciones y guardias, sin divergencia de una misma migración por destino.
+No cambiar fk_oferta_excedente_2 ni ck_oferta_excedente_3. NULL histórico no habilita INSERT incompleto: §15.7 exige snapshot nuevo, permite solo rechazo legítimo/no-op de legado certificado y bloquea aceptación sin procedencia. §14 distingue las rutas uniformes nullable/NOT NULL y sus precondiciones; ninguna se elige ni autoriza en C2. No emplear CHECK NOT VALID global no nulo ni IF por datos que cambie el esquema.
 
 ### 15.2. Cotizaciones candidatas, sin columna de estado
 
@@ -663,7 +867,1156 @@ CREATE TABLE "COMANDO_AUXILIAR_UC07" (
 );
 ```
 
-Tipo UUID de idComandoAuxiliar está RATIFICADO B; resto de D es ESPECIFICADO PARA RATIFICACIÓN. Clave antes TEXT pasa a VARCHAR(128) COLLATE "C" y CHECK ASCII de §10, preservando igualdad exacta de clave en UNIQUE; HTTP y función SQL validan original antes de cast/truncamiento. respuestaOriginal JSONB NOT NULL es nombre único, sin reciboOriginalJson. Validar esquema mínimo y vínculo/recibo con efecto: JSONB objeto no basta ni admite datos sensibles. Sin TTL/purga online ni PENDIENTE confirmado en MVP candidato. Canonización UTF-8, retención y errores exactos en §10; funciones/privilegios definitivos quedan en C2, sin ejecutar este fragmento.
+Tipo UUID de idComandoAuxiliar está RATIFICADO B; resto de D es ESPECIFICADO PARA RATIFICACIÓN. Clave antes TEXT pasa a VARCHAR(128) COLLATE "C" y CHECK ASCII de §10, preservando igualdad exacta de clave en UNIQUE; HTTP y función SQL validan original antes de cast/truncamiento. respuestaOriginal JSONB NOT NULL es nombre único, sin reciboOriginalJson. Validar esquema mínimo y vínculo/recibo con efecto: JSONB objeto no basta ni admite datos sensibles. Sin TTL/purga online ni PENDIENTE confirmado en MVP candidato. Canonización UTF-8, retención y errores exactos en §10; cuerpos y ACL candidatos en §15.6–15.13, sin ejecutar este fragmento ni ratificar D.
+
+### 15.6. Dependencias privadas, contexto y aritmética candidatos
+
+**PROPUESTA SQL — NO ES MIGRACIÓN AUTORIZADA — NO EJECUTAR EN BASES PERSISTENTES. REVISADO ESTÁTICAMENTE / COMPILACIÓN Y COMPORTAMIENTO NO PROBADOS.**
+
+Los roles se provisionan antes según §13.6; los objetos de §15.2–15.5 y las columnas snapshot deben existir. El esquema privado y los tres registros siguientes son **objetos nuevos propuestos**, no columnas de V1. Justificación: contexto no falsificable por el runtime y prueba histórica del saldo/costo al transferir; sin ellos no se confunde un saldo posterior con el de una aceptación anterior. Ninguna ruta G se elige en C2.
+
+~~~sql
+CREATE SCHEMA uc07_privado AUTHORIZATION uc07_owner;
+
+CREATE TABLE uc07_privado.contexto_tx (
+  xid xid8 PRIMARY KEY, pid integer NOT NULL,
+  sesion uuid NOT NULL, actor bigint NOT NULL, operacion text NOT NULL,
+  oferta bigint, pedido bigint, excedente bigint, comando uuid,
+  clave varchar(128) COLLATE "C", huella char(64),
+  instante timestamptz NOT NULL,
+  cantidad_antes numeric(18,3), costo_antes numeric(18,4),
+  cotizacion_nueva uuid, evidencia_nueva uuid, movimiento_nuevo bigint,
+  replay boolean NOT NULL
+);
+CREATE TABLE uc07_privado.transferencia (
+  "idMovimientoExcedente" bigint PRIMARY KEY
+    REFERENCES public."MOVIMIENTO_EXCEDENTE" ("idMovimientoExcedente")
+    ON UPDATE RESTRICT ON DELETE RESTRICT,
+  xid xid8 NOT NULL,
+  cantidad_antes numeric(18,3) NOT NULL,
+  costo_antes numeric(18,4) NOT NULL,
+  cantidad_despues numeric(18,3) NOT NULL,
+  costo_despues numeric(18,4) NOT NULL,
+  CHECK (cantidad_antes>0 AND cantidad_despues>=0 AND costo_antes>=0 AND costo_despues>=0)
+);
+CREATE TABLE uc07_privado.legado_oferta (
+  "idOfertaExcedente" bigint PRIMARY KEY
+    REFERENCES public."OFERTA_EXCEDENTE" ("idOfertaExcedente")
+    ON UPDATE RESTRICT ON DELETE RESTRICT,
+  fila_certificada jsonb NOT NULL, referencia_preflight text NOT NULL
+);
+-- legado_oferta queda vacío en la ruta vacía; solo el migrador puede
+-- cargarlo en una ruta de legado aprobada. No es una excepción por GUC/rol.
+-- contexto_tx no guarda Bearer ni contenido; retención/depuración administrativa
+-- separada y pendiente, sin cambiar la retención D de recibos.
+
+CREATE FUNCTION public.fn_uc07_contexto(p_escritura boolean DEFAULT true)
+RETURNS uc07_privado.contexto_tx LANGUAGE plpgsql SECURITY DEFINER
+SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx;
+BEGIN
+  SELECT * INTO c FROM uc07_privado.contexto_tx
+    WHERE xid=pg_current_xact_id() AND pid=pg_backend_pid();
+  IF NOT FOUND OR (p_escritura AND c.replay) THEN
+    RAISE EXCEPTION 'Contexto UC07 ausente o de solo replay' USING ERRCODE='42501';
+  END IF;
+  RETURN c;
+END;
+$fn$;
+
+CREATE FUNCTION public.fn_uc07_actor(p_sesion uuid,p_op text)
+RETURNS bigint LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE a bigint; rol text;
+BEGIN
+  rol:=CASE p_op WHEN 'UC05' THEN 'REPARTIDOR'
+                WHEN 'UC41' THEN 'RESPONSABLE_PRODUCCION'
+                ELSE 'VENDEDOR' END;
+  SELECT u."idUsuario" INTO a
+    FROM public."SESION_USUARIO" s JOIN public."USUARIO" u USING ("idUsuario")
+    JOIN public."USUARIO_ROL" r USING ("idUsuario")
+    WHERE s."idSesionUsuario"=p_sesion
+      AND s."fechaHoraInicio"<=clock_timestamp()
+      AND s."fechaHoraExpiracion">clock_timestamp()
+      AND s."fechaHoraInicio"+interval '8 hours'>clock_timestamp()
+      AND s."fechaHoraRevocacion" IS NULL
+      AND u."estado"='HABILITADO' AND NOT u."cambioCredencialPendiente"
+      AND r."codigoRol"=rol;
+  IF NOT FOUND THEN RAISE EXCEPTION 'Sesion o rol no vigente' USING ERRCODE='42501'; END IF;
+  RETURN a;
+END;
+$fn$;
+-- Esta función valida vigencia/rol de una SESION, NO la posesión del Bearer.
+-- F8 deja ese control en Spring y bloquea atribuirle autenticación SQL autónoma.
+
+CREATE FUNCTION public.fn_uc07_abrir_contexto(
+  p_sesion uuid,p_op text,p_oferta bigint,p_pedido bigint,p_excedente bigint,
+  p_comando uuid DEFAULT NULL,p_clave text DEFAULT NULL,p_huella text DEFAULT NULL
+) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE a bigint; receptor bigint; ex bigint; origen bigint; producto bigint;
+        q numeric; costo numeric; ids bigint[]; anterior public."COMANDO_AUXILIAR_UC07"%ROWTYPE;
+        op_aux text; es_replay boolean:=false; o public."OFERTA_EXCEDENTE"%ROWTYPE;
+BEGIN
+  IF session_user<>'uc07_gateway' THEN
+    RAISE EXCEPTION 'Canal SQL no autorizado' USING ERRCODE='42501';
+  END IF;
+  IF p_op NOT IN ('PARTE_A','O1','O2','PARTE_B','RECHAZO','UC05','UC41') THEN
+    RAISE EXCEPTION 'Operacion no admitida' USING ERRCODE='22023';
+  END IF;
+  a:=public.fn_uc07_actor(p_sesion,p_op);
+  IF p_op IN ('O1','O2') THEN
+    IF p_comando IS NULL OR p_clave IS NULL
+       OR p_clave COLLATE "C" !~ '^[!-~]{1,128}$'
+       OR p_huella IS NULL OR p_huella !~ '^[0-9a-f]{64}$' THEN
+      RAISE EXCEPTION 'Identidad de comando invalida' USING ERRCODE='22023';
+    END IF;
+    op_aux:=CASE p_op WHEN 'O1' THEN 'EMITIR_COTIZACION' ELSE 'REGISTRAR_EVIDENCIA' END;
+    -- Namespace 70702 candidato NUEVO, pendiente inventario/ratificación H.
+    -- hashtext solo coordina; UNIQUE y comparación completa deciden identidad.
+    PERFORM pg_advisory_xact_lock(70702,
+      hashtext(jsonb_build_array(op_aux,p_oferta,a,p_clave)::text));
+    SELECT * INTO anterior FROM public."COMANDO_AUXILIAR_UC07"
+      WHERE "operacion"=op_aux AND "idOfertaExcedente"=p_oferta
+        AND "idUsuarioVendedor"=a AND "claveIdempotencia"=p_clave;
+    IF FOUND THEN
+      IF anterior."huellaSolicitud" IS DISTINCT FROM p_huella THEN
+        RAISE EXCEPTION 'Payload distinto para clave existente' USING ERRCODE='23505';
+      END IF;
+      es_replay:=true;
+    END IF;
+  END IF;
+  IF p_op IN ('O1','O2','PARTE_B','RECHAZO') THEN
+    SELECT * INTO STRICT o FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=p_oferta;
+    receptor:=o."idPedidoReceptor"; ex:=o."idExcedente";
+  ELSE receptor:=p_pedido; ex:=p_excedente;
+  END IF;
+  IF p_op='PARTE_A' AND (p_oferta IS NULL OR p_oferta<=0) THEN
+    RAISE EXCEPTION 'Identificador de oferta no preparado' USING ERRCODE='22023';
+  END IF;
+  IF ex IS NOT NULL AND p_op IN ('PARTE_A','PARTE_B') THEN
+    SELECT e."idPedidoOrigen",d."idProducto" INTO STRICT origen,producto
+      FROM public."EXCEDENTE" e JOIN public."DETALLE_PEDIDO" d
+      ON (d."idPedido",d."numeroDetalle")=(e."idPedidoOrigen",e."numeroDetalleOrigen")
+      WHERE e."idExcedente"=ex;
+  END IF;
+  ids:=ARRAY(SELECT DISTINCT v FROM unnest(ARRAY[receptor,origen]) t(v)
+             WHERE v IS NOT NULL ORDER BY v);
+  -- Candidato de subgrafo, NO prueba de ausencia de deadlocks.
+  PERFORM 1 FROM public."CLIENTE" c
+    WHERE c."idCliente" IN (SELECT p."idCliente" FROM public."PEDIDO" p WHERE p."idPedido"=ANY(ids))
+    ORDER BY c."idCliente" FOR UPDATE;
+  PERFORM 1 FROM public."PEDIDO" p WHERE p."idPedido"=ANY(ids) ORDER BY p."idPedido" FOR UPDATE;
+  IF p_op IN ('PARTE_A','PARTE_B','UC05') THEN
+    PERFORM 1 FROM public."DETALLE_PEDIDO" d WHERE d."idPedido"=ANY(ids)
+      ORDER BY d."idPedido",d."numeroDetalle" FOR UPDATE;
+  END IF;
+  IF ex IS NOT NULL AND p_op IN ('PARTE_A','PARTE_B','UC41') THEN
+    SELECT "cantidadDisponible","costoHistoricoDisponible" INTO STRICT q,costo
+      FROM public."EXCEDENTE" WHERE "idExcedente"=ex FOR UPDATE;
+  END IF;
+  IF p_op='PARTE_A' OR (p_op='PARTE_B' AND NOT EXISTS(
+      SELECT 1 FROM public."DETALLE_PEDIDO" WHERE "idPedido"=receptor AND "idProducto"=producto)) THEN
+    PERFORM 1 FROM public."PRODUCTO" WHERE "idProducto"=producto FOR SHARE;
+  END IF;
+  IF p_op='PARTE_A' THEN
+    PERFORM 1 FROM public."PRECIO_PRODUCTO"
+      WHERE "idProducto"=producto AND "fechaHoraCancelacion" IS NULL
+      ORDER BY "vigenteDesde","idPrecio" FOR SHARE;
+  END IF;
+  IF p_op IN ('O1','O2','PARTE_B','RECHAZO') THEN
+    PERFORM 1 FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=p_oferta FOR UPDATE;
+    IF NOT EXISTS (SELECT 1 FROM public."OFERTA_EXCEDENTE"
+       WHERE "idOfertaExcedente"=p_oferta AND "idPedidoReceptor"=receptor AND "idExcedente"=ex) THEN
+      RAISE EXCEPTION 'Raices cambiaron; replanificar transaccion' USING ERRCODE='40001';
+    END IF;
+  END IF;
+  IF NOT es_replay AND p_op IN ('PARTE_A','O1','O2','PARTE_B','UC05')
+     AND NOT EXISTS(SELECT 1 FROM public."PEDIDO" WHERE "idPedido"=receptor AND "estado"='PENDIENTE') THEN
+    RAISE EXCEPTION 'Pedido no pendiente al abrir operacion' USING ERRCODE='23514';
+  END IF;
+  IF a IS DISTINCT FROM public.fn_uc07_actor(p_sesion,p_op) THEN
+    RAISE EXCEPTION 'Autorizacion cambio tras espera' USING ERRCODE='42501';
+  END IF;
+  INSERT INTO uc07_privado.contexto_tx
+    (xid,pid,sesion,actor,operacion,oferta,pedido,excedente,comando,clave,huella,
+     instante,cantidad_antes,costo_antes,replay)
+    VALUES(pg_current_xact_id(),pg_backend_pid(),p_sesion,a,p_op,p_oferta,receptor,ex,
+      p_comando,p_clave,p_huella,clock_timestamp(),q,costo,es_replay);
+  RETURN es_replay;
+END;
+$fn$;
+-- Generadores BIGINT deben coordinarse ANTES de llamar esta función según H;
+-- no genera IDs ni certifica los generadores futuros UC05/06/41.
+-- UC05 requiere además asignación/stock/finanzas: fuera de esta función, C3.
+
+CREATE FUNCTION public.fn_uc07_importe(p_q numeric,p_p numeric,p_tipo text,p_r numeric)
+RETURNS numeric LANGUAGE plpgsql IMMUTABLE SET search_path=pg_catalog AS $fn$
+DECLARE s numeric; a numeric; total numeric;
+BEGIN
+  IF p_q IS NULL OR p_q<=0 OR p_q<>round(p_q,3)
+     OR p_q>999999999999999.999 OR p_p IS NULL OR p_p<=0
+     OR p_tipo IS NULL OR p_tipo NOT IN ('SIN_AJUSTE','DESCUENTO','RECARGO')
+     OR p_r IS NULL OR p_r<0 OR p_r>100 THEN
+    RAISE EXCEPTION 'Parametros comerciales invalidos' USING ERRCODE='22023';
+  END IF;
+  s:=round(p_q*p_p,2); a:=round(s*p_r/100,2);
+  total:=CASE p_tipo WHEN 'DESCUENTO' THEN s-a WHEN 'RECARGO' THEN s+a ELSE s END;
+  IF total<=0 OR total>9999999999999999.99 THEN
+    RAISE EXCEPTION 'Importe no representable' USING ERRCODE='22003';
+  END IF;
+  RETURN total;
+END;
+$fn$;
+-- Para cantidades/precios positivos, round(numeric,2) da HALF_UP comercial.
+-- Se utiliza numeric exacto, no double; D sigue validando antes de asignar typmod.
+
+CREATE FUNCTION public.fn_uc07_campo(p_nombre text,p_valor text)
+RETURNS text LANGUAGE sql IMMUTABLE SET search_path=pg_catalog AS $fn$
+  SELECT octet_length(convert_to(p_nombre,'UTF8'))::text||':'||p_nombre||
+    CASE WHEN p_valor IS NULL THEN 'N;'
+      ELSE 'V'||octet_length(convert_to(p_valor,'UTF8'))::text||':'||p_valor||';' END
+$fn$;
+
+CREATE FUNCTION public.fn_uc07_huella_cotizacion(p_id uuid)
+RETURNS text LANGUAGE sql STABLE SET search_path=pg_catalog AS $fn$
+ SELECT encode(sha256(convert_to(
+   E'UC07-IDEM/1\n'||
+   public.fn_uc07_campo('operacion','EMITIR_COTIZACION')||
+   public.fn_uc07_campo('idOfertaExcedente',c."idOfertaExcedente"::text)||
+   public.fn_uc07_campo('cantidadCotizada',c."cantidadCotizada"::text),'UTF8')),'hex')
+ FROM public."COTIZACION_OFERTA_EXCEDENTE" c WHERE c."idCotizacion"=p_id
+$fn$;
+
+CREATE FUNCTION public.fn_uc07_huella_evidencia(p_id uuid)
+RETURNS text LANGUAGE sql STABLE SET search_path=pg_catalog AS $fn$
+ SELECT encode(sha256(convert_to(
+   E'UC07-IDEM/1\n'||
+   public.fn_uc07_campo('operacion','REGISTRAR_EVIDENCIA')||
+   public.fn_uc07_campo('idOfertaExcedente',e."idOfertaExcedente"::text)||
+   public.fn_uc07_campo('idCotizacion',e."idCotizacion"::text)||
+   public.fn_uc07_campo('cantidadConfirmada',e."cantidadConfirmada"::text)||
+   public.fn_uc07_campo('importeConfirmado',e."importeConfirmado"::text)||
+   public.fn_uc07_campo('canalComunicacion',e."canalComunicacion")||
+   public.fn_uc07_campo('referenciaContacto',e."referenciaContacto")||
+   public.fn_uc07_campo('fechaHoraMensaje',
+     to_char(e."fechaHoraMensaje" AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'))||
+   public.fn_uc07_campo('tipoMimeContenido',e."tipoMimeContenido")||
+   public.fn_uc07_campo('huellaContenido',e."huellaContenido"::text)||
+   public.fn_uc07_campo('declaracionIdentidadVendedor',e."declaracionIdentidadVendedor"),
+   'UTF8')),'hex')
+ FROM public."EVIDENCIA_ACEPTACION_OFERTA" e WHERE e."idEvidencia"=p_id
+$fn$;
+~~~
+
+sha256(bytea), encode y convert_to son funciones integradas de PostgreSQL 17; el candidato **no instala ni requiere pgcrypto** (V1 solo declara btree_gist). La disponibilidad y equivalencia de vectores con Java deben comprobarse en C3. El hash de archivo no decodifica imágenes. Metadatos/escala/instante exactos se validan en el adaptador antes de la coerción NUMERIC/TIMESTAMPTZ; el rol runtime no puede insertar filas para eludirlo. El rol gateway continúa siendo un límite de confianza (§13.6).
+
+
+### 15.7. Guardias de oferta, cotización y evidencia
+
+Las guardias leen el contexto protegido; no toman locks tardíos sobre raíces. Se presupone el subgrafo de §15.6 y se somete a C3. Excepción de legado únicamente por registro certificado privado de G, nunca por fecha/rol/GUC falsificable.
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_oferta_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; p public."PRECIO_PRODUCTO"%ROWTYPE;
+  ped public."PEDIDO"%ROWTYPE; producto bigint; n integer;
+BEGIN
+  IF TG_OP='DELETE' THEN
+    RAISE EXCEPTION 'Oferta historica no borrable' USING ERRCODE='23514';
+  END IF;
+  IF TG_OP='UPDATE' AND NEW IS NOT DISTINCT FROM OLD THEN RETURN NEW; END IF;
+  c:=public.fn_uc07_contexto();
+  IF NEW."idOfertaExcedente" IS DISTINCT FROM c.oferta THEN
+    RAISE EXCEPTION 'Oferta fuera de contexto' USING ERRCODE='42501';
+  END IF;
+  IF TG_OP='UPDATE' THEN
+    IF (to_jsonb(NEW)-ARRAY['respuesta','fechaHoraRespuesta','cantidadAceptada','importeAceptado'])
+       IS DISTINCT FROM
+       (to_jsonb(OLD)-ARRAY['respuesta','fechaHoraRespuesta','cantidadAceptada','importeAceptado']) THEN
+      RAISE EXCEPTION 'Condiciones originales inmutables' USING ERRCODE='23514';
+    END IF;
+    IF OLD."respuesta"<>'PENDIENTE' OR
+       NOT ((c.operacion='PARTE_B' AND NEW."respuesta"='ACEPTADA') OR
+            (c.operacion='RECHAZO' AND NEW."respuesta"='RECHAZADA')) THEN
+      RAISE EXCEPTION 'Respuesta terminal o reapertura' USING ERRCODE='23514';
+    END IF;
+    IF OLD."idPrecio" IS NULL OR OLD."precioBaseUnitarioAplicado" IS NULL THEN
+      IF NEW."respuesta"<>'RECHAZADA' OR NOT EXISTS
+         (SELECT 1 FROM uc07_privado.legado_oferta l
+           WHERE l."idOfertaExcedente"=OLD."idOfertaExcedente"
+             AND (l.fila_certificada-ARRAY['respuesta','fechaHoraRespuesta','cantidadAceptada','importeAceptado'])
+               IS NOT DISTINCT FROM
+                 (to_jsonb(OLD)-ARRAY['respuesta','fechaHoraRespuesta','cantidadAceptada','importeAceptado'])) THEN
+        RAISE EXCEPTION 'Legado sin politica/procedencia' USING ERRCODE='23514';
+      END IF;
+    END IF;
+    IF NEW."respuesta"='ACEPTADA' AND NOT EXISTS
+       (SELECT 1 FROM public."PEDIDO" WHERE "idPedido"=c.pedido AND "estado"='PENDIENTE') THEN
+      RAISE EXCEPTION 'Receptor no pendiente' USING ERRCODE='23514';
+    END IF;
+    NEW."fechaHoraRespuesta":=clock_timestamp();
+    RETURN NEW; -- ck_oferta_excedente_3 sigue comprobando todos los campos.
+  END IF;
+  IF c.operacion<>'PARTE_A' OR NEW."idExcedente" IS DISTINCT FROM c.excedente
+     OR NEW."idPedidoReceptor" IS DISTINCT FROM c.pedido
+     OR NEW."idPrecio" IS NULL OR NEW."precioBaseUnitarioAplicado" IS NULL THEN
+    RAISE EXCEPTION 'Nueva oferta sin snapshot/ambito' USING ERRCODE='23514';
+  END IF;
+  SELECT d."idProducto" INTO STRICT producto FROM public."EXCEDENTE" e
+    JOIN public."DETALLE_PEDIDO" d
+      ON (d."idPedido",d."numeroDetalle")=(e."idPedidoOrigen",e."numeroDetalleOrigen")
+    WHERE e."idExcedente"=c.excedente;
+  SELECT * INTO STRICT ped FROM public."PEDIDO" WHERE "idPedido"=c.pedido;
+  IF ped."estado"<>'PENDIENTE' THEN
+    RAISE EXCEPTION 'Pedido no pendiente' USING ERRCODE='23514';
+  END IF;
+  IF NOT EXISTS(SELECT 1 FROM public."CLIENTE"
+      WHERE "idCliente"=ped."idCliente" AND "estado"='ACTIVO')
+     OR NOT EXISTS(SELECT 1 FROM public."PRODUCTO"
+      WHERE "idProducto"=producto AND "activo" AND "tipoProducto"='ELABORADO')
+     OR NEW."cantidadOfrecida"<=0 OR NEW."cantidadOfrecida">c.cantidad_antes THEN
+    RAISE EXCEPTION 'Elegibilidad/cantidad no valida' USING ERRCODE='23514';
+  END IF;
+  NEW."fechaHoraOferta":=c.instante;
+  NEW."idUsuarioVendedor":=c.actor;
+  SELECT count(*) INTO n FROM public."PRECIO_PRODUCTO"
+    WHERE "idProducto"=producto AND "fechaHoraCancelacion" IS NULL
+      AND "vigenteDesde"<=c.instante AND ("vigenteHasta" IS NULL OR c.instante<"vigenteHasta");
+  SELECT * INTO STRICT p FROM public."PRECIO_PRODUCTO" WHERE "idPrecio"=NEW."idPrecio";
+  IF n<>1 OR p."idProducto"<>producto OR p."fechaHoraCancelacion" IS NOT NULL
+     OR p."vigenteDesde">c.instante OR (p."vigenteHasta" IS NOT NULL AND c.instante>=p."vigenteHasta")
+     OR NEW."precioBaseUnitarioAplicado" IS DISTINCT FROM p."precioBase"
+     OR NEW."importeInformado" IS DISTINCT FROM public.fn_uc07_importe(
+       NEW."cantidadOfrecida",p."precioBase",ped."tipoAjuste",ped."porcentajeAjuste")
+     OR NEW."respuesta"<>'PENDIENTE' THEN
+    RAISE EXCEPTION 'Precio, vigencia o importe incoherentes' USING ERRCODE='23514';
+  END IF;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_oferta_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."OFERTA_EXCEDENTE" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_oferta_guard();
+
+CREATE FUNCTION public.fn_uc07_cotizacion_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; o public."OFERTA_EXCEDENTE"%ROWTYPE;
+  p public."PEDIDO"%ROWTYPE; siguiente integer; importe numeric;
+BEGIN
+  IF TG_OP<>'INSERT' THEN RAISE EXCEPTION 'Version inmutable' USING ERRCODE='23514'; END IF;
+  c:=public.fn_uc07_contexto();
+  SELECT * INTO STRICT o FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=c.oferta;
+  SELECT * INTO STRICT p FROM public."PEDIDO" WHERE "idPedido"=o."idPedidoReceptor";
+  IF NEW."idOfertaExcedente" IS DISTINCT FROM c.oferta OR o."respuesta"<>'PENDIENTE'
+     OR p."estado"<>'PENDIENTE' OR o."idPrecio" IS NULL
+     OR NEW."cantidadCotizada"<=0 OR NEW."cantidadCotizada">o."cantidadOfrecida" THEN
+    RAISE EXCEPTION 'Cotizacion fuera de contexto' USING ERRCODE='23514';
+  END IF;
+  SELECT coalesce(max("numeroVersion"),0)+1 INTO siguiente
+    FROM public."COTIZACION_OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=c.oferta;
+  IF NEW."numeroVersion" IS DISTINCT FROM siguiente THEN
+    RAISE EXCEPTION 'Version no correlativa bajo padre' USING ERRCODE='23514';
+  END IF;
+  IF siguiente=1 THEN
+    IF c.operacion<>'PARTE_A' OR NEW."cantidadCotizada"<>o."cantidadOfrecida" THEN
+      RAISE EXCEPTION 'V1 no atomica con Parte A' USING ERRCODE='23514';
+    END IF;
+    importe:=o."importeInformado";
+  ELSE
+    IF c.operacion<>'O1' OR NEW."cantidadCotizada">=o."cantidadOfrecida"
+       OR c.cotizacion_nueva IS NOT NULL THEN
+      RAISE EXCEPTION 'Nueva emision no parcial/unica' USING ERRCODE='23514';
+    END IF;
+    importe:=public.fn_uc07_importe(NEW."cantidadCotizada",o."precioBaseUnitarioAplicado",
+                                   p."tipoAjuste",p."porcentajeAjuste");
+  END IF;
+  IF NEW."importeCalculado" IS DISTINCT FROM importe THEN
+    RAISE EXCEPTION 'Importe cotizado discrepante' USING ERRCODE='23514';
+  END IF;
+  NEW."idUsuarioVendedor":=c.actor; NEW."fechaHoraGeneracion":=clock_timestamp();
+  IF siguiente>1 THEN UPDATE uc07_privado.contexto_tx SET cotizacion_nueva=NEW."idCotizacion"
+    WHERE xid=c.xid; END IF;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_cotizacion_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."COTIZACION_OFERTA_EXCEDENTE" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_cotizacion_guard();
+
+CREATE FUNCTION public.fn_uc07_evidencia_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; o public."OFERTA_EXCEDENTE"%ROWTYPE;
+  q public."COTIZACION_OFERTA_EXCEDENTE"%ROWTYPE; siguiente integer;
+BEGIN
+  IF TG_OP='DELETE' THEN RAISE EXCEPTION 'Evidencia no borrable' USING ERRCODE='23514'; END IF;
+  IF TG_OP='UPDATE' AND NEW IS NOT DISTINCT FROM OLD THEN RETURN NEW; END IF;
+  c:=public.fn_uc07_contexto();
+  IF NEW."idOfertaExcedente" IS DISTINCT FROM c.oferta THEN
+    RAISE EXCEPTION 'Evidencia fuera de ambito' USING ERRCODE='42501';
+  END IF;
+  IF TG_OP='UPDATE' THEN
+    IF (to_jsonb(NEW)-'estadoEvidencia') IS DISTINCT FROM (to_jsonb(OLD)-'estadoEvidencia')
+       OR NOT ((OLD."estadoEvidencia"='CAPTURADA' AND NEW."estadoEvidencia" IN ('VERIFICADA','INVALIDADA'))
+            OR (OLD."estadoEvidencia"='VERIFICADA' AND NEW."estadoEvidencia" IN ('UTILIZADA','INVALIDADA'))) THEN
+      RAISE EXCEPTION 'Historia o transicion invalida' USING ERRCODE='23514';
+    END IF;
+    IF NOT ((c.operacion='O2' AND NEW."estadoEvidencia" IN ('VERIFICADA','INVALIDADA'))
+      OR (c.operacion='PARTE_B' AND OLD."estadoEvidencia"='VERIFICADA' AND NEW."estadoEvidencia"='UTILIZADA')
+      OR (c.operacion='RECHAZO' AND NEW."estadoEvidencia"='INVALIDADA')) THEN
+      RAISE EXCEPTION 'Transicion ajena a operacion' USING ERRCODE='42501';
+    END IF;
+    RETURN NEW;
+  END IF;
+  IF c.operacion<>'O2' OR c.evidencia_nueva IS NOT NULL THEN
+    RAISE EXCEPTION 'Alta documental no autorizada/unica' USING ERRCODE='42501';
+  END IF;
+  SELECT * INTO STRICT q FROM public."COTIZACION_OFERTA_EXCEDENTE" WHERE "idCotizacion"=NEW."idCotizacion";
+  SELECT * INTO STRICT o FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=c.oferta;
+  IF q."idOfertaExcedente"<>c.oferta OR o."respuesta"<>'PENDIENTE'
+     OR NOT EXISTS(SELECT 1 FROM public."PEDIDO" WHERE "idPedido"=o."idPedidoReceptor" AND "estado"='PENDIENTE')
+     OR NEW."cantidadConfirmada" IS DISTINCT FROM q."cantidadCotizada"
+     OR NEW."importeConfirmado" IS DISTINCT FROM q."importeCalculado"
+     OR NEW."estadoEvidencia"<>'CAPTURADA' THEN
+    RAISE EXCEPTION 'Correspondencia comercial invalida' USING ERRCODE='23514';
+  END IF;
+  NEW."fechaHoraRegistro":=clock_timestamp(); NEW."idUsuarioVendedor":=c.actor;
+  IF NEW."fechaHoraMensaje"<q."fechaHoraGeneracion" OR NEW."fechaHoraMensaje">NEW."fechaHoraRegistro"
+     OR octet_length(NEW."contenidoOriginal")=0
+     OR NEW."tipoMimeContenido" NOT IN ('image/png','image/jpeg')
+     OR lower(btrim(split_part(NEW."tipoMimeDeclarado",';',1))) IS DISTINCT FROM NEW."tipoMimeContenido"
+     OR (NEW."tipoMimeContenido"='image/png' AND substring(NEW."contenidoOriginal" FROM 1 FOR 8)<>decode('89504e470d0a1a0a','hex'))
+     OR (NEW."tipoMimeContenido"='image/jpeg' AND substring(NEW."contenidoOriginal" FROM 1 FOR 3)<>decode('ffd8ff','hex'))
+     OR NEW."huellaContenido" IS DISTINCT FROM encode(sha256(NEW."contenidoOriginal"),'hex') THEN
+    RAISE EXCEPTION 'Tiempo, MIME, firma o huella invalidos' USING ERRCODE='23514';
+  END IF;
+  SELECT coalesce(max("numeroIntentoEvidencia"),0)+1 INTO siguiente
+    FROM public."EVIDENCIA_ACEPTACION_OFERTA" WHERE "idOfertaExcedente"=c.oferta;
+  IF NEW."numeroIntentoEvidencia" IS NOT NULL AND NEW."numeroIntentoEvidencia"<>siguiente THEN
+    RAISE EXCEPTION 'Intento no correlativo' USING ERRCODE='23514';
+  END IF;
+  NEW."numeroIntentoEvidencia":=siguiente;
+  UPDATE uc07_privado.contexto_tx SET evidencia_nueva=NEW."idEvidencia" WHERE xid=c.xid;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_evidencia_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."EVIDENCIA_ACEPTACION_OFERTA" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_evidencia_guard();
+~~~
+
+La comprobación física de firma/MIME/hash no reemplaza decodificación, legibilidad, memoria, tiempo ni límites efectivos de E en Java. No incorpora un techo físico de 2 MiB sin calibración. C2 no valida autenticidad del cliente ni WhatsApp. En UPDATE no-op de oferta/evidencia se conserva la fila sin generar transición; cualquier cambio real de historia o reapertura falla. Cotizaciones y comandos rechazan UPDATE incluso no-op.
+
+### 15.8. Eventos causales y prueba del último estado
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_evento_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; ultimo public."EVENTO_ESTADO_EVIDENCIA_OFERTA"%ROWTYPE;
+        actual text;
+BEGIN
+  IF TG_OP<>'INSERT' THEN RAISE EXCEPTION 'Bitacora append-only' USING ERRCODE='23514'; END IF;
+  -- INVOKER: no convertir current_user en owner mediante SECURITY DEFINER aquí.
+  -- La inserción legítima se ejecuta dentro del AFTER de evidencia, como owner.
+  IF current_user<>'uc07_owner' THEN
+    RAISE EXCEPTION 'Evento requiere emisor controlado' USING ERRCODE='42501';
+  END IF;
+  c:=public.fn_uc07_contexto();
+  SELECT * INTO ultimo FROM public."EVENTO_ESTADO_EVIDENCIA_OFERTA"
+    WHERE "idEvidencia"=NEW."idEvidencia" ORDER BY "ordenEvento" DESC LIMIT 1;
+  IF NOT FOUND THEN
+    IF NEW."ordenEvento"<>1 OR NEW."estadoAnterior" IS NOT NULL OR NEW."estadoNuevo"<>'CAPTURADA' THEN
+      RAISE EXCEPTION 'Evento inicial invalido' USING ERRCODE='23514';
+    END IF;
+  ELSIF NEW."ordenEvento"<>ultimo."ordenEvento"+1
+      OR NEW."estadoAnterior" IS DISTINCT FROM ultimo."estadoNuevo" THEN
+    RAISE EXCEPTION 'Cadena causal no correlativa' USING ERRCODE='23514';
+  END IF;
+  SELECT "estadoEvidencia" INTO STRICT actual FROM public."EVIDENCIA_ACEPTACION_OFERTA"
+    WHERE "idEvidencia"=NEW."idEvidencia";
+  IF NEW."estadoNuevo" IS DISTINCT FROM actual OR NEW."idUsuario" IS DISTINCT FROM c.actor
+     OR NEW."motivo" IS NULL OR btrim(NEW."motivo")='' THEN
+    RAISE EXCEPTION 'Evento no corresponde al hecho actual' USING ERRCODE='23514';
+  END IF;
+  RETURN NEW; -- comparación solo al INSERT del evento, no sobre cada evento histórico.
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_evento_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."EVENTO_ESTADO_EVIDENCIA_OFERTA" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_evento_guard();
+
+CREATE FUNCTION public.fn_uc07_emitir_evento()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; anterior text; motivo text; numero bigint;
+BEGIN
+  IF TG_OP='UPDATE' AND NEW."estadoEvidencia"=OLD."estadoEvidencia" THEN RETURN NEW; END IF;
+  c:=public.fn_uc07_contexto();
+  anterior:=CASE WHEN TG_OP='INSERT' THEN NULL ELSE OLD."estadoEvidencia" END;
+  motivo:=CASE
+    WHEN TG_OP='INSERT' THEN 'CAPTURA_DOCUMENTAL'
+    WHEN NEW."estadoEvidencia"='VERIFICADA' THEN 'VERIFICACION_TECNICA'
+    WHEN NEW."estadoEvidencia"='UTILIZADA' THEN 'TRANSFERENCIA_CONFIRMADA'
+    WHEN c.operacion='RECHAZO' THEN 'OFERTA_RECHAZADA'
+    ELSE 'SUPERADA_POR_RECOTIZACION' END;
+  SELECT coalesce(max("ordenEvento"),0)+1 INTO numero
+    FROM public."EVENTO_ESTADO_EVIDENCIA_OFERTA" WHERE "idEvidencia"=NEW."idEvidencia";
+  INSERT INTO public."EVENTO_ESTADO_EVIDENCIA_OFERTA"
+    ("idEvidencia","estadoAnterior","estadoNuevo","ordenEvento","idUsuario","fechaHoraTransicion","motivo")
+    VALUES(NEW."idEvidencia",anterior,NEW."estadoEvidencia",numero,c.actor,clock_timestamp(),motivo);
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_emitir_evento AFTER INSERT OR UPDATE
+ON public."EVIDENCIA_ACEPTACION_OFERTA" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_emitir_evento();
+
+CREATE FUNCTION public.fn_uc07_estado_evento_final()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE id uuid; actual text; ultimo text;
+BEGIN
+  id:=NEW."idEvidencia";
+  SELECT "estadoEvidencia" INTO STRICT actual FROM public."EVIDENCIA_ACEPTACION_OFERTA" WHERE "idEvidencia"=id;
+  SELECT "estadoNuevo" INTO ultimo FROM public."EVENTO_ESTADO_EVIDENCIA_OFERTA"
+    WHERE "idEvidencia"=id ORDER BY "ordenEvento" DESC LIMIT 1;
+  IF ultimo IS DISTINCT FROM actual THEN
+    RAISE EXCEPTION 'Falta evento causal del estado final' USING ERRCODE='23514';
+  END IF;
+  RETURN NULL;
+END;
+$fn$;
+CREATE CONSTRAINT TRIGGER ct_uc07_estado_evento
+AFTER INSERT OR UPDATE ON public."EVIDENCIA_ACEPTACION_OFERTA"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_estado_evento_final();
+CREATE CONSTRAINT TRIGGER ct_uc07_evento_estado
+AFTER INSERT ON public."EVENTO_ESTADO_EVIDENCIA_OFERTA"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_estado_evento_final();
+~~~
+
+O2 inserta CAPTURADA, el AFTER inserta NULL→CAPTURADA cuando el padre ya existe; luego UPDATE a VERIFICADA emite CAPTURADA→VERIFICADA. Los diferidos releen **estado final y último evento**. No se compara cada evento pasado con el estado final. El rol operativo carece de INSERT de eventos; no se usa pg_trigger_depth como prueba de identidad. El rol propietario/migrador queda fuera del adversario operativo y requiere mantenimiento excepcional auditado.
+
+
+### 15.9. Movimiento, saldo y prueba histórica de la transferencia (F6-A)
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_movimiento_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; esperado numeric;
+BEGIN
+  IF TG_OP<>'INSERT' THEN
+    RAISE EXCEPTION 'Movimiento historico inmutable' USING ERRCODE='23514';
+  END IF;
+  c:=public.fn_uc07_contexto();
+  IF NEW."idExcedente" IS DISTINCT FROM c.excedente OR c.movimiento_nuevo IS NOT NULL
+     OR NOT ((c.operacion='PARTE_B' AND NEW."tipoMovimiento"='REASIGNACION'
+                  AND NEW."idOfertaExcedente" IS NOT DISTINCT FROM c.oferta)
+          OR (c.operacion='UC41' AND NEW."tipoMovimiento"='DESCARTE'
+                  AND NEW."idOfertaExcedente" IS NULL))
+     OR NEW."cantidad"<=0 OR NEW."cantidad">c.cantidad_antes THEN
+    RAISE EXCEPTION 'Transferencia fuera de contexto/saldo' USING ERRCODE='23514';
+  END IF;
+  esperado:=CASE WHEN NEW."cantidad"=c.cantidad_antes THEN c.costo_antes
+                 ELSE round(c.costo_antes*NEW."cantidad"/c.cantidad_antes,4) END;
+  IF NEW."costoHistoricoSalida" IS DISTINCT FROM esperado THEN
+    RAISE EXCEPTION 'Costo historico discrepante' USING ERRCODE='23514';
+  END IF;
+  NEW."fechaHoraMovimiento":=clock_timestamp();
+  UPDATE uc07_privado.contexto_tx SET movimiento_nuevo=NEW."idMovimientoExcedente" WHERE xid=c.xid;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_movimiento_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."MOVIMIENTO_EXCEDENTE" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_movimiento_guard();
+
+CREATE FUNCTION public.fn_uc07_registrar_transferencia()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx;
+BEGIN
+  c:=public.fn_uc07_contexto();
+  INSERT INTO uc07_privado.transferencia VALUES
+    (NEW."idMovimientoExcedente",c.xid,c.cantidad_antes,c.costo_antes,
+     c.cantidad_antes-NEW."cantidad",c.costo_antes-NEW."costoHistoricoSalida");
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_registrar_transferencia AFTER INSERT
+ON public."MOVIMIENTO_EXCEDENTE" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_registrar_transferencia();
+
+CREATE FUNCTION public.fn_uc07_inmutable()
+RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $fn$
+BEGIN RAISE EXCEPTION 'Registro historico inmutable' USING ERRCODE='23514'; END;
+$fn$;
+CREATE TRIGGER tg_uc07_transferencia_inmutable BEFORE UPDATE OR DELETE
+ON uc07_privado.transferencia FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_inmutable();
+
+CREATE FUNCTION public.fn_uc07_excedente_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; delta numeric; costo numeric;
+BEGIN
+  IF TG_OP='DELETE' THEN RAISE EXCEPTION 'Excedente historico no borrable' USING ERRCODE='23514'; END IF;
+  IF NEW IS NOT DISTINCT FROM OLD THEN RETURN NEW; END IF;
+  IF (to_jsonb(NEW)-ARRAY['cantidadDisponible','costoHistoricoDisponible']) IS DISTINCT FROM
+     (to_jsonb(OLD)-ARRAY['cantidadDisponible','costoHistoricoDisponible']) THEN
+    RAISE EXCEPTION 'Origen/cantidad inicial/costo inicial inmutables' USING ERRCODE='23514';
+  END IF;
+  c:=public.fn_uc07_contexto();
+  IF c.operacion NOT IN ('PARTE_B','UC41') OR c.excedente IS DISTINCT FROM OLD."idExcedente"
+     OR OLD."cantidadDisponible" IS DISTINCT FROM c.cantidad_antes
+     OR OLD."costoHistoricoDisponible" IS DISTINCT FROM c.costo_antes THEN
+    RAISE EXCEPTION 'Cambio de saldo sin contexto inicial' USING ERRCODE='23514';
+  END IF;
+  delta:=OLD."cantidadDisponible"-NEW."cantidadDisponible";
+  IF delta<=0 OR delta>OLD."cantidadDisponible" THEN
+    RAISE EXCEPTION 'Delta de saldo invalido' USING ERRCODE='23514';
+  END IF;
+  costo:=CASE WHEN delta=OLD."cantidadDisponible" THEN OLD."costoHistoricoDisponible"
+              ELSE round(OLD."costoHistoricoDisponible"*delta/OLD."cantidadDisponible",4) END;
+  IF NEW."costoHistoricoDisponible" IS DISTINCT FROM OLD."costoHistoricoDisponible"-costo THEN
+    RAISE EXCEPTION 'Costo restante invalido' USING ERRCODE='23514';
+  END IF;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_excedente_guard BEFORE UPDATE OR DELETE
+ON public."EXCEDENTE" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_excedente_guard();
+
+CREATE FUNCTION public.fn_uc07_validar_oferta(p_id bigint)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE o public."OFERTA_EXCEDENTE"%ROWTYPE; e public."EVIDENCIA_ACEPTACION_OFERTA"%ROWTYPE;
+  m public."MOVIMIENTO_EXCEDENTE"%ROWTYPE; t uc07_privado.transferencia;
+  q public."COTIZACION_OFERTA_EXCEDENTE"%ROWTYPE; n integer; prod bigint;
+BEGIN
+  SELECT * INTO o FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=p_id;
+  IF NOT FOUND THEN RETURN; END IF;
+  IF o."idPrecio" IS NULL AND EXISTS(SELECT 1 FROM uc07_privado.legado_oferta
+        WHERE "idOfertaExcedente"=p_id) THEN RETURN; END IF;
+  -- Grandfather solo certificado; no habilita nueva aceptación sin snapshot.
+  SELECT count(*) INTO n FROM public."COTIZACION_OFERTA_EXCEDENTE"
+    WHERE "idOfertaExcedente"=p_id AND "numeroVersion"=1
+      AND "cantidadCotizada"=o."cantidadOfrecida" AND "importeCalculado"=o."importeInformado";
+  IF n<>1 THEN RAISE EXCEPTION 'Oferta sin unica V1 final' USING ERRCODE='23514'; END IF;
+  IF o."respuesta"<>'ACEPTADA' THEN
+    IF EXISTS(SELECT 1 FROM public."EVIDENCIA_ACEPTACION_OFERTA"
+         WHERE "idOfertaExcedente"=p_id AND "estadoEvidencia"='UTILIZADA')
+       OR EXISTS(SELECT 1 FROM public."MOVIMIENTO_EXCEDENTE" WHERE "idOfertaExcedente"=p_id)
+       OR (o."respuesta"='RECHAZADA' AND EXISTS(
+          SELECT 1 FROM public."EVIDENCIA_ACEPTACION_OFERTA"
+          WHERE "idOfertaExcedente"=p_id AND "estadoEvidencia" IN ('CAPTURADA','VERIFICADA'))) THEN
+      RAISE EXCEPTION 'Efectos de aceptacion/cierre incoherentes' USING ERRCODE='23514';
+    END IF;
+    RETURN;
+  END IF;
+  SELECT count(*) INTO n FROM public."EVIDENCIA_ACEPTACION_OFERTA"
+    WHERE "idOfertaExcedente"=p_id AND "estadoEvidencia"='UTILIZADA';
+  IF n<>1 THEN RAISE EXCEPTION 'Aceptacion sin evidencia utilizada unica' USING ERRCODE='23514'; END IF;
+  SELECT * INTO STRICT e FROM public."EVIDENCIA_ACEPTACION_OFERTA"
+    WHERE "idOfertaExcedente"=p_id AND "estadoEvidencia"='UTILIZADA';
+  SELECT * INTO STRICT q FROM public."COTIZACION_OFERTA_EXCEDENTE" WHERE "idCotizacion"=e."idCotizacion";
+  SELECT count(*) INTO n FROM public."MOVIMIENTO_EXCEDENTE" WHERE "idOfertaExcedente"=p_id;
+  IF n<>1 THEN RAISE EXCEPTION 'Aceptacion sin movimiento unico' USING ERRCODE='23514'; END IF;
+  SELECT * INTO STRICT m FROM public."MOVIMIENTO_EXCEDENTE" WHERE "idOfertaExcedente"=p_id;
+  SELECT * INTO t FROM uc07_privado.transferencia WHERE "idMovimientoExcedente"=m."idMovimientoExcedente";
+  IF NOT FOUND THEN RAISE EXCEPTION 'Transferencia sin prueba historica' USING ERRCODE='23514'; END IF;
+  IF q."idOfertaExcedente"<>p_id OR o."cantidadAceptada" IS DISTINCT FROM e."cantidadConfirmada"
+     OR o."importeAceptado" IS DISTINCT FROM e."importeConfirmado"
+     OR q."cantidadCotizada" IS DISTINCT FROM e."cantidadConfirmada"
+     OR q."importeCalculado" IS DISTINCT FROM e."importeConfirmado"
+     OR m."tipoMovimiento"<>'REASIGNACION' OR m."idExcedente"<>o."idExcedente"
+     OR m."cantidad" IS DISTINCT FROM o."cantidadAceptada"
+     OR t.cantidad_despues IS DISTINCT FROM t.cantidad_antes-m."cantidad"
+     OR t.costo_despues IS DISTINCT FROM t.costo_antes-m."costoHistoricoSalida"
+     OR m."costoHistoricoSalida" IS DISTINCT FROM
+          (CASE WHEN m."cantidad"=t.cantidad_antes THEN t.costo_antes
+                ELSE round(t.costo_antes*m."cantidad"/t.cantidad_antes,4) END) THEN
+    RAISE EXCEPTION 'Aceptacion, evidencia o costo incoherentes' USING ERRCODE='23514';
+  END IF;
+  IF t.xid=pg_current_xact_id() AND NOT EXISTS(
+     SELECT 1 FROM public."EXCEDENTE" x WHERE x."idExcedente"=m."idExcedente"
+       AND x."cantidadDisponible"=t.cantidad_despues AND x."costoHistoricoDisponible"=t.costo_despues) THEN
+    RAISE EXCEPTION 'Saldo no descontado atomicamente' USING ERRCODE='23514';
+  END IF;
+  SELECT d."idProducto" INTO STRICT prod FROM public."EXCEDENTE" x
+    JOIN public."DETALLE_PEDIDO" d ON (d."idPedido",d."numeroDetalle")=(x."idPedidoOrigen",x."numeroDetalleOrigen")
+    WHERE x."idExcedente"=o."idExcedente";
+  IF NOT EXISTS(SELECT 1 FROM public."DETALLE_PEDIDO" d
+      WHERE d."idPedido"=o."idPedidoReceptor" AND d."idProducto"=prod) THEN
+    RAISE EXCEPTION 'Falta detalle receptor original o tecnico' USING ERRCODE='23514';
+  END IF;
+  -- F6-A NO consulta ni exige DETALLE_ENTREGA/IMPUTACION_ENTREGA_ADICIONAL.
+END;
+$fn$;
+
+CREATE FUNCTION public.fn_uc07_oferta_diferida()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE r jsonb; id bigint;
+BEGIN
+  r:=CASE WHEN TG_OP='DELETE' THEN to_jsonb(OLD) ELSE to_jsonb(NEW) END;
+  id:=(r->>'idOfertaExcedente')::bigint;
+  IF id IS NOT NULL THEN PERFORM public.fn_uc07_validar_oferta(id); END IF;
+  RETURN NULL;
+END;
+$fn$;
+CREATE CONSTRAINT TRIGGER ct_uc07_oferta_final
+AFTER INSERT OR UPDATE ON public."OFERTA_EXCEDENTE"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_oferta_diferida();
+CREATE CONSTRAINT TRIGGER ct_uc07_cotizacion_final
+AFTER INSERT ON public."COTIZACION_OFERTA_EXCEDENTE"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_oferta_diferida();
+CREATE CONSTRAINT TRIGGER ct_uc07_evidencia_aceptacion
+AFTER INSERT OR UPDATE ON public."EVIDENCIA_ACEPTACION_OFERTA"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_oferta_diferida();
+CREATE CONSTRAINT TRIGGER ct_uc07_movimiento_aceptacion
+AFTER INSERT ON public."MOVIMIENTO_EXCEDENTE"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_oferta_diferida();
+~~~
+
+Las guardias de movimiento/imputación y de evidencia/padres impiden romper la aceptación posteriormente; no se depende únicamente de UPDATE OF respuesta. El diferido relee las filas finales; no usa el NEW encolado como estado definitivo. La prueba inmutable de transferencia evita exigir que el saldo actual, tras futuros descartes, siga siendo el saldo de aquella aceptación.
+
+### 15.10. F6-B: entrega posterior, imputación y orden cronológico
+
+**Corrección expresa del responsable en este C2:** controles en dos momentos. F6-B se ejecuta al entregar en UC-05; no fabrica ENTREGA/DETALLE_ENTREGA en UC-07. Se mantienen fk_imputacion_entrega_adicional_0/1 y uq_imputacion_entrega_adicional_0. Una entrega puede imputar menos que lo aceptado: no se exige siempre cantidad/importe completos.
+
+**Criterio monetario candidato para revisión:** porción completa conserva importeAceptado; porción parcial aplica D2-A a cantidadImputada con P/ajuste congelados. La fórmula específica de entrega parcial, su redondeo y los casos legacy sin P requieren revisión conjunta UC-05; no se presenta como nueva regla ratificada. El SQL siguiente desarrolla esa propuesta, no autoriza su uso.
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_imputacion_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; m public."MOVIMIENTO_EXCEDENTE"%ROWTYPE;
+        o public."OFERTA_EXCEDENTE"%ROWTYPE;
+BEGIN
+  IF TG_OP<>'INSERT' THEN RAISE EXCEPTION 'Imputacion historica inmutable' USING ERRCODE='23514'; END IF;
+  c:=public.fn_uc07_contexto();
+  SELECT * INTO STRICT m FROM public."MOVIMIENTO_EXCEDENTE" WHERE "idMovimientoExcedente"=NEW."idMovimientoExcedente";
+  SELECT * INTO STRICT o FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=m."idOfertaExcedente";
+  IF c.operacion<>'UC05' OR c.pedido IS DISTINCT FROM NEW."idPedido"
+     OR o."respuesta"<>'ACEPTADA' OR m."tipoMovimiento"<>'REASIGNACION'
+     OR o."idPedidoReceptor"<>NEW."idPedido" OR o."idExcedente"<>m."idExcedente"
+     OR NEW."cantidadImputada"<=0 OR NEW."cantidadImputada">m."cantidad" THEN
+    RAISE EXCEPTION 'Imputacion ajena o excesiva' USING ERRCODE='23514';
+  END IF;
+  RETURN NEW; -- FKs exigen el DETALLE_ENTREGA real; diferido valida la entrega completa.
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_imputacion_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."IMPUTACION_ENTREGA_ADICIONAL" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_imputacion_guard();
+
+CREATE FUNCTION public.fn_uc07_validar_entrega(p_pedido bigint,p_detalle integer)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE d public."DETALLE_PEDIDO"%ROWTYPE; q_ent numeric; restante numeric;
+        tomar numeric; esperado numeric; encontrado public."IMPUTACION_ENTREGA_ADICIONAL"%ROWTYPE;
+        rec record; n_esperado integer:=0; n_real integer; ped public."PEDIDO"%ROWTYPE;
+        preparado numeric; total_adicional numeric; producto_tipo text;
+BEGIN
+  SELECT "cantidadEntregada" INTO q_ent FROM public."DETALLE_ENTREGA"
+    WHERE "idPedido"=p_pedido AND "numeroDetalle"=p_detalle;
+  IF NOT FOUND THEN
+    IF EXISTS(SELECT 1 FROM public."IMPUTACION_ENTREGA_ADICIONAL"
+      WHERE "idPedido"=p_pedido AND "numeroDetalle"=p_detalle) THEN
+      RAISE EXCEPTION 'Imputacion sin detalle de entrega' USING ERRCODE='23514';
+    END IF;
+    RETURN;
+  END IF;
+  SELECT * INTO STRICT d FROM public."DETALLE_PEDIDO"
+    WHERE "idPedido"=p_pedido AND "numeroDetalle"=p_detalle;
+  SELECT * INTO STRICT ped FROM public."PEDIDO" WHERE "idPedido"=p_pedido;
+  IF ped."estado"<>'ENTREGADO' THEN
+    RAISE EXCEPTION 'Entrega sin cierre final del pedido' USING ERRCODE='23514';
+  END IF;
+  SELECT "tipoProducto" INTO STRICT producto_tipo FROM public."PRODUCTO" WHERE "idProducto"=d."idProducto";
+  SELECT coalesce(sum(o."cantidadAceptada"),0) INTO total_adicional
+    FROM public."OFERTA_EXCEDENTE" o JOIN public."EXCEDENTE" x ON x."idExcedente"=o."idExcedente"
+    JOIN public."DETALLE_PEDIDO" origen ON (origen."idPedido",origen."numeroDetalle")=(x."idPedidoOrigen",x."numeroDetalleOrigen")
+    WHERE o."idPedidoReceptor"=p_pedido AND o."respuesta"='ACEPTADA' AND origen."idProducto"=d."idProducto";
+  IF q_ent>d."cantidadOriginal"+total_adicional THEN
+    RAISE EXCEPTION 'Entrega sobre limite comercial' USING ERRCODE='23514';
+  END IF;
+  IF producto_tipo='ELABORADO' THEN
+    SELECT coalesce(sum("cantidadPreparada"),0) INTO preparado FROM public."PREPARACION"
+      WHERE "idPedido"=p_pedido AND "numeroDetalle"=p_detalle;
+    IF q_ent>preparado+total_adicional THEN
+      RAISE EXCEPTION 'Entrega sobre disponibilidad elaborada' USING ERRCODE='23514';
+    END IF;
+  END IF;
+  restante:=greatest(q_ent-d."cantidadOriginal",0);
+  FOR rec IN SELECT o.*,m."idMovimientoExcedente",m."cantidad"
+      FROM public."OFERTA_EXCEDENTE" o
+      JOIN public."MOVIMIENTO_EXCEDENTE" m ON m."idOfertaExcedente"=o."idOfertaExcedente"
+      JOIN public."EXCEDENTE" x ON x."idExcedente"=o."idExcedente"
+      JOIN public."DETALLE_PEDIDO" origen ON (origen."idPedido",origen."numeroDetalle")=(x."idPedidoOrigen",x."numeroDetalleOrigen")
+      WHERE o."idPedidoReceptor"=p_pedido AND o."respuesta"='ACEPTADA'
+        AND m."tipoMovimiento"='REASIGNACION' AND origen."idProducto"=d."idProducto"
+      ORDER BY o."fechaHoraRespuesta",o."idOfertaExcedente",m."idMovimientoExcedente"
+  LOOP
+    tomar:=least(restante,rec."cantidad");
+    SELECT * INTO encontrado FROM public."IMPUTACION_ENTREGA_ADICIONAL"
+      WHERE "idMovimientoExcedente"=rec."idMovimientoExcedente";
+    IF tomar>0 THEN
+      IF NOT FOUND OR encontrado."idPedido"<>p_pedido OR encontrado."numeroDetalle"<>p_detalle
+         OR encontrado."cantidadImputada" IS DISTINCT FROM tomar THEN
+        RAISE EXCEPTION 'Falta imputacion cronologica exacta' USING ERRCODE='23514';
+      END IF;
+      IF tomar=rec."cantidadAceptada" THEN esperado:=rec."importeAceptado";
+      ELSE
+        IF rec."precioBaseUnitarioAplicado" IS NULL THEN
+          RAISE EXCEPTION 'Importe parcial legado requiere politica aprobada' USING ERRCODE='23514';
+        END IF;
+        esperado:=public.fn_uc07_importe(tomar,rec."precioBaseUnitarioAplicado",ped."tipoAjuste",ped."porcentajeAjuste");
+      END IF;
+      IF encontrado."importeImputado" IS DISTINCT FROM esperado THEN
+        RAISE EXCEPTION 'Importe imputado discrepante' USING ERRCODE='23514';
+      END IF;
+      n_esperado:=n_esperado+1; restante:=restante-tomar;
+    ELSIF FOUND THEN
+      RAISE EXCEPTION 'Imputacion no entregada o fuera de orden' USING ERRCODE='23514';
+    END IF;
+  END LOOP;
+  SELECT count(*) INTO n_real FROM public."IMPUTACION_ENTREGA_ADICIONAL"
+    WHERE "idPedido"=p_pedido AND "numeroDetalle"=p_detalle;
+  IF restante<>0 OR n_real<>n_esperado THEN
+    RAISE EXCEPTION 'Imputaciones adicionales incompletas/extranas' USING ERRCODE='23514';
+  END IF;
+  -- No actualiza PEDIDO.totalOriginal ni cobra; cargo contable sigue siendo UC05.
+END;
+$fn$;
+
+CREATE FUNCTION public.fn_uc07_entrega_diferida()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE r jsonb; p bigint; numero integer; it record;
+BEGIN
+  r:=CASE WHEN TG_OP='DELETE' THEN to_jsonb(OLD) ELSE to_jsonb(NEW) END;
+  p:=(r->>'idPedido')::bigint; numero:=(r->>'numeroDetalle')::integer;
+  IF numero IS NOT NULL THEN PERFORM public.fn_uc07_validar_entrega(p,numero);
+  ELSE
+    IF NOT EXISTS(SELECT 1 FROM public."ENTREGA" WHERE "idPedido"=p)
+       OR NOT EXISTS(SELECT 1 FROM public."DETALLE_ENTREGA" WHERE "idPedido"=p AND "cantidadEntregada">0) THEN
+      RAISE EXCEPTION 'Entrega ausente o sin cantidades positivas' USING ERRCODE='23514';
+    END IF;
+    FOR it IN SELECT "numeroDetalle" FROM public."DETALLE_ENTREGA" WHERE "idPedido"=p
+    LOOP PERFORM public.fn_uc07_validar_entrega(p,it."numeroDetalle"); END LOOP;
+  END IF;
+  RETURN NULL;
+END;
+$fn$;
+CREATE CONSTRAINT TRIGGER ct_uc07_imputacion_final AFTER INSERT
+ON public."IMPUTACION_ENTREGA_ADICIONAL"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_entrega_diferida();
+CREATE CONSTRAINT TRIGGER ct_uc07_detalle_entrega_final AFTER INSERT OR UPDATE OR DELETE
+ON public."DETALLE_ENTREGA"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_entrega_diferida();
+CREATE CONSTRAINT TRIGGER ct_uc07_entrega_final AFTER INSERT OR UPDATE OR DELETE
+ON public."ENTREGA"
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_entrega_diferida();
+~~~
+
+V1 permite una única imputación por movimiento; se aprovecha esa UNIQUE, sin crear otra redundante. La integridad de stock/costos de entrega, sobrantes y CARGO_POR_VENTA completa continúa en el contrato/protocolo UC-05: este candidato solo cubre sus relaciones con adicionales UC-07. No certifica UC-05 entero.
+
+
+### 15.11. Recibo ligado al efecto nuevo y comprobación diferida del contexto
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_comando_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; q public."COTIZACION_OFERTA_EXCEDENTE"%ROWTYPE;
+        e public."EVIDENCIA_ACEPTACION_OFERTA"%ROWTYPE; h text; op text; recibo jsonb;
+BEGIN
+  IF TG_OP<>'INSERT' THEN RAISE EXCEPTION 'Comando confirmado inmutable' USING ERRCODE='23514'; END IF;
+  c:=public.fn_uc07_contexto();
+  op:=CASE c.operacion WHEN 'O1' THEN 'EMITIR_COTIZACION' WHEN 'O2' THEN 'REGISTRAR_EVIDENCIA' ELSE NULL END;
+  IF op IS NULL OR NEW."idComandoAuxiliar" IS DISTINCT FROM c.comando
+     OR NEW."operacion" IS DISTINCT FROM op OR NEW."idOfertaExcedente" IS DISTINCT FROM c.oferta
+     OR NEW."idUsuarioVendedor" IS DISTINCT FROM c.actor
+     OR NEW."claveIdempotencia" IS DISTINCT FROM c.clave THEN
+    RAISE EXCEPTION 'Identidad de comando no corresponde al contexto' USING ERRCODE='23514';
+  END IF;
+  IF c.operacion='O1' THEN
+    IF NEW."idCotizacion" IS DISTINCT FROM c.cotizacion_nueva OR NEW."idEvidencia" IS NOT NULL
+       OR c.cotizacion_nueva IS NULL THEN RAISE EXCEPTION 'Efecto O1 no nuevo' USING ERRCODE='23514'; END IF;
+    SELECT * INTO STRICT q FROM public."COTIZACION_OFERTA_EXCEDENTE" WHERE "idCotizacion"=c.cotizacion_nueva;
+    IF q."idOfertaExcedente"<>c.oferta OR q."idUsuarioVendedor"<>c.actor THEN
+      RAISE EXCEPTION 'Ambito/actor del efecto O1' USING ERRCODE='23514'; END IF;
+    h:=public.fn_uc07_huella_cotizacion(q."idCotizacion");
+    recibo:=jsonb_build_object('idCotizacion',q."idCotizacion",'numeroVersion',q."numeroVersion",
+      'codigoCotizacion',q."codigoCotizacion",'cantidadCotizada',q."cantidadCotizada",
+      'importeCalculado',q."importeCalculado",'fechaHoraGeneracion',
+      to_char(q."fechaHoraGeneracion" AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'));
+  ELSE
+    IF NEW."idEvidencia" IS DISTINCT FROM c.evidencia_nueva OR NEW."idCotizacion" IS NOT NULL
+       OR c.evidencia_nueva IS NULL THEN RAISE EXCEPTION 'Efecto O2 no nuevo' USING ERRCODE='23514'; END IF;
+    SELECT * INTO STRICT e FROM public."EVIDENCIA_ACEPTACION_OFERTA" WHERE "idEvidencia"=c.evidencia_nueva;
+    IF e."idOfertaExcedente"<>c.oferta OR e."idUsuarioVendedor"<>c.actor OR e."estadoEvidencia"<>'VERIFICADA' THEN
+      RAISE EXCEPTION 'Ambito/estado del efecto O2' USING ERRCODE='23514'; END IF;
+    h:=public.fn_uc07_huella_evidencia(e."idEvidencia");
+    recibo:=jsonb_build_object('idEvidencia',e."idEvidencia",'idCotizacion',e."idCotizacion",
+      'estadoEvidencia',e."estadoEvidencia",'huellaContenido',e."huellaContenido",
+      'fechaHoraRegistro',to_char(e."fechaHoraRegistro" AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'));
+  END IF;
+  IF h IS DISTINCT FROM c.huella OR NEW."huellaSolicitud" IS DISTINCT FROM h THEN
+    RAISE EXCEPTION 'Huella de solicitud/efecto discrepante' USING ERRCODE='23514';
+  END IF;
+  NEW."respuestaOriginal":=recibo;
+  NEW."estadoHttpOriginal":=201;
+  NEW."fechaHoraRegistro":=clock_timestamp();
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_comando_guard BEFORE INSERT OR UPDATE OR DELETE
+ON public."COMANDO_AUXILIAR_UC07" FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_comando_guard();
+
+CREATE FUNCTION public.fn_uc07_contexto_final()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; t uc07_privado.transferencia;
+        m public."MOVIMIENTO_EXCEDENTE"%ROWTYPE;
+BEGIN
+  SELECT * INTO STRICT c FROM uc07_privado.contexto_tx WHERE xid=NEW.xid;
+  PERFORM public.fn_uc07_actor(c.sesion,c.operacion); -- vigencia/rol, no prueba de Bearer.
+  IF c.replay THEN
+    IF c.cotizacion_nueva IS NOT NULL OR c.evidencia_nueva IS NOT NULL OR c.movimiento_nuevo IS NOT NULL THEN
+      RAISE EXCEPTION 'Replay con efectos nuevos' USING ERRCODE='23514';
+    END IF;
+    RETURN NULL;
+  END IF;
+  IF c.operacion IN ('O1','O2') AND NOT EXISTS(
+    SELECT 1 FROM public."COMANDO_AUXILIAR_UC07" r
+    WHERE r."idComandoAuxiliar"=c.comando AND r."idOfertaExcedente"=c.oferta
+      AND r."idUsuarioVendedor"=c.actor AND r."claveIdempotencia"=c.clave
+      AND r."huellaSolicitud"=c.huella
+      AND ((c.operacion='O1' AND r."idCotizacion"=c.cotizacion_nueva AND r."idEvidencia" IS NULL)
+        OR (c.operacion='O2' AND r."idEvidencia"=c.evidencia_nueva AND r."idCotizacion" IS NULL))) THEN
+    RAISE EXCEPTION 'Efecto sin recibo atomico' USING ERRCODE='23514';
+  END IF;
+  IF c.operacion IN ('PARTE_A','PARTE_B','RECHAZO','O1','O2') THEN
+    PERFORM public.fn_uc07_validar_oferta(c.oferta);
+  END IF;
+  IF c.operacion='PARTE_A' AND NOT EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" WHERE "idOfertaExcedente"=c.oferta) THEN
+    RAISE EXCEPTION 'Parte A sin oferta' USING ERRCODE='23514';
+  END IF;
+  IF c.operacion='PARTE_B' AND NOT EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE"
+       WHERE "idOfertaExcedente"=c.oferta AND "respuesta"='ACEPTADA') THEN
+    RAISE EXCEPTION 'Parte B sin aceptacion final' USING ERRCODE='23514';
+  END IF;
+  IF c.operacion='RECHAZO' AND NOT EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE"
+       WHERE "idOfertaExcedente"=c.oferta AND "respuesta"='RECHAZADA') THEN
+    RAISE EXCEPTION 'Rechazo no confirmado' USING ERRCODE='23514';
+  END IF;
+  IF c.operacion IN ('PARTE_B','UC41') THEN
+    SELECT * INTO STRICT m FROM public."MOVIMIENTO_EXCEDENTE" WHERE "idMovimientoExcedente"=c.movimiento_nuevo;
+    SELECT * INTO STRICT t FROM uc07_privado.transferencia WHERE "idMovimientoExcedente"=m."idMovimientoExcedente";
+    IF t.xid<>c.xid OR NOT EXISTS(SELECT 1 FROM public."EXCEDENTE"
+        WHERE "idExcedente"=c.excedente AND "cantidadDisponible"=t.cantidad_despues
+          AND "costoHistoricoDisponible"=t.costo_despues) THEN
+      RAISE EXCEPTION 'Saldo y movimiento no atomicos' USING ERRCODE='23514';
+    END IF;
+  END IF;
+  IF c.operacion='UC05' AND NOT EXISTS(SELECT 1 FROM public."ENTREGA" WHERE "idPedido"=c.pedido) THEN
+    RAISE EXCEPTION 'Contexto UC05 sin entrega final' USING ERRCODE='23514';
+  END IF;
+  RETURN NULL;
+END;
+$fn$;
+CREATE CONSTRAINT TRIGGER ct_uc07_contexto_final AFTER INSERT ON uc07_privado.contexto_tx
+DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_contexto_final();
+~~~
+
+El contexto protege el enlace al efecto **insertado en esa transacción** sin depender de xmin (que complica subtransacciones). No existe reserva PENDIENTE confirmada; los efectos fallan al commit si falta recibo. El gateway debe devolver el recibo construido mediante INSERT ... RETURNING respuestaOriginal/estadoHttpOriginal; el SQL no acepta JSON arbitrario sensible. Los formatos y HTTP 201/200 son candidatos D, no una nueva ratificación. En replay se conserva el JSON histórico, se reautoriza en Java y se consulta estadoActual por separado; no se ejecuta otro INSERT.
+
+### 15.12. Padres comerciales, entrega y líneas técnicas
+
+~~~sql
+CREATE FUNCTION public.fn_uc07_padre_guard()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
+DECLARE c uc07_privado.contexto_tx; j jsonb; id bigint; relacionado boolean;
+BEGIN
+  IF TG_OP='UPDATE' AND NEW IS NOT DISTINCT FROM OLD THEN RETURN NEW; END IF;
+  j:=CASE WHEN TG_OP='DELETE' THEN to_jsonb(OLD) ELSE to_jsonb(NEW) END;
+  IF TG_TABLE_NAME='PRECIO_PRODUCTO' THEN
+    id:=OLD."idPrecio";
+    relacionado:=EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" WHERE "idPrecio"=id);
+    IF relacionado AND TG_OP='DELETE' THEN
+      RAISE EXCEPTION 'Procedencia de precio no borrable' USING ERRCODE='23514';
+    END IF;
+    IF relacionado AND TG_OP='UPDATE' THEN
+      IF ROW(NEW."idPrecio",NEW."idProducto",NEW."precioBase",NEW."vigenteDesde",
+             NEW."fechaHoraRegistro",NEW."idUsuarioRegistro",NEW."fechaHoraCancelacion",NEW."idUsuarioCancelacion")
+         IS DISTINCT FROM
+         ROW(OLD."idPrecio",OLD."idProducto",OLD."precioBase",OLD."vigenteDesde",
+             OLD."fechaHoraRegistro",OLD."idUsuarioRegistro",OLD."fechaHoraCancelacion",OLD."idUsuarioCancelacion")
+         OR EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" o WHERE o."idPrecio"=id
+           AND (NEW."vigenteDesde">o."fechaHoraOferta"
+             OR (NEW."vigenteHasta" IS NOT NULL AND NEW."vigenteHasta"<=o."fechaHoraOferta"))) THEN
+        RAISE EXCEPTION 'Precio historico alterado' USING ERRCODE='23514';
+      END IF;
+    END IF;
+  ELSIF TG_TABLE_NAME='PEDIDO' THEN
+    IF TG_OP='UPDATE' AND NEW."estado" IS DISTINCT FROM OLD."estado"
+       AND session_user='uc07_gateway' THEN
+      c:=public.fn_uc07_contexto();
+      IF c.operacion<>'UC05' OR c.pedido IS DISTINCT FROM OLD."idPedido"
+         OR OLD."estado"<>'PENDIENTE' OR NEW."estado"<>'ENTREGADO' THEN
+        RAISE EXCEPTION 'Cierre/reapertura fuera de UC05' USING ERRCODE='23514';
+      END IF;
+    END IF;
+    id:=OLD."idPedido";
+    relacionado:=EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" WHERE "idPedidoReceptor"=id);
+    IF relacionado AND TG_OP='DELETE' THEN
+      RAISE EXCEPTION 'Pedido con historia UC07' USING ERRCODE='23514';
+    END IF;
+    IF relacionado AND TG_OP='UPDATE' AND
+      ROW(NEW."idPedido",NEW."idCliente",NEW."tipoAjuste",NEW."porcentajeAjuste",NEW."totalOriginal",
+          NEW."categoriaComercialAplicada",NEW."idPoliticaComercialAplicada")
+      IS DISTINCT FROM
+      ROW(OLD."idPedido",OLD."idCliente",OLD."tipoAjuste",OLD."porcentajeAjuste",OLD."totalOriginal",
+          OLD."categoriaComercialAplicada",OLD."idPoliticaComercialAplicada") THEN
+      RAISE EXCEPTION 'Cabecera comercial congelada' USING ERRCODE='23514';
+    END IF;
+  ELSIF TG_TABLE_NAME='DETALLE_PEDIDO' THEN
+    IF TG_OP='INSERT' THEN
+      IF NEW."cantidadOriginal"=0 THEN
+        c:=public.fn_uc07_contexto();
+        IF c.operacion<>'PARTE_B' OR c.pedido IS DISTINCT FROM NEW."idPedido" THEN
+          RAISE EXCEPTION 'Linea tecnica fuera de aceptacion' USING ERRCODE='42501';
+        END IF;
+      END IF;
+      RETURN NEW; -- ck_detalle_pedido_3 y trigger activo V1 intactos.
+    END IF;
+    relacionado:=EXISTS(SELECT 1 FROM public."EXCEDENTE" x
+       WHERE (x."idPedidoOrigen",x."numeroDetalleOrigen")=(OLD."idPedido",OLD."numeroDetalle"))
+       OR EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" o
+          JOIN public."EXCEDENTE" x ON x."idExcedente"=o."idExcedente"
+          JOIN public."DETALLE_PEDIDO" origen
+            ON (origen."idPedido",origen."numeroDetalle")=(x."idPedidoOrigen",x."numeroDetalleOrigen")
+          WHERE o."idPedidoReceptor"=OLD."idPedido" AND origen."idProducto"=OLD."idProducto");
+    IF relacionado THEN
+      RAISE EXCEPTION 'Detalle con procedencia/historia UC07 inmutable' USING ERRCODE='23514';
+    END IF;
+  ELSIF TG_TABLE_NAME='PRODUCTO' THEN
+    relacionado:=EXISTS(SELECT 1 FROM public."OFERTA_EXCEDENTE" o
+       JOIN public."EXCEDENTE" x ON x."idExcedente"=o."idExcedente"
+       JOIN public."DETALLE_PEDIDO" d ON (d."idPedido",d."numeroDetalle")=(x."idPedidoOrigen",x."numeroDetalleOrigen")
+       WHERE d."idProducto"=OLD."idProducto");
+    IF relacionado AND (TG_OP='DELETE' OR
+       (TG_OP='UPDATE' AND ROW(NEW."idProducto",NEW."tipoProducto",NEW."codigoUnidadVenta")
+       IS DISTINCT FROM ROW(OLD."idProducto",OLD."tipoProducto",OLD."codigoUnidadVenta"))) THEN
+      RAISE EXCEPTION 'Identidad/tipo/unidad con historia UC07' USING ERRCODE='23514';
+    END IF;
+    -- activo, nombre y descripción no se congelan indiscriminadamente.
+  ELSIF TG_TABLE_NAME IN ('ENTREGA','DETALLE_ENTREGA') THEN
+    IF TG_OP<>'INSERT' THEN
+      RAISE EXCEPTION 'Entrega definitiva no reversible' USING ERRCODE='23514';
+    END IF;
+    c:=public.fn_uc07_contexto();
+    IF c.operacion<>'UC05' OR c.pedido IS DISTINCT FROM (j->>'idPedido')::bigint THEN
+      RAISE EXCEPTION 'Entrega fuera de contexto UC05' USING ERRCODE='42501';
+    END IF;
+    IF TG_TABLE_NAME='ENTREGA' THEN
+      NEW."idUsuarioRepartidor":=c.actor; NEW."fechaHoraEntrega":=clock_timestamp();
+    END IF;
+  END IF;
+  IF TG_OP='DELETE' THEN RETURN OLD; END IF;
+  RETURN NEW;
+END;
+$fn$;
+CREATE TRIGGER tg_uc07_precio_padre BEFORE UPDATE OR DELETE ON public."PRECIO_PRODUCTO"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+CREATE TRIGGER tg_uc07_pedido_padre BEFORE UPDATE OR DELETE ON public."PEDIDO"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+CREATE TRIGGER tg_uc07_detalle_padre BEFORE INSERT OR UPDATE OR DELETE ON public."DETALLE_PEDIDO"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+CREATE TRIGGER tg_uc07_producto_padre BEFORE UPDATE OR DELETE ON public."PRODUCTO"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+CREATE TRIGGER tg_uc07_entrega_guard BEFORE INSERT OR UPDATE OR DELETE ON public."ENTREGA"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+CREATE TRIGGER tg_uc07_detalle_entrega_guard BEFORE INSERT OR UPDATE OR DELETE ON public."DETALLE_ENTREGA"
+FOR EACH ROW EXECUTE FUNCTION public.fn_uc07_padre_guard();
+~~~
+
+No se añade FOR UPDATE de oferta desde un trigger de precio/producto; se conserva el orden UC-19 PRODUCTO U→A2(1919,1)→PRECIO U. Los predicados de historia impiden romper intervalos ya usados, pero permiten cierres prospectivos que mantengan fechaHoraOferta dentro del rango. UC-48 puede cambiar activo sin borrar historia; una futura línea técnica de producto inactivo sigue encontrando el veto V1 intacto. La reserva de aceptación/entrega tras desactivación no se resuelve por este guard.
+
+Las pruebas C3 deben incluir READ COMMITTED, nuevas FKs K, snapshots y escritores SQL controlados; no se atribuye seguridad concurrente global solo a EXISTS de un trigger. La cooperación exigida se impone al limitar DML al gateway; si otro rol operativo conserva UPDATE directo de precio/raíces fuera de los protocolos, F/H permanecen bloqueadas.
+
+
+### 15.13. Propietarios y privilegios candidatos
+
+**PROVISIONAMIENTO CANDIDATO, NO EJECUTADO.** Los nombres de roles son nuevos y requieren inventario previo; no representan usuarios ya configurados. Ejecutar su provisión antes de §15.6 en una eventual migración autorizada. Las credenciales se gestionan fuera del documento. No aplicar a ciegas sobre los roles actuales de la app.
+
+~~~sql
+-- Precondición administrativa: nombres libres y esquema/ACL inventariados.
+CREATE ROLE uc07_owner NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+CREATE ROLE uc07_gateway LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+CREATE ROLE uc07_runtime LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+ALTER DEFAULT PRIVILEGES FOR ROLE uc07_owner REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
+REVOKE uc07_owner,uc07_gateway FROM uc07_runtime;
+REVOKE uc07_owner FROM uc07_gateway;
+REVOKE CREATE ON SCHEMA public FROM PUBLIC,uc07_gateway,uc07_runtime;
+GRANT USAGE ON SCHEMA public TO uc07_owner,uc07_gateway;
+-- uc07_runtime tendrá únicamente las proyecciones autorizadas BC07,
+-- definidas fuera de estos fragmentos; no se le concede DML UC07.
+
+-- Después de crear tablas nuevas y funciones:
+ALTER TABLE public."COTIZACION_OFERTA_EXCEDENTE" OWNER TO uc07_owner;
+ALTER TABLE public."EVIDENCIA_ACEPTACION_OFERTA" OWNER TO uc07_owner;
+ALTER TABLE public."EVENTO_ESTADO_EVIDENCIA_OFERTA" OWNER TO uc07_owner;
+ALTER TABLE public."COMANDO_AUXILIAR_UC07" OWNER TO uc07_owner;
+ALTER TABLE uc07_privado.contexto_tx OWNER TO uc07_owner;
+ALTER TABLE uc07_privado.transferencia OWNER TO uc07_owner;
+ALTER TABLE uc07_privado.legado_oferta OWNER TO uc07_owner;
+REVOKE ALL ON SCHEMA uc07_privado FROM PUBLIC,uc07_runtime,uc07_gateway;
+REVOKE ALL ON ALL TABLES IN SCHEMA uc07_privado FROM PUBLIC,uc07_runtime,uc07_gateway;
+REVOKE ALL ON ALL SEQUENCES IN SCHEMA uc07_privado FROM PUBLIC,uc07_runtime,uc07_gateway;
+
+REVOKE ALL ON public."OFERTA_EXCEDENTE",public."COTIZACION_OFERTA_EXCEDENTE",
+  public."EVIDENCIA_ACEPTACION_OFERTA",public."EVENTO_ESTADO_EVIDENCIA_OFERTA",
+  public."COMANDO_AUXILIAR_UC07",public."MOVIMIENTO_EXCEDENTE",
+  public."IMPUTACION_ENTREGA_ADICIONAL" FROM PUBLIC,uc07_runtime,uc07_gateway;
+
+GRANT SELECT ON public."SESION_USUARIO",public."USUARIO",public."USUARIO_ROL",
+  public."CLIENTE",public."PEDIDO",public."DETALLE_PEDIDO",public."EXCEDENTE",
+  public."PRODUCTO",public."PRECIO_PRODUCTO",public."PREPARACION",
+  public."ENTREGA",public."DETALLE_ENTREGA",public."MOVIMIENTO_EXCEDENTE",
+  public."OFERTA_EXCEDENTE",public."IMPUTACION_ENTREGA_ADICIONAL" TO uc07_owner;
+-- Privilegio mínimo de UPDATE para SELECT ... FOR UPDATE/SHARE en las raíces;
+-- owner NOLOGIN no se concede a roles operativos.
+GRANT UPDATE("idCliente") ON public."CLIENTE" TO uc07_owner;
+GRANT UPDATE("idPedido") ON public."PEDIDO" TO uc07_owner;
+GRANT UPDATE("numeroDetalle") ON public."DETALLE_PEDIDO" TO uc07_owner;
+GRANT UPDATE("idExcedente") ON public."EXCEDENTE" TO uc07_owner;
+GRANT UPDATE("idProducto") ON public."PRODUCTO" TO uc07_owner;
+GRANT UPDATE("idPrecio") ON public."PRECIO_PRODUCTO" TO uc07_owner;
+
+GRANT SELECT ON public."OFERTA_EXCEDENTE",public."COTIZACION_OFERTA_EXCEDENTE",
+  public."EVIDENCIA_ACEPTACION_OFERTA",public."COMANDO_AUXILIAR_UC07",
+  public."MOVIMIENTO_EXCEDENTE",public."IMPUTACION_ENTREGA_ADICIONAL",
+  public."PEDIDO",public."DETALLE_PEDIDO",public."EXCEDENTE",public."PRODUCTO",
+  public."PRECIO_PRODUCTO",public."ENTREGA",public."DETALLE_ENTREGA" TO uc07_gateway;
+GRANT INSERT ON public."OFERTA_EXCEDENTE",public."COTIZACION_OFERTA_EXCEDENTE",
+  public."EVIDENCIA_ACEPTACION_OFERTA",public."COMANDO_AUXILIAR_UC07",
+  public."MOVIMIENTO_EXCEDENTE",public."IMPUTACION_ENTREGA_ADICIONAL",
+  public."DETALLE_PEDIDO",public."ENTREGA",public."DETALLE_ENTREGA" TO uc07_gateway;
+GRANT UPDATE("respuesta","fechaHoraRespuesta","cantidadAceptada","importeAceptado")
+  ON public."OFERTA_EXCEDENTE" TO uc07_gateway;
+GRANT UPDATE("estadoEvidencia") ON public."EVIDENCIA_ACEPTACION_OFERTA" TO uc07_gateway;
+GRANT UPDATE("cantidadDisponible","costoHistoricoDisponible") ON public."EXCEDENTE" TO uc07_gateway;
+GRANT UPDATE("estado") ON public."PEDIDO" TO uc07_gateway; -- cierre UC05 guardado, no reapertura
+-- ACL mínima del subgrafo UC07/adicionales; NO configura todo UC05/finanzas/stock.
+-- Sus restantes permisos y escritores necesitan revisión propia y campaña C3.
+-- Ningún UPDATE/DELETE de cotizaciones, eventos, comandos, movimientos o imputaciones.
+-- Ningún INSERT de eventos ni tablas privadas, ni acceso a hashes de sesión.
+
+DO $acl$
+DECLARE r record; firma text; secuencia text;
+BEGIN
+  secuencia:=pg_get_serial_sequence('public."EVENTO_ESTADO_EVIDENCIA_OFERTA"','idEvento');
+  IF secuencia IS NULL THEN RAISE EXCEPTION 'Identidad de evento ausente'; END IF;
+  EXECUTE format('REVOKE ALL ON SEQUENCE %s FROM PUBLIC,uc07_runtime,uc07_gateway',secuencia);
+  FOR r IN SELECT n.nspname,p.proname,oidvectortypes(p.proargtypes) AS argumentos
+    FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+    WHERE n.nspname='public' AND p.proname ~ '^fn_uc07_'
+  LOOP
+    firma:=format('%I.%I(%s)',r.nspname,r.proname,r.argumentos);
+    EXECUTE format('ALTER FUNCTION %s OWNER TO uc07_owner',firma);
+    EXECUTE format('REVOKE ALL ON FUNCTION %s FROM PUBLIC,uc07_runtime,uc07_gateway',firma);
+  END LOOP;
+END;
+$acl$;
+GRANT EXECUTE ON FUNCTION public.fn_uc07_abrir_contexto(uuid,text,bigint,bigint,bigint,uuid,text,text)
+  TO uc07_gateway;
+~~~
+
+Antes de usar el bloque ACL debe verificarse que la familia fn_uc07_ contiene **solo** los objetos nuevos catalogados; si hay objetos homónimos/preexistentes, detener y versionar el plan en vez de cambiarles propietario. Las funciones internas/triggers son del owner y no EXECUTE de gateway; fn_uc07_evento_guard permanece SECURITY INVOKER. Su inserción legítima ocurre bajo el AFTER SECURITY DEFINER, cuyo current_user es owner. No se otorgan SUPERUSER, propiedad, SET ROLE owner ni capacidad de deshabilitar triggers. El migrador conserva sus privilegios administrativos separados, sin excepción cotidiana a la historia.
+
+**Bloqueo F8:** gateway es un canal privilegiado del servidor, no una identidad humana. Spring debe autenticar Bearer real, validar ámbito y prevalidar E/D, y usar ese canal únicamente desde la operación autorizada. La función SQL comprueba existencia/vigencia/rol de la sesión declarada; quien posea credenciales gateway y conozca otra sesión válida podría atribuirle la operación. No prueba posesión del Bearer, no sustituye controles Java y no se considera resuelto el puente confiable. Deben ratificarse distribución/aislamiento de credenciales, límites del actor de amenaza, auditoría de todos los grants efectivos y alternativa de autenticación SQL verificable si se exige resistencia a escritores con esas mismas credenciales. No se concede identidad mediante GUC o idUsuario libre.
+
 
 ## 16. Compatibilidad con línea base G0
 
@@ -675,7 +2028,7 @@ ck_oferta_excedente_3, migraciones V1/V2/V3, contratos REV04B, manifiestos, RBAC
 
 ### 17.1. Datos y tipos
 
-CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), nuevo HEAD C1 `0b75eb4ca32db9481e22a34c80eb637b80351a31` (base C1 `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661`; antecedente Etapa B `06bf800cdbfab9eedebe5a7a79e32269df01e63f`), leído desde ese commit. Esta rama solo modifica su CR-F; no incluye cambios del archivo de CR-C.
+CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), HEAD C2 `9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b` (HEAD C1 `0b75eb4ca32db9481e22a34c80eb637b80351a31`) (base C1 `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661`; antecedente Etapa B `06bf800cdbfab9eedebe5a7a79e32269df01e63f`), leído desde ese commit. Esta rama solo modifica su CR-F; no incluye cambios del archivo de CR-C.
 
 | Elemento | CR-C | CR-F candidata | Coincide |
 |---|---|---|---|
@@ -684,19 +2037,19 @@ CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47)
 | idComandoAuxiliar | UUID servidor RATIFICADO B, registro interno | UUID PK COMANDO_AUXILIAR_UC07 | Sí, sin exigir exposición HTTP |
 | idEvento | BIGINT identidad PostgreSQL RATIFICADO B | BIGINT GENERATED ALWAYS AS IDENTITY | Sí, no UUID |
 | Replay | resultadoHistorico + estadoActual; reautorización | Recibo inmutable, lectura actual consistente y permisos vigentes | Sí, D ESPECIFICADA PARA RATIFICACIÓN |
-| Evidencia utilizable única | Índice conjunto por oferta | uq_evidencia_utilizable_por_oferta, VERIFICADA/UTILIZADA | Sí, candidato F PENDIENTE C2 |
+| Evidencia utilizable única | Índice conjunto por oferta | uq_evidencia_utilizable_por_oferta, VERIFICADA/UTILIZADA | Sí, candidato F especificado C2, no ratificado |
 | codigoOferta | Identidad estable padre | Derivación sobre datos originales protegidos | Sí; no columna obligatoria nueva |
-| codigoCotizacion | String de versión | CHAR(64) hex candidato | Sí conceptual; canonización definitiva pendiente |
-| numeroVersion | int salida | INTEGER positivo y UNIQUE por oferta | Sí; generador pendiente |
+| codigoCotizacion | String de versión | CHAR(64) hex candidato | Sí conceptual; canonización comercial definitiva pendiente, distinta de huella D |
+| numeroVersion | int salida | INTEGER positivo y UNIQUE por oferta | Sí; correlativo bajo lock padre candidato §15.7, prueba C3 pendiente |
 | numeroIntentoEvidencia | Por oferta, prevalidación no consume, replay no incrementa | INTEGER NOT NULL >0 + UNIQUE(oferta,intento), lock padre | Sí, RATIFICADA C |
 | cantidadConfirmada | Entrada validada BigDecimal | NUMERIC(18,3), cotejo con cotización | Sí |
 | importeConfirmado | Entrada no autoritativa | NUMERIC(18,2), igualdad/cálculo servidor | Sí |
 | fechaHoraMensaje | OffsetDateTime declarada | TIMESTAMPTZ | Sí; D especifica UTC/microsegundos exactos; tolerancia comercial pendiente |
 | fechaHoraRegistro | Salida servidor | TIMESTAMPTZ servidor | Sí |
-| Estados evidencia | Cuatro estados/transiciones, terminales | CHECK + eventos + transición controlada propuesta | Sí, requiere mecanismo físico |
+| Estados evidencia | Cuatro estados/transiciones, terminales | CHECK + eventos + transición controlada propuesta | Sí, cuerpos §15.7–15.8 candidatos, no probados |
 | Idempotency-Key | §10 C1: 1–128 ASCII, huella versionada y replay | COMANDO_AUXILIAR_UC07, VARCHAR(128)/CHECK, respuestaOriginal | Sí, D especificada NO ratificada |
 | Límites de archivo | 1 MiB app/2 MiB físico/4096² experimentales | ck_evidencia_no_vacia conservado, sin techo definitivo | Sí; E especificada NO ratificada |
-| Actor vendedor | Principal autenticado | FK USUARIO y eventos con actor servidor | Sí; FK no sustituye autorización |
+| Actor vendedor | Principal autenticado | FK USUARIO y eventos del gateway | Sí; F8 bloqueante, FK/sesión declarada no prueban Bearer |
 | MIME declarado y validado | Ambos conservados | tipoMimeDeclarado y tipoMimeContenido | Sí |
 
 ### 17.2. Reglas contractuales y garantías físicas
@@ -712,14 +2065,18 @@ CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47)
 | Idempotencia/replay | Clave/huella/efecto/recibo | UNIQUE por alcance, serialización previa y atomicidad | F16,F46–F48 |
 | Correlación comercial | Cotización + pertenencia | FK compuesta y cotejo de cantidad/importe/tiempo | F18–F20,F28 |
 | Datos/recuperación | Bytes, huella, accesos/backup | Permisos, hash, controles streaming, no-store y retención | F29–F39 |
-| Inmutabilidad | Snapshot, versiones, evidencia/eventos | Triggers/operaciones controladas/permisos especificados en §13; cuerpos futuros | F08,F15,F27,F35,F36,F54 |
+| Inmutabilidad | Snapshot, versiones, evidencia/eventos | Triggers/operaciones controladas/permisos especificados en §13; cuerpos candidatos §15.6–15.13, F8 pendiente | F08,F15,F27,F35,F36,F54 |
+| F6-A, aceptación separada de entrega | Oferta/evidencia/cotización/movimiento/saldo/prueba histórica | Diferidos §15.9/15.11 releen final; sin DETALLE_ENTREGA ni imputación | F24,F43,F64 |
+| F6-B, entrega posterior UC05 | ENTREGA/DETALLE_ENTREGA e IMPUTACION existentes V1 | §15.10 con FK/UNIQUE V1; parcial/cantidad/importe/cronología; sin doble imputación | F65,F66 |
+| Frontera de identidad | Gateway aislado y contexto privado candidato | §13.6/§15.13 distinguen identidad Java de sesión declarada; bloqueo F8 | F69 |
+| Históricos/preflight | Ruta uniforme elegida después | §14; lock previo a aserción vacía; no columnas ausentes ni precio inventado | F55,F56,F61,F70,F71 |
 | Rechazo/confirmación final | Oferta/movimiento/stock/evidencia | Rechazo sin evidencia, serialización y rollback Parte B | F24–F28,F42,F43 |
 
-Compatibilidad C1 cotejada contra nuevo SHA CR-C: A/B/C RATIFICADAS por decisión expresa del responsable; D/E ESPECIFICADAS PARA RATIFICACIÓN; F/G/H PENDIENTES. No reabrir tipos/identidad/FK compuesta/intentos como elecciones técnicas aún no tomadas. Pendientes: contratos auxiliares/rutas y ratificación D/E, límites calibrados, funciones/privilegios/estado final C2, preflight y tratamiento uniforme de legado, matriz global/generadores y campaña C3. #85/#86 MERGED no equivalen a UC-07 implementado ni RT-UC07-04 cerrada.
+Compatibilidad C2 cotejada contra SHA CR-C 9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b: A/B/C RATIFICADAS por decisión expresa del responsable; D/E ESPECIFICADAS PARA RATIFICACIÓN sin cambiar su texto; F/G ESPECIFICADAS PARA REVISIÓN/RATIFICACIÓN, F8 bloqueante; H ABIERTA para C3. No reabrir tipos/identidad/FK compuesta/intentos como elecciones técnicas aún no tomadas. Pendientes: contratos auxiliares/rutas y ratificación D/E, límites calibrados, ratificación/revisión de funciones/privilegios y F6-A/F6-B, ejecución autorizada del preflight y elección uniforme de legado, matriz global/generadores y campaña C3. #85/#86 MERGED no equivalen a UC-07 implementado ni RT-UC07-04 cerrada.
 
 ## 18. Plan de pruebas PostgreSQL/Testcontainers
 
-Todas las filas F siguen **PLAN DE PRUEBAS DE LA IMPLEMENTACIÓN DEFINITIVA, NO ACREDITADO COMO SUITE COMPLETA**. Corte 3 tuvo ensayos R/P parciales descritos en adenda/§12, sin equivalencia automática con todos estos IDs; C1 no ejecuta PostgreSQL ni implementa esos servicios. B0 documental no ejecuta estos escenarios. Precondiciones aluden a un futuro entorno descartable autorizado con esquema candidato definitivo, datos sintéticos y actores correctos; no a producción. IDs F locales a esta CR.
+Todas las filas F siguen **PLAN DE PRUEBAS DE LA IMPLEMENTACIÓN DEFINITIVA, NO ACREDITADO COMO SUITE COMPLETA**. Corte 3 tuvo ensayos R/P parciales descritos en adenda/§12, sin equivalencia automática con todos estos IDs; C1/C2 no ejecutan PostgreSQL ni implementan esos servicios. B0 documental no ejecuta estos escenarios. Precondiciones aluden a un futuro entorno descartable autorizado con esquema candidato definitivo, datos sintéticos y actores correctos; no a producción. IDs F locales a esta CR.
 
 | ID | Precondición | Acción | Resultado esperado | Componente |
 |---|---|---|---|---|
@@ -732,7 +2089,7 @@ Todas las filas F siguen **PLAN DE PRUEBAS DE LA IMPLEMENTACIÓN DEFINITIVA, NO 
 | F07 | Precio de otro producto | Insertar oferta vinculándolo | Rechazo de correspondencia | Guardia snapshot |
 | F08 | Snapshot creado | Cambiar P/idPrecio no autorizado | Rechazo e historia intacta | Inmutabilidad |
 | F09 | Oferta histórica sin snapshot | Migrar/habilitar flujo | Plan aprobado, sin P inventado ni excepción silenciosa | Históricos |
-| F10 | Candidato A preferente | Crear oferta/V1 y fallar entre inserciones | Cantidad/importe iguales, ambas o ninguna | Cotización |
+| F10 | A ratificada, implementación futura | Crear oferta/V1 y fallar entre inserciones | Cantidad/importe iguales, ambas o ninguna | Cotización |
 | F11 | Oferta con P congelado | Cotizar parcial V2 | P/ajuste originales | Cotización |
 | F12 | Oferta compartida | Dos emisiones simultáneas | Versiones únicas, resultado controlado | Numeración |
 | F13 | Cantidad escala 3 y P escala 4 | Calcular parcial | HALF_UP subtotal/ajuste, escala 2 y rangos válidos | Cálculo |
@@ -784,14 +2141,29 @@ Todas las filas F siguen **PLAN DE PRUEBAS DE LA IMPLEMENTACIÓN DEFINITIVA, NO 
 | F59 | Replay/timeout/retención | Mismo/distinto payload, pérdida de permisos, 503 transitorio, purga excepcional | Recibo original, estado actual y deduplicación preservados | D |
 | F60 | 20–30 muestras seguras y adversariales | Medir E y presupuestos | Límites finales motivados, sin P99 concluyente ni datos personales en Git/CI | E |
 | F61 | Destinos con/sin filas | Preflight externo y abortar precondición inesperada | Misma versión Flyway no produce esquemas divergentes por datos; no regularización inventada | G/C2 |
+| F62 | Parte A y triggers C2 | Insertar oferta sin V1 / V1 incoherente / ambas correctas | Fallo al commit en dos primeros; commit completo solo en tercero | F1/F2/diferidos |
+| F63 | Cadena CAPTURADA→VERIFICADA→UTILIZADA | Revisar eventos anteriores y último; inducir fallo de AFTER/DELETE | Pasados válidos conservados; último=estado final; rollback si falta evento | F3/F4 |
+| F64 | Aceptación sin ninguna entrega | Parte B con evidencia, movimiento, saldo y técnica; omitir/alterar un efecto | Commit íntegro sin ENTREGA/IMPUT; rechazo si efecto falta o discrepa | F6-A |
+| F65 | Oferta aceptada y entrega UC05 posterior | Imputar a otro pedido/producto, dos veces o sobre cantidad; caso parcial válido | FKs/UNIQUE y diferidos rechazan inválidos; parcial correcto según política autorizada | F6-B |
+| F66 | Varios movimientos aceptados del mismo producto | Entregar originales primero y adicionales en orden; saltar uno o usar importe total en porción parcial | Rechazo fuera de cronología/cantidad/importe; propuesta parcial revisada con UC05 | F6-B |
+| F67 | Precio/producto con oferta histórica | UC19 cierra hacia futuro; modifica P/inicio o cierre anterior a oferta; UC48 cambia activo | Cierre prospectivo y activo permitidos; historia alterada rechazada; V1 activo intacto | F7 |
+| F68 | Recibo O1/O2 y efecto nuevo/ajeno | Falta recibo, otro recurso/actor, JSON arbitrario, excepción antes de commit | Vínculo privado y huella rechazan; JSON mínimo servidor; rollback completo | F5 |
+| F69 | Conexiones gateway/runtime/owner reales | DML/EXECUTE directo, inserción evento, GUC e intento de suplantar idSesion | Runtime denegado; cuantificar límite gateway y decidir puente confiable, sin falso positivo de autenticación | F8 |
+| F70 | Esquema V1–V3 sin snapshot | Ejecutar solo preflight descartable | No se referencia columna inexistente; extensión parcial detiene inventario | G1 |
+| F71 | Ruta vacía autorizada en sandbox y escritor concurrente | INSERT antes/durante ACCESS EXCLUSIVE; abortar aserción/ALTER | Lock precede aserción, esquema determinista y rollback sin extensión parcial; sin fallback | G2/G3 |
+| F72 | Legado certificado y fila NULL no certificada | Rechazo/no-op, intento de aceptar o falsificar marca | Solo cierres aprobados; no P inventado; nuevos incompletos/aceptación no demostrada fallan | G4 |
+| F73 | PG17.11 y roles/esquema completos | Compilar todos los cuerpos, revisar columnas, permisos y funciones SQL | Errores materiales corregidos antes de certificar; parser/B0 no son sustituto | F9/C3 |
+| F74 | Intercalados §12.5 y escritores reales/prototipos separados | Contexto, triggers, FK K y advisory A2(70702,hash), generadores y UC05/06/41 | Grafo real registrado, ambos órdenes, fallos inyectados, resultados R/P y namespaces inventariados; RT04 sigue abierta hasta evidencia suficiente | H/C3 |
+
+**Revisión estática efectuada C2:** lectura de nombres/FKs contra V1 y análisis gramatical con pglast 7.22 (gramática PostgreSQL 17.7) de los bloques nuevos, incluidos 22 cuerpos PL/pgSQL. No se ejecutó CREATE, DDL, función, trigger, consulta destino ni Testcontainers. El parser no resuelve tablas/tipos/permisos ni verifica ejecución en PostgreSQL 17.11; **compilación y comportamiento no probados**, F62–F74 sin ejecutar. Los tests B0 verifican gobierno documental, no garantías SQL.
 
 Ampliaciones del plan: fallos y versión antigua V2 con evidencia aún válida tras emitir V3 sin aceptación; cruce con UC-05/06 y UC-28, distintos pedidos/excedentes, replay tras cierre/revocación, purga idempotente, restore y comparación de huellas. Definir timeouts/instrumentación y reproducibilidad de intercalados, confirmar cantidad de pruebas ejecutadas y resultados en CI del SHA funcional. No marcar RT-UC07-04 cerrada por el mero diseño ni confundir pruebas ya existentes de UC-19 con estas.
 
 ## 19. Riesgos, exclusiones y criterios de autorización
 
-Riesgos bloqueantes: correlación temporal/producto insuficiente con FK simple; pares snapshot nulos históricos; incoherencia entre límite aplicativo/físico; heredados sin fuente exacta de P; duplicados semánticos no detectables solo por hash; mecanismos físicos definitivos pendientes de C2/C3 pese a ensayos parciales del índice/guardias; relojes coincidentes sin orden; eventos/estado no atómicos; ciclos por invertir PEDIDO/PRODUCTO; purga prematura de claves; escrituras privilegiadas fuera del servicio; identidad manual no autenticada; borrado de datos personales frente a historial terminal. Cada uno requiere solución verificable antes de autorizar, no aprobación por omisión.
+Riesgos bloqueantes: correlación temporal/producto insuficiente con FK simple; pares snapshot nulos históricos; incoherencia entre límite aplicativo/físico; heredados sin fuente exacta de P; duplicados semánticos no detectables solo por hash; mecanismos C2 candidatos no compilados/probados; F8, ACL y campaña C3 pendientes pese a ensayos parciales anteriores del índice/guardias; relojes coincidentes sin orden; eventos/estado no atómicos; ciclos por invertir PEDIDO/PRODUCTO; purga prematura de claves; escrituras privilegiadas fuera del servicio; identidad manual no autenticada; borrado de datos personales frente a historial terminal. Cada uno requiere solución verificable antes de autorizar, no aprobación por omisión.
 
-**Para autorizar:** revisión del responsable y cruzada con PR #47; respetar A–C ratificadas (UUID/BIGINT identidad, V1/O1, FK compuesta, intentos) sin reabrirlas; ratificar D/E y completar F/G/H (generadores existentes, correspondencia producto/precio e índice conjunto), mecanismo físico de inmutabilidad/auditoría, retención y recibos de idempotencia, calibración y política documental, tratamiento de históricos, diseño suficiente RT-UC07-04, privilegios/seguridad y plan de pruebas. Compatibilidad conjunta demostrada y autorización expresa con fecha/alcance reales. No exigir CR-C mergeada para redactar esta CR-F ni crear dependencia circular entre merges.
+**Para autorizar:** revisión del responsable y cruzada con PR #47; respetar A–C ratificadas (UUID/BIGINT identidad, V1/O1, FK compuesta, intentos) sin reabrirlas; ratificar D/E; revisar/ratificar F/G candidatos, incluida separación F6-A/F6-B, fórmula parcial UC05, objetos privados y puente de identidad F8; elegir ruta G tras inventario y completar H/C3 (generadores existentes, namespace 70702, correspondencia producto/precio e índice conjunto), mecanismo físico de inmutabilidad/auditoría, retención y recibos de idempotencia, calibración y política documental, tratamiento de históricos, diseño suficiente RT-UC07-04, privilegios/seguridad y plan de pruebas. Compatibilidad conjunta demostrada y autorización expresa con fecha/alcance reales. No exigir CR-C mergeada para redactar esta CR-F ni crear dependencia circular entre merges.
 
 Aprobar diseño no equivale a ejecutar pruebas. #85 de UC-03 y #86 de UC-19 ya están integradas; no conservarlas como fixes pendientes. Pruebas globales definitivas pertenecen a C3/corte funcional antes de su merge conforme las RDs. Merge documental de CR-F no autoriza automáticamente crear/ejecutar migración. Issue #28 sigue bloqueando producción; no levantar pausa, perfiles o flags.
 
