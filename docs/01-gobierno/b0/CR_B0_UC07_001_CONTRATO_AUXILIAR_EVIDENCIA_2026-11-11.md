@@ -6,7 +6,7 @@
 
 **Estado:** OPEN / DRAFT — NO AUTORIZADA INTEGRALMENTE — NO HABILITA IMPLEMENTACIÓN
 
-**Fecha de redacción:** 11/11/2026 (Argentina); no es fecha de autorización. **Historial Etapa B:** 12/11/2026, propuestas para revisión. **Actualización C1:** 12/11/2026, A–C ratificadas por el responsable; D–E candidatas; F–H pendientes.
+**Fecha de redacción:** 11/11/2026 (Argentina); no es fecha de autorización. **Historial Etapa B:** 12/11/2026, propuestas para revisión. **Actualización C1:** 12/11/2026, A–C ratificadas por el responsable; D–E candidatas; F–H pendientes. **Actualización C2:** F/G especificadas para revisión/ratificación (sin aprobación); H pendiente C3.
 
 **Autoridad de autorización:** Victor Leandro Machado (`leandrito369`).
 
@@ -74,11 +74,11 @@ Se propone una extensión contractual no disruptiva de dos operaciones subordina
 | O2 y sustitución | Registro previo independiente; nueva evidencia válida sustituye atómicamente, emisión sola no invalida |
 | Contratos/HTTP de esta CR | A–C ratificadas en C1; endpoints/firmas auxiliares definitivas y D/E requieren autorización/ratificación posterior |
 | RD-UC07-002 integral | Pendiente de ratificación documental según fuente; cuatro decisiones parcialmente ratificadas no equivalen a documento integral autorizado |
-| CR-F / RT-UC07-04 / UC-03 | CR-F #48 OPEN/DRAFT; referencia examinada C1 `e78f1549fb866fb0e5488f4d66316c9fe107d0d8`; #85 y #86 MERGED; RT-UC07-04 ABIERTA, sin implementación UC-07 |
+| CR-F / RT-UC07-04 / UC-03 | CR-F #48 OPEN/DRAFT; referencia examinada C2 `4105e60bd7ac35b089c683e206a95aec9ae77fd6`; #85 y #86 MERGED; RT-UC07-04 ABIERTA, sin implementación UC-07 |
 
 Distinguir decisión arquitectónica ratificada, diseño contractual propuesto, CR presentada, CR autorizada, implementación realizada y despliegue autorizado. Ninguna etapa implica automáticamente la siguiente.
 
-### Matriz A–H — estado vigente del Corte C1 (12/11/2026)
+### Matriz A–H — estado vigente C2 (ratificaciones C1 preservadas)
 
 **Autoridad:** Victor Leandro Machado, decisión expresa del 12/11/2026 comunicada en el encargo Corte C1. Esta constancia asienta A–C en las CR existentes; no crea una RD ni atribuye autorización integral. **Historial:** A–C eran propuestas preferentes en Etapa B y pasan ahora a RATIFICADAS. D–E siguen sin ratificar; F–H no se cierran por pruebas parciales.
 
@@ -89,8 +89,8 @@ Distinguir decisión arquitectónica ratificada, diseño contractual propuesto, 
 | C | **RATIFICADA — responsable, 12/11/2026** | Intento INTEGER NOT NULL positivo, secuencial por oferta, UNIQUE(oferta,intento), bajo lock padre. Rechazo previo/replay no consumen; INVALIDADA persistida conserva número; rollback no confirma intento ni permite reutilizar uno ya persistido. numeroVersion no cuenta evidencias |
 | D | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | §10: clave 1–128 ASCII, huella UTF-8 versionada, protocolo, replay/errores y retención candidata. Requiere decisión expresa; C1 no implementa ni prueba esa política |
 | E | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | Pipeline P2b y calibración; 1 MiB app/2 MiB físico/4096² solo umbrales experimentales. Parámetros definitivos condicionados a muestra y aprobación |
-| F | **PENDIENTE / NO RATIFICADA — Corte C2** | Índice conjunto, integridad cruzada, inmutabilidad, funciones/triggers/privilegios y estado final transaccional. Tipos/FK ratificados por B no ratifican todos los mecanismos |
-| G | **PENDIENTE / NO RATIFICADA — Corte C2** | Preflight por destino y política uniforme/determinista de históricos; no elegir rama ni ejecutar consultas de destino en C1 |
+| F | **ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA** | Cuerpos SQL candidatos y F6-A/F6-B separados; F8/identidad y pruebas C3 bloqueantes, F no completamente cerrada. Tipos/FK B no ratifican mecanismos |
+| G | **ESPECIFICADA PARA REVISIÓN/RATIFICACIÓN — NO RATIFICADA** | Preflight sin columnas inexistentes, ruta vacía bloqueada/atómica y alternativa legado uniforme; ninguna ruta elegida ni consulta destino en C2 |
 | H | **PENDIENTE / NO RATIFICADA — Corte C3; RT-UC07-04 ABIERTA** | Orden global todavía candidato. Corte 3 reprodujo el defecto puntual UC-03/19 y PR #86 integró corrección; faltan escritores y pruebas globales |
 
 **EXCLUIDA:** autorización integral de CR-C/CR-F, implementación UC-07, nuevos CU/firmas G0, modificación de RDs/migraciones/source-lock/RBAC, merge documental y despliegue. Issue #28 permanece OPEN/PAUSADO.
@@ -497,12 +497,17 @@ Para todos los escenarios de esta matriz C: **PROPUESTOS, NO EJECUTADOS COMO SUI
 | C32 | Timeout de infraestructura produce 503 candidato y reintento con misma clave; distinto payload conserva 409 específico |
 | C33 | Límites request/app/DB y presupuestos de lector, corrupción/firmas PNG-JPEG y recuperación no-store sin fuga de metadatos |
 | C34 | Sin purga automática/TTL en MVP; eliminación excepcional impide reejecutar clave; permisos de recibo revalidados |
+| C35 | Commit de oferta sin V1 falla por diferido; insertar ambas en orden permitido confirma |
+| C36 | F6-A acepta sin ENTREGA/imputación; F6-B comprueba después entrega parcial/originales/adicionales y no doble imputación |
+| C37 | Estado final y último evento coinciden sin exigir que eventos históricos igualen el presente; fallo auditoría revierte todo |
+| C38 | Gateway/sesión no equivalen a Bearer: roles/ACL y frontera Java se prueban expresamente en C3 |
+| C39 | Preflight V1-V3 no consulta snapshots ausentes; aserción vacía bajo lock aborta ante INSERT concurrente |
 
 Además, generadores y carreras entre distintas ofertas/excedentes requieren PostgreSQL/Testcontainers y evidencia CI del SHA funcional. No se ejecutan servicios ni DDL mediante este documento.
 
 ## 13. Coordinación con CR-F presentada
 
-La CR física es **CR-B0-UC07-002, [PR #48](https://github.com/leandrito369/ale-milanesas/pull/48), OPEN/DRAFT/NO AUTORIZADA**, archivo `docs/01-gobierno/b0/CR_B0_UC07_002_EVIDENCIA_ACEPTACION_OFERTA_2026-11-11.md`. Referencia examinada al comenzar C1 `e78f1549fb866fb0e5488f4d66316c9fe107d0d8` (Etapa B; antecedente inicial `115f4948f47f9754118ba46f7c3ff8973ebe9930`); su actualización C1 deberá cotejar el nuevo SHA publicado de esta CR-C. No se inventa el SHA futuro de CR-F. No está pendiente de preparación. Revisión conjunta previa a autorización, sin exigir merges previos recíprocos.
+La CR física es **CR-B0-UC07-002, [PR #48](https://github.com/leandrito369/ale-milanesas/pull/48), OPEN/DRAFT/NO AUTORIZADA**, archivo `docs/01-gobierno/b0/CR_B0_UC07_002_EVIDENCIA_ACEPTACION_OFERTA_2026-11-11.md`. Referencia examinada al comenzar C2 `4105e60bd7ac35b089c683e206a95aec9ae77fd6` (C1; antecedentes Etapa B e78f154/115f494); CR-F actualizará su referencia al nuevo SHA publicado de esta CR-C, sin inventar un SHA futuro de CR-F. No se inventa el SHA futuro de CR-F. No está pendiente de preparación. Revisión conjunta previa a autorización, sin exigir merges previos recíprocos.
 
 | Estado contractual vigente | Correspondencia en CR-F |
 |---|---|
@@ -511,18 +516,44 @@ La CR física es **CR-B0-UC07-002, [PR #48](https://github.com/leandrito369/ale-
 | C RATIFICADA: intento por oferta | INTEGER NOT NULL >0, UNIQUE(oferta,intento), asignación bajo lock padre; prevalidación rechazada sin fila/número, INVALIDADA conserva historia |
 | D ESPECIFICADA PARA RATIFICACIÓN: recibo y estado actual | COMANDO_AUXILIAR_UC07 inmutable, claves/efecto atómicos; lectura actual separada sin mutar recibo y sin eludir permisos |
 | E ESPECIFICADA PARA RATIFICACIÓN: archivos | P2b, MIME declarado/detectado, SHA-256; 1 MiB app/2 MiB físico/4096² experimentales; calibración y presupuestos, sin CHECK definitivo |
-| F PENDIENTE C2: evidencia utilizable única | `uq_evidencia_utilizable_por_oferta` único parcial WHERE estadoEvidencia IN ('VERIFICADA','UTILIZADA'); no dos índices separados como garantía equivalente |
-| F PENDIENTE C2: integridad cruzada / auditoría | Triggers BEFORE INSERT/UPDATE/DELETE según entidad y permisos SQL: producto–precio–vigencia–snapshot; cantidad y cálculo cotizado; igualdad confirmada; bytes/hashes inmutables, terminales y evento obligatorio. Servicio solo no basta |
-| G PENDIENTE C2: históricos | CR-F §14: preflight y ruta determinista; ante históricos detener ruta vacía y decidir tratamiento específico. No una misma migración con esquemas divergentes por datos; no CHECK NOT VALID no nulo que bloquee cierre legítimo |
+| F ESPECIFICADA C2 (NO RATIFICADA): evidencia utilizable única | `uq_evidencia_utilizable_por_oferta` único parcial WHERE estadoEvidencia IN ('VERIFICADA','UTILIZADA'); no dos índices separados como garantía equivalente |
+| F ESPECIFICADA C2 (NO RATIFICADA): integridad cruzada / auditoría | Triggers BEFORE INSERT/UPDATE/DELETE según entidad y permisos SQL: producto–precio–vigencia–snapshot; cantidad y cálculo cotizado; igualdad confirmada; bytes/hashes inmutables, terminales y evento obligatorio. Servicio solo no basta |
+| G ESPECIFICADA C2 (NO RATIFICADA): históricos | CR-F §14: preflight y ruta determinista; ante históricos detener ruta vacía y decidir tratamiento específico. No una misma migración con esquemas divergentes por datos; no CHECK NOT VALID no nulo que bloquee cierre legítimo |
 | H PENDIENTE C3: concurrencia | CR-F §12: matriz real UC-03/19/28, contratos UC-05/06/41, protocolo propuesto A/O1/O2/B y experimento Corte 3; RT-UC07-04 ABIERTA |
 
 Para G, revisión de V1–V3 y fixtures/tests versionados de app no halló INSERT de OFERTA_EXCEDENTE, lo cual **no certifica tabla vacía en destinos**. No inventar P desde importe ni usar precio actual. Ofertas históricas sin fuente exacta no admiten nueva cotización/evidencia ni aceptación automática; un rechazo legítimo autorizado conserva nulos históricos sin bloqueo retroactivo, sin rechazar masivamente por conveniencia migratoria.
 
-Para F/C2, preservar PRECIO_PRODUCTO.precioBase NUMERIC(18,4), snapshot precioBaseUnitarioAplicado y ck_oferta_excedente_3; no existe precioBaseUnitario en precio. Permitir PENDIENTE→ACEPTADA/RECHAZADA sin exigir vigencia actual al responder. O2 persiste NULL→CAPTURADA y CAPTURADA→VERIFICADA con ambos eventos causales; C2 revisará estado final oferta/evidencia/movimiento/imputación/saldo/costo, triggers diferidos, todos los padres/comandos y roles SQL/puente de identidad. No se impone un número fijo de triggers.
+F C2 desarrolla esos cuerpos candidatos, con F6-A de aceptación y F6-B de entrega posterior. No se exige IMPUTACION_ENTREGA_ADICIONAL en Parte B. G C2 corrige inventario de columnas ausentes y propone aserción bajo ACCESS EXCLUSIVE, sin ejecutar ni elegir ruta. Los detalles y bloqueos se explicitan en §13.1.
 
 Para H, Corte 3 confirmó el ciclo anterior UC-03/19 y #86 lo corrigió en main 4dbe386. La matriz de CR-F §12 mantiene candidato CLIENTE→PEDIDO→DETALLE_PEDIDO→EXCEDENTE→PRODUCTO→PRECIO→OFERTA→COTIZACION→EVIDENCIA, con coordinación de claves/generadores antes cuando corresponda y eventos/recibos al final. Recursos/modos por operación y FKs/triggers siguen pendientes de pruebas globales UC-05/06/07/28/41. No se impone bloquear todas las tablas; RT-UC07-04 ABIERTA. No se modifica app ni PR #85/#86.
 
-No anticipar número Flyway ni editar migraciones. Cuerpos finales de triggers, privilegios/propietario, actor confiable, límites calibrados y recuperación deben especificarse/testearse en el corte autorizado; el DDL candidato no se declara ejecutado.
+No anticipar número Flyway ni editar migraciones. Cuerpos candidatos/privilegios de F y estrategia G se especifican en C2; deben ratificarse y probarse en C3, junto con el límite de identidad y parámetros E. No se declara SQL compilado, ejecutado ni comportamiento probado.
+
+### 13.1. Corte C2 — F/G especificadas como candidatas; no autorizadas
+
+Fuentes verificadas al iniciar C2: gobierno main cdd57ed194268f1f5ab29aa0f55781ddddebdfb5; aplicación main 4dbe38668fc5cbc08d04e10920e3bf165c71be11; CR-C 0b75eb4ca32db9481e22a34c80eb637b80351a31 y CR-F 4105e60bd7ac35b089c683e206a95aec9ae77fd6. #85/#86 MERGED, #28 OPEN, worktrees limpios. A–C ratificadas se preservan; bloques D/E de C1 se conservan íntegros como candidatos pendientes de ratificación.
+
+**Corrección expresa de F6 durante C2 (responsable, 12/11/2026):** adoptar como alternativa técnica preferente dos momentos de verificación; el mecanismo definitivo requiere ratificación y PostgreSQL/Testcontainers. No es autorización funcional ni cambio de G0:
+
+| Momento | Garantía candidata al commit | Relación con V1 |
+|---|---|---|
+| F6-A — UC07 Parte B | Oferta ACEPTADA, única evidencia UTILIZADA de su cotización, cantidades/importes iguales, un REASIGNACION de la oferta/excedente, costo y saldo atómicos, detalle receptor original o técnico | No exige ENTREGA, DETALLE_ENTREGA ni IMPUTACION_ENTREGA_ADICIONAL al aceptar |
+| F6-B — UC05 posterior | Detalle de entrega e imputaciones del receptor/movimiento correctos; cantidad efectivamente entregada, sin doble imputación ni exceso, originales primero y adicionales cronológicos | fk_imputacion_entrega_adicional_0 apunta a DETALLE_ENTREGA y _1 a MOVIMIENTO_EXCEDENTE; uq_imputacion_entrega_adicional_0 se conserva |
+
+La exigencia anterior de imputación inmediata era incompatible con esas FKs y REV04B §2 L97/L105 y §6 L251. RD-UC07-001 §§4.1/4.4 prevé **futura** entrega adicional; no se fabrica una entrega en Parte B ni se alteran contratos/FKs para acomodar un trigger. Cantidad/importe imputados pueden ser inferiores a lo aceptado; el criterio candidato de valoración parcial D2-A y sus redondeos requiere revisión conjunta UC05. El caso completo conserva importeAceptado.
+
+**F propuesta:** CR-F §§13/15.6–15.13 contienen funciones fn_uc07_..., triggers BEFORE/AFTER y constraint triggers diferidos, sin límite artificial de cuatro disparadores. Se protegen padres comerciales, bytes/MIME/nombre opcional/huellas y estados terminales; O2 registra NULL→CAPTURADA y CAPTURADA→VERIFICADA. Se relee estado final/último evento, no se exige que cada evento histórico iguale el estado actual. Parte A no puede confirmar oferta sin única V1. Los recibos se vinculan al efecto nuevo de la misma transacción y conservan los nombres D.
+
+SQL usa PRECIO_PRODUCTO.precioBase NUMERIC(18,4) y snapshot precioBaseUnitarioAplicado; conserva ck_oferta_excedente_3 y fk_oferta_excedente_0/1/2 (la _2 es vendedor). Guardias selectivas permiten respuesta PENDIENTE→ACEPTADA/RECHAZADA, no-op sin alterar historia, cierre prospectivo de precio UC19 y cambio activo UC48. No verifican que el precio siga vigente hoy al responder. El veto V1 para insertar una línea técnica de producto inactivo y su reserva funcional permanecen.
+
+Se proponen tres registros privados adicionales, sujetos a aprobación física: contexto de transacción, prueba inmutable de saldo/costo de transferencia y registro de legado certificado. El saldo de una aceptación vieja no se compara con el saldo actual después de futuros descartes. El hash físico usa sha256(bytea) de PostgreSQL 17, sin suponer pgcrypto; decodificación/recursos de imágenes siguen en Java conforme E.
+
+**Bloqueo F8:** rol runtime sin DML sensible, gateway SQL privilegiado del módulo Java y owner/migrador separados. El contexto protegido evita GUC manipulable por runtime; **no convierte idSesion/idUsuario en prueba de posesión de Bearer**. Spring sigue autenticando y autorizando ámbito. Quien posea credencial gateway podría atribuir otra sesión válida: la aceptación del límite, aislamiento/credenciales y ACL efectivas o una capacidad SQL verificable siguen pendientes. F no se declara completamente cerrada.
+
+**G propuesta:** primero inventariar estructura y estados existentes, sin SELECT de idPrecio/precioBaseUnitarioAplicado ausentes en V1–V3. Contar snapshots nulos solo si existen las dos columnas y su extensión fue autorizada. Preflight administrativo separado de migración; C2 no consulta destinos. Ruta vacía candidata: ACCESS EXCLUSIVE antes de aserción y ALTER, misma transacción Flyway, NOT NULL y aborto ante filas inesperadas; no fallback ni promesa de cero downtime. Ruta legado alternativa: esquema uniforme nullable/guardias y lista protegida aprobada, nunca precio inventado/rechazo masivo ni CHECK NOT VALID global no nulo. Ninguna ruta se elige en C2.
+
+**Estado de prueba:** SQL candidato revisado estáticamente; compilación y comportamiento en PostgreSQL NO PROBADOS. B0 documental no los ejecuta. C3 debe validar cuerpos, privilegios reales, límite de identidad, cierres/no-op/legado, orden/FKs implícitas, recibos/replay, transferencias y entrega posterior con UC03/19 corregida/28/05/06/07/41. RT-UC07-04 ABIERTA; sin implementación, migración, merge ni despliegue.
+
 
 ## 14. Criterios de autorización
 
@@ -532,7 +563,7 @@ No anticipar número Flyway ni editar migraciones. Cuerpos finales de triggers, 
 4. Ratificar o corregir expresamente D ya especificada en §10: clave/huella/protocolo, replay, errores, retención/duplicados; completar horizonte calendario y parámetros operativos pendientes.
 5. Ratificar o corregir E, medir 20–30 archivos y aprobar límites/presupuestos/aislamiento; confirmar permisos, Bearer, gates/flags/veto y privacidad.
 6. Acordar algoritmos de identificación/serialización y correspondencia histórica oferta/cotización/evidencia, transiciones y sustitución.
-7. Resolver F/G en C2 y H en C3, con revisión conjunta CR-F de integridad, históricos, generadores, locks implícitos y pruebas. No se exige CR-F mergeada para preparar esta CR.
+7. Revisar/ratificar F/G especificadas en C2, resolver F8 y políticas pendientes, y probar H en C3 con CR-F, generadores y locks implícitos; no declarar cerrado F por publicar cuerpos no probados. No se exige CR-F mergeada para preparar esta CR.
 8. Cumplir las puertas de ratificación documental y autorizaciones del antecedente antes de iniciar implementación; pruebas reales son obligación del corte funcional, no evidencia ya adquirida por aprobar un diseño.
 9. **Autorización expresa de Victor Leandro Machado**, registrando fecha y alcance reales cuando ocurra, nunca inferida de publicación o merge documental.
 
