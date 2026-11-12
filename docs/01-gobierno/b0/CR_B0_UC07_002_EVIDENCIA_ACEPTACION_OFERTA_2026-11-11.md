@@ -4,9 +4,9 @@
 
 **Clase:** Solicitud de Cambio Física (CR-F).
 
-**Estado:** BORRADOR — NO AUTORIZADA — NO CREA MIGRACIONES.
+**Estado:** OPEN / DRAFT — NO AUTORIZADA INTEGRALMENTE — NO CREA MIGRACIONES.
 
-**Fecha de redacción:** 11/11/2026, Argentina; no es fecha de autorización. **Actualización Etapa B:** 12/11/2026, convergencia propuesta sin ratificación final.
+**Fecha de redacción:** 11/11/2026, Argentina; no es fecha de autorización. **Historial Etapa B:** 12/11/2026, convergencia propuesta. **Actualización C1:** 12/11/2026, A–C ratificadas; D–E candidatas especificadas; F–H pendientes.
 
 **Responsable de autorización:** Victor Leandro Machado (`leandrito369`).
 
@@ -14,18 +14,18 @@
 
 **Migración:** NO CREADA. **Implementación:** NO AUTORIZADA. **Despliegue:** PAUSADO, [Issue app #28](https://github.com/leandrito369/ale-milanesas-app/issues/28).
 
-### 1.1. Auditoría de fuentes efectivas
+### 1.1. Fuentes de redacción/Etapa B y actualización C1
 
 | Fuente | Referencia examinada / resultado |
 |---|---|
 | Gobierno origin/main | `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`, coincide con el encargo |
-| Aplicación origin/main | `d5f7607afb430a251cbf5cc9190a879a7d41416b`; checkout local conservado en `20ce82d` |
+| Aplicación origin/main en auditoría histórica Etapa B | `d5f7607afb430a251cbf5cc9190a879a7d41416b`; checkout local conservado en `20ce82d` |
 | RD-UC07-001 | [PR #45](https://github.com/leandrito369/ale-milanesas/pull/45), merge `914827585c2e9b050f1beffbf7b725d413dd6e7d` |
 | RD-UC07-002 | [Documento parcialmente ratificado](RD_UC07_002_EVIDENCIA_ACEPTACION_OFERTA_2026-11-10.md), merge `cdd57ed`; cuatro decisiones, sin autorización física |
-| CR-C | [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), OPEN/DRAFT, HEAD `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661`; [archivo contractual leído desde esa referencia](https://github.com/leandrito369/ale-milanesas/blob/7a4887d0c447c7ee82ce0c729d9360b8cbc1c661/docs/01-gobierno/b0/CR_B0_UC07_001_CONTRATO_AUXILIAR_EVIDENCIA_2026-11-11.md), no mergeado ni autorizado |
+| CR-C | [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), OPEN/DRAFT, HEAD C1 `0b75eb4ca32db9481e22a34c80eb637b80351a31` (examinado inicialmente `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661`); [archivo contractual leído desde esa referencia](https://github.com/leandrito369/ale-milanesas/blob/0b75eb4ca32db9481e22a34c80eb637b80351a31/docs/01-gobierno/b0/CR_B0_UC07_001_CONTRATO_AUXILIAR_EVIDENCIA_2026-11-11.md), no mergeado ni autorizado |
 | G0 fuente / acta | `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e` / `27738b089afdd2698cdae915f75c0e8089a6248a` |
 | Flyway | V1__baseline_mr5.sql, V2__f01_cobro_estados.sql, V3__trazabilidad_partidas_insumo.sql; V3 última disponible al corte |
-| Identidad de este corte | Se actualiza la CR-F existente de PR #48 desde `115f4948f47f9754118ba46f7c3ff8973ebe9930`; CR-C desde `06bf800cdbfab9eedebe5a7a79e32269df01e63f` al SHA nuevo indicado arriba; sin nueva CR/PR |
+| Identidad histórica de Etapa B | Se actualizó la CR-F existente de PR #48 desde `115f4948f47f9754118ba46f7c3ff8973ebe9930`; CR-C desde `06bf800cdbfab9eedebe5a7a79e32269df01e63f` al SHA nuevo indicado arriba; sin nueva CR/PR |
 | Worktrees | Limpios al iniciar Etapa B; ramas existentes #47/#48; app solo lectura, HEAD local `20ce82d0ce564b77034aba97e0eef8b3fd75e684` sin cambio de checkout |
 
 No se detectó cambio normativo incompatible posterior a las referencias del encargo. Las elecciones pendientes son propuestas evaluables, no discrepancias que autoricen modificar fuentes.
@@ -33,6 +33,18 @@ No se detectó cambio normativo incompatible posterior a las referencias del enc
 Fuentes de gobierno: [RD-UC07-001](RD_UC07_001_PROPUESTA_EXCEDENTES_FISICOS_2026-11-09.md), D1–D5 y reservas; RD-UC07-002 §§5–11,14–15; [contratos G0 REV04B](../../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md) §§5/6; [RBAC](B0_MATRIZ_RBAC_67_OPERACIONES_CIERRE_2026-10-29.csv); [manifiesto G0](G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv); [RD-UC19-002](RD_UC19_002_ACOTAMIENTO_VIGENCIAS_FUTURAS_2026-11-01.md); [RD-RP022-001](../RD_RP022_001_COSTEO_CONVERSIONES_REDONDEOS_2026-10-27.md).
 
 Fuentes de aplicación, todas al SHA `d5f7607afb430a251cbf5cc9190a879a7d41416b`: [V1](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/resources/db/migration/V1__baseline_mr5.sql), V2/F01, V3/partidas; [ActualizarPrecioVigenteService](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/maestros/ActualizarPrecioVigenteService.java), ConsultarHistorialPreciosService, AplicarAjusteComercialService; precedentes CobroManualService/CargarPedidoService; consumidores adicionales RegistrarPreparacionService y AsignarRepartoService para riesgos de locking. No se ejecutó SQL ni se consultaron datos de entornos destino.
+
+### Actualización C1 — hechos verificados y autoridad (12/11/2026)
+
+**HECHO VERIFICADO:** gobierno origin/main sigue `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`; aplicación main vigente `4dbe38668fc5cbc08d04e10920e3bf165c71be11`. El checkout app local se preserva en `20ce82d0ce564b77034aba97e0eef8b3fd75e684`, solo lectura; no se confunde con la base vigente. Las referencias d5f7607 de auditoría anterior se conservan como históricas.
+
+- [PR app #85](https://github.com/leandrito369/ale-milanesas-app/pull/85) **MERGED**, merge `a07fd95bc0e8910c5b81efbe4253e959fc45e23f`: [CargarPedidoService L69](https://github.com/leandrito369/ale-milanesas-app/blob/4dbe38668fc5cbc08d04e10920e3bf165c71be11/src/main/java/ar/edu/unam/alemilanesas/ventas/CargarPedidoService.java#L69) ya filtra cantidadOriginal>0 al reconstruir items. No se mantiene el fix como pendiente; no implica validar UC-07.
+- [PR app #86](https://github.com/leandrito369/ale-milanesas-app/pull/86) **MERGED**, merge `4dbe38668fc5cbc08d04e10920e3bf165c71be11`: [ActualizarPrecioVigenteService L84](https://github.com/leandrito369/ale-milanesas-app/blob/4dbe38668fc5cbc08d04e10920e3bf165c71be11/src/main/java/ar/edu/unam/alemilanesas/maestros/ActualizarPrecioVigenteService.java#L84) usa pg_advisory_xact_lock(1919,1), conservando PRODUCTO U y coordinación de IDs precio/auditoría. Corrección **IMPLEMENTADA/INTEGRADA** para ese defecto puntual; no orden global aprobado.
+- **PROBADO según informe del Corte 3 reportado el 12/11/2026:** 3/3 deadlocks 40P01 con servicios reales anteriores y seis intercalados correctos con namespace separado; ensayos P parciales de UC-07/UC-41, separados de Nivel R. El informe registró 24 tests experimentales y 24 existentes finales aprobados; no certifica servicios UC-07 terminados. No se reejecuta esa campaña en C1. Informe completo/ZIP fueron artefactos temporales de Codex, **no se afirma que estén versionados**.
+- [INC-UC19](https://github.com/leandrito369/ale-milanesas-app/blob/4dbe38668fc5cbc08d04e10920e3bf165c71be11/docs/traceability/INC_UC19_DEADLOCK_UC03_UC19_2026-11-12.md) y prueba permanente `PrecioProductoUc03DeadlockIntegrationTest` son antecedentes de #86. El INC conserva rótulos históricos «DRAFT / no integrado»; el estado real posterior comprobado en GitHub es MERGED. No se corrige ese archivo desde estas CR ni se infiere cierre formal global.
+- **RATIFICADO:** A–C por decisión expresa del responsable comunicada en este encargo C1. **PROPUESTO PARA RATIFICACIÓN:** D/E. **PENDIENTE DE PRUEBA/DECISIÓN:** F/G/H y orden global UC-05/06/07/28/41; RT-UC07-04 **ABIERTA**. Issue #28 **OPEN**, despliegue PAUSADO.
+
+Publicación/merge documental, ratificación parcial, autorización integral, implementación, prueba y despliegue son estados distintos. No hay autorización integral de estas CR ni implementación UC-07 por este corte.
 
 ### 1.2. Inventario físico comprobado
 
@@ -59,36 +71,36 @@ Idempotencia existente: PEDIDO.idOperacionOrigen/CargarPedidoService y COBRO.cla
 
 Oferta actual guarda importes redondeados y fecha, pero no precio base ni procedencia. Las nuevas capacidades necesitan conservar cotización previa a aceptación, respaldo original, historial y replay de comandos. La reconstrucción temporal previa tiene dictamen NO DEMOSTRADO; la pérdida al invertir importes no prueba imposibilidad del historial, pero no permite backfill ficticio.
 
-Alcances propuestos: A snapshot; B cotizaciones; C evidencia PostgreSQL P2b; D bitácora; E comandos idempotentes. Todas las nuevas estructuras son subordinadas a UC-07 y requieren autorización expresa. El detalle físico siguiente no está aprobado por el hecho de que su propósito esté ratificado.
+Alcance físico: snapshot, cotizaciones, evidencia PostgreSQL P2b, bitácora y comandos idempotentes. Las letras A–H de decisiones C1 no se confunden con las antiguas letras de alcances físicos de Etapa B. Todas las nuevas estructuras son subordinadas a UC-07 y requieren autorización expresa. El detalle físico siguiente no está aprobado por el hecho de que su propósito esté ratificado.
 
 ## 3. Matriz de decisiones y clasificación
 
 **RATIFICADA EN RD:** D1–D5/RT-UC07-01 en su alcance y D-UC07-02-B, D-UC07-COT, D-UC07-CRC, D-UC07-P2B parcialmente en RD-UC07-002. La RD integral y estas CR no quedan autorizadas por la convergencia. El detalle A–H conserva la clasificación común de CR-C:
 
-### Matriz A–H — convergencia del 12/11/2026
+### Matriz A–H — estado vigente del Corte C1 (12/11/2026)
 
-Las decisiones A–H siguientes **no son RATIFICACIÓN EXPRESA FINAL**. Su fundamento ratificado no autoriza automáticamente sus mecanismos.
+**Autoridad:** Victor Leandro Machado, decisión expresa del 12/11/2026 comunicada en el encargo Corte C1. Esta constancia asienta A–C en las CR existentes; no crea una RD ni atribuye autorización integral. **Historial:** A–C eran propuestas preferentes en Etapa B y pasan ahora a RATIFICADAS. D–E siguen sin ratificar; F–H no se cierran por pruebas parciales.
 
-| Decisión | RATIFICADA EN RD (fundamento) | PROPUESTA PREFERENTE (CONVERGENCIA ETAPA B) | PENDIENTE / BLOQUEANTE DE AUTORIZACIÓN |
-|---|---|---|---|
-| A | Versiones y extensión subordinada | V1 atómica interna; O1 separa consulta, emisión parcial >=2 y replay | Aprobación de semántica/ruta de consulta y reintento Parte A |
-| B ajustada | Procedencia e identidad vinculadas | UUID servidor para cotización/evidencia/comando; evento BIGINT identidad; FK compuesta | Generadores, canonización de códigos y tipos contractuales definitivos |
-| C | Evidencia durable e historial | Intento positivo no nulo por oferta, lock y UNIQUE; prevalidación sin consumo | Duplicados documentales/INVALIDADA y política de intentos persistidos fallidos |
-| D | Evidencia y efecto auditables | Registro específico atómico; recibo inmutable + estado actual separado; reautorización | Formato/retención/tombstones, clave y huella canónica |
-| E condicionada | P2b, PNG/JPEG para evaluación | 2 MiB provisional, validación segura previa a escritura y recuperación íntegra | Muestra 20–30, límites finales, privacidad y retención |
-| F | O2 atómico, terminales e historial | Índice parcial conjunto, FK compuesta, triggers y permisos de protección cruzada | Detalle verificable de funciones/privilegios/actor e integridad de recibos |
-| G | Snapshot obligatorio para nuevas ofertas | Dos ramas según certificación de datos; inserción estricta y actualización histórica diferenciada | Inventario destino, política de cierre/aceptación de legado y autorización |
-| H | RT-UC07-04 continúa abierta | Matriz/protocolo y experimento Corte 3 en §12 | Orden y generadores de operaciones pendientes; colisiones advisory y pruebas reales no ejecutadas |
+| Decisión | Autoridad / estado vigente | Alcance y pendiente |
+|---|---|---|
+| A | **RATIFICADA — responsable, 12/11/2026** | Parte A crea oferta+V1 atómicamente; V1=(1,cantidadOfrecida,importeInformado); rollback íntegro. O1 emite >=2 solo parciales estrictas; consulta y replay separados. No autoriza ruta de consulta, endpoint ni implementación |
+| B | **RATIFICADA — responsable, 12/11/2026** | UUID servidor para idCotizacion/idEvidencia/idComandoAuxiliar; idEvento BIGINT mediante identidad PostgreSQL. Pertenencia por FK compuesta (oferta,cotización) hacia UNIQUE correspondiente, nunca dos FKs independientes. Generación UUID concreta confiable pendiente, sin imponer UUID.randomUUID() |
+| C | **RATIFICADA — responsable, 12/11/2026** | Intento INTEGER NOT NULL positivo, secuencial por oferta, UNIQUE(oferta,intento), bajo lock padre. Rechazo previo/replay no consumen; INVALIDADA persistida conserva número; rollback no confirma intento ni permite reutilizar uno ya persistido. numeroVersion no cuenta evidencias |
+| D | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | §10: clave 1–128 ASCII, huella UTF-8 versionada, protocolo, replay/errores y retención candidata. Requiere decisión expresa; C1 no implementa ni prueba esa política |
+| E | **ESPECIFICADA PARA RATIFICACIÓN — NO RATIFICADA** | Pipeline P2b y calibración; 1 MiB app/2 MiB físico/4096² solo umbrales experimentales. Parámetros definitivos condicionados a muestra y aprobación |
+| F | **PENDIENTE / NO RATIFICADA — Corte C2** | Índice conjunto, integridad cruzada, inmutabilidad, funciones/triggers/privilegios y estado final transaccional. Tipos/FK ratificados por B no ratifican todos los mecanismos |
+| G | **PENDIENTE / NO RATIFICADA — Corte C2** | Preflight por destino y política uniforme/determinista de históricos; no elegir rama ni ejecutar consultas de destino en C1 |
+| H | **PENDIENTE / NO RATIFICADA — Corte C3; RT-UC07-04 ABIERTA** | Orden global todavía candidato. Corte 3 reprodujo el defecto puntual UC-03/19 y PR #86 integró corrección; faltan escritores y pruebas globales |
 
-**EXCLUIDA:** implementación/DDL/migración/despliegue, autorización por esta actualización, cambios G0 y fix UC-03/PR #85. Las pruebas reales preceden al merge funcional; la suficiencia del diseño se revisa antes de autorizar, sin circularidad entre CR.
+**EXCLUIDA:** autorización integral de CR-C/CR-F, implementación UC-07, nuevos CU/firmas G0, modificación de RDs/migraciones/source-lock/RBAC, merge documental y despliegue. Issue #28 permanece OPEN/PAUSADO.
 
-Los bloques SQL de §15 son **PROPUESTA PREFERENTE (CONVERGENCIA ETAPA B) — NO EJECUTAR**. No son migración completa ni evidencia PostgreSQL. Las soluciones técnicas propuestas G/H siguen sujetas a revisión y a las puertas de autorización/pruebas.
+Los fragmentos SQL de §15 son DOCUMENTACIÓN CANDIDATA — NO EJECUTAR: tipos/identidad/FK de B e intento C están ratificados en su alcance; otras restricciones y funciones siguen sujetas a F/G/H y autorización integral. No se crea migración ni se ejecuta DDL en C1.
 
-## 4. Alcance A: snapshot comercial y procedencia
+## 4. Snapshot comercial y procedencia
 
 **RATIFICADA EN RD:** nuevas ofertas conservan precioBaseUnitarioAplicado NUMERIC(18,4) e idPrecio BIGINT, ambos obligatorios; referencia a PRECIO_PRODUCTO e instante comercial coherente. Captura atómica compatible con UC-19.
 
-**PROPUESTA PREFERENTE (CONVERGENCIA ETAPA B), F/G:** columnas NOT NULL si tabla vacía certificada; con legado, inicialmente nullable en par completo/ausente, CHECK positivo y FK fk_oferta_excedente_precio ON UPDATE/DELETE RESTRICT, con BEFORE INSERT obligatorio y BEFORE UPDATE diferenciado de §14. El CHECK de par no sustituye presencia en nuevas ofertas y NOT VALID global no resuelve legado. Mecanismo técnico descrito; inventario destino, cuerpos definitivos y autorización siguen pendientes, sin exención general por rol app.
+**F/G PENDIENTES C2:** preflight por destino y política física determinista por aprobar (§14). NOT NULL con guardia que aborte ante datos inesperados es una ruta candidata para tabla vacía certificada; legado exige detener esa ruta y decidir tratamiento específico. La alternativa nullable/guardias de Etapa B queda como antecedente, no una rama automática dependiente de datos dentro de una misma migración. FK fk_oferta_excedente_precio/guardias cruzadas pendientes; no exención general por rol app.
 
 La FK simple solo prueba existencia. Para verificar producto recorrer OFERTA_EXCEDENTE → EXCEDENTE → DETALLE_PEDIDO de origen → PRODUCTO y contrastar PRECIO_PRODUCTO.idProducto. Propuesta preferida para revisión: validación cruzada de inserción mediante función/trigger con lecturas y bloqueos compatibles, más servicio autorizado y permisos restrictivos. Debe comprobar P leído = snapshot, precio no cancelado e intervalo aplicable al instante guardado. No recalcular esa condición sobre UPDATE de respuesta usando el reloj actual: legitimidad inicial y snapshot histórico son hechos distintos.
 
@@ -98,13 +110,13 @@ Evaluar BEFORE UPDATE que rechace cambio de precioBaseUnitarioAplicado/idPrecio 
 
 **Históricos:** verificar filas y semillas de destinos antes de NOT NULL; no dividir importeInformado para inventar P. Si faltan fuentes inequívocas, detener habilitación de esas ofertas y someter tratamiento a decisión; no afirmar que todas pueden migrarse automáticamente. No se ha comprobado contenido de BD alguna en esta tarea.
 
-## 5. Alcance B: COTIZACION_OFERTA_EXCEDENTE
+## 5. COTIZACION_OFERTA_EXCEDENTE
 
 **RATIFICADA EN RD:** versionado explícito y registro previo a conformidad. **PROPUESTA PARA CR-F:**
 
 | Columna | Tipo candidato / integridad |
 |---|---|
-| idCotizacion | UUID PK, coherente con CR-C; generación por aplicación candidata, sin DEFAULT elegido |
+| idCotizacion | UUID servidor RATIFICADO B; PK del candidato, mecanismo confiable exacto pendiente, sin imponer UUID.randomUUID() |
 | idOfertaExcedente | BIGINT NOT NULL FK oferta |
 | numeroVersion | INTEGER NOT NULL, >0; única por oferta |
 | cantidadCotizada | NUMERIC(18,3) NOT NULL, >0 y no mayor a cantidadOfrecida por validación cruzada |
@@ -113,27 +125,27 @@ Evaluar BEFORE UPDATE que rechace cambio de precioBaseUnitarioAplicado/idPrecio 
 | fechaHoraGeneracion | TIMESTAMPTZ NOT NULL, servidor |
 | idUsuarioVendedor | BIGINT NOT NULL FK USUARIO; identidad autenticada |
 
-Conservar codigoOferta como identidad estable de oferta y codigoCotizacion por versión. No se propone columna de codigoOferta obligatoria en padre; puede derivarse de datos originales protegidos. Los componentes/canonización de hash, zona/precisión, codificación y unicidad definitiva son PENDIENTES DE DECISIÓN con CR-C; hash no prueba comunicación. UUID es candidato compartido, no regla aprobada; confirmar generador/PostgreSQL y política ante colisión, sin elegir extensión o random_uuid por supuesto.
+Conservar codigoOferta como identidad estable de oferta y codigoCotizacion por versión. No se propone columna de codigoOferta obligatoria en padre; puede derivarse de datos originales protegidos. Los componentes/canonización de hash, zona/precisión, codificación y unicidad definitiva son PENDIENTES DE DECISIÓN con CR-C; hash no prueba comunicación. UUID servidor está RATIFICADO por B en C1; confirmar mecanismo confiable y política ante colisión, sin imponer implementación única ni extensión por supuesto.
 
 Importe parcial: P del snapshot y ajuste congelado en PEDIDO. Subtotal=round(q*P,2,HALF_UP), ajuste=round(subtotal*r/100,2,HALF_UP); descuento resta, recargo suma y SIN_AJUSTE conserva subtotal. Aceptación total usa exactamente importeInformado. No P2, prorrateo del importe redondeado ni UC-15/16. La igualdad entre importe persistido y cálculo es validación cruzada, no garantía de un CHECK positivo.
 
-Proponer UNIQUE(oferta,numeroVersion), UNIQUE(codigoCotizacion), clave candidata UNIQUE(oferta,idCotizacion) para FK compuesta; capturar bajo oferta bloqueada y proteger todas las condiciones emitidas contra UPDATE/DELETE no autorizados. No agregar máquina EMITIDA/ACEPTADA/RECHAZADA/SUPERADA ni índices parciales basados en ella. Usar estado de evidencia para conformidad, sin equipararlo a transferencia.
+Proponer UNIQUE(oferta,numeroVersion), UNIQUE(codigoCotizacion), UNIQUE(oferta,idCotizacion) para FK compuesta RATIFICADA B; capturar bajo oferta bloqueada y proteger todas las condiciones emitidas contra UPDATE/DELETE no autorizados. No agregar máquina EMITIDA/ACEPTADA/RECHAZADA/SUPERADA ni índices parciales basados en ella. Usar estado de evidencia para conformidad, sin equipararlo a transferencia.
 
-### Primera versión y O1 — propuesta preferente A
+### Primera versión y O1 — A RATIFICADA el 12/11/2026
 
-Parte A crea oferta y V1 internamente en una sola transacción: numeroVersion=1, cantidadCotizada=cantidadOfrecida, importeCalculado=importeInformado. Fallo en cualquiera → rollback de ambas. Se conserva firma/salida principal G0; no se presume deduplicación de Parte A por cantidad.
+**RATIFICADA por el responsable en C1, no autorización de implementación:** Parte A crea oferta y V1 internamente en una sola transacción: numeroVersion=1, cantidadCotizada=cantidadOfrecida, importeCalculado=importeInformado. Fallo en cualquiera → rollback de ambas. Se conserva firma/salida principal G0; no se presume deduplicación de Parte A por cantidad.
 
-O1 POST crea **versiones >=2 para cantidades parciales** (0<q<cantidadOfrecida). Con otra clave, igual cantidad parcial representa nueva emisión; con misma clave/ámbito/payload es replay del efecto anterior (§10), no nueva versión. Solicitud nueva por cantidad total: 409 candidato conforme CR-C, nunca retorno silencioso de V1. Consulta/recuperación de V1 o versión identificada es lectura separada sin nueva fila/comando; ruta/proyección aún pendiente de autorización. La evidencia VERIFICADA puede corresponder a versión anterior no sustituida; MAX(numeroVersion) no indica aceptación vigente. La alternativa de V1 posterior queda EXCLUIDA de este candidato preferente, sin crear tercera operación principal. Pruebas F10/F16/F50.
+O1 POST crea **versiones >=2 para cantidades parciales** (0<q<cantidadOfrecida). Con otra clave, igual cantidad parcial representa nueva emisión; con misma clave/ámbito/payload es replay del efecto anterior (§10), no nueva versión. Solicitud nueva por cantidad total: 409 candidato conforme CR-C, nunca retorno silencioso de V1. Consulta/recuperación de V1 o versión identificada es lectura separada sin nueva fila/comando; ruta/proyección aún pendiente de autorización. La evidencia VERIFICADA puede corresponder a versión anterior no sustituida; MAX(numeroVersion) no indica aceptación vigente. La alternativa de V1 posterior queda EXCLUIDA de la política A ratificada, sin crear tercera operación principal. Pruebas F10/F16/F50.
 
-## 6. Alcance C: EVIDENCIA_ACEPTACION_OFERTA
+## 6. EVIDENCIA_ACEPTACION_OFERTA
 
 **RATIFICADA EN RD como orientación:** P2b, O2, estados y sustitución previa. **PROPUESTA PARA CR-F:**
 
 | Columna | Tipo candidato / función |
 |---|---|
-| idEvidencia | UUID PK, mismo candidato de salida CR-C |
+| idEvidencia | UUID servidor RATIFICADO B; PK coherente con salida CR-C |
 | idCotizacion | UUID NOT NULL, versión respaldada |
-| idOfertaExcedente | BIGINT NOT NULL; propuesta preferente B de §8 |
+| idOfertaExcedente | BIGINT NOT NULL, pertenencia compuesta RATIFICADA B de §8 |
 | numeroIntentoEvidencia | INTEGER NOT NULL >0, secuencial por oferta; UNIQUE(oferta,intento), no identidad de versión |
 | idUsuarioVendedor | BIGINT NOT NULL FK USUARIO, actor obtenido del principal |
 | canalComunicacion | VARCHAR NOT NULL, catálogo/longitud pendientes |
@@ -152,17 +164,17 @@ O1 POST crea **versiones >=2 para cantidades parciales** (0<q<cantidadOfrecida).
 
 La columna MIME declarado adicional está justificada por CR-C §5, que exige conservar declaración y detección separadamente. idUsuarioVendedor es equivalente semántico al registrante servidor, no un nuevo actor aprobado desde HTTP. Longitudes/catálogos no definidos no se inventan como límites definitivos; VARCHAR sin longitud en el candidato no significa admitir cargas ilimitadas en operación.
 
-Cantidad/importe/fecha generación requieren consultar cotización y oferta bajo protocolo transaccional. CHECK(cantidad>0), CHECK(importe>0), CHECK(fechaHoraMensaje<=fechaHoraRegistro) y declaración >=20 no garantizan correspondencia. También comprobar fechaHoraGeneracionCotizacion<=fechaHoraMensaje, ajustando precisión PostgreSQL; tolerancias pendientes con CR-C, sin corregir relojes silenciosamente ni inventar margen monetario.
+Cantidad/importe/fecha generación requieren consultar cotización y oferta bajo protocolo transaccional. CHECK(cantidad>0), CHECK(importe>0), CHECK(fechaHoraMensaje<=fechaHoraRegistro) y declaración >=20 no garantizan correspondencia. También comprobar fechaHoraGeneracionCotizacion<=fechaHoraMensaje, exigiendo microsegundos exactos/UTC según §10.2 sin truncar; tolerancias comerciales pendientes con CR-C, sin corregir relojes silenciosamente ni inventar margen monetario.
 
 Evidencia comercial inválida no sustituye a la previa. El candidato guarda únicamente bytes seguros que cumplan integridad mínima: no debilitar NOT NULL/checks para conservar archivos peligrosos o declaraciones inválidas. Si se desea historial de intentos rechazados que no pueden constituir evidencia, definir metadatos seguros/transacción/retención separadamente antes de aprobar; no agregar otra tabla por inferencia aquí.
 
-**PROPUESTA PREFERENTE C:** numeroIntentoEvidencia secuencial positivo **por oferta**, NOT NULL y UNIQUE(idOfertaExcedente,numeroIntentoEvidencia). Asignar siguiente número bajo lock de oferta padre; no MAX+1 fuera del lock. Archivo/solicitud rechazados antes de persistir (MIME, corrupción, tamaño, formato) no crean fila ni consumen número. Evidencia persistida INVALIDADA o posteriormente sustituida conserva su número histórico; nunca reciclarlo ni renumerar. Replays HTTP no incrementan. Rollback no deja intento confirmado. Persistir un intento comercial fallido seguro como CAPTURADA→INVALIDADA exige política explícita aún pendiente; no rebajar las validaciones mínimas ni guardar archivo inseguro. No usar numeroVersion para contar archivos.
+**C RATIFICADA por el responsable, 12/11/2026:** numeroIntentoEvidencia secuencial positivo **por oferta**, NOT NULL y UNIQUE(idOfertaExcedente,numeroIntentoEvidencia). Asignar siguiente número bajo lock de oferta padre; no MAX+1 fuera del lock. Archivo/solicitud rechazados antes de persistir (MIME, corrupción, tamaño, formato) no crean fila ni consumen número. Evidencia persistida INVALIDADA o posteriormente sustituida conserva su número histórico; nunca reciclarlo ni renumerar. Replays HTTP no incrementan. Rollback no deja intento confirmado ni autoriza reutilizar uno ya persistido. Persistir un intento comercial fallido seguro como CAPTURADA→INVALIDADA exige política explícita aún pendiente; no rebajar las validaciones mínimas ni guardar archivo inseguro. No usar numeroVersion para contar archivos.
 
-## 7. Alcance D: EVENTO_ESTADO_EVIDENCIA_OFERTA
+## 7. EVENTO_ESTADO_EVIDENCIA_OFERTA
 
-**PROPUESTA PARA CR-F:** bitácora append-only de idEvento (BIGINT con secuencia/identidad como propuesta preferente B ajustada, no UUID), idEvidencia UUID FK, estadoAnterior nullable, estadoNuevo, idUsuario BIGINT FK, fechaHoraTransicion servidor, motivo obligatorio y ordenEvento BIGINT positivo por evidencia. UNIQUE(idEvidencia,ordenEvento) permite orden inequívoco aun con timestamps iguales; idEvento o reloj por sí solos no prueban secuencia causal. Numerar bajo lock de evidencia/oferta y conservar eventos junto con estado en una sola transacción. No imponer generador MAX+1 global sin coordinación; se prefiere identidad/secuencia para idEvento, sin crearla aquí. V1 respalda el tipo BIGINT de movimientos/auditoría, no un generador universal; la identidad es diseño nuevo sujeto a autorización. El orden causal depende de ordenEvento, no del orden de asignación de secuencia ni de commit.
+**PROPUESTA PARA CR-F:** bitácora append-only de idEvento (BIGINT mediante identidad PostgreSQL RATIFICADA B, no UUID), idEvidencia UUID FK, estadoAnterior nullable, estadoNuevo, idUsuario BIGINT FK, fechaHoraTransicion servidor, motivo obligatorio y ordenEvento BIGINT positivo por evidencia. UNIQUE(idEvidencia,ordenEvento) permite orden inequívoco aun con timestamps iguales; idEvento o reloj por sí solos no prueban secuencia causal. Numerar bajo lock de evidencia/oferta y conservar eventos junto con estado en una sola transacción. No imponer generador MAX+1 global sin coordinación; identidad PostgreSQL de idEvento está RATIFICADA, sin crearla aquí. V1 respalda el tipo BIGINT de movimientos/auditoría, no un generador universal; la identidad está ratificada por B; su implementación/migración sigue sin autorización integral. El orden causal depende de ordenEvento, no del orden de asignación de secuencia ni de commit.
 
-Estados preservados: CAPTURADA, VERIFICADA, UTILIZADA, INVALIDADA. Transiciones: CAPTURADA→VERIFICADA, CAPTURADA→INVALIDADA, VERIFICADA→UTILIZADA, VERIFICADA→INVALIDADA. UTILIZADA/INVALIDADA terminales. Evento inicial NULL→CAPTURADA permitido como creación, no una nueva transición comercial. VERIFICADA es validación automática técnica/comercial, no autenticación criptográfica ni aprobación humana ADMIN.
+Estados preservados: CAPTURADA, VERIFICADA, UTILIZADA, INVALIDADA. Transiciones: CAPTURADA→VERIFICADA, CAPTURADA→INVALIDADA, VERIFICADA→UTILIZADA, VERIFICADA→INVALIDADA. UTILIZADA/INVALIDADA terminales. Persistir inicialmente CAPTURADA y luego transición controlada a VERIFICADA. Si ambas ocurren en O2, registrar ambos hechos: NULL→CAPTURADA y CAPTURADA→VERIFICADA, en orden y una transacción; INSERT directo VERIFICADA con un único evento no satisface el candidato. VERIFICADA es validación automática técnica/comercial, no autenticación criptográfica ni aprobación humana ADMIN.
 
 El CHECK de evento puede restringir pares; el estado anterior debe coincidir con último evento/estado real mediante servicio/trigger y locking. Evaluar operación controlada o trigger de transición que registre evento obligatorio y rechace actualización directa sin historial. Resolver actor/motivo confiables y quién puede ejecutar esa operación; un valor de sesión SQL controlable por app no autentica al vendedor. Deshabilitar UPDATE/DELETE de eventos para rol operativo y evaluar triggers defensivos; nombres y funciones no fijados ni código de función ejecutable en esta CR.
 
@@ -172,14 +184,14 @@ Sustitución O2: bloquear oferta y respaldos, validar nueva evidencia completame
 
 | Alternativa evidencia | Garantía y costo |
 |---|---|
-| A — solo idCotizacion, oferta derivada por JOIN | Menos redundancia y pertenencia natural. Un índice parcial simple por oferta no puede consultar otra tabla; unicidad global por oferta requeriría otro mecanismo/trigger bloqueado. Lecturas y control de ámbito siempre recorren cotización |
-| B — ambos IDs y FK compuesta, recomendación candidata | Clave UNIQUE(oferta,idCotizacion) en cotización y FK compuesta desde evidencia. Facilita índices por oferta y control de O2; impide referencias cruzadas. Costo: dato redundante y protección de clave comercial padre |
+| Antecedente EXCLUIDO tras ratificación B: solo idCotizacion | Menos redundancia y pertenencia natural. Un índice parcial simple por oferta no puede consultar otra tabla; unicidad global por oferta requeriría otro mecanismo/trigger bloqueado. Lecturas y control de ámbito siempre recorren cotización |
+| B RATIFICADA: ambos IDs y FK compuesta | Clave UNIQUE(oferta,idCotizacion) en cotización y FK compuesta desde evidencia. Facilita índices por oferta y control de O2; impide referencias cruzadas. Costo: dato redundante y protección de clave comercial padre |
 
-Se adopta B como **PROPUESTA PREFERENTE (CONVERGENCIA ETAPA B)** en ambas CR y en §15, sin autorización final: UNIQUE(idOfertaExcedente,idCotizacion) en cotización y FK compuesta desde evidencia. Dos FKs simples independientes no impiden evidencia de oferta A apuntando a cotización de B. Todas las referencias propuestas usan RESTRICT y no CASCADE sobre historia, sin cambiar políticas G0 existentes. Considerar bloqueos a borrado de padres por nuevas FKs como impacto a autorizar, no detalle inocuo.
+**RATIFICADA B en C1** en ambas CR y §15, sin autorización integral de migración: UNIQUE(idOfertaExcedente,idCotizacion) en cotización y FK compuesta desde evidencia. Dos FKs simples independientes no impiden evidencia de oferta A apuntando a cotización de B. Todas las referencias propuestas usan RESTRICT y no CASCADE sobre historia, sin cambiar políticas G0 existentes. Considerar bloqueos a borrado de padres por nuevas FKs como impacto a autorizar, no detalle inocuo.
 
 Invariantes cruzadas restantes: producto correcto del precio (§4), cantidad<=ofrecida, cantidad/importe confirmados iguales a versión, versión calculada D2-A, temporalidad entre tablas, oferta/pedido PENDIENTE y rol activo. FK prueba existencia/pertenencia si es compuesta; UNIQUE máximo una fila de clave; CHECK comprueba fila. Validación comercial, autorización, transición y aislamiento requieren servicio/triggers/locking. El cumplimiento debe mantenerse ante escritores SQL no cooperantes bajo permisos del rol operativo, no solo frente al controlador HTTP.
 
-## 9. Restricciones, unicidad y generadores — propuestas preferentes B/C/F
+## 9. Restricciones y generadores — B/C ratificadas; F pendiente C2
 
 Un **único índice único parcial conjunto** `uq_evidencia_utilizable_por_oferta` por idOfertaExcedente, WHERE estadoEvidencia IN ('VERIFICADA','UTILIZADA'), reemplaza los dos índices separados del candidato anterior. Impide físicamente dos VERIFICADA, dos UTILIZADA **y una de cada estado para la misma oferta**. No impide múltiples INVALIDADA/CAPTURADA ni sustituye validación de oferta PENDIENTE.
 
@@ -187,48 +199,172 @@ O2 valida la sustituta segura; dentro de la misma transacción cambia primero la
 
 Intentos: UNIQUE(oferta,numeroIntentoEvidencia), NOT NULL y >0; numeración bajo lock padre. No UNIQUE global del hash documental: mismo archivo no prueba misma aceptación, y la política de INVALIDADA/duplicados requiere autorización.
 
-**B ajustada:** UUID generado por servidor para idCotizacion, idEvidencia e idComandoAuxiliar, mismo tipo en contrato/PK/FK. BIGINT con secuencia/identidad para idEvento; INTEGER positivo para numeroVersion/numeroIntentoEvidencia y BIGINT positivo para ordenEvento. Generación UUID exacta, manejo de colisión y límites requieren aprobación, sin presuponer extensión instalada. Versiones/intentos/ordenEvento se numeran bajo bloqueo padre y UNIQUE defensivo. No confundir la posible falta de continuidad de una secuencia con pérdida de eventos: ordenEvento prueba causalidad.
+**B RATIFICADA el 12/11/2026:** UUID generado por servidor para idCotizacion, idEvidencia e idComandoAuxiliar, mismo tipo en contrato/PK/FK. BIGINT mediante identidad PostgreSQL para idEvento; INTEGER positivo para numeroVersion/numeroIntentoEvidencia y BIGINT positivo para ordenEvento. Generación UUID exacta, manejo de colisión y límites requieren aprobación, sin presuponer extensión instalada. Versiones/intentos/ordenEvento se numeran bajo bloqueo padre y UNIQUE defensivo. No confundir la posible falta de continuidad de una secuencia con pérdida de eventos: ordenEvento prueba causalidad.
 
 Para BIGINT existentes de oferta/excedente/movimiento, coordinar **todos** los escritores UC-05/06/07/41 y generadores/advisory namespaces (§12); UUID en tablas nuevas no soluciona esos generadores MAX+1. La canonización de codigoCotizacion permanece pendiente; UNIQUE detecta duplicación, no prueba comunicación.
 
-## 10. Alcance E: idempotencia y reintentos
+## 10. Idempotencia — D ESPECIFICADA PARA RATIFICACIÓN, NO RATIFICADA
 
-CR-C §10 propone Idempotency-Key para emitirCotizacionOfertaExcedente y registrarEvidenciaAceptacionOferta, pendiente de autorización.
+### 10.1. Entidad, alcance y clave
 
-| Alternativa | Evaluación |
+Candidato único compartido CR-C/CR-F: COMANDO_AUXILIAR_UC07. Nombres físicos: idComandoAuxiliar, operacion, idOfertaExcedente, idUsuarioVendedor, claveIdempotencia, huellaSolicitud, idCotizacion, idEvidencia, estadoHttpOriginal, **respuestaOriginal JSONB NOT NULL**, fechaHoraRegistro. No se introduce reciboOriginalJson. Los UUID son de generación servidor conforme B; actor viene del principal autenticado, no de HTTP.
+
+UNIQUE(operacion,idOfertaExcedente,idUsuarioVendedor,claveIdempotencia). Huella fuera de la UNIQUE: cambiar payload debe entrar en conflicto, no crear otra identidad. FK restrictiva a oferta y FKs compuestas de resultado/oferta; solo un efecto (cotización o evidencia) según operación. Efecto y recibo se confirman juntos. respuestaOriginal guarda exclusivamente la salida mínima autorizada y su formato; nunca bytes documentales, contacto, declaración libre, credenciales ni tokens. Estado HTTP original separado en estadoHttpOriginal.
+
+**Candidato de clave obligatoria en ambos POST:** 1–128 caracteres ASCII visibles U+0021–U+007E, sin espacios/control ni Unicode fuera de ese alfabeto. Conservar exactamente la clave recibida: sin trim, normalización, cambio de caja, truncamiento ni colapso de duplicados de cabecera. HTTP valida antes del negocio. CR-F §15.5 cambia el anterior TEXT por VARCHAR(128) con CHECK de longitud/alfabeto; la operación SQL controlada también valida antes de cualquier cast que pudiera truncar. Entrada ausente, duplicada o inválida: 400 IDEMPOTENCY_KEY_INVALIDA, sin efectos. No registrar clave completa en logs.
+
+### 10.2. Canonización inequívoca UC07-IDEM/1
+
+huellaSolicitud = SHA-256 hexadecimal minúsculo de bytes canónicos UTF-8. Misma función/especificación para adaptador, servicio y pruebas; no hashear el JSON HTTP ni concatenar con "|" sin escape.
+
+Representación candidata exacta:
+
+1. Cabecera ASCII `UC07-IDEM/1\n` (LF único).
+2. Campos en el orden fijo de las listas O1/O2 de abajo. Por campo: longitud en bytes UTF-8 del nombre, decimal ASCII sin ceros iniciales, ":" y nombre; después `N;` para NULL o `V<longitudValor>:<valor>;` para valor no nulo. Longitud del valor cuenta bytes, no caracteres; NULL y cadena vacía son distintos. Prefijos de longitud permiten ":"/"|" y saltos en el valor sin ambigüedad.
+3. Valores de campos obligatorios nunca NULL; el marcador NULL queda definido para un opcional admitido en una futura versión del contrato. No añadir opcionales unilateralmente al hash. Cambio de esquema requiere nuevo identificador de canonización y convivencia/lectura de recibos antiguos definida antes de habilitarlo.
+
+Identificadores Long positivos dentro de BIGINT se representan en decimal sin signo "+" ni ceros iniciales; UUID en formato estándar de 36 caracteres con hex minúsculo. No se impone algoritmo UUID específico. Literales de operación: O1=`EMITIR_COTIZACION`, O2=`REGISTRAR_EVIDENCIA`, alineados con §15.5 de CR-F.
+
+**Decimales exactos:** validar positividad, finitud del dato decimal y representabilidad NUMERIC(18,3) para cantidades / NUMERIC(18,2) para importes. Usar BigDecimal, nunca double. Admitir ceros decimales superfluos sin pérdida; después de validar, setScale(3,UNNECESSARY) para cantidad y setScale(2,UNNECESSARY) para importe, toPlainString y punto decimal. Ejemplos: 1, 1.0 y 1.0000 → 1.000; 10 y 10.00 → 10.00. 1.0001 o importe 10.001 se rechazan con 400 ESCALA_DECIMAL_INVALIDA; no se redondean para que compartan hash. Cero, negativo y overflow: 400 SOLICITUD_INVALIDA. El HALF_UP de D2-A calcula importes comerciales; **no** normaliza con pérdida entradas antes del hash.
+
+**Instantes declarados:** parsear OffsetDateTime válido, convertir al mismo instante UTC y representar fecha/hora con seis dígitos de fracción y Z. Exigir nanos divisibles por 1000; precisión submicrosegundo que cambie el instante se rechaza (400 SOLICITUD_INVALIDA), sin truncar ni redondear. Offsets distintos del mismo instante y ceros fraccionales extra exactos producen el mismo valor canónico. Persistencia TIMESTAMPTZ conserva el instante, no promete conservar el offset textual original. Validación temporal generación<=mensaje<=registro sigue siendo comercial, adicional al hash.
+
+**Texto:** UTF-8 estricto; rechazar Unicode inválido/surrogates sin pareja. No aplicar NFC/NFKC, case-fold, trim, colapso de espacios ni conversión CRLF/LF a canal/contacto/declaración: conservar secuencia Unicode y espacios admitidos por contrato. Dos textos visualmente iguales pero con codificación Unicode distinta siguen siendo solicitudes distintas; se prioriza no fusionar declaraciones diferentes. Los catálogos se validan con sus literales autorizados, sin “corregir” entradas. La regla de 20 caracteres no blancos valida declaración sin modificarla.
+
+| Orden O1 | Valor semántico |
 |---|---|
-| A — reutilizar infraestructura existente | Patrones específicos de PEDIDO/COBRO/INTENTO_* sirven de antecedente, pero no contienen alcance/actor/huella/recibo genérico; no demostrado suficiente reutilizarlos sin alterar esos dominios |
-| B — registro específico de comandos | Recomendación para revisión: COMANDO_AUXILIAR_UC07, candidato nuevo y no autorizado, dentro de alcance E |
+| operacion | EMITIR_COTIZACION |
+| idOfertaExcedente | ID validado de ruta/ámbito |
+| cantidadCotizada | Escala fija 3 exacta |
 
-Propuesta B conserva idComandoAuxiliar UUID, operacion, idOfertaExcedente BIGINT, idUsuarioVendedor BIGINT, claveIdempotencia TEXT, huellaSolicitud CHAR(64), idCotizacion UUID o idEvidencia UUID según operación, respuesta HTTP/recibo JSONB mínimo y fechaHoraRegistro TIMESTAMPTZ. Candidato UNIQUE(operacion,oferta,vendedor,clave); misma clave/alcance con huella distinta produce conflicto. La huella no forma parte de esa UNIQUE, pues permitiría insertar otra fila al cambiar payload. Cantidad/cotización/metadatos y hash servidor de bytes integran la huella canónica, no boundary multipart ni token.
+| Orden O2 | Valor semántico |
+|---|---|
+| operacion | REGISTRAR_EVIDENCIA |
+| idOfertaExcedente | Derivado de cotización y verificado, no autoridad HTTP |
+| idCotizacion | UUID validado |
+| cantidadConfirmada | Escala fija 3 exacta |
+| importeConfirmado | Escala fija 2 exacta |
+| canalComunicacion | Literal contractual validado |
+| referenciaContacto | Texto admitido, sin minimización silenciosa |
+| fechaHoraMensaje | UTC/microsegundos exactos |
+| tipoMimeContenido | Tipo detectado por servidor, literal image/png o image/jpeg |
+| huellaContenido | SHA-256 servidor de bytes originales, hex minúsculo |
+| declaracionIdentidadVendedor | Texto exacto admitido |
 
-**Protocolo candidato de recibos completos:** serializar primero la clave de comando mediante lock transaccional dedicado derivado de alcance o mecanismo de reserva equivalente que se apruebe; reautorizar actor/objeto; releer recibo. Si existe y huella coincide, devolver resultado histórico y estado actual separados sin nuevo efecto; si difiere, 409. Si no existe, ejecutar negocio y guardar recibo completo como última escritura **dentro de la misma transacción**. Commit conjunto. No persistir PENDIENTE parcial en otra transacción ni dejar reserva eterna. Si falla, rollback de efecto y recibo. Peticiones simultáneas de la misma clave esperan y releen; UNIQUE es defensa, no sustituto de protocolo. Definir canonización/espacios de locks; una colisión del hash de lock solo debe serializar solicitudes extra, no confundir identidades reales.
+**Transporte no semántico:** boundary/orden de partes, cabeceras HTTP, Content-Length, token/sesión y nombreArchivoOriginal opcional no integran la huella. tipoMimeDeclarado es la declaración de Content-Type de la parte, se conserva separadamente y debe superar E, pero no es tipoMimeContenido ni se usa como autoridad/hash comercial. Un cambio de nombre opcional o variación admitida de la cabecera declarada no emite otro intento bajo la misma clave; replay mantiene los metadatos originales del primer efecto. No se agrega nombreArchivoOriginal a la firma O2 ni se exige por inferencia. Identidad del vendedor y clave completa están en el alcance UNIQUE; no se confunden con campos de payload controlados por cliente.
 
-Solo uno de los recursos de resultado será no nulo, según operación. FK compuesta de recurso/oferta evita recibo que apunta a efecto ajeno. JSONB no contiene archivo, contacto, declaración ni secretos; conserva versión de formato, status/recibo mínimo y estado **al registrar**. Replay 200 candidato conforme CR-C: sobre `replay: true`, `resultadoHistorico` (recibo/status original inmutable) y `estadoActual` leído consistentemente del recurso/oferta. Si evidencia ya fue INVALIDADA o UTILIZADA, informarlo expresamente en estadoActual, sin reescribir respuestaOriginal ni insinuar que VERIFICADA histórica es consumible. Estado actual es observación temporal, no reserva: Parte B revalida bajo lock. **Cada replay** reautentica sesión vigente y reautoriza VENDEDOR/ámbito antes de devolver información del recibo; rechazo por pérdida de permisos precede a revelar existencia. Clave o UUID no son credenciales. Firma/esquema final del sobre siguen pendientes de autorización.
+### 10.3. Protocolo transaccional candidato
 
-**PENDIENTE DE DECISIÓN:** formato/límite de clave, canonización, retención/limpieza, fallo transitorio, status definitivo de replay y conducta tras purga. Criterios de retención: horizonte real de reenvíos HTTP/offline, vida comercial, obligaciones de auditoría/privacidad, capacidad y restauración. Preferencia: conservar identidad/huella/vínculo mientras subsista riesgo de repetición o deber de auditoría; reducción/purga solo con política explícita y tombstone que impida reejecución, plazo y respuesta contractual aún pendientes. No inventar TTL. Si se elimina deduplicación antes de que cese riesgo de repetición, puede reaparecer efecto: evaluar conservar tombstone/clave y vínculo mínimo, o rechazar reuso conforme contrato autorizado. No prometer exactly-once ilimitado. Huella de contenido por sí sola no identifica comando ni aceptación; distinguir nuevo intento documental, reenvío técnico y evidencia de otra versión. Política de mismo archivo INVALIDADA sigue abierta, sin reactivarla.
+1. Autenticar sesión y autorizar VENDEDOR/objeto vigentes, sin herencia automática ADMIN. Para O2, aplicar E antes de abrir escritura; derivar y verificar ámbito y canonizar solicitud válida.
+2. Identificar clave completa operación/oferta/vendedor/clave, sin filtrar existencia protegida.
+3. Serializar por clave/comando y adquirir el subgrafo necesario según el candidato de CR-F §12.3, revalidando permisos tras esperar. No sustituir todo esto por un lock de oferta: debe resolverse su orden con advisory/raíces en H.
+4. Releer el registro confirmado después de esperar. Si misma clave y huella: replay, sin efectos; si huella distinta: 409 IDEMPOTENCY_KEY_PAYLOAD_MISMATCH.
+5. Sin registro: ejecutar negocio, generar el resultado y persistir efecto y respuestaOriginal/estadoHttpOriginal dentro de **la misma transacción**. No confirmar reserva PENDIENTE ni comando huérfano.
+6. Fallo: rollback íntegro. UNIQUE es defensa adicional, no reemplazo del protocolo ni de la relectura. Tras respuesta perdida/commit incierto, reintentar con misma clave; nunca inventar otra para “solucionar” el timeout.
 
-## 11. Seguridad documental, tamaños, privacidad y recuperación
+### 10.4. Replay y respuesta
 
-**RATIFICADA EN RD como orientación:** original en PostgreSQL/P2b; PNG/JPEG para evaluación inicial. WebP y PDF diferidos; TXT no evidencia única sin garantías adicionales, ZIP/DOCX/ejecutables EXCLUIDOS. No S3/MinIO, integración automática WhatsApp ni mensajes reales en esta tarea.
+Sobre público candidato único: `replay`, `resultadoHistorico`, `estadoActual`; no se introduce replayIdempotente. HTTP actual 200 OK candidato; resultadoHistorico conserva respuestaOriginal y estadoHttpOriginal como hechos originales inmutables. estadoActual se obtiene por lectura autorizada y consistente: respuesta vigente de oferta y estado de evidencia si corresponde, con instante de observación definido en esquema final. No reescribir el recibo al cambiar el recurso.
 
-**PENDIENTE:** calibración de 20–30 archivos representativos, midiendo tamaño, resolución, legibilidad, compresión/fidelidad, memoria, recepción, recuperación, almacenamiento y backups. 2 MiB=2097152 bytes solo candidato; no se incorpora CHECK de ese techo como definitivo. No se realizó calibración.
+UTILIZADA o INVALIDADA se informa como tal, nunca consumible. Replay no crea versiones/intentos/evidencias, transferencias ni efectos financieros. Parte B vuelve a validar bajo sus locks; estadoActual no reserva disponibilidad. Cada replay reautentica y reautoriza antes de devolver recibo/existencia; sesión/rol/ámbito perdidos impiden devolución conforme §9, aunque el efecto histórico haya sido legítimo. El contrato final del sobre debe aprobarse junto con CR-F.
 
-Evaluar separadamente límite aplicativo configurable, request/multipart, streaming acotado antes de leer todo, dimensiones/image bombs y techo físico defensivo. Si límite app es menor al techo BD, app rechaza antes; si app supera techo BD, revisar configuración antes de activar y traducir rechazo sin error SQL expuesto. No aprobar sin coherencia entre límites ni usar propiedad backend como única integridad. BYTEA/TOAST no valida seguridad, dimensiones o legibilidad ni ofrece límite de negocio por sí mismo.
+### 10.5. Errores candidatos únicos para CR-C y CR-F
 
-Lista blanca aprobada al implementar, magic bytes, MIME declarado/detectado, decodificación real segura con límites de dimensiones y memoria, rechazo de archivos corruptos/peligrosos y tamaño vacío/excesivo **antes de abrir la transacción de escritura en BD**. Ningún rechazo de esta prevalidación consume intento; luego se revalidan autorización, estados y correspondencia comercial tras adquirir locks. Conservar bytes recibidos sin recodificación silenciosa, hash servidor y comparación al recuperar. Hash no demuestra remitente, envío ni veracidad y necesita referencia confiable y protección contra cambiar simultáneamente hash/bytes.
+| Situación | HTTP candidato | Código / comportamiento |
+|---|---|---|
+| Clave ausente, duplicada o inválida | 400 | IDEMPOTENCY_KEY_INVALIDA |
+| Escala decimal no exacta | 400 | ESCALA_DECIMAL_INVALIDA |
+| Rango/instante/estructura inválidos | 400 | SOLICITUD_INVALIDA |
+| Sesión ausente o inválida | 401 | SESION_INVALIDA, convención vigente Bearer |
+| Rol o ámbito no autorizado | 403/404 | OPERACION_PROHIBIDA para rol; política uniforme de objeto no visible sin filtrar existencia |
+| Misma clave, distinto payload | 409 | IDEMPOTENCY_KEY_PAYLOAD_MISMATCH |
+| Espera finaliza y payload idéntico | 200 | Replay, no nuevo efecto |
+| Espera transaccional excedida / aborto transitorio de infraestructura | **503 preferente** | OPERACION_TEMPORALMENTE_NO_DISPONIBLE, candidato; rollback y reintento con misma clave. Retry-After solo si puede justificarse una estimación operativa aprobada; no derivarlo automáticamente del lock_timeout ni fijar plazo arbitrario |
 
-Lectura/descarga bajo autorización por objeto y proyección BC07, no-store, sin publicar URL documental ni logs con datos personales/bytes. Proteger backups, restauración y accesos de mantenimiento; minimización de metadatos, retención y eventual eliminación/anonimización conforme política aplicable. No declarar retención eterna ni borrar historia terminal sin reconciliar deberes de auditoría/privacidad. Política autorizada, roles y procedimiento excepcional pendientes; no conceder permiso por FK a USUARIO ni por jerarquía ADMIN.
+El 409 CLAVE_IDEMPOTENCIA_CONFLICTIVA anterior se **reemplaza** por IDEMPOTENCY_KEY_PAYLOAD_MISMATCH; no quedan dos literales activos para el mismo caso. CONFLICTO_CONCURRENCIA queda reservado como candidato 409 para conflicto **comercial** de estado/versión; no representa lock_timeout/deadlock/indisponibilidad. No se adopta IDEMPOTENCY_KEY_TIMEOUT como sinónimo 409 de infraestructura. No exponer SQL, SQLSTATE interno, claves, bytes, contacto ni declaración. Reintento de aborto transitorio debe ser acotado y de transacción completa; presupuesto, estimación Retry-After y esquema final de error requieren aprobación operativa. Nuevos códigos son propuestos, no implementados.
+
+### 10.6. Retención, privacidad y duplicados
+
+**MVP candidato:** sin TTL corto ni purga automática en línea. Conservar clave, huella, vínculo, resultado y recibo mientras la oferta esté bajo conservación operativa/auditable, con FK restrictiva. No se declara conservación eterna legalmente obligatoria. Riesgo residual explícito: horizonte calendario aún no definitivo, crecimiento de datos y conflicto con minimización/privacidad.
+
+Eliminación/anonimización excepcional solo mediante procedimiento autorizado y auditado, compatible con obligaciones de conservación; antes de cualquier purga definir una protección (por ejemplo tombstone) que impida reutilizar claves y reejecutar efectos. No tratar registro eliminado como nueva intención por defecto. Acceso a recibos/trazas por rol y objeto; logs sin bytes, contacto, declaración libre, Bearer ni clave completa.
+
+| Caso documental | Política candidata para ratificación |
+|---|---|
+| Misma clave/huella | Replay, sin número de intento nuevo |
+| Clave distinta y mismo archivo de la misma oferta/cotización | Preferencia MVP: 409 EVIDENCIA_DUPLICADA, también si el intento previo está INVALIDADA; no reactivarlo ni consumirlo |
+| Nuevo archivo / nuevo intento | Nueva identidad documental solo tras validar conformidad y reglas comerciales; hash distinto no prueba otra aceptación |
+| Otra cotización/oferta | No reciclar automáticamente la conformidad ni usar hash como unicidad global; verificar relación/contacto/cantidad/importe y obtener conformidad de esa versión |
+| INVALIDADA persistida | Conserva definitivamente numeroIntentoEvidencia conforme C; solo un intento nuevo permitido por política puede generar otra fila |
+
+Numeración C está ratificada; esta política de duplicados/retención pertenece a D y **no** está ratificada. Pendientes precisos: ratificación de D, algoritmo/namespace/orden físico con H, horizonte calendario y procedimiento excepcional, presupuesto de reintentos/Retry-After, esquema público final y pruebas reproducibles de canonización/serialización. No se reabren los tipos ni la semántica A–C ya ratificados.
+
+## 11. Evidencia documental P2b — especificación candidata E
+
+### E — P2b ESPECIFICADA PARA RATIFICACIÓN; límites definitivos condicionados
+
+**Estado C1:** propuesta completa de seguridad/calibración, NO RATIFICADA. El contenido original en PostgreSQL/P2b tiene fundamento previo; este pipeline y sus parámetros requieren ratificación. No se implementan endpoints ni se afirma ejecutar pruebas de imágenes en C1.
+
+#### E1. Formatos y campos
+
+Lista blanca candidata MVP: image/png, image/jpeg. WebP/PDF diferidos; TXT, ZIP, DOCX y ejecutables fuera del alcance de evidencia documental MVP. tipoMimeDeclarado conserva el Content-Type de transporte; tipoMimeContenido es el formato detectado/validado por servidor. Extensión y nombreArchivoOriginal opcional no deciden admisión ni agregan parámetros obligatorios a O2.
+
+En la firma conceptual O2, tipoMimeContenido representa el valor que el adaptador obtuvo de la validación servidor, no un campo comercial autorizado desde HTTP. La cabecera declarada se conserva como metadato separado. No aceptar un MIME detectado/hash impuestos por el cliente.
+
+#### E2. Pipeline seguro antes de escritura
+
+1. Limitar request, multipart, número de partes y bytes desde recepción, incluyendo transferencia sin Content-Length; no cargar entrada ilimitada ni confiar solo en cabeceras.
+2. Autenticar y autorizar antes de revelar recursos protegidos y antes de gastar trabajo de decodificación sobre objetos no accesibles.
+3. Medir bytes, detectar formato por firma: PNG `89 50 4E 47 0D 0A 1A 0A`; JPEG prefijo `FF D8 FF`, que requiere decodificación real complementaria.
+4. Exigir tipo detectado en lista blanca y coherencia con MIME declarado admitido; no confiar en extensión. Discordancia, corrupción o formato no permitido → 400 CONTENIDO_INVALIDO.
+5. Seleccionar lector controlado PNG/JPEG; sondear dimensiones antes de asignar raster, limitar píxeles y metadatos/buffers, decodificar realmente bajo presupuesto de memoria/tiempo y concurrencia.
+6. Rechazar imágenes truncadas, corruptas, no decodificables/ilegibles o fuera de presupuesto. Gestionar errores de ImageIO sin eco del contenido ni persistencia parcial; decodificación no prueba por sí sola legibilidad comercial de una captura.
+7. Calcular SHA-256 servidor sobre bytes originales admitidos; ni huella ni imagen acreditan criptográficamente remitente/WhatsApp.
+8. Solo tras completar prevalidación, abrir transacción de escritura y persistir bytes originales sin recodificación silenciosa.
+9. Después de esperar locks, revalidar sesión/permiso, oferta, pedido, cotización, datos comerciales y estados; efectuar O2/recibo atómicos. Rechazo previo no consume intento conforme C.
+10. Recuperación posterior con autorización por objeto y BC07, comparación SHA-256, respuesta mínima y Cache-Control: no-store. Ningún GET/descarga se habilita por inferencia.
+
+**Presupuesto experimental, no garantía implícita de ImageIO:** 4096×4096 RGBA son 67,108,864 bytes (~64 MiB) solo de raster; no incluye originales, buffers, metadatos, objetos, memoria nativa ni decodificador. Candidato de evaluación: un trabajador a la vez, cola acotada y rechazo controlado por saturación; heap por trabajador 128 MiB, presupuesto de proceso 256 MiB y deadline por archivo 2 s, todos sujetos a medir y ratificar. ImageIO dentro de un hilo HTTP no impone esos límites automáticamente; Future.cancel/interrupción no garantizan detener un lector. Preferencia a evaluar: subproceso local controlado con límites del SO/watchdog y descarte al excederlos, sin abrir transacción DB hasta resultado seguro. No se autoriza nueva infraestructura ni se promete límite total de CPU/RSS por fijar -Xmx. El mecanismo de aislamiento/lector y los presupuestos efectivos son pendientes de revisión de seguridad/calibración.
+
+**Privacidad del original:** ignorar EXIF/tEXt durante lectura no los elimina de los bytes conservados. Persistir original también conserva metadatos embebidos y potenciales datos personales; restringir lectura, descargas, backups y retención. No afirmar que se sanitizó/redujo el archivo si se conserva íntegro. No guardar capturas personales en repositorio/CI/logs.
+
+#### E3. Umbrales de laboratorio y coherencia de capas
+
+| Parámetro | Candidato experimental, NO límite definitivo |
+|---|---|
+| Propiedad aplicativa | ale.uc07.evidencia.max-bytes |
+| Máximo aplicativo inicial | 1048576 bytes (1 MiB) |
+| Techo físico de evaluación | 2097152 bytes (2 MiB) |
+| Dimensiones máximas candidatas | Ancho<=4096 y alto<=4096; píxeles<=16,777,216 |
+| Presupuestos de evaluación | Los de E2, sujetos a medición y aprobación |
+
+Configurar coherentemente request/multipart (incluyendo overhead acotado), app y eventual techo DB. La app rechaza antes si excede su máximo; cambiar configuración por encima del techo físico exige revisión previa, no esperar un error SQL expuesto. Valores no crean flags/endpoints ni alteran configuración real.
+
+V1 no contiene evidencia. El DDL candidato CR-F §15.3 sí contiene contenidoOriginal BYTEA NOT NULL y ck_evidencia_no_vacia: octet_length(contenidoOriginal)>0. Conservar esa restricción; **no existe allí un CHECK de 2 MiB ya aprobado**. Un eventual ejemplo de evaluación sería CHECK(octet_length(contenidoOriginal) BETWEEN 1 AND 2097152), **NO EJECUTAR / VALOR EXPERIMENTAL**; no sustituye automáticamente ck_evidencia_no_vacia ni se incorpora como límite definitivo en §15.3. No usar :techo_calibrado como marcador literal de una futura migración Flyway.
+
+#### E4. Calibración obligatoria, NO EJECUTADA en C1
+
+Preparar 20–30 archivos sintéticos o anonimizados representativos de capturas Android, iOS y WhatsApp Web, con procedencia de plataforma/formato y sin datos personales. Dataset de evaluación con acceso restringido; no incorporar capturas reales identificables a Git/CI/logs. Añadir deliberadamente muestras grandes y malformadas; distinguir estas muestras adversariales del conjunto representativo.
+
+Registrar tamaño mínimo/máximo, P50/mediana, P95 (método de orden elegido explícito; candidato rango más cercano ceil(0.95*n)), outliers grandes, dimensiones/píxeles, formato real, tiempo de decodificación, heap/RSS/picos bajo prueba controlada y fallos/incompatibilidades de lector. Para n par, especificar cómo se calcula mediana. Registrar versión de lector/JDK, equipo, concurrencia, límites efectivos y repetición para reproducir mediciones.
+
+No usar P99 de 20–30 archivos como conclusión estadística. Proponer margen razonado usando legibilidad, peores casos, memoria/tiempo, overhead multipart y capacidad PostgreSQL/backup; ensayar fronteras y malformados antes de congelar parámetros. Si la muestra no respalda 1 MiB/2 MiB/4096² o los presupuestos, ajustar propuesta y someterla nuevamente a ratificación, sin cambiar silenciosamente límites físicos.
+
+#### E5. HTTP, acceso y pendientes
+
+Preferencia única compartida: 400 CONTENIDO_INVALIDO para contenido/MIME/decodificación inválidos y 413 EVIDENCIA_DEMASIADO_GRANDE para bytes sobre límite efectivo. Escalas siguen 400 ESCALA_DECIMAL_INVALIDA de D. No adoptar 422 por defecto ni crear una segunda matriz contradictoria; cualquier alternativa requerirá justificación y aprobación del catálogo final. Saturación/fallo transitorio del validador puede mapearse al 503 candidato de D; no disfrazar archivo inválido como indisponibilidad.
+
+Errores/logs sin eco de bytes, contacto, declaración, tokens ni clave de idempotencia completa. Lectura/descarga requiere autorización expresa por rol/ámbito y BC07, no-store e integridad; el permiso general de VENDEDOR no abre un GET público. Pendientes: ratificación de E/pipeline, calibración, lectores/aislamiento y presupuestos, límites finales, retención/privacidad y contrato de recuperación; no están implementados ni probados por completar esta especificación.
 
 ## 12. Matriz Global de Adquisición de Locks — RT-UC07-04 ABIERTA
 
-**Etapa B, decisión H: inspección estática y protocolo propuesto, NO prueba de ausencia de deadlocks.** App examinada exclusivamente desde origin/main `d5f7607afb430a251cbf5cc9190a879a7d41416b`; contratos desde gobierno `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`. No ejecutar DDL ni experimentos en este corte.
+**H PENDIENTE C3, ORDEN GLOBAL NO RATIFICADO.** Matriz originada en auditoría histórica Etapa B al SHA app d5f7607; C1 revalida las correcciones #85/#86 sobre main `4dbe38668fc5cbc08d04e10920e3bf165c71be11`, con contratos de gobierno `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`. El Corte 3 previo ejecutó parcialmente R/P; no prueba ausencia global de deadlocks. No ejecutar DDL ni experimentos en C1.
 
 ### 12.1. Convenciones y fuentes reproducibles
 
 U=`FOR UPDATE`, N=`FOR NO KEY UPDATE`, S=`FOR SHARE`, K=`FOR KEY SHARE`; A1(k)=`pg_advisory_xact_lock(bigint)`, A2(a,b)=variante de dos enteros. A1 y A2 son espacios distintos; claves A1 idénticas de dominios distintos sí colisionan. Los locks transaccionales se conservan hasta commit/rollback. SELECT ordinario no aporta lock de fila excluyente; la espera también puede ser por transactionid/índice/exclusión GiST y locks de relación. Un UPDATE no clave suele tomar N, o U si modifica columnas de clave reconocidas por PostgreSQL; no atribuir N a todo UPDATE sin inspeccionar índices/plan. Las lecturas explícitas U de los servicios ya son más fuertes.
 
-Fuentes exactas en app (rutas relativas a `src/main/java/ar/edu/unam/alemilanesas/`, todas al SHA anterior): `ventas/CargarPedidoService.java` L42–64,80–103; `finanzas/AplicarAjusteComercialService.java` L40–63 y `EvaluadorCategoriaComercialInterno.java` L43–56; `maestros/ActualizarPrecioVigenteService.java` L62–89,108–155; `produccioninventario/RegistrarPreparacionService.java` L48–72,92–137,150–180,210–242. Para las FKs/triggers: V1 L917–921,1041–1043,1664–1686 y V3 (partidas/funciones). Enlaces estables: [UC-03](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/ventas/CargarPedidoService.java#L42), [UC-19](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/maestros/ActualizarPrecioVigenteService.java#L62), [UC-28](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/produccioninventario/RegistrarPreparacionService.java#L48).
+Fuentes exactas en app (rutas relativas a `src/main/java/ar/edu/unam/alemilanesas/`, auditadas originalmente en d5f7607; líneas de corrección C1 enlazadas en adenda): `ventas/CargarPedidoService.java` L42–64,80–103; `finanzas/AplicarAjusteComercialService.java` L40–63 y `EvaluadorCategoriaComercialInterno.java` L43–56; `maestros/ActualizarPrecioVigenteService.java` L62–89,108–155; `produccioninventario/RegistrarPreparacionService.java` L48–72,92–137,150–180,210–242. Para las FKs/triggers: V1 L917–921,1041–1043,1664–1686 y V3 (partidas/funciones). Enlaces estables: [UC-03](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/ventas/CargarPedidoService.java#L42), [UC-19](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/maestros/ActualizarPrecioVigenteService.java#L62), [UC-28](https://github.com/leandrito369/ale-milanesas-app/blob/d5f7607afb430a251cbf5cc9190a879a7d41416b/src/main/java/ar/edu/unam/alemilanesas/produccioninventario/RegistrarPreparacionService.java#L48).
 
 Gobierno: contratos REV04B §2 UC-05 L57–109, §3 UC-06 L111–159, §5 UC-07 A L199–229, §6 B L233–275, §7 UC-41 L279–313. [PR #44](https://github.com/leandrito369/ale-milanesas/pull/44) OPEN/DRAFT, HEAD `e5e82f843f8a579e3201a332c645f62680d56832`, archivo `RD_I302_001_PROPUESTA_ENTREGA_EFECTIVO_TRANSITO_IDEMPOTENCIA_2026-11-09.md`, §§8.3–8.4 L266–304: secuencia funcional y recursos, **no orden SQL aprobado**. No hay implementación funcional de UC-05/06/07/41 en el main inspeccionado; no asignarles locks actuales inventados.
 
@@ -236,18 +372,18 @@ Gobierno: contratos REV04B §2 UC-05 L57–109, §3 UC-06 L111–159, §5 UC-07 
 
 | Operación / evidencia | Orden observado dentro de transacción | FK, triggers, escrituras y límites |
 |---|---|---|
-| UC-03 implementada | Autorizar/validar → A2(3003,0) → A1(idCliente) → reautorizar → buscar replay (si existe, retorna) → CLIENTE U → PRODUCTO S para todos los IDs ascendentes → clock_timestamp → PRECIO_PRODUCTO S por ítem en orden de entrada → CLIENTE U de nuevo en UC-16/15 → política S y regla de ajuste S → MAX+1 PEDIDO → INSERT PEDIDO/detalles | UC-15 actualiza categoría CLIENTE ya bloqueada. FKs toman K en padres referidos (cliente, usuario, política, pedido, producto/unidad según escritura); triggers V1 toman CLIENTE S al insertar pedido y PRODUCTO S al seleccionar producto de detalle. No U sobre un pedido antiguo en camino de alta. Replay UC-03 y PR #85 fuera de este corte |
-| UC-19 implementada | Autorizar/validar → PRODUCTO U → reautorizar → reloj PostgreSQL/control no retroactivo → A1(1919001) → períodos PRECIO_PRODUCTO no cancelados U ordenados (vigenteDesde,idPrecio) → MAX+1 precio/auditoría → UPDATE vigenteHasta/INSERT nuevo precio/auditoría → commit | Reloj se toma **antes** de esperar 1919001. FKs de precio/auditoría toman K de producto/usuario/precio. GiST exclusión [desde,hasta) puede esperar por transacciones concurrentes. No PEDIDO/EXCEDENTE explícitos |
+| UC-03 implementada | Autorizar/validar → A2(3003,0) → A1(idCliente) → reautorizar → buscar replay (si existe, retorna) → CLIENTE U → PRODUCTO S para todos los IDs ascendentes → clock_timestamp → PRECIO_PRODUCTO S por ítem en orden de entrada → CLIENTE U de nuevo en UC-16/15 → política S y regla de ajuste S → MAX+1 PEDIDO → INSERT PEDIDO/detalles | UC-15 actualiza categoría CLIENTE ya bloqueada. FKs toman K en padres referidos (cliente, usuario, política, pedido, producto/unidad según escritura); triggers V1 toman CLIENTE S al insertar pedido y PRODUCTO S al seleccionar producto de detalle. No U sobre un pedido antiguo en camino de alta. Replay UC-03 ya corregido por #85 (cantidadOriginal>0), integrado; sin cambio de servicio en C1 |
+| UC-19 implementada | Autorizar/validar → PRODUCTO U → reautorizar → reloj PostgreSQL/control no retroactivo → A2(1919,1) integrado por #86 → períodos PRECIO_PRODUCTO no cancelados U ordenados (vigenteDesde,idPrecio) → MAX+1 precio/auditoría → UPDATE vigenteHasta/INSERT nuevo precio/auditoría → commit | Reloj se toma **antes** de esperar A2(1919,1); antes de #86 era A1(1919001). FKs de precio/auditoría toman K de producto/usuario/precio. GiST exclusión [desde,hasta) puede esperar por transacciones concurrentes. No PEDIDO/EXCEDENTE explícitos |
 | UC-28 implementada | Autorizar/validar → PEDIDO U → DETALLE_PEDIDO U (pedido/producto) → A2(808,0) → reautorizar → sumas ordinarias → reloj → PRODUCTO S → VERSION_RECETA/RECETA S OF v,r → DETALLE_VERSION_RECETA S por idInsumo asc → por cada ingrediente: A1(idInsumo), INSUMO U, PARTIDA_INSUMO U orden apertura/vencimiento/registro/id → reautorizar → MAX+1 preparación/movimientos y escrituras | El bucle conserva locks de ingredientes anteriores. COSTO_INSUMO_HISTORICO se consulta sin lock explícito. FKs de preparación/consumo toman K (detalle, versión, insumo, preparación/usuario); V3 actualiza partidas ya bloqueadas. No bloquear todo PRODUCTO antes de PEDIDO en un nuevo consumidor que luego espera el mismo pedido |
 | UC-05 pendiente, contrato + PR #44 | **Orden SQL/advisory no definido.** Recursos: asignación vigente, PEDIDO/detalles, CLIENTE/UC-15, stock REVENTA, EXCEDENTE nuevo y movimientos; ENTREGA antes de origen del cargo por FK. PR44 solo propone coordinación de IDs contables con A1(2929001) de UC-29 | No atribuir 2929001 a ENTREGA/EXCEDENTE. Requiere integrar UC-43 A1(9172001)/A2(60505,7), inventario A2(808,0)/A1(elemento), generadores y posibles locks tardíos de CLIENTE. La secuencia funcional de PR44 no prueba modo/orden de filas |
 | UC-06 pendiente, contrato §3 | **Orden SQL/advisory no definido.** Revalidar PEDIDO PENDIENTE/asignación contextual; preservar preparado/reasignado como EXCEDENTE, cancelar; eventual extensión UC-26 según contrato | Recursos compartidos PEDIDO/detalles, EXCEDENTE/movimientos y generadores. Modo/orden exactos y coordinación con asignación/reembolso pendientes de DS; sin falsa implementación |
 | UC-41 pendiente, contrato §7 | **Orden SQL/advisory no definido.** Disminución atómica de EXCEDENTE y movimiento DESCARTE; costo histórico preservado | Candidato futuro U sobre excedente, generador común y K por FK de movimiento; son propuestas, no hechos de servicio existente |
 
-FK no implica siempre lock nuevo observable si la transacción ya protege padre o PostgreSQL evita comprobación innecesaria; K describe la protección referencial requerida al insertar/cambiar FK. K **conflicta con U**, aunque puede convivir con N: no omitirla del grafo. Modos/orden efectivos de triggers/FKs deben registrarse en Corte 3, no derivarse solo de nombres de tablas.
+FK no implica siempre lock nuevo observable si la transacción ya protege padre o PostgreSQL evita comprobación innecesaria; K describe la protección referencial requerida al insertar/cambiar FK. K **conflicta con U**, aunque puede convivir con N: no omitirla del grafo. Corte 3 observó interacciones K/U/N en prototipos; falta registrar el conjunto efectivo de triggers/FKs definitivos en C3, sin deducirlo solo de nombres de tablas.
 
 ### 12.3. Matriz UC-07 propuesta y protocolo compatible a experimentar
 
-**PROPUESTA PREFERENTE H, aún no orden global autorizado.** Lectura preliminar sin locks para descubrir raíces no autoriza efectos: después bloquear y **revalidar las referencias**; si cambiaron/añadieron recursos, rollback completo y replanificar sin adquirir raíces tardías fuera del orden. Serialización auxiliar por clave en espacio A2 dedicado, separado de A1 de IDs crudos; componentes/namespace exactos por aprobar. Colisiones de hash del lock solo serializan de más; igualdad real siempre por clave completa/UNIQUE.
+**H CANDIDATO PENDIENTE C3, NO RATIFICADO:** catálogo sometido parcialmente a pruebas, aún no orden global autorizado. Lectura preliminar sin locks para descubrir raíces no autoriza efectos: después bloquear y **revalidar las referencias**; si cambiaron/añadieron recursos, rollback completo y replanificar sin adquirir raíces tardías fuera del orden. Serialización auxiliar por clave en espacio A2 dedicado, separado de A1 de IDs crudos; componentes/namespace exactos por aprobar. Colisiones de hash del lock solo serializan de más; igualdad real siempre por clave completa/UNIQUE.
 
 Para nuevas operaciones compartir un catálogo de recursos y un orden total: coordinación de comando/generadores necesaria **antes de filas** → CLIENTE necesarios por ID → PEDIDO origen/receptor por ID → DETALLE_PEDIDO necesarios por PK → EXCEDENTE por ID → PRODUCTO por ID → PRECIO_PRODUCTO por (producto,desde,id) si se captura → OFERTA por ID → COTIZACION por ID → EVIDENCIA por ID → eventos/recibo. UUID no ordena tiempo comercial; ordenar lexicográficamente solo para adquisición determinista. No tomar recursos irrelevantes, ni consultar precio actual en auxiliares/B. Mantenimiento y triggers deben respetar el mismo catálogo. D5-B EXCEDENTE→OFERTA→PEDIDO era hipótesis no ratificada; no se altera la RD.
 
@@ -260,14 +396,14 @@ Para nuevas operaciones compartir un catálogo de recursos y un orden total: coo
 | Parte B acepta | Coordinación generadores movimiento/detalle aprobada → CLIENTE necesarios → PEDIDO origen/receptor ordenados → detalles necesarios por PK → EXCEDENTE U → PRODUCTO S si nueva línea técnica → OFERTA U → COTIZACION S → EVIDENCIA U → revalidar todo → transferir, actualizar oferta/detalle y misma evidencia UTILIZADA con evento → commit | CLIENTE/PEDIDO U conservadores, detalles U, EXCEDENTE U; producto S solo si nueva línea técnica dispara selección V1, adquirido **antes** de OFERTA según catálogo, nunca después de evidencia. K detalle origen/producto/unidad, oferta/excedente en movimiento, usuario y efecto. No precio actual ni UC-15/16; stock insuficiente revierte Parte B y conserva VERIFICADA |
 | Parte B rechaza | CLIENTE/PEDIDO receptor necesarios → OFERTA U → EVIDENCIAS U → rechazo y invalidación trazable de CAPTURADA/VERIFICADA con eventos → commit | No transferencia ni precio actual; no nueva evidencia requerida. Si política histórica aplica, §14 no exige retroactivamente snapshot. No reactivar terminales |
 
-Los modos conservadores U sacrifican concurrencia para revisar un protocolo coherente; optimizar a N/S exige demostrar que preserva FKs, invariantes y ausencia de ciclos. No introducir adquisición de A1(1919001) desde UC-07: no genera precios. Tampoco reutilizar A2(808,0) para IDs de excedentes por analogía; precisar generador compartido entre UC-05/06/07/41 (secuencia común o advisory dedicado acordado por todos). Una nueva coordinación solo entre UC-07 no resuelve inversiones de servicios existentes. UC-05 puede necesitar locks financieros/inventario/asignación adicionales: debe publicar su DS compatible antes de declarar completo el orden global.
+Los modos conservadores U sacrifican concurrencia para revisar un protocolo coherente; optimizar a N/S exige demostrar que preserva FKs, invariantes y ausencia de ciclos. No introducir adquisición de A1(1919001) ni reutilizar A2(1919,1) desde UC-07 por analogía: no genera precios. El namespace actual de UC-19 queda reservado a coordinación de escritores precio/auditoría. Tampoco reutilizar A2(808,0) para IDs de excedentes por analogía; precisar generador compartido entre UC-05/06/07/41 (secuencia común o advisory dedicado acordado por todos). Una nueva coordinación solo entre UC-07 no resuelve inversiones de servicios existentes. UC-05 puede necesitar locks financieros/inventario/asignación adicionales: debe publicar su DS compatible antes de declarar completo el orden global.
 
 ### 12.4. Pares que comparten recursos y ciclos posibles
 
 | Par | Espera/grafo a examinar | Tratamiento / incertidumbre |
 |---|---|---|
-| UC-03 ↔ UC-19 | **Ciclo estático posible:** con idCliente=1919001, UC-03 posee A1(1919001) y espera PRODUCTO S; UC-19 posee el mismo PRODUCTO U y espera A1(1919001) | Las dos llamadas A1 comparten namespace. No requiere solapamiento de vigencias. Reproducir con IDs sintéticos y barreras; documentar resultado antes de decidir cambio separado de namespace/orden. No corregir app en esta CR ni afirmar deadlock ya ejecutado |
-| UC-28 ↔ UC-19 | UC-28 posee PRODUCTO S y después pide A1(idInsumo); si idInsumo=1919001 y UC-19 de **otro producto** posee A1(1919001), puede esperar un precio/fila adicional de otro escritor. UC-19 solo no espera recursos de UC-28 en el camino observado | Hay contención/collisión A1; el ciclo de dos actores no está demostrado solo por ese par. Examinar terceros, UC-03 y writers de insumo/receta; no llamar deadlock a toda espera |
+| UC-03 ↔ UC-19 | **Defecto histórico CONFIRMADO:** con idCliente=1919001, UC-03 retiene A1(1919001) y espera PRODUCTO S; UC-19 antiguo retiene PRODUCTO U y espera A1(1919001). Corte 3 reportó 3/3 SQLSTATE 40P01 | **IMPLEMENTADO/INTEGRADO:** #86 sustituye UC-19 por A2(1919,1), main 4dbe386. Seis intercalados experimentales sin ese ciclo y prueba permanente específica incorporada; no certifica orden global ni se reejecuta aquí |
+| UC-28 ↔ UC-19 | El riesgo histórico de coincidencia idInsumo=1919001 con A1 de UC-19 ya no corresponde a su llamada actual A2(1919,1). Persisten PRODUCTO S/U, precio y dependencias con terceros | Separación A1/A2 evita esa colisión numérica puntual; no elimina por sí sola otras inversiones con receta/insumo/producto. Examinar escritores restantes y no llamar deadlock a toda espera |
 | UC-03 ↔ UC-28 | Producto S/S compatible, A1(idCliente)=A1(idInsumo) puede esperar por coincidencia numérica. UC-03 vuelve a CLIENTE U después de producto pero ya lo tomó antes | No afirmar ciclo directo sin otra arista; añadir UC-19 y política comercial para cadenas. Ordenar raíces antes de producto en UC-07 |
 | UC-28 ↔ UC-07 A/B | UC-28 tiene PEDIDO/detalle U y pide PRODUCTO S; UC-07 con PRODUCTO U/S y K/U tardío de ese detalle/pedido puede cerrar ciclo si los modos conflictúan | Bloquear pedidos/detalles origen y receptor antes de producto. Un S/S de producto por sí solo no forma ciclo; incluir UC-19 que toma U y FKs nuevas |
 | UC-19 ↔ Parte A | PRODUCTO U/S serializa captura; precio U/S y GiST pueden esperar; reloj de UC-19 previo a advisory | t oferta después de esperas y lectura posterior coherente, probar [desde,hasta) y cancelaciones. Auxiliares/B usan snapshot y no esperan P2 |
@@ -276,27 +412,33 @@ Los modos conservadores U sacrifican concurrencia para revisar un protocolo cohe
 | UC-05/06 ↔ A/O1/O2/B | PEDIDO/DETALLE origen y receptor, CLIENTE, EXCEDENTE, stock, posibles asignaciones y generadores | Inversión CLIENTE↔PEDIDO o EXCEDENTE↔PEDIDO no resuelta por lista nominal. DS exactos pendientes; ordenar múltiples pedidos/detalles y definir raíces antes de integrar |
 | Escritores SQL ↔ triggers/FKs | K tardío a padres puede esperar U; trigger con SELECT de otra tabla puede invertir orden; índice/GiST y command-UNIQUE esperan transacción | Rol operativo sin DML libre en historia; funciones controladas respetan catálogo. Inspeccionar grafo real y locks implícitos, no solo SELECT visibles |
 
-El primer ciclo es una hipótesis reproducible concreta basada en instrucciones existentes, **no un resultado experimental**. Exige decisión técnica separada si se confirma; no puede declararse solucionado modificando únicamente documentos UC-07. Inventario adicional necesario: UC-43/asignación, maestros de producto/receta/insumo, UC-08/42/29 y funciones invocadas; esta matriz detalla los consumidores solicitados y explicita el límite de cobertura global.
+El primer ciclo dejó de ser hipótesis: el Corte 3 lo reprodujo y #86 integró su corrección puntual en app, ver adenda. **HECHO VERIFICADO** de integración distinto de **PROBADO según informe R/P**; no se ejecutan pruebas reales nuevas en C1. No declarar resuelto el orden global por esa corrección. Inventario adicional necesario: UC-43/asignación, maestros de producto/receta/insumo, UC-08/42/29 y funciones invocadas; esta matriz detalla los consumidores solicitados y explicita el límite de cobertura global.
 
-### 12.5. Experimento aislado Corte 3 — plan reproducible, NO EJECUTADO
+### 12.5. Plan histórico Corte 3 y ampliación pendiente C3
 
-1. Autorización específica del experimento; checkout/artefacto descartable separado de app/main y de PR #85, sin despliegue. PostgreSQL 17.11 (precedente `postgres:17.11-alpine` de `RegistrarPreparacionConcurrenciaIntegrationTest.java` L20–44), Flyway V1–V3 sin editar y esquema candidato solo en sandbox de prueba autorizado. Ninguna migración/DDL se ejecuta en Etapa B.
+**Historial:** el plan Etapa B siguiente tuvo ejecución parcial reportada en Corte 3: L1 real, L2/L3 mixtos y L4/L5 prototipos. No se acredita ejecución total de esta lista ni de recibos/HTTP. **Pendiente C3:** pruebas con cuerpos físicos definitivos C2 y escritores restantes.
+
+1. Para la futura ampliación, autorización específica del experimento; checkout/artefacto descartable separado de app/main y de PR #85, sin despliegue. PostgreSQL 17.11 (precedente `postgres:17.11-alpine` de `RegistrarPreparacionConcurrenciaIntegrationTest.java` L20–44), Flyway V1–V3 sin editar y esquema candidato solo en sandbox de prueba autorizado. Ninguna migración/DDL se ejecuta en Etapa B.
 2. Dos o tres conexiones/transacciones reales READ COMMITTED con IDs sintéticos controlados, incluidos cliente=1919001, insumo=1919001 y dos productos/pedidos. Barreras CountDownLatch en puntos de lock para forzar cada intercalado; no depender de sleeps. Confirmar que el primer lock se adquirió consultando observabilidad antes de liberar la otra sesión. Repetir ambos órdenes de llegada y múltiples raíces con IDs invertidos.
 3. Registrar por paso: PID, transacción, recurso, modo pedido/concedido, `pg_locks`, `pg_blocking_pids`, waits/transactionid y `pg_stat_activity`, sin tokens ni datos personales. En laboratorio fijar y reportar lock_timeout/statement_timeout/deadlock_timeout permitidos (no requieren privilegios extra en esta tarea); deadlines de Future/test y rollback/cleanup garantizado. Un timeout no prueba deadlock y un éxito aislado no demuestra ausencia universal.
 4. Intercalados mínimos: ciclo UC-03/19 descrito; UC-19/A con cambio P→P2 y frontera temporal/cancelación; UC-28/A/B sobre pedido/detalle origen; dos O1 misma/distinta clave; O2/O2; O2/B y O2/rechazo; B/UC-41; UC-05/06 contra B según DS futuros, incluidos generadores; FK K de detalle/producto y guardias de precio. Si no hay implementación de operación pendiente, el harness SQL solo valida el protocolo candidato y no certifica un servicio futuro.
 5. Aserciones tras commit/rollback: una V1 por oferta; snapshots/coherencia temporal; una evidencia en VERIFICADA/UTILIZADA; estado y cadena de eventos concordantes; intento único por oferta; una transferencia por oferta; stock/costo correctos; recibo original inmutable y estadoActual real; cero efectos parciales al inyectar error entre actualización/evento/recibo. SQLSTATE 40P01/55P03/40001 y timeouts clasificados, con política aprobada de reintento acotado de transacción completa, nunca doble aceptación.
 6. Evidencia de entrega: SHA exacto de código/harness/esquema, versión PG/Flyway, fixtures, barreras/intercalados, trazas de espera, resultados y CI. Un deadlock esperado al reproducir el orden antiguo acredita el hallazgo; luego probar candidato/corrección autorizada, sin ocultar fallos con reintentos. No cerrar RT-UC07-04 por pasar B0 documental; diseño suficiente antes de autorizar transacciones y pruebas reales aprobadas antes del merge funcional, conforme la secuencia de RD-UC07-001.
 
-**RT-UC07-04: ABIERTA / PENDIENTE DE PRUEBAS REALES Y COORDINACIÓN DE OPERACIONES PENDIENTES.** No se certifica ausencia de deadlocks ni se autoriza implementar el protocolo por este documento.
+**RT-UC07-04: ABIERTA / PENDIENTE DE AMPLIACIÓN DE PRUEBAS REALES Y COORDINACIÓN DE OPERACIONES PENDIENTES.** No se certifica ausencia de deadlocks ni se autoriza implementar el protocolo por este documento.
 
 ## 13. Integridad física cruzada, inmutabilidad y bitácora protegida — F
 
-**PROPUESTA PREFERENTE (CONVERGENCIA ETAPA B):** los siguientes controles son requisitos del futuro diseño ejecutable; no se suplen con validación Java. Los cuerpos de funciones/triggers y GRANT/REVOKE se especificarán/probarán en corte autorizado, nunca se ejecutan aquí.
+**Compatibilidad F1–F5 verificada para preparar C2:** tabla real PRECIO_PRODUCTO, columna precioBase NUMERIC(18,4); no existe precioBaseUnitario en esa tabla. El snapshot futuro se llama precioBaseUnitarioAplicado NUMERIC(18,4) y se coteja con precioBase/producto origen. Conservar ck_oferta_excedente_3 y respuestas PENDIENTE/ACEPTADA/RECHAZADA: una guardia permite PENDIENTE→ACEPTADA/RECHAZADA con campos coherentes y condiciones originales inmutables, sin exigir vigencia actual del precio al responder. No se impone cantidad fija de triggers: deben cubrir padres comerciales, evidencia/eventos y comandos además de las relaciones directas.
+
+**Estado final transaccional a diseñar C2:** oferta ACEPTADA, evidencia UTILIZADA, movimiento de reasignación único, imputación al pedido receptor, cantidades/importes aceptados y saldo/costo histórico deben coincidir al commit. Evaluar constraint triggers diferidos para invariantes entre varias sentencias; no exigir cada estado final intermedio ni permitir commit incongruente. O2 debe reflejar NULL→CAPTURADA y CAPTURADA→VERIFICADA como dos hechos causales ordenados. Sin cuerpos PL/pgSQL ni GRANT/REVOKE definitivos en C1.
+
+**F PENDIENTE / NO RATIFICADA — Corte C2:** los siguientes controles son requisitos del futuro diseño ejecutable; no se suplen con validación Java. Los cuerpos de funciones/triggers y GRANT/REVOKE se especificarán/probarán en corte autorizado, nunca se ejecutan aquí.
 
 | Entidad / operación | Garantía física candidata obligatoria |
 |---|---|
 | OFERTA_EXCEDENTE BEFORE INSERT | Exigir snapshot completo nuevo; bajo raíces bloqueadas recorrer excedente→detalle origen→producto; contrastar precio.idProducto, no cancelado y vigencia [desde,hasta) en fechaHoraOferta única servidor. Snapshot debe ser exactamente precioBase NUMERIC(18,4); la operación controlada calcula importeInformado con D2-A y ajuste congelado, sin importe de autoridad aportado por cliente. No aceptar fecha/P arbitrarios como hechos por venir desde SQL operativo. Inserción solo mediante operación controlada que toma reloj DB posterior a esperas y revalida estados |
-| OFERTA BEFORE UPDATE/DELETE | UPDATE compara OLD/NEW: identidad, excedente, receptor, fechaHoraOferta, cantidadOfrecida, importeInformado, idPrecio/P inmutables; solo respuesta legítima según ck_oferta_excedente_3 y protocolo Parte B/rechazo. DELETE prohibido operativo. Excepción histórica delimitada en §14, sin obligación retroactiva de snapshot |
+| OFERTA BEFORE UPDATE/DELETE | UPDATE compara OLD/NEW: identidad, excedente, receptor, fechaHoraOferta, cantidadOfrecida, importeInformado, idPrecio/P inmutables; solo transición PENDIENTE→ACEPTADA/RECHAZADA legítima según ck_oferta_excedente_3 y protocolo Parte B/rechazo; preservar ofertas ya cerradas. DELETE prohibido operativo. Excepción histórica delimitada en §14, sin obligación retroactiva de snapshot |
 | Padres comerciales/procedencia | Proteger relación producto del detalle origen, vínculo del excedente y ajuste tipo/porcentaje del pedido receptor contra cambios retroactivos por escritor operativo. Para PRECIO_PRODUCTO referido, guardia ante UPDATE/DELETE impide cambiar producto/precioBase o eliminar procedencia; cierres futuros UC-19 permitidos si no excluyen el instante ya registrado de ofertas. Cancelación/rangos no pueden invalidar retrospectivamente la captura. Coordinación por PRODUCTO antes de precio; no agregar lock tardío de oferta desde UC-19. Cuerpos/privilegios exactos y compatibilidad con UC-19 requieren prueba |
 | COTIZACION BEFORE INSERT/UPDATE/DELETE | INSERT bloquea oferta padre, exige estado admisible y 0<q<=cantidadOfrecida, V1 igual a padre y versiones >=2 parciales; coteja cálculo D2-A con snapshot y ajuste protegido, no precio actual. UNIQUE padre/version y padre/id. UPDATE/DELETE rechazan alteraciones de cualquier campo comercial/identidad/autor/instante: toda recotización es nueva fila. Excepción solo por mantenimiento autorizado fuera del rol app |
 | EVIDENCIA BEFORE INSERT/UPDATE/DELETE | INSERT exige padre/cotización coherentes (FK compuesta), q/importe iguales a versión, tiempo válido, intento positivo único asignado bajo padre; hash SHA-256 servidor sobre bytes. Verificación física hash/bytes necesita función hash instalada/autorizada (no asumir pgcrypto existente). UPDATE permite solo transición controlada, no cambiar intento, padre/cotización, bytes, hashes, MIME, cantidad/importe, contacto/declaración/autor/fechas. UTILIZADA/INVALIDADA terminales. DELETE prohibido operativo |
@@ -308,45 +450,46 @@ El primer ciclo es una hipótesis reproducible concreta basada en instrucciones 
 
 Los triggers de integridad bloquean además a escritores no cooperantes con DML permitido; la privación de DML evita que esos escritores eludan la operación. No se afirma resistencia contra propietario/superusuario: mantenimiento excepcional con autorización, motivo, respaldo y auditoría fuera del runtime. Ninguna cuenta de mantenimiento se usa para el servicio normal. Integridad física comercial y autenticidad humana son garantías diferentes; no se atribuye a una FK ni al hash verificación criptográfica de WhatsApp.
 
-## 14. Estrategia Flyway e históricos — resolución técnica G
+## 14. Históricos y estrategia determinista — G PENDIENTE / NO RATIFICADA (C2)
 
-**PROPUESTA PREFERENTE, NO MIGRACIÓN CREADA.** Releer secuencia real antes de implementar: V1/V2/V3 permanecen intactas; no reservar V4 frente a otras tareas.
+### 14.1. Antecedentes comprobados y límite
 
-### 14.1. Auditoría de inserciones versionadas y alcance
+La auditoría de código Etapa B al SHA d5f7607 no encontró INSERT de OFERTA_EXCEDENTE en migraciones/fixtures; no era inspección de bases destino. El Corte 3 ensayó únicamente datos sintéticos/guardias en PostgreSQL descartable. Ninguno certifica destinos vacíos. C1 no ejecuta preflight en ninguna BD, no elige rama y no crea/ejecuta migración. V1/V2/V3 y sus checksums permanecen intactos.
 
-En app origin/main `d5f7607afb430a251cbf5cc9190a879a7d41416b` se revisaron migraciones Flyway V1–V3 y todos los recursos/tests/fixtures versionados bajo src: `git grep -n OFERTA_EXCEDENTE origin/main -- src/main/resources src/test src/main/java` solo encuentra V1 (CREATE L243 y FKs L917–921); no INSERT de oferta, servicio escritor ni fixture de oferta. La búsqueda de la cadena en todos esos blobs evita omitir un INSERT multilínea. **Hecho de código**, no consulta de datos. No se inspeccionaron bases destino, restauraciones, seeds externas o escrituras manuales; no se certifica tabla vacía.
+### 14.2. Restricciones del futuro preflight
 
-### 14.2. Por qué CHECK NOT VALID no resuelve legado
+Antes de elegir política física: identificar destino/versión, inventariar filas, respuestas ya ACEPTADA/RECHAZADA y snapshots nulos; coordinar pausa de escritores incompatibles para impedir cambios entre comprobación y migración. No inventar precio por importe/cantidad ni usar P actual como histórico. Conservar estados/comercial original e historia; rechazo masivo por conveniencia migratoria queda excluido.
 
-PostgreSQL `CHECK (...) NOT VALID` omite únicamente el escaneo inicial de filas ya existentes: **evalúa toda fila insertada o actualizada después**, aunque UPDATE solo cambie respuesta. Un CHECK global `idPrecio IS NOT NULL AND precioBaseUnitarioAplicado IS NOT NULL` NOT VALID bloquearía el cierre de legado nulo. Se descarta esa solución. Tampoco un CHECK positivo nullable exige presencia (NULL pasa); el CHECK del par de §15 solo garantiza ambos/ninguno, nunca obligatoriedad nueva.
+**Una misma versión Flyway no debe producir esquemas distintos según datos de cada destino.** La comparación Etapa B de tabla vacía versus legado era análisis de alternativas, no autorización para IF por datos que cree NOT NULL en un destino y columnas nullable/otros triggers en otro.
 
-### 14.3. Rama 1 — tabla vacía certificada en destino
+### 14.3. Ruta candidata de tabla vacía
 
-Detener escrituras incompatibles; inventariar tabla/destino/fecha/versión y comprobar cero filas **bajo coordinación que impida inserciones concurrentes entre certificación y cambio**. Entonces nuevas columnas directamente NOT NULL, FK y precio positivo, más guardias comerciales de §13. Reanudar solo escritor compatible tras autorización. Ausencia de INSERT en Git no habilita esta rama; certificado debe provenir del destino real. No cambiar una migración ya aplicada.
+Solo tras certificación y decisión C2: proponer migración **determinista** con NOT NULL para nuevas columnas, FK/guardias y precondición que aborte íntegramente si aparecen filas inesperadas. La misma migración debe dar el mismo esquema autorizado en todos los destinos donde se aplique. Fallar una precondición no autoriza continuar con otra estructura ni rellenar P ficticio; decidir tratamiento específico antes de reintentar.
 
-### 14.4. Rama 2 — existen o pueden existir históricos
+### 14.4. Si existen históricos: detener ruta y decidir tratamiento
 
-1. Columnas inicialmente nullable en par coherente (§15), FK restrictiva y CHECK positivo toleran nulos antiguos. Identificar y auditar explícitamente el conjunto legado/corte antes de instalar protecciones, con escrituras detenidas. La excepción no se selecciona por rol app, un ID cliente manipulable ni solo una fecha aportada por cliente. Preferencia mínima: registrar inventario del corte, guardias instaladas atómicamente y nuevas filas siempre completas; toda OLD con ambos nulos debe pertenecer al legado certificado. Si se usa marca/lista de legado, su escritura queda fuera del runtime y diseño definitivo requiere revisión, sin inventar una tabla aprobada aquí.
-2. **BEFORE INSERT obligatorio:** rechazar cualquier oferta nueva si P o idPrecio son NULL, incluso SQL operativo ajeno al servicio. Exigir además correspondencia producto–precio–vigencia de §13. Copiar una fila antigua con nuevo ID sigue siendo INSERT y no queda exento.
-3. **BEFORE UPDATE diferenciado:** con OLD completo, conservar snapshot y contexto inmutables y validar respuesta normal. Con OLD legado y par nulo, permitir cambios de respuesta legítimos compatibles con G0/ck_oferta_excedente_3 y política aprobada, sin exigir retroactivamente idPrecio y sin reevaluar vigencia a reloj actual. Mantener par nulo y contexto original intactos; impedir nuevas cotizaciones/evidencias y aceptación que pretenda inventar precio. Un rechazo solicitado/autorizado legítimamente puede registrar RECHAZADA/fecha según G0 conservando nulos, sin borrar historia; **no** efectuar rechazo masivo automático para migrar. Snapshot nulo→completo solo mediante regularización excepcional con fuente inequívoca, aprobación y auditoría, nunca con P actual ni importe/cantidad.
-4. **Aceptación de legado:** queda bloqueada si no puede demostrarse P/condiciones congeladas. Requiere política expresa y evidencia inequívoca del responsable antes de habilitarla. Esto es una restricción comercial explícita pendiente, distinta del error técnico de bloquear todo UPDATE por un CHECK retroactivo. La guardia permite el cierre legítimo aprobado, no una aceptación carente de prueba.
-5. BEFORE DELETE y permisos impiden borrar/reinsertar para eludir historia. No elevar globalmente NOT NULL hasta completar regularización o tratamiento formal compatible con conservación de historia; si queda legado nulo, mantener guardias diferenciadas como estado objetivo aprobado, sin prometer validación futura imposible. Un CHECK condicionado por marca de legado protegida es alternativa a evaluar; no `NOT VALID` global como sustituto.
+Cualquier legado o incertidumbre detiene la ruta vacía. Someter a decisión C2 un tratamiento específico con fuentes inequívocas, preservación de ofertas ACEPTADA/RECHAZADA, regularización/auditoría y política de respuesta de pendientes sin bloquear UPDATE histórico legítimo. No ejecutar tal decisión en C1.
 
-### 14.5. Orden, recuperación y rollout propuestos
+CHECK(... NOT VALID) omite escaneo inicial pero se evalúa en todo INSERT/UPDATE posterior: un CHECK global que exija snapshot no nulo puede bloquear el cierre de una fila antigua. Este defecto se reprodujo en Corte 3; no usar NOT VALID como solución retroactiva. El CHECK del par completo/ausente de §15 no exige presencia en filas nuevas.
 
-Inventario de datos/catálogo/propietarios/triggers → decisión documentada rama 1/2 → pausa de escritores incompatibles → extensión de oferta/guardias → cotización y UNIQUE compuesta → evidencia → eventos → comandos → guardias diferidas/privilegios definitivos → verificación/restore en entorno descartable → autorización de gates para el corte correspondiente. Funciones de triggers que consultan tablas nuevas deben instalarse después de sus dependencias, dentro de rollout coordinado; crear guards de snapshot básicos antes de reabrir INSERT. Nunca abrir ventana con filas nuevas sin snapshot.
+La solución estudiada en Etapa B (BEFORE INSERT estricto, BEFORE UPDATE diferenciado para OLD legado y prohibición de fabricar procedencia) queda como **alternativa técnica pendiente**, no ruta adoptada. Requiere identificar legado de forma protegida, impedir oferta nueva incompleta y conservar cierres legítimos sin reasignar un precio inventado. Aceptación de legado sin prueba histórica sigue bloqueada hasta política aprobada; no declarar autorizado aceptar, rechazar o alterar registros por este texto. Si se elige un esquema con legado, deberá definirse explícitamente su esquema objetivo uniforme, versiones y rollout, sin ramas divergentes dentro de una misma migración Flyway.
 
-Backup/restauración, conteos/huellas/referencias/nulos, duración de locks y espacio se medirán en la futura prueba. No editar checksums ni borrar evidencia al volver a código anterior; forward-fix/restauración autorizada según evaluación de escrituras posteriores. Toda habilitación requiere autorización; Issue #28 continúa abierta. F09/F55/F56 verifican ambas ramas y UPDATE histórico sin defecto NOT VALID.
+### 14.5. Preparación de recuperación y dependencias C2
+
+Inventario/decisión de tratamiento → esquema objetivo uniforme y precondiciones → dependencias ordenadas snapshot/raíces, cotizaciones/UNIQUE compuesta, evidencias, eventos y recibos → funciones/privilegios definitivos de C2 → pruebas descartables/backup/restore → autorización de implementación y activación correspondiente. Funciones que consultan tablas nuevas se instalan después de sus dependencias; no reabrir escritor incompatible en una ventana sin protección.
+
+Medir conteos, huellas, nulos/referencias, locks, duración y espacio. No editar checksums, reaplicar a ciegas ni borrar evidencia al retroceder código. Diseño de restauración/forward-fix y tratamiento de escrituras posteriores requieren aprobación. Sin preflight ni elección de rama en C1; Issue #28 sigue OPEN/PAUSADO.
 
 ## 15. DDL candidato consolidado y decisiones abiertas
 
-**PROPUESTA DOCUMENTAL — NO EJECUTAR.** Fragmentos en este Markdown exclusivamente: no archivo SQL ejecutable, no migración lista para aplicar, sin cuerpos de triggers. Describen un candidato con alternativa B de pertenencia y recibos completos; NO autorizan tipos/índices/retención/PK. UUID se suministran desde servidor; idEvento muestra identidad BIGINT como propuesta preferente B ajustada, aún no aprobada. El conjunto no cierra guards cruzados y privilegios descritos en §§4–13; tampoco es afirmación de compilación en PostgreSQL.
+**PROPUESTA DOCUMENTAL — NO EJECUTAR.** Fragmentos en este Markdown exclusivamente: no archivo SQL ejecutable, no migración lista para aplicar, sin cuerpos de triggers. Contienen tipos/identidad y FK compuesta RATIFICADOS por B, intento RATIFICADO C y resto de mecanismos/documentación candidata; no autorizan migración ni reglas D/E/F/G/H. UUID de servidor sin algoritmo único impuesto; idEvento BIGINT mediante identidad PostgreSQL ratificada. El conjunto no cierra guards cruzados y privilegios descritos en §§4–13; tampoco es afirmación de compilación en PostgreSQL.
 
 ### 15.1. Extensión de oferta, compatible con auditoría de históricos
 
 ```sql
 -- PROPUESTA DOCUMENTAL. NO EJECUTAR.
--- Nulabilidad inicial depende de históricos. NOT NULL final según §14.
+-- Antecedente Etapa B nullable para analizar legado: NO es ruta elegida en C1.
+-- C2 debe definir esquema uniforme/precondiciones; sin IF por datos que cambie el esquema.
 ALTER TABLE "OFERTA_EXCEDENTE"
   ADD COLUMN "precioBaseUnitarioAplicado" NUMERIC(18,4),
   ADD COLUMN "idPrecio" BIGINT;
@@ -361,7 +504,7 @@ ALTER TABLE "OFERTA_EXCEDENTE"
     CHECK ("precioBaseUnitarioAplicado" > 0);
 ```
 
-No cambiar fk_oferta_excedente_2 ni ck_oferta_excedente_3. NULL histórico no habilita nuevas ofertas sin snapshot: §14 define BEFORE INSERT obligatorio y BEFORE UPDATE diferenciado o NOT NULL bajo tabla vacía certificada; cuerpos y autorización pendientes. Este fragmento nullable corresponde solo a la rama de legado y no puede habilitarse sin esas guardias.
+No cambiar fk_oferta_excedente_2 ni ck_oferta_excedente_3. NULL histórico no habilita nuevas ofertas sin snapshot: §14 define BEFORE INSERT obligatorio y BEFORE UPDATE diferenciado o NOT NULL bajo tabla vacía certificada; cuerpos y autorización pendientes. Este fragmento nullable es antecedente de análisis de legado; no habilitarlo ni elegir rama en C1. C2 deberá definir esquema uniforme/precondiciones y guardias, sin divergencia de una misma migración por destino.
 
 ### 15.2. Cotizaciones candidatas, sin columna de estado
 
@@ -486,7 +629,7 @@ CREATE TABLE "COMANDO_AUXILIAR_UC07" (
   "operacion" VARCHAR NOT NULL,
   "idOfertaExcedente" BIGINT NOT NULL,
   "idUsuarioVendedor" BIGINT NOT NULL,
-  "claveIdempotencia" TEXT NOT NULL,
+  "claveIdempotencia" VARCHAR(128) COLLATE "C" NOT NULL,
   "huellaSolicitud" CHAR(64) NOT NULL,
   "idCotizacion" UUID,
   "idEvidencia" UUID,
@@ -510,14 +653,17 @@ CREATE TABLE "COMANDO_AUXILIAR_UC07" (
     ("operacion" = 'EMITIR_COTIZACION' AND "idCotizacion" IS NOT NULL AND "idEvidencia" IS NULL)
     OR ("operacion" = 'REGISTRAR_EVIDENCIA' AND "idEvidencia" IS NOT NULL AND "idCotizacion" IS NULL)
   ),
-  CONSTRAINT "ck_comando_aux_clave" CHECK (length(btrim("claveIdempotencia")) > 0),
+  CONSTRAINT "ck_comando_aux_clave" CHECK (
+    char_length("claveIdempotencia") BETWEEN 1 AND 128
+    AND "claveIdempotencia" COLLATE "C" ~ '^[!-~]{1,128}$'
+  ),
   CONSTRAINT "ck_comando_aux_huella" CHECK ("huellaSolicitud" ~ '^[0-9a-f]{64}$'),
   CONSTRAINT "ck_comando_aux_http" CHECK ("estadoHttpOriginal" BETWEEN 200 AND 299),
   CONSTRAINT "ck_comando_aux_json" CHECK (jsonb_typeof("respuestaOriginal") = 'object')
 );
 ```
 
-Los tipos, literales de operación, JSONB, claves e índices son candidatos de revisión, no políticas aprobadas. Validar respuesta mínima por operación contra esquema contractual y tamaño seguro; JSONB objeto por sí solo no impide datos sensibles. Limitar tamaño de clave antes de persistir y evaluar impacto sobre índice B-tree; no dejar TEXT ilimitado como solución operativa. No se define TTL/default ni registro PENDIENTE confirmado. Todo guard/trigger/privilegio aún no definido debe resolverse antes del DDL definitivo, no suplirse con suposiciones sobre este bloque.
+Tipo UUID de idComandoAuxiliar está RATIFICADO B; resto de D es ESPECIFICADO PARA RATIFICACIÓN. Clave antes TEXT pasa a VARCHAR(128) COLLATE "C" y CHECK ASCII de §10, preservando igualdad exacta de clave en UNIQUE; HTTP y función SQL validan original antes de cast/truncamiento. respuestaOriginal JSONB NOT NULL es nombre único, sin reciboOriginalJson. Validar esquema mínimo y vínculo/recibo con efecto: JSONB objeto no basta ni admite datos sensibles. Sin TTL/purga online ni PENDIENTE confirmado en MVP candidato. Canonización UTF-8, retención y errores exactos en §10; funciones/privilegios definitivos quedan en C2, sin ejecutar este fragmento.
 
 ## 16. Compatibilidad con línea base G0
 
@@ -529,27 +675,27 @@ ck_oferta_excedente_3, migraciones V1/V2/V3, contratos REV04B, manifiestos, RBAC
 
 ### 17.1. Datos y tipos
 
-CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), nuevo HEAD `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661` (anterior `06bf800cdbfab9eedebe5a7a79e32269df01e63f`), leído desde ese commit. Esta rama solo modifica su CR-F; no incluye cambios del archivo de CR-C.
+CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47), nuevo HEAD C1 `0b75eb4ca32db9481e22a34c80eb637b80351a31` (base C1 `7a4887d0c447c7ee82ce0c729d9360b8cbc1c661`; antecedente Etapa B `06bf800cdbfab9eedebe5a7a79e32269df01e63f`), leído desde ese commit. Esta rama solo modifica su CR-F; no incluye cambios del archivo de CR-C.
 
 | Elemento | CR-C | CR-F candidata | Coincide |
 |---|---|---|---|
-| idCotizacion | UUID conceptual candidato | UUID PK/FK | Sí como candidato; elección final conjunta |
-| idEvidencia | UUID servidor preferente | UUID PK | Sí, no ratificado físicamente |
-| idComandoAuxiliar | UUID servidor, registro interno | UUID PK COMANDO_AUXILIAR_UC07 | Sí, sin exigir exposición HTTP |
-| idEvento | BIGINT secuencia/identidad | BIGINT GENERATED ALWAYS AS IDENTITY candidato | Sí, no UUID |
-| Replay | resultadoHistorico + estadoActual; reautorización | Recibo inmutable, lectura actual consistente y permisos vigentes | Sí, preferente D |
-| Evidencia utilizable única | Índice conjunto por oferta | uq_evidencia_utilizable_por_oferta, VERIFICADA/UTILIZADA | Sí, preferente F |
+| idCotizacion | UUID servidor RATIFICADO B | UUID PK/FK | Sí; mecanismo concreto pendiente |
+| idEvidencia | UUID servidor RATIFICADO B | UUID PK | Sí, no autorización de implementación |
+| idComandoAuxiliar | UUID servidor RATIFICADO B, registro interno | UUID PK COMANDO_AUXILIAR_UC07 | Sí, sin exigir exposición HTTP |
+| idEvento | BIGINT identidad PostgreSQL RATIFICADO B | BIGINT GENERATED ALWAYS AS IDENTITY | Sí, no UUID |
+| Replay | resultadoHistorico + estadoActual; reautorización | Recibo inmutable, lectura actual consistente y permisos vigentes | Sí, D ESPECIFICADA PARA RATIFICACIÓN |
+| Evidencia utilizable única | Índice conjunto por oferta | uq_evidencia_utilizable_por_oferta, VERIFICADA/UTILIZADA | Sí, candidato F PENDIENTE C2 |
 | codigoOferta | Identidad estable padre | Derivación sobre datos originales protegidos | Sí; no columna obligatoria nueva |
 | codigoCotizacion | String de versión | CHAR(64) hex candidato | Sí conceptual; canonización definitiva pendiente |
 | numeroVersion | int salida | INTEGER positivo y UNIQUE por oferta | Sí; generador pendiente |
-| numeroIntentoEvidencia | Por oferta, prevalidación no consume, replay no incrementa | INTEGER NOT NULL >0 + UNIQUE(oferta,intento), lock padre | Sí, preferente C |
+| numeroIntentoEvidencia | Por oferta, prevalidación no consume, replay no incrementa | INTEGER NOT NULL >0 + UNIQUE(oferta,intento), lock padre | Sí, RATIFICADA C |
 | cantidadConfirmada | Entrada validada BigDecimal | NUMERIC(18,3), cotejo con cotización | Sí |
 | importeConfirmado | Entrada no autoritativa | NUMERIC(18,2), igualdad/cálculo servidor | Sí |
-| fechaHoraMensaje | OffsetDateTime declarada | TIMESTAMPTZ | Sí; precisión/tolerancia pendientes |
+| fechaHoraMensaje | OffsetDateTime declarada | TIMESTAMPTZ | Sí; D especifica UTC/microsegundos exactos; tolerancia comercial pendiente |
 | fechaHoraRegistro | Salida servidor | TIMESTAMPTZ servidor | Sí |
 | Estados evidencia | Cuatro estados/transiciones, terminales | CHECK + eventos + transición controlada propuesta | Sí, requiere mecanismo físico |
-| Idempotency-Key | Ámbito operación/oferta/actor/payload | COMANDO_AUXILIAR_UC07 y protocolo completos propuestos | Sí conceptual; retención/status/canonización por resolver |
-| Límites de archivo | 2 MiB candidato; calibración | Sin techo físico definitivo | Sí; admisión definitiva pendiente |
+| Idempotency-Key | §10 C1: 1–128 ASCII, huella versionada y replay | COMANDO_AUXILIAR_UC07, VARCHAR(128)/CHECK, respuestaOriginal | Sí, D especificada NO ratificada |
+| Límites de archivo | 1 MiB app/2 MiB físico/4096² experimentales | ck_evidencia_no_vacia conservado, sin techo definitivo | Sí; E especificada NO ratificada |
 | Actor vendedor | Principal autenticado | FK USUARIO y eventos con actor servidor | Sí; FK no sustituye autorización |
 | MIME declarado y validado | Ambos conservados | tipoMimeDeclarado y tipoMimeContenido | Sí |
 
@@ -558,7 +704,7 @@ CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47)
 | Regla CR-C | Persistencia necesaria | Constraint, lock o transacción candidata | Prueba |
 |---|---|---|---|
 | Emisión | Oferta/snapshot y cotización | Validación cruzada D2-A, lock oferta, recibo mismo commit | F01,F11,F13,F14 |
-| V1 inicial / O1 | Oferta + V1; consulta/emisión parcial/replay distintos | A atómica preferente, >=2 parcial con nueva clave; recibo para replay | F10,F45,F50 |
+| V1 inicial / O1 | Oferta + V1; consulta/emisión parcial/replay distintos | A RATIFICADA: V1 atómica, >=2 parcial; D candidata para replay | F10,F45,F50 |
 | Numeración concurrente | numeroVersion | Lock oferta + UNIQUE; no MAX sin coordinación | F12,F16 |
 | Registro evidencia | Cotización, bytes, metadatos | FK compuesta, checks y validación servidor | F17–F21,F29–F35 |
 | Sustitución atómica | Dos evidencias y eventos | Oferta bloqueada; nueva válida antes de invalidar, commit único | F22,F23,F40,F41 |
@@ -569,11 +715,11 @@ CR-C coordinada: [PR #47](https://github.com/leandrito369/ale-milanesas/pull/47)
 | Inmutabilidad | Snapshot, versiones, evidencia/eventos | Triggers/operaciones controladas/permisos especificados en §13; cuerpos futuros | F08,F15,F27,F35,F36,F54 |
 | Rechazo/confirmación final | Oferta/movimiento/stock/evidencia | Rechazo sin evidencia, serialización y rollback Parte B | F24–F28,F42,F43 |
 
-Compatibilidad de propuestas preferentes A–H cotejada contra el SHA nuevo de CR-C, sin alegar validación física ejecutada. Pendientes bloqueantes: autorización de A–F, esquema/errores finales de lectura y replay, canonización/retención/duplicados, límites calibrados, funciones/privilegios concretos, inventario/política de legado, orden global/generadores y revisión del plan Corte 3. RT-UC07-04 sigue ABIERTA. Cambiar un principio ratificado requiere decisión del responsable; esta convergencia no modifica RDs ni autoriza automáticamente diseño, código o despliegue.
+Compatibilidad C1 cotejada contra nuevo SHA CR-C: A/B/C RATIFICADAS por decisión expresa del responsable; D/E ESPECIFICADAS PARA RATIFICACIÓN; F/G/H PENDIENTES. No reabrir tipos/identidad/FK compuesta/intentos como elecciones técnicas aún no tomadas. Pendientes: contratos auxiliares/rutas y ratificación D/E, límites calibrados, funciones/privilegios/estado final C2, preflight y tratamiento uniforme de legado, matriz global/generadores y campaña C3. #85/#86 MERGED no equivalen a UC-07 implementado ni RT-UC07-04 cerrada.
 
 ## 18. Plan de pruebas PostgreSQL/Testcontainers
 
-Todas las filas: **PROPUESTAS DOCUMENTADAS — NO IMPLEMENTADAS — NO EJECUTADAS — NO APROBADAS**. B0 documental no ejecuta estos escenarios. Precondiciones aluden a un futuro entorno descartable autorizado con esquema candidato definitivo, datos sintéticos y actores correctos; no a producción. IDs F locales a esta CR.
+Todas las filas F siguen **PLAN DE PRUEBAS DE LA IMPLEMENTACIÓN DEFINITIVA, NO ACREDITADO COMO SUITE COMPLETA**. Corte 3 tuvo ensayos R/P parciales descritos en adenda/§12, sin equivalencia automática con todos estos IDs; C1 no ejecuta PostgreSQL ni implementa esos servicios. B0 documental no ejecuta estos escenarios. Precondiciones aluden a un futuro entorno descartable autorizado con esquema candidato definitivo, datos sintéticos y actores correctos; no a producción. IDs F locales a esta CR.
 
 | ID | Precondición | Acción | Resultado esperado | Componente |
 |---|---|---|---|---|
@@ -633,17 +779,21 @@ Todas las filas: **PROPUESTAS DOCUMENTADAS — NO IMPLEMENTADAS — NO EJECUTADA
 | F54 | Rol SQL operativo, sin servicio cooperante | Violar snapshot, cantidad, igualdad, bytes, evento/estado o DELETE | Guardias/permisos rechazan; no historia alterada | Integridad física |
 | F55 | Legado sin snapshot y oferta nueva incompleta | Rechazo legítimo del legado; insertar nueva; aceptar sin fuente | UPDATE legítimo no bloqueado por NOT VALID; nueva y aceptación no demostrada se rechazan | Históricos |
 | F56 | Sin filas, certificado con escrituras detenidas | Aplicar rama NOT NULL y reanudar escritor compatible | Ninguna oferta nueva sin snapshot; certificado inválido ante carrera | Históricos |
-| F57 | Intercalados Corte 3 §12.5 | Barreras y dos conexiones | Evidencia de locks/MVCC/rollback y resolución controlada; no dar por cerrado RT04 por documentación | Locks |
+| F57 | Intercalados §12.5 y futura C3 | Barreras y conexiones reales | Ampliar evidencia R/P sin dar por cerrado RT04 por documentos o #86 | Locks |
+| F58 | Clave 1–128 ASCII/huella versionada | Fronteras HTTP/SQL y vectores UTF-8/NULL | Canonización exacta, rechazo de pérdida decimal/temporal, sin colisión de solicitudes | D |
+| F59 | Replay/timeout/retención | Mismo/distinto payload, pérdida de permisos, 503 transitorio, purga excepcional | Recibo original, estado actual y deduplicación preservados | D |
+| F60 | 20–30 muestras seguras y adversariales | Medir E y presupuestos | Límites finales motivados, sin P99 concluyente ni datos personales en Git/CI | E |
+| F61 | Destinos con/sin filas | Preflight externo y abortar precondición inesperada | Misma versión Flyway no produce esquemas divergentes por datos; no regularización inventada | G/C2 |
 
 Ampliaciones del plan: fallos y versión antigua V2 con evidencia aún válida tras emitir V3 sin aceptación; cruce con UC-05/06 y UC-28, distintos pedidos/excedentes, replay tras cierre/revocación, purga idempotente, restore y comparación de huellas. Definir timeouts/instrumentación y reproducibilidad de intercalados, confirmar cantidad de pruebas ejecutadas y resultados en CI del SHA funcional. No marcar RT-UC07-04 cerrada por el mero diseño ni confundir pruebas ya existentes de UC-19 con estas.
 
 ## 19. Riesgos, exclusiones y criterios de autorización
 
-Riesgos bloqueantes: correlación temporal/producto insuficiente con FK simple; pares snapshot nulos históricos; incoherencia entre límite aplicativo/físico; heredados sin fuente exacta de P; duplicados semánticos no detectables solo por hash; cuerpos del índice conjunto y guardias aún no probados en PostgreSQL; relojes coincidentes sin orden; eventos/estado no atómicos; ciclos por invertir PEDIDO/PRODUCTO; purga prematura de claves; escrituras privilegiadas fuera del servicio; identidad manual no autenticada; borrado de datos personales frente a historial terminal. Cada uno requiere solución verificable antes de autorizar, no aprobación por omisión.
+Riesgos bloqueantes: correlación temporal/producto insuficiente con FK simple; pares snapshot nulos históricos; incoherencia entre límite aplicativo/físico; heredados sin fuente exacta de P; duplicados semánticos no detectables solo por hash; mecanismos físicos definitivos pendientes de C2/C3 pese a ensayos parciales del índice/guardias; relojes coincidentes sin orden; eventos/estado no atómicos; ciclos por invertir PEDIDO/PRODUCTO; purga prematura de claves; escrituras privilegiadas fuera del servicio; identidad manual no autenticada; borrado de datos personales frente a historial terminal. Cada uno requiere solución verificable antes de autorizar, no aprobación por omisión.
 
-**Para autorizar:** revisión del responsable y cruzada con PR #47; autorizar propuestas preferentes UUID/BIGINT y generadores, V1 interna/O1, FK compuesta y correspondencia producto/precio, intentos por oferta/índice conjunto, mecanismo físico de inmutabilidad/auditoría, retención y recibos de idempotencia, calibración y política documental, tratamiento de históricos, diseño suficiente RT-UC07-04, privilegios/seguridad y plan de pruebas. Compatibilidad conjunta demostrada y autorización expresa con fecha/alcance reales. No exigir CR-C mergeada para redactar esta CR-F ni crear dependencia circular entre merges.
+**Para autorizar:** revisión del responsable y cruzada con PR #47; respetar A–C ratificadas (UUID/BIGINT identidad, V1/O1, FK compuesta, intentos) sin reabrirlas; ratificar D/E y completar F/G/H (generadores existentes, correspondencia producto/precio e índice conjunto), mecanismo físico de inmutabilidad/auditoría, retención y recibos de idempotencia, calibración y política documental, tratamiento de históricos, diseño suficiente RT-UC07-04, privilegios/seguridad y plan de pruebas. Compatibilidad conjunta demostrada y autorización expresa con fecha/alcance reales. No exigir CR-C mergeada para redactar esta CR-F ni crear dependencia circular entre merges.
 
-Aprobar diseño no equivale a ejecutar pruebas; pruebas reales y fix UC-03 pertenecen al corte funcional antes de su merge conforme las RDs. Merge documental de CR-F no autoriza automáticamente crear/ejecutar migración. Issue #28 sigue bloqueando producción; no levantar pausa, perfiles o flags.
+Aprobar diseño no equivale a ejecutar pruebas. #85 de UC-03 y #86 de UC-19 ya están integradas; no conservarlas como fixes pendientes. Pruebas globales definitivas pertenecen a C3/corte funcional antes de su merge conforme las RDs. Merge documental de CR-F no autoriza automáticamente crear/ejecutar migración. Issue #28 sigue bloqueando producción; no levantar pausa, perfiles o flags.
 
 **EXCLUIDAS:** implementación UC-07, corrección UC-03, SQL ejecutado, creación de V4 u otra migración, cambio V1/V2/V3, Java/tests/configuración de aplicación, source-lock, contratos/manifiesto/catálogo/RBAC G0, otras RDs/CRs, modificación del archivo de PR #47 en esta rama o merge de ambas PR, autorización de CR-C/CR-F, envío de mensajes y despliegue. Único archivo modificado en esta rama existente: esta CR-F; los bloques SQL son documentación candidata no ejecutada.
 
@@ -653,8 +803,8 @@ Aprobar diseño no equivale a ejecutar pruebas; pruebas reales y fix UC-03 perte
 
 **Fecha de redacción:** 11/11/2026.
 
-**Estado:** BORRADOR — NO AUTORIZADA — NO CREA MIGRACIONES.
+**Estado:** OPEN / DRAFT — NO AUTORIZADA INTEGRALMENTE — NO CREA MIGRACIONES.
 
 **Responsable de autorización:** Victor Leandro Machado (`leandrito369`).
 
-**Firma y fecha de autorización:** PENDIENTES, no atribuidas. **Implementación y despliegue:** NO AUTORIZADOS por este documento.
+**Constancia de ratificación parcial:** A–C por Victor Leandro Machado, 12/11/2026, según decisión expresa del encargo C1. **Firma y fecha de autorización integral:** PENDIENTES, no atribuidas. **Implementación y despliegue:** NO AUTORIZADOS por este documento.
