@@ -399,3 +399,227 @@ Hasta entonces, el estado es **CONTRATO PROPUESTO CON BRECHA BLOQUEANTE IMP-01**
 - Inspección estática de V1–V3 y servicios citados, sin modificar el repositorio de aplicación.
 - Sin ejecución de SQL, PostgreSQL, migraciones ni pruebas de integración, por restricción del encargo.
 - Las pruebas T01–T30 son criterios preparados; **no fueron ejecutadas** en R08.4.
+
+## 17. Anexo IMP-01 — Evidencia de imputación y alternativas
+
+**Corte de auditoría:** complemento incremental sobre PR #53, HEAD inicial `0765de8add7c904d70af9dea20b69b15a9abe64a`.
+
+**Objeto de decisión:** completar el expediente DC-05 sin elegir tablas, DDL ni una fórmula de `V_e^0`.
+
+**Estados de lectura:** D5-B, ANT-01, D6-1 y D7-A se conservan como reglas aprobadas en su alcance; IMP-A, IMP-B e IMP-C son alternativas propuestas; los puntos marcados `[A CONFIRMAR]` requieren decisión del responsable.
+
+### 17.1 Reconstrucción del flujo vigente de un Cobro previo
+
+El flujo implementado en `CobroManualService.registrarCobro` es el siguiente:
+
+1. Exige sesión y rol `ADMINISTRADOR` o `VENDEDOR`, valida importe, medio y clave técnica.
+2. Adquiere el advisory lock financiero global `2929001`, vuelve a comprobar autorización y bloquea `CLIENTE FOR UPDATE`.
+3. Busca `COBRO.claveIdempotenciaOrigen`. Un replay idéntico devuelve el Cobro existente; la misma clave con datos diferentes se rechaza.
+4. Si se informó `idPedido`, lee el Pedido `FOR SHARE` y solo comprueba que exista, pertenezca al Cliente y no esté `CANCELADO`.
+5. Crea un `COBRO` CONFIRMADO por el importe completo. `idPedido` continúa siendo opcional.
+6. Crea un `MOVIMIENTO_CUENTA` de tipo `PAGO` por el importe completo y actualiza el saldo confirmado global del Cliente.
+7. Crea un `ORIGEN_MOVIMIENTO_CUENTA` cuyo único origen es `idCobro`; no enlaza esa fila con el origen `idPedidoEntrega` de un cargo.
+8. Crea un `MOVIMIENTO_CAJA` de INGRESO por el importe completo.
+9. Ejecuta la reevaluación de categoría comercial del Cliente.
+
+La anulación manual, exclusiva del Administrador, bloquea el Cobro y el Cliente, verifica el pago y la Caja originales, agrega `ANULACION_COBRO` y EGRESO por el importe completo y cambia el Cobro a ANULADO. V1/V2 no registran qué aplicaciones por obligación deberían quedar corregidas porque ese concepto no existe en el modelo vigente.
+
+UC-05 no está implementado en el `main` de aplicación inspeccionado. Por tanto, el modelo actual tampoco genera todavía el cargo de Entrega ni un vínculo físico de anticipo hacia esa obligación.
+
+### 17.2 FIFO global versus imputación comercial explícita
+
+`EvaluadorCategoriaComercialInterno` consulta todos los movimientos del Cliente y:
+
+- acumula como créditos los `PAGO` y `AJUSTE_CREDITO`;
+- resta del fondo de créditos los `ANULACION_COBRO`;
+- ordena los cargos y ajustes débito por fecha;
+- consume el fondo de créditos contra las deudas más antiguas para encontrar la primera deuda impaga y evaluar mora.
+
+La consulta usa `ORIGEN_MOVIMIENTO_CUENTA.idPedidoEntrega` únicamente para obtener la fecha de una deuda desde `ENTREGA`. No consulta `COBRO.idPedido`, no produce registros de aplicación, no conserva porciones por obligación y no devuelve un resultado de imputación reutilizable por UC-05.
+
+| Propiedad | FIFO de evaluación vigente | Imputación comercial requerida por ANT-01 |
+|---|---|---|
+| Finalidad | Evaluar deuda/mora del Cliente | Probar cuánto pago previo corresponde a la obligación de `e` |
+| Alcance | Cuenta Corriente global | Pedido/obligación individual |
+| Autoridad de pertenencia | Orden temporal de débitos y fondo global de créditos | Decisión explícita y trazable de aplicación |
+| Persistencia de porciones | No | Sí |
+| Usa `COBRO.idPedido` | No | No basta por sí solo |
+| Corrección histórica | Se recalcula desde movimientos | Debe conservar aplicación y corrección |
+| Resultado apto para `P_e` | No | Sí, si cumple las invariantes de §17.7 |
+
+La FIFO puede ser coherente como algoritmo de evaluación global y, al mismo tiempo, insuficiente como prueba contractual. Convertirla retroactivamente en imputación explícita cambiaría la semántica vigente y requiere decisión; este anexo no lo propone como hecho aprobado.
+
+### 17.3 Información existente, inferencias válidas y límites
+
+| Evidencia vigente | Puede afirmarse | No puede afirmarse |
+|---|---|---|
+| `COBRO.idCobro`, Cliente, importe, fecha, origen, estado | Existió un Cobro por ese importe y se conoce su estado actual. | Qué porción canceló cada obligación. |
+| `COBRO.idPedido` opcional + FK compuesta | El Pedido indicado pertenece al mismo Cliente. | Que todo o parte del Cobro fue aplicado a su cargo. |
+| Validación de servicio sobre Pedido | Al registrar, el Pedido existía y no estaba cancelado. | Que ya existía una Entrega o cargo; que el Pedido continuó elegible después. |
+| `MOVIMIENTO_CUENTA` tipo `PAGO` | El saldo confirmado global recibió el efecto del importe. | Destino comercial por Pedido o Entrega. |
+| Origen `idCobro` del movimiento | El PAGO deriva de ese Cobro. | Relación con el cargo cuyo origen es `idPedidoEntrega`. |
+| `COBRO.estadoCobro=CONFIRMADO` | El Cobro está vigente según F01 al instante leído. | Que no se esté anulando concurrentemente ni que siga sin consumir en otra obligación. |
+| `ANULACION_COBRO` y `idCobroAnulado` | Existe contraasiento global trazable del Cobro. | Cómo revertir porciones de aplicación inexistentes. |
+| `PEDIDO` / `ENTREGA` | Identidad, Cliente, estado y existencia de la Entrega. | Importe de anticipo aplicado. |
+| FIFO de `EvaluadorCategoriaComercialInterno` | Qué deuda resulta primera impaga bajo ese cálculo y ese conjunto de movimientos. | Una intención contractual, una reserva previa ni un snapshot estable de `P_e`. |
+| Saldo a favor global | Los créditos superan los débitos según la Cuenta. | A qué Pedido se reserva el excedente. |
+
+Conclusión probatoria: el esquema vigente demuestra el efecto contable global de un Cobro, pero no el hecho adicional exigido por ANT-01 —la aplicación monetaria efectiva a la obligación concreta—. IMP-01 permanece bloqueante hasta seleccionar una autoridad de imputación.
+
+### 17.4 IMP-A — relación explícita de aplicaciones parciales
+
+**Concepto propuesto:** mantener el Cobro y su PAGO global sin cambios semánticos, y representar por separado aplicaciones monetarias explícitas entre porciones de un Cobro y una obligación identificada. Este anexo no determina tabla, columnas ni nombre físico.
+
+La evidencia mínima de cada aplicación debería permitir identificar:
+
+- Cobro fuente y Cliente;
+- obligación destino, inicialmente referenciable por Pedido y consolidable contra su Entrega/cargo;
+- importe aplicado;
+- estado vigente de la aplicación y motivo de cualquier liberación/corrección;
+- identidad idempotente, instante, actor/operación autorizada y versión de concurrencia;
+- relación con la evidencia que confirma la existencia y cuantía de la obligación.
+
+| Caso | Tratamiento candidato IMP-A |
+|---|---|
+| Anticipo antes de `ENTREGA` | Registrar una reserva/designación al Pedido; no computarla como aplicación efectiva de `P_e` hasta validar la obligación según una decisión de lifecycle. |
+| Cobro con `idPedido` sin aplicación | Mantenerlo como Cobro global; `idPedido` es indicio, no crea la aplicación. |
+| Aplicación parcial | Permitir porciones; el remanente conserva condición de crédito global/no aplicado. |
+| Dos Pedidos del mismo Cliente | Exigir aplicaciones separadas; ninguna porción puede estar activa en ambos. |
+| Saldo a favor general | No asignarlo automáticamente. Requiere una aplicación posterior autorizada. |
+| Pedido cancelado | Impedir nueva aplicación; liberar o reclasificar la reserva solo mediante regla explícita `[A CONFIRMAR]`. |
+| Cobro anulado | No puede conservar aplicaciones activas; la desactivación/compensación debe ser atómica con la anulación. |
+| Pagos concurrentes | Serializar el total aplicable por Cobro y el total recibido por obligación. |
+| Reintentos | Misma identidad y contenido devuelve la misma aplicación; contenido diferente se rechaza. |
+| Entrega parcial | Aplicar solo conforme a la porción de obligación autorizada; la distribución y el excedente quedan `[A CONFIRMAR]`. |
+| Cuenta Corriente global | Crear o cambiar una aplicación no genera otro PAGO ni modifica nuevamente el saldo. |
+
+**Suficiencia:** IMP-A es la evidencia mínima suficiente para calcular `P_e` si conserva historia, impide sobreaplicación y permite reconstruir el conjunto activo en un snapshot serializado. Una fila mutable sin historia de correcciones no satisface por sí sola el requisito de auditoría.
+
+**Compatibilidad:** puede incorporarse como operación analítica opcional alrededor del Cobro manual general sin redefinir `registrarCobro`: un Cobro continúa generando un único PAGO/Caja global y la aplicación no repite esos efectos. Los roles que crean o corrigen aplicaciones quedan `[A CONFIRMAR]`; no se infieren de UC-29 ni de `idPedido`.
+
+### 17.5 IMP-B — libro inmutable de eventos de imputación y corrección
+
+**Concepto propuesto:** registrar eventos append-only que asignan, liberan o corrigen porciones monetarias, identificando Cobro, obligación, causal, importe, instante e identidad idempotente. El estado actual se obtiene plegando la secuencia; no se editan ni eliminan eventos anteriores.
+
+No se fijan nombres de eventos ni un diseño físico. Semánticamente, el libro debe distinguir al menos:
+
+- designación/reserva antes de existir el cargo;
+- aplicación efectiva a una obligación validada;
+- liberación por cancelación o inelegibilidad;
+- corrección/contraaplicación trazable;
+- invalidación coordinada por anulación del Cobro.
+
+| Caso | Tratamiento candidato IMP-B |
+|---|---|
+| Anticipo antes de `ENTREGA` | Evento de reserva no computable como `P_e` efectivo hasta evento/condición de consolidación autorizada. |
+| Cobro con `idPedido` sin evento | No existe aplicación; se conserva el Cobro general. |
+| Aplicación parcial | Uno o más eventos por porción, con conservación de suma y remanente. |
+| Dos Pedidos del mismo Cliente | Flujos causales separados por obligación; controles contra doble consumo. |
+| Saldo a favor general | Permanece fuera del libro de una obligación hasta asignación expresa. |
+| Pedido cancelado | Evento compensatorio; nunca borrado de la historia. Destino posterior del crédito `[A CONFIRMAR]`. |
+| Cobro anulado | Evento de invalidación/contraaplicación en la misma unidad transaccional o anulación bloqueada hasta completarlo. |
+| Pagos concurrentes | Orden total por Cobro/obligación, control de versión y revalidación al confirmar. |
+| Reintentos | Identidad única por comando/evento y reconstrucción determinista del resultado. |
+| Entrega parcial | Eventos por porción autorizada; regla de distribución `[A CONFIRMAR]`. |
+| Cuenta Corriente global | Los eventos explican destino analítico; no duplican movimientos contables. |
+
+**Suficiencia:** IMP-B ofrece la evidencia más fuerte para `P_e`, porque conserva tanto la aplicación original como su evolución. Facilita auditoría de cancelaciones, anulaciones y reasignaciones, pero exige una CR física y mayor disciplina de proyección, orden y pruebas.
+
+**Compatibilidad:** también puede coexistir con el Cobro manual general sin cambiar su significado contable. Sin embargo, introduce nuevas operaciones de imputación/corrección y requiere coordinar sus autorizaciones con UC-29, sin atribuirlas automáticamente al Vendedor, Administrador o Repartidor.
+
+### 17.6 IMP-C — declaración sin reconocimiento provisional
+
+**Concepto propuesto:** cuando el servidor no puede demostrar `P_e`, conserva la declaración `D_e` y la Entrega aceptada, pero no crea `V_e^0` ni efecto provisional hasta que exista evidencia suficiente.
+
+| Caso | Tratamiento candidato IMP-C |
+|---|---|
+| Anticipo previo ambiguo | No inferirlo ni fijar `P_e=0`; dejar reconocimiento pendiente. |
+| Cobro vinculado por `idPedido` | No usarlo como aplicación. |
+| Cobro parcial, saldo a favor o dos Pedidos | No repartir automáticamente. |
+| Pedido cancelado / Cobro anulado | Revalidar la elegibilidad; sin reconocimiento previo que revertir. |
+| Concurrencia y reintentos | Persistir el mismo resultado “pendiente de evidencia” de forma idempotente. |
+| Entrega parcial | Conservar entradas; diferir el reconocimiento hasta resolver cálculo e imputación. |
+| Cuenta Corriente global | Sin nuevo efecto provisional, Cobro, Caja ni segundo movimiento. |
+
+**Suficiencia:** IMP-C no calcula `P_e` y no resuelve DC-05. Es un mecanismo de contención seguro para evitar doble reconocimiento y permitir un prototipo de captura, con el costo de diferir el efecto F04 esperado. Requiere aceptación funcional si se pretende usar fuera de un experimento.
+
+### 17.7 Invariantes propuestas para una evidencia canónica
+
+Estas invariantes son criterios técnicos propuestos; no seleccionan estructura física:
+
+1. **Conservación por Cobro:** la suma de porciones activas no supera el importe CONFIRMADO y no anulado del Cobro.
+2. **Conservación por obligación:** ninguna aplicación activa supera la porción de obligación autorizada para ese destino.
+3. **No doble destino:** la misma unidad monetaria de un Cobro no está activa en dos obligaciones.
+4. **Mismo Cliente:** Cobro y obligación pertenecen al mismo Cliente durante toda la aplicación.
+5. **Separación contable:** imputar, reservar o corregir no crea un segundo PAGO ni una segunda Caja por el Cobro original.
+6. **Estado F01:** un Cobro ANULADO aporta cero a `P_e`; la anulación y la invalidación de sus aplicaciones no dejan una ventana inconsistente.
+7. **Reserva no es aplicación:** una designación anterior a la Entrega no integra `P_e` efectivo hasta que la obligación exista y supere la validación autorizada.
+8. **Historia:** toda corrección conserva causal, actor/operación, instante y relación con el hecho corregido.
+9. **Idempotencia:** replay idéntico no agrega porciones; misma clave con contenido diferente se rechaza.
+10. **Snapshot:** el `P_e` utilizado por UC-05 identifica versión/corte y se revalida antes del commit frente a pagos, aplicaciones y anulaciones concurrentes.
+11. **D5-B:** UC-05 solo consulta aplicaciones de la obligación de la Entrega actual; no consume saldo general ni aplicaciones de otros Pedidos.
+12. **ANT-01:** solo porciones confirmadas, efectivas, vigentes y demostrables integran `P_e`.
+13. **No autoridad implícita:** `COBRO.idPedido`, el FIFO y el saldo a favor son indicios/proyecciones, no comandos de aplicación.
+14. **D6-1/D7-A:** la imputación de anticipos no concede rendición al Repartidor ni amplía el bloqueo de anulación a Cobros generales ajenos a rendición.
+
+### 17.8 Escenarios de aceptación de DC-05
+
+| ID | Escenario | Resultado exigido a cualquier alternativa elegida | Estado |
+|---|---|---|---|
+| IMP-T01 | Anticipo CONFIRMADO antes de `ENTREGA`, reservado al Pedido | No integra `P_e` efectivo hasta consolidación autorizada | Lifecycle `[A CONFIRMAR]` |
+| IMP-T02 | Cobro con `idPedido`, sin aplicación canónica | `P_e` no aumenta | Obligatorio por ANT-01 |
+| IMP-T03 | Cobro de 10.000, aplicación activa 3.000 a la obligación | Solo 3.000 son evidencia candidata de `P_e` | Fórmula `V_e` no aprobada |
+| IMP-T04 | Mismo Cobro intenta aplicar los mismos 3.000 a dos Pedidos | Segunda aplicación rechazada o serializada sin doble consumo | Invariante propuesta |
+| IMP-T05 | Dos Cobros con porciones válidas hacia una obligación | Sumar solo porciones activas y vigentes | Invariante propuesta |
+| IMP-T06 | Dos Pedidos del mismo Cliente y saldo global a favor | No asignar saldo ni Cobro por proximidad/FIFO | D5-B/ANT-01 |
+| IMP-T07 | Pedido se cancela después de una reserva | No queda aplicación efectiva al cargo inexistente; conservar historia | Destino del crédito `[A CONFIRMAR]` |
+| IMP-T08 | Cobro se anula antes de UC-05 | Sus aplicaciones aportan cero a `P_e` | F01 + invariante |
+| IMP-T09 | Cobro se anula concurrentemente con lectura de `P_e` | UC-05 revalida/aborta; no confirma snapshot obsoleto | Locks `[A CONFIRMAR]` |
+| IMP-T10 | Dos pagos concurrentes al mismo Pedido | Totales serializados, sin superar Cobros ni obligación | Protocolo C3 pendiente |
+| IMP-T11 | Replay idéntico de aplicación | Mismo resultado, sin nueva porción | Invariante propuesta |
+| IMP-T12 | Misma clave con otro importe/destino | Rechazo sin efectos | Invariante propuesta |
+| IMP-T13 | Entrega parcial menor que la reserva previa | No sobreaplicar; distribución/remanente según decisión explícita | `[A CONFIRMAR]` |
+| IMP-T14 | Aplicación se crea/corrige | Saldo confirmado, PAGO y Caja no se duplican | Compatibilidad Cuenta global |
+| IMP-T15 | FIFO global asignaría el crédito a una deuda anterior, pero existe aplicación explícita a `e` | Detectar conflicto semántico; no fingir que ambos son la misma evidencia | Precedencia `[A CONFIRMAR]` |
+| IMP-T16 | Corrección de una aplicación parcial | Historia original y compensación permanecen auditables | IMP-B o IMP-A versionada |
+| IMP-T17 | No hay evidencia suficiente al aceptar la Entrega | IMP-C conserva declaración sin reconocimiento | Alternativa propuesta |
+| IMP-T18 | Replay de UC-05 tras cambio posterior de aplicaciones | Devuelve el snapshot original o rechaza según contrato; no recalcula silenciosamente | Semántica `[A CONFIRMAR]` |
+| IMP-T19 | Cobro de rendición vinculado a D6-1 intenta anularse | Aplicar D7-A solo al vínculo de rendición | Regla aprobada |
+| IMP-T20 | Cobro manual general, no vinculado a rendición | D7-A no lo bloquea por inferencia | Regla aprobada |
+
+Estos escenarios no fueron ejecutados. Deben convertirse en pruebas de servicio, PostgreSQL e intercalados de C3 después de una decisión y CR autorizadas.
+
+### 17.9 Decisiones pendientes para el responsable
+
+| ID | Pregunta de decisión | Impacto si queda abierta |
+|---|---|---|
+| DC05-01 | ¿La obligación canónica se identifica por Pedido, por Entrega/cargo o por una identidad independiente que atraviesa ambos momentos? | No puede consolidarse un anticipo anterior a la Entrega. |
+| DC05-02 | ¿Se admite una reserva previa y qué hecho la convierte en aplicación efectiva? | `P_e` no tiene lifecycle determinista. |
+| DC05-03 | ¿Quién puede crear, corregir, liberar o consultar aplicaciones y bajo qué operación contractual? | No hay autorización implementable; no inferir permisos de UC-29. |
+| DC05-04 | ¿La imputación explícita prevalece sobre FIFO para `P_e` y cómo se reconcilia con la evaluación global de mora? | Dos lecturas financieras pueden atribuir el mismo crédito de forma distinta. |
+| DC05-05 | ¿Qué ocurre con remanentes no aplicados y saldos a favor? | Riesgo de traslado automático a otro Pedido. |
+| DC05-06 | ¿Qué ocurre con una reserva/aplicación si el Pedido se cancela? | Puede quedar una obligación inexistente o perderse trazabilidad. |
+| DC05-07 | ¿La anulación exige contraaplicación automática, bloqueo previo o flujo administrativo? | Ventana de `P_e` basado en Cobro ANULADO. |
+| DC05-08 | ¿Cómo se reparte un anticipo frente a Entrega parcial, promociones, ajustes y adicionales? | No puede determinarse la porción elegible. |
+| DC05-09 | ¿Se permiten correcciones/reasignaciones y, en tal caso, se exige un libro append-only? | IMP-A mutable podría perder historia. |
+| DC05-10 | ¿Cuál es el punto de serialización y orden de locks con Cobro, aplicación, UC-05, UC-29 y anulación? | Sobreaplicación y snapshots obsoletos. |
+| DC05-11 | ¿`COBRO.idPedido` queda como referencia informativa, intención inicial o pasa a tener una semántica contractual nueva? | Riesgo de tratar datos históricos ambiguos como aplicaciones. |
+| DC05-12 | ¿Cómo se tratan Cobros históricos sin evidencia canónica? | No es posible reconstruir aplicaciones sin inventarlas. |
+
+### 17.10 Recomendación técnica para DC-05
+
+1. Definir como autoridad mínima una **aplicación monetaria explícita por porción y obligación**, separada del PAGO global. En ese sentido, IMP-A es el mínimo semántico suficiente.
+2. Si se autorizan correcciones, liberaciones, cancelaciones o reasignaciones —casos ya previsibles—, preferir IMP-B como fuente canónica append-only y, si resulta útil, una proyección equivalente a IMP-A para consultar el estado activo. Esta recomendación no elige tablas ni DDL.
+3. Incorporar la aplicación como operación adicional y opcional permite conservar la semántica de `CobroManualService`: el Cobro general sigue confirmando Cuenta/Caja una sola vez; `idPedido` no aplica dinero automáticamente.
+4. Mantener IMP-C como fallback de seguridad cuando falte evidencia. IMP-C no desbloquea el cálculo de `P_e`, pero evita convertir la incertidumbre en doble reconocimiento.
+5. No aprobar V1 de §7 hasta resolver DC05-01..12, especialmente la relación entre imputación explícita, FIFO global, parciales y anulaciones.
+
+**Dictamen del anexo:** IMP-01 queda **TÉCNICAMENTE CARACTERIZADA, PENDIENTE DE DECISIÓN DC-05**. IMP-A/IMP-B pueden aportar evidencia suficiente bajo las invariantes anteriores; IMP-C solo contiene el riesgo. No se ha ratificado un esquema físico, una nueva operación, un permiso ni una fórmula de reconocimiento.
+
+### 17.11 Validaciones y límites del complemento
+
+- Fuentes revalidadas: gobierno `main` `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`; aplicación `main` `4dbe38668fc5cbc08d04e10920e3bf165c71be11`; PR #53 en el HEAD inicial indicado.
+- Inspección estática de V1/V2, `CobroManualService`, `EvaluadorCategoriaComercialInterno`, contratos REV04B/REV05 y RD-F01/F04.
+- No se modificó ni utilizó como autoridad física la PR #54; su trabajo paralelo debe conciliarse por revisión posterior.
+- No se ejecutaron SQL, PostgreSQL, migraciones ni escenarios IMP-T01..IMP-T20.
+- Único artefacto documental modificado: este archivo de R08.4.
