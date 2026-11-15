@@ -57,9 +57,9 @@ Hacer visible lo implementado, lo pendiente y lo bloqueante hasta la fecha objet
 
 ## 4. Frentes activos y bloqueos inmediatos
 
-1. **R01 — Evidencia local L0.5:** la app tiene rama `docs/l05-local-synthetic-2026-11-15` con documento y commit `72860a530c9366863fe2f40f3af1f8c8c2fab98d`; abrir PR documental draft y validar CI. Resultados informados 9/9 HTTP, 6/6 concurrencia, un pedido sintético coherente. No equivale a aceptación humana.
+1. **R01 — Evidencia local L0.5:** la app ya tiene PR #87 OPEN/DRAFT en rama `docs/l05-local-synthetic-2026-11-15`, HEAD `72860a5` (`72860a530c9366863fe2f40f3af1f8c8c2fab98d`), con CI exitoso (B1 Maven/Testcontainers y SonarCloud). Resultados informados 9/9 HTTP, 6/6 concurrencia, un pedido sintético coherente. No equivale a aceptación humana.
 2. **R02–R03 — C3-A.2 / H/RT-UC07-04:** inventario de locks, writers, advisory namespaces, FKs/triggers, luego intercalados reproductibles con evidencia R/P; la regresión del advisory UC-19 `(1919,1)` en app PR #86 ya está integrada. **H permanece abierta**.
-3. **R04–R07 — UC-07 gobierno:** CR-C gobierno PR #47 y CR-F gobierno PR #48 siguen draft; A–C ratificadas en corte C1; D/E especificadas y pendientes de ratificación, límites numéricos E sujetos a calibración; F/G pendientes de autorización y H pendiente de pruebas/decisión. No implementar DDL ni UC-07 antes de autorización.
+3. **R04–R07 — UC-07 gobierno:** CR-C gobierno PR #47 y CR-F gobierno PR #48 siguen draft; A–C ratificadas en corte C1; el responsable ratificó D/E de UC-07 el 15/11/2026 según la evidencia comunicada en la auditoría (asiento y conciliación documental todavía pendientes en CR-C/CR-F), manteniendo 1 MiB, 2 MiB y 4096×4096 como parámetros experimentales de E sujetos a calibración; F/G pendientes de autorización y H pendiente de pruebas/decisión. Pendiente: conciliación documental en CR-C/CR-F, calibración E y pruebas de implementación futuras. No implementar DDL ni UC-07 antes de autorización.
 4. **R08–R09 — UC-05:** revisar/ratificar RD-I302-001 en gobierno PR #44; distinguir dinero declarado en reparto de Cobro/Caja definitiva; después implementar servicio/API/tests según decisiones.
 5. **R10–R13 — I3-02:** cuando se autorice UC-07: migración nueva no disruptiva, tests físicos, servicios y API; UC-41 y UC-61 integrados con exclusión de stock; acta de cierre técnico del incremento.
 6. **R14 — I3-03:** cuenta corriente, cobro, caja y libro diario con F01/F04, roles y contraasientos.
@@ -70,7 +70,7 @@ Hacer visible lo implementado, lo pendiente y lo bloqueante hasta la fecha objet
 
 | Ventana | Meta dominante | Salida necesaria |
 |---|---|---|
-| **15–21/11** | Congelar hoja de ruta, PR L0.5, C3-A.2, resolver gobierno UC-05 y D/E/F/G/H en el alcance posible; prototipo UI de servicios ya integrados | PR/actas de decisión, matriz locks y plan de intercalados, backlog de implementación autorizado |
+| **15–21/11** | Congelar hoja de ruta, seguimiento PR #87 (L0.5), C3-A.2, conciliación documental D/E en CR-C/CR-F, calibración E, resolver gobierno UC-05 y F/G/H en el alcance posible; prototipo UI de servicios ya integrados | PR/actas de decisión, conciliación documental, matriz locks y plan de intercalados, backlog de implementación autorizado |
 | **22–28/11** | I3-02: UC-05/UC-41 y UC-07 por cortes autorizados; levantar pruebas/CI y avance UI paralelo | Primer circuito Entrega/Excedentes comprobable, sin dar cierre ficticio a H |
 | **29/11–05/12** | I3-03 e I4/I5 prioritarios; integraciones por mocks/sandbox; interfaces del vertical comercial | Pedido → Preparación → Entrega → Cuenta/Cobro/Caja de extremo a extremo, con riesgos explícitos |
 | **06–12/12** | Congelamiento funcional temprano, correcciones, E2E/BC06, documentación y defensa; B9 solo si se habilita | Release candidate reproducible + evidencia y acta de alcance realmente terminado |
@@ -92,7 +92,7 @@ Hacer visible lo implementado, lo pendiente y lo bloqueante hasta la fecha objet
 
 ## 7. Priorización, paralelismo y métricas
 
-**Ruta crítica de gobierno:** C3/H + decisiones D/E/F/G → revisión CR-C/CR-F → autorización → UC-07.  
+**Ruta crítica de gobierno:** C3/H + conciliación documental D/E + calibración E + decisiones F/G → revisión CR-C/CR-F → autorización → pruebas de implementación futuras y UC-07.  
 **Ruta crítica de negocio:** RD-I302-001 → UC-05 → I3-03 → H5.  
 **Ruta crítica posterior:** proveedores/reposición/compra → canales/integraciones/offline → aceptación y defensa.
 
@@ -110,7 +110,7 @@ Frentes paralelos permitidos sin contradicciones:
 - CR-C/CR-F abiertas y no autorizadas; no fusionar ni inferir aprobación.
 - No ejecutar SQL candidato de CR-F en bases persistentes, ni crear V4 por cuenta propia.
 - H/RT-UC07-04 abierta; 6 tests concurrentes aprobados no certifican ausencia global de deadlocks.
-- E no tiene límites numéricos definitivos sin calibración.
+- E conserva 1 MiB, 2 MiB y 4096×4096 como parámetros experimentales sujetos a calibración; no son límites numéricos definitivos.
 - Triple gate no-prod para escrituras HTTP experimentales y RBAC del contrato.
 - B8 y B10 continuas; test documentado ≠ test ejecutado ≠ aceptación humana.
 - Issue app #28 abierta; entorno de despliegue PAUSADO.
