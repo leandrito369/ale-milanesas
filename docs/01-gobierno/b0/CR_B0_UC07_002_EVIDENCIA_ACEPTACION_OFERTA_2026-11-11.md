@@ -1973,6 +1973,8 @@ GRANT UPDATE("numeroDetalle") ON public."DETALLE_PEDIDO" TO uc07_owner;
 GRANT UPDATE("idExcedente") ON public."EXCEDENTE" TO uc07_owner;
 GRANT UPDATE("idProducto") ON public."PRODUCTO" TO uc07_owner;
 GRANT UPDATE("idPrecio") ON public."PRECIO_PRODUCTO" TO uc07_owner;
+GRANT UPDATE("idOfertaExcedente")
+ON public."OFERTA_EXCEDENTE" TO uc07_owner;
 
 GRANT SELECT ON public."OFERTA_EXCEDENTE",public."COTIZACION_OFERTA_EXCEDENTE",
   public."EVIDENCIA_ACEPTACION_OFERTA",public."COMANDO_AUXILIAR_UC07",
@@ -1988,6 +1990,8 @@ GRANT UPDATE("respuesta","fechaHoraRespuesta","cantidadAceptada","importeAceptad
 GRANT UPDATE("estadoEvidencia") ON public."EVIDENCIA_ACEPTACION_OFERTA" TO uc07_gateway;
 GRANT UPDATE("cantidadDisponible","costoHistoricoDisponible") ON public."EXCEDENTE" TO uc07_gateway;
 GRANT UPDATE("estado") ON public."PEDIDO" TO uc07_gateway; -- cierre UC05 guardado, no reapertura
+GRANT UPDATE("idProducto")
+ON public."PRODUCTO" TO uc07_gateway;
 -- ACL mínima del subgrafo UC07/adicionales; NO configura todo UC05/finanzas/stock.
 -- Sus restantes permisos y escritores necesitan revisión propia y campaña C3.
 -- Ningún UPDATE/DELETE de cotizaciones, eventos, comandos, movimientos o imputaciones.
@@ -2012,6 +2016,8 @@ $acl$;
 GRANT EXECUTE ON FUNCTION public.fn_uc07_abrir_contexto(uuid,text,bigint,bigint,bigint,uuid,text,text)
   TO uc07_gateway;
 ~~~
+
+**C3-A.1 — Corrección ACL candidata posterior a prueba de PostgreSQL 17.11.** B01 añade UPDATE mínimo de idOfertaExcedente para uc07_owner (bloqueo de OFERTA_EXCEDENTE); B02 añade UPDATE mínimo de idProducto para uc07_gateway (FOR SHARE del trigger V1 al crear línea técnica). Ambos ajustes fueron ensayados satisfactoriamente en C3-A y reejecutados en C3-A.1, sin modificar V1 ni cuerpos PL/pgSQL. **RIESGO DE PRIVILEGIOS / BLOQUEANTE DE AUTORIZACIÓN:** en C3-A.1 gateway pudo cambiar idProducto de un producto sin referencias; una fila con historia UC07 fue rechazada por guardia (23514) y otra con referencias V1 por FK (23503). El permiso permite mutación, no solo bloqueo; queda pendiente resolver su alcance autorizado. F8 continúa abierta, F/G no ratificadas y RT-UC07-04 ABIERTA; esta corrección no autoriza implementar, fusionar ni desplegar. M01 (public frente a ale_gestion) sigue pendiente independiente; la adaptación se utilizó solo en laboratorio.
 
 Antes de usar el bloque ACL debe verificarse que la familia fn_uc07_ contiene **solo** los objetos nuevos catalogados; si hay objetos homónimos/preexistentes, detener y versionar el plan en vez de cambiarles propietario. Las funciones internas/triggers son del owner y no EXECUTE de gateway; fn_uc07_evento_guard permanece SECURITY INVOKER. Su inserción legítima ocurre bajo el AFTER SECURITY DEFINER, cuyo current_user es owner. No se otorgan SUPERUSER, propiedad, SET ROLE owner ni capacidad de deshabilitar triggers. El migrador conserva sus privilegios administrativos separados, sin excepción cotidiana a la historia.
 
