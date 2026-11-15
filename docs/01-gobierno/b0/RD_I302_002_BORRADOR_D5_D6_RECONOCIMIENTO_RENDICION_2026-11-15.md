@@ -1,13 +1,13 @@
-# RD-I302-002 (BORRADOR DE DECISIÓN) — D5/D6: reconocimiento del efectivo y rendición de UC-05
+# RD-I302-002 (DECISIONES FUNCIONALES D5/D6 ASENTADAS; DISEÑO TÉCNICO PENDIENTE) — UC-05
 
 **Fecha:** 15/11/2026.  
-**Estado:** **PROPUESTA / NO RATIFICADA / NO AUTORIZA IMPLEMENTACIÓN**.  
+**Estado:** **D5-B y D6-1 APROBADAS FUNCIONALMENTE por decisión expresa del responsable el 15/11/2026**. El documento mantiene estado **DRAFT / NO RATIFICACIÓN INTEGRAL DE RD-I302-001 O DISEÑO FÍSICO / NO AUTORIZA IMPLEMENTACIÓN**. Detalles operativos, D7 y permisos/proyecciones específicos aún requieren diseño y aprobación donde corresponda.  
 **Objetivo temporal del Roadmap:** 12/12/2026 (hipótesis de planificación, no excepción a las puertas de gobierno).  
 **Autoridad decisora:** responsable del proyecto.  
 **Línea base de gobierno al redactar:** `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`.  
 **Línea base de aplicación al redactar:** `4dbe38668fc5cbc08d04e10920e3bf165c71be11`.  
 **Dependencias:** PR gobierno #44 (`RD-I302-001`), PR app #89 (C3-A.3 R/P), CR-C #47, CR-F #48, CR-B0-F04-001; G0 y contratos REV04B/REV05. Todas las PR citadas permanecen independientes de esta propuesta.  
-**Alcance:** decidir la política **D5**, el mecanismo **D6** y explicitar la dependencia de **D7**; NO define aún DDL, endpoints, nuevos roles ni operación canónica.
+**Alcance:** asentar la elección **D5-B** (efectivo de UC-05 imputable exclusivamente a la entrega del mismo Pedido; deudas anteriores por otro procedimiento) y **D6-1** (rendición administrativa como subflujo de UC-29, exclusiva del ADMINISTRADOR), delimitando detalles todavía no decididos y dependencia de **D7**. No define DDL, endpoints nuevos, roles nuevos, algoritmo definitivo de reconocimiento ni otra operación canónica.
 
 ## 1. Fuente de autoridad: reglas aprobadas que esta propuesta NO modifica
 
@@ -27,7 +27,7 @@
 ## 2. Definiciones conceptuales, NO nombres físicos aprobados
 
 - **Declarado (D):** efectivo informado por Repartidor, persistido íntegro como evidencia de UC-05; no equivale por sí solo a deuda reconocida.
-- **Validado/reconocido vigente (V):** parte de una declaración **aceptada por servidor** con efecto permitido sobre deuda exigible provisional; su base debe decidirse en D5.
+- **Validado/reconocido vigente (V):** parte de una declaración **aceptada por servidor** con efecto permitido sobre deuda exigible provisional, **atribuida exclusivamente al cargo efectivamente correspondiente a esa entrega**. La base funcional está aprobada en D5-B; el importe exacto y su implementación aún requieren definición y pruebas.
 - **Rendido recibido (R):** dinero que el Administrador afirma y acredita haber recibido físicamente al finalizar recorrido; debe conservar evidencia de conteo, responsable y discrepancia.
 - **Aplicado definitivamente (A):** fracción de V asociada a uno o varios COBRO confirmados de rendición, con cese proporcional del efecto provisional **en la misma transacción**.
 - **Diferencia:** componente declarado/validado y no recibido o no aplicado; su destino definitivo no se deduce y queda pendiente de conciliación.
@@ -36,36 +36,38 @@ No equiparar `D`, `V`, `R` y `A`. No asumir que `totalOriginal`, `cargoEntrega` 
 
 ## 3. D5 — Qué importe obtiene reconocimiento provisional
 
-### 3.1 Opciones de política comercial a decisión del responsable
+### 3.1 Decisión expresa del responsable (15/11/2026): D5-B
 
-| Opción | Base de reconocimiento | Ventaja | Riesgo / decisión adicional | Estado |
-|---|---|---|---|---|
-| **D5-A (sugerida para evaluación)** | **Deuda positiva global del Cliente en el servidor**, considerando el cargo confirmado de la entrega y otros tránsitos vigentes; exceso monetario queda documentado para conciliación sin crédito automático | Puede cubrir deuda anterior, además de la venta entregada; evita deuda provisional negativa por exceso si se valida atómicamente | Decidir prioridad entre obligaciones, cómo preservar V ante pagos independientes posteriores y qué hacer cuando no hay deuda disponible | **PROPUESTO** |
-| **D5-B** | Solo parte atribuible al **cargo de esa entrega**, descontando lo ya definitivamente cubierto según una regla específica | Facilita conciliación entrega ↔ dinero | Una persona que paga además deuda anterior necesita mecanismo distinto; no es equivalente a aplicar todo al Cliente | **PROPUESTO** |
-| **D5-C** | Declaración queda registrada; reconocimiento monetario ocurre únicamente tras validación específica de un segundo paso | Minimiza reconocimiento prematuro de montos controvertidos | Definir qué significa aceptación de UC-05 y en qué momento se produce la validación exigida por F04; podría demorar efecto provisional | **PROPUESTO** |
+**D5-B — APROBADA FUNCIONALMENTE:** el efectivo recibido por el Repartidor al entregar un Pedido **se imputa exclusivamente a esa entrega**. **No** cancela deudas anteriores ni de otros Pedidos del mismo Cliente. La cancelación de deudas se tramita **aparte**, por su circuito autorizado, y no se mezcla con la declaración del Repartidor en UC-05.
 
-**Recomendación provisional:** evaluar **D5-A** si el negocio entiende que el efectivo recibido puede abonar tanto esta entrega como otras obligaciones del mismo Cliente. No es una elección por defecto ni una fórmula ratificada.
+| Alternativa | Estado | Alcance |
+|---|---|---|
+| **D5-A — deuda global del Cliente** | **DESCARTADA para UC-05** | Mezclaría el pago de la entrega con deudas anteriores, expresamente excluidas por el responsable. |
+| **D5-B — solo entrega actual** | **APROBADA FUNCIONALMENTE** | Reconocimiento provisional únicamente sobre el importe atribuible a la entrega correspondiente, tras aceptación/validación del servidor. |
+| **D5-C — validación en otro paso** | **NO ADOPTADA como política alternativa** | La necesidad de controles específicos de validación sigue sujeta a RD-F04-003/004 y al diseño; no modifica la exclusividad de D5-B. |
 
-### 3.2 Preguntas que D5 debe resolver explícitamente
+**D2 se preserva:** registrar íntegramente el efectivo declarado, aun si excede lo atribuible a esa entrega; el exceso no se acredita, cobra ni convierte en saldo a favor de forma automática. El importe reconocido exacto **no se deriva automáticamente** de `totalOriginal`, `totalPedido` ni del saldo global del Cliente.
 
-1. ¿Puede el efectivo declarado al entregar un Pedido cubrir deudas de **otros Pedidos** del mismo Cliente?
-2. ¿Qué hacer si D es mayor que la deuda elegible: reconocer solo parte y mantener el resto declarado para conciliación, sin crédito automático?
-3. ¿Qué se considera deuda elegible cuando existen saldo a favor, pagos previos, cargo de entrega aún en la misma transacción, otros tránsitos y Cobros concurrentes?
-4. ¿V se congela por aceptación del servidor o se recalcula al consultar? Si cambia, ¿qué evento autorizado ajusta V sin borrar la declaración original?
-5. ¿Cómo se diferencia importe declarado en exceso de efectivo realmente rendido en exceso?
-6. ¿Se permite saldo exigible provisional negativo? Si no, definir la restricción y los casos con deuda nula.
+### 3.2 Detalles de D5-B todavía pendientes de especificación (SIN AUTORIZACIÓN TÉCNICA)
 
-**No se ratifica** `min(importeDeclarado,totalPedido)`, `min(importeDeclarado,saldoCliente)` ni una regla de prioridad entre deudas. Cualquier ecuación de tope requiere decisión expresa y escenarios de negocio.
+1. **Resuelto:** UC-05 no permite imputar el dinero a deudas anteriores o de otros Pedidos; esas deudas se saldan por un procedimiento distinto.
+2. ¿Cuál es el **importe comercial realmente atribuible a la entrega actual** si hay entrega parcial, líneas adicionales UC-07, ajustes históricos y cobros previos vinculados a esa misma entrega?
+3. Si `D` supera ese importe atribuible, ¿qué porción `V` se valida y cómo se conserva el resto declarado para conciliación sin crédito ni Cobro automático?
+4. ¿Cómo se evita reconocer dos veces el importe de **la misma entrega** frente a Cobros y otras declaraciones concurrentes, sin tocar deudas de otros Pedidos?
+5. ¿Se congela `V` al aceptar el evento en servidor o se permite ajuste posterior mediante otro evento explícitamente autorizado, manteniendo inmutable `D`?
+6. ¿Cómo tratar entrega con cargo cero, saldo a favor, diferencias entre `D` y efectivo realmente rendido, o saldo exigible provisional negativo sin introducir compensaciones de deuda ajena?
+
+**No se aprueba una fórmula física o algorítmica** como `min(importeDeclarado,totalPedido)` o `min(importeDeclarado,saldoGlobalCliente)`. Los límites exactos, la prevención de reconocimientos duplicados y las pruebas deben diseñarse conforme a D5-B.
 
 ## 4. D6 — Cómo opera la rendición autorizada y el cese atómico
 
-### 4.1 Forma funcional candidata
+### 4.1 Opción D6-1 — APROBADA FUNCIONALMENTE el 15/11/2026
 
-**Opción D6-1 (recomendada para diseño):** la rendición es un **subflujo específico de UC-29** atendido exclusivamente por ADMINISTRADOR. A diferencia del Cobro manual general, exige vinculación explícita con una o más declaraciones validadas y con la rendición del recorrido; utiliza orquestación interna adicional y conserva el catálogo G0 sin inventar automáticamente un CU #65 ni conceder UC-14 al Administrador.
+**Opción D6-1 (elegida por el responsable):** la rendición es un **subflujo específico de UC-29** atendido exclusivamente por ADMINISTRADOR. A diferencia del Cobro manual general, exige vinculación explícita con una o más declaraciones validadas y con la rendición del recorrido; utiliza orquestación interna adicional y conserva el catálogo G0 sin inventar automáticamente un CU #65 ni conceder UC-14 al Administrador.
 
-**Opción D6-2:** operación administrativa interna propia, sujeta a análisis y autorización de G0 si modifica el catálogo de operaciones y accesos. No autorizada por este documento.
+**Opción D6-2:** operación administrativa independiente. **No adoptada**; si en el futuro se considera, requerirá revisión expresa de G0 y gobierno.
 
-**Gate de seguridad:** VENDEDOR sigue autorizado a Cobro manual general donde corresponda, pero **nunca** a registrar o confirmar una **rendición de un Repartidor**, aun si el cobro general comparte parte del servicio.
+**Gate de seguridad aprobado:** VENDEDOR sigue autorizado a Cobro manual general donde corresponda, pero **nunca** a registrar o confirmar una **rendición de un Repartidor**, aun si el cobro general comparte parte del servicio. El Repartidor tampoco recibe permisos UC-29. La elección D6-1 **no autoriza** un endpoint, proyección o permiso adicional; esos contratos y controles continúan pendientes de diseño y revisión.
 
 ### 4.2 Requisitos transaccionales de D6
 
@@ -82,13 +84,13 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 
 **Mecanismo conceptual del saldo:** antes de aplicar un cobro, `saldoExigibleProvisional = S − V_pendiente`; si el Administrador confirma un Cobro de importe `a` aplicado íntegramente a tránsito, el confirmado baja en `a` y el tránsito vigente baja en `a`. Por eso la deuda provisional se mantiene sin **segundo descuento**, suponiendo ausencia de otras operaciones concurrentes y `0 ≤ a ≤ V_pendiente`. Este es un ejemplo algebraico de integridad, **no define D5 ni el reparto de R**.
 
-### 4.3 Ejemplos conceptuales para aceptación (sin política D5 ratificada)
+### 4.3 Ejemplos conceptuales para aceptación (D5-B aprobada; cuantificación de V pendiente)
 
 **Ejemplo A, rendición completa:** saldo confirmado deudor S=1000; el servidor ya validó V=600 bajo una política D5 futura; exigible inicial=400. Administrador recibe R=600, contabiliza Cobro aplicado A=600 y retira 600 de V. Luego S=400, V=0 y exigible=400; no duplicó efecto.
 
 **Ejemplo B, rendición parcial con faltante:** S=1000, V=600, exigible=400. Administrador recibe R=400; confirma solo A=400 y retira esa porción del tránsito. Luego S=600, V=200, exigible=400. Los 200 restantes continúan pendientes de conciliación; no vuelven automáticamente a deuda exigible.
 
-**Ejemplo C, declaración superior a la deuda:** D=1500 y saldo confirmado=1000. El documento debe conservar D=1500, pero **no determina V=1000** sin decisión D5. El exceso monetario no se convierte automáticamente en crédito, Cobro ni Caja.
+**Ejemplo C, declaración superior al importe de la entrega:** D=1500, importe comercial atribuible a la entrega actual=1000 (ejemplo hipotético). El documento conserva D=1500, **sin inferir V=1000** hasta definir las validaciones de esa misma entrega. El exceso no puede imputarse a otras deudas, convertirse en crédito ni originar Cobro o Caja automáticamente.
 
 ### 4.4 Bloqueos/limitaciones que no pueden tratarse como resueltos
 
@@ -103,8 +105,8 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 
 | Bloque | Estado | Salida requerida |
 |---|---|---|
-| **D5** | PENDIENTE | Política de reconocimiento y comportamiento ante importe superior a deuda/entrega, saldo a favor, pagos previos y múltiples obligaciones |
-| **D6** | PENDIENTE | Elegir forma D6-1/D6-2, restricciones y operación administrativa exacta, seguridad, idempotencia y cese atómico |
+| **D5-B** | **POLÍTICA FUNCIONAL APROBADA 15/11** | Definir importe atribuible exclusivamente a la entrega, tratamiento del exceso, cobros previos de esa entrega y mecanismo verificable de reconocimiento; no aplicar deudas anteriores |
+| **D6-1** | **ENCUADRE FUNCIONAL APROBADO 15/11** | Completar contrato del subflujo de UC-29, seguridad exclusiva ADMINISTRADOR, idempotencia, evidencia de rendición, aplicación/cese atómico y pruebas |
 | **D7** | PENDIENTE | Compensación de anulación de COBRO aplicado, o prohibición explícita hasta definirla |
 | D1/D2/D3/D9/D12 | PR #44, NO RATIFICADA | Decisión documental coherente con D5/D6 |
 | CR física PE-1/PE-2 | NO AUTORIZADA | Diseño de tablas, constraints y migración futura, posterior a ratificación |
@@ -118,7 +120,7 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 |---|---|---|
 | D56-01 | D válido, V reconocido | Solo consulta provisional cambia; 0 COBRO, 0 CAJA |
 | D56-02 | D excede monto de entrega | Se conserva íntegro; no crédito ni Cobro automático |
-| D56-03 | Cliente con deuda anterior + cargo nuevo | Determinar V conforme opción D5 ratificada |
+| D56-03 | Cliente con deuda anterior + cargo nuevo | D5-B: solo reconocer importe atribuible a la **entrega actual**; la deuda anterior no recibe parte de la declaración |
 | D56-04 | Deuda inicial cero / saldo a favor | No convertir declaración en crédito implícito |
 | D56-05 | Cobro general concurrente con validación de tránsito | No sobre-reconocer ni leer snapshots incongruentes |
 | D56-06 | Admin rinde exactamente V | Cese provisional y Cobro confirmados en una sola transacción |
@@ -135,12 +137,22 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 
 **Estado de ejecución:** TODOS estos escenarios son **CASOS PROPUESTOS, NO EJECUTADOS**.
 
-## 7. Solicitud expresa de decisión al responsable
+## 7. Asiento de decisiones expresas y reserva de implementación
 
-**D5.** Elegir A (deuda global de Cliente), B (solo cargo imputable a la entrega) o C (aceptación con validación separada), indicando cómo tratar exceso, pagos previos y orden de prioridad.  
-**D6.** Elegir D6-1 (subflujo administrativo de UC-29, recomendado) o D6-2 (otra operación a someter a G0).  
-**D7.** Determinar si se bloquea anulación de cobros vinculados hasta decidir contraaplicación, o si se requiere resolver todo D7 antes de autorizar PE-2.
+**Decisiones comunicadas por el responsable el 15/11/2026:**
 
-Hasta recibir esas decisiones **NO RATIFICAR** esta RD ni la PR #44, no crear DDL, no cambiar código productivo ni declarar UC-05 implementada.
+- **D5 = D5-B — APROBADA FUNCIONALMENTE:** la declaración del Repartidor al entregar un Pedido se imputa **exclusivamente a esa entrega**. El saldado de deudas anteriores/ajenas a dicha entrega se tramita aparte.
+- **D6 = D6-1 — APROBADA FUNCIONALMENTE:** la rendición de dinero de Repartidor se trata como **subflujo administrativo de UC-29**, exclusivamente autorizado al ADMINISTRADOR, conservando los permisos de Cobro manual general sin ampliarlos.
+- **Atomicidad D6 — regla a instrumentar:** el Cobro confirmado asociado a tránsito retira el mismo importe de reconocimiento provisional en **una transacción**; no hay doble imputación. Esta regla desarrolla RD-F04-003/004; el diseño específico requiere pruebas.
 
-**Dictamen:** expediente de decisión listo para revisión funcional. Esta propuesta permite avanzar con trabajo documental y diseño, no habilita ejecución de UC-05 ni modificaciones de F04/G0.
+**Asuntos que NO se infieren ni ratifican:**
+
+1. Monto exacto `V` de cada entrega, eventos que ajustan reconocimiento, pagos parciales/exceso y snapshots comerciales: requieren diseño compatible con D5-B y aprobación de sus criterios.
+2. Forma física PE-1/PE-2/PE-3, nombres de columnas, DDL/migraciones, consultas, endpoints, DTO y contratos de autorización: siguen propuestos/no autorizados.
+3. **D7:** qué hacer si se anula un Cobro aplicado al tránsito (contraaplicación/restitución) y cómo preservar simultáneamente el saldo confirmado y la exigibilidad.
+4. **D9/D10/D12:** vista administrativa, diferencias y CR física; requieren resolución aparte.
+5. RD-I302-001 PR #44 sigue DRAFT y no queda ratificada integralmente por elegir D5/D6.
+
+**Siguiente corte:** auditar este asiento junto con PR #44 y REV05; diseñar opciones de cálculo de `V` **solo para la entrega actual**, mecanismo transaccional de aplicación/cese, contraaplicación D7 y controles de seguridad; después preparar CR física propuesta para revisión separada. Mantener toda implementación deshabilitada.
+
+**Dictamen:** D5-B/D6-1 **funcionalmente definidas**. Pendientes de diseño técnico y ratificación de las partes correspondientes; **no habilita código, Flyway, migraciones, merges ni despliegue**.
