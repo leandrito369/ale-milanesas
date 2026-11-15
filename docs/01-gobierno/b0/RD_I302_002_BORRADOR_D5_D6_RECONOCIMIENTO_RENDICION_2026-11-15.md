@@ -1,7 +1,7 @@
 # RD-I302-002 (DECISIONES FUNCIONALES D5/D6 ASENTADAS; DISEÑO TÉCNICO PENDIENTE) — UC-05
 
 **Fecha:** 15/11/2026.  
-**Estado:** **D5-B y D6-1 APROBADAS FUNCIONALMENTE por decisión expresa del responsable el 15/11/2026**. El documento mantiene estado **DRAFT / NO RATIFICACIÓN INTEGRAL DE RD-I302-001 O DISEÑO FÍSICO / NO AUTORIZA IMPLEMENTACIÓN**. Detalles operativos, D7 y permisos/proyecciones específicos aún requieren diseño y aprobación donde corresponda.  
+**Estado:** **D5-B, D6-1 y D7-A APROBADAS FUNCIONALMENTE por decisiones expresas del responsable el 15/11/2026**. El documento mantiene estado **DRAFT / NO RATIFICACIÓN INTEGRAL DE RD-I302-001 O DISEÑO FÍSICO / NO AUTORIZA IMPLEMENTACIÓN**. Detalles operativos, conciliación contractual de D7-A con UC-29/REV05 y permisos/proyecciones específicos aún requieren diseño y aprobación donde corresponda.  
 **Objetivo temporal del Roadmap:** 12/12/2026 (hipótesis de planificación, no excepción a las puertas de gobierno).  
 **Autoridad decisora:** responsable del proyecto.  
 **Línea base de gobierno al redactar:** `cdd57ed194268f1f5ab29aa0f55781ddddebdfb5`.  
@@ -94,7 +94,7 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 
 ### 4.4 Bloqueos/limitaciones que no pueden tratarse como resueltos
 
-- **D7 — Anular Cobro aplicado a tránsito:** debe definirse la contraaplicación antes de habilitar anulación de un COBRO vinculado. **Propuesta de seguridad:** bloquear ese caso hasta ratificar D7; no inventar restitución automática de V.
+- **D7-A — APROBADA FUNCIONALMENTE (15/11/2026):** se bloquea **solo en servidor** la anulación de Cobros vinculados a rendición de UC-05 hasta que se apruebe una contraaplicación. Se conserva la anulación de Cobros manuales generales ajenos a rendición. **Pendiente** conciliación expresa con contrato UC-29/REV05, diseño de vínculo y control transaccional. No se aprueba D7-B ni restitución automática de V.
 - **D9 — Proyección administrativa:** debe diseñarse vista de rendición autorizada; no conceder `UC-14` al ADMINISTRADOR por inferencia.
 - **D10 — Cierre definitivo con diferencia:** no resolver responsabilidad, crédito, recupero ni asiento de dinero no recibido por inferencia.
 - **D12 — CR-B0-F04-001:** decidir separación PE-1 / PE-2 / PE-3, y el gate correspondiente.
@@ -107,7 +107,7 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 |---|---|---|
 | **D5-B** | **POLÍTICA FUNCIONAL APROBADA 15/11** | Definir importe atribuible exclusivamente a la entrega, tratamiento del exceso, cobros previos de esa entrega y mecanismo verificable de reconocimiento; no aplicar deudas anteriores |
 | **D6-1** | **ENCUADRE FUNCIONAL APROBADO 15/11** | Completar contrato del subflujo de UC-29, seguridad exclusiva ADMINISTRADOR, idempotencia, evidencia de rendición, aplicación/cese atómico y pruebas |
-| **D7** | PENDIENTE | Compensación de anulación de COBRO aplicado, o prohibición explícita hasta definirla |
+| **D7-A** | **BLOQUEO TEMPORAL APROBADO 15/11** | Conciliar con UC-29/REV05; distinguir Cobros de rendición de Cobros manuales generales; diseñar guardia transaccional sin tocar código aún; D7-B diferida |
 | D1/D2/D3/D9/D12 | PR #44, NO RATIFICADA | Decisión documental coherente con D5/D6 |
 | CR física PE-1/PE-2 | NO AUTORIZADA | Diseño de tablas, constraints y migración futura, posterior a ratificación |
 | C3-A.3 | Evidencia Nivel R/P disponible en PR #89 | Incorporar al DS el orden sin inversión; jamás declarar UC-05 ya probada |
@@ -129,7 +129,7 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 | D56-09 | Rendido mayor que V | No imputar exceso por inferencia; vía de conciliación pendiente |
 | D56-10 | Reenvío tras pérdida de respuesta | Mismo resultado comercial, sin duplicar aplicaciones |
 | D56-11 | Dos Administradores aplican simultáneamente misma declaración | Una única aplicación por porción; sin cobro/caja duplicados |
-| D56-12 | Anulación de Cobro vinculado | Exigir decisión D7; si no existe, bloquear |
+| D56-12 | Anulación de Cobro de rendición | D7-A: rechazar en servidor sin alterar Cobro/Cuenta/Caja/tránsito; no bloquear anulación de Cobros ajenos a rendición |
 | D56-13 | Vendedor intenta rendición | Denegado; Cobro general queda sometido a permisos preexistentes |
 | D56-14 | Repartidor intenta UC-29 o rendición | Denegado; UC-05 conserva permiso de declaración |
 | D56-15 | Faltante pendiente + nuevo Pedido | F04-005/006: deuda provisional no se restablece automáticamente |
@@ -143,16 +143,17 @@ Para una rendición con aplicaciones monetarias vinculadas a declaraciones:
 
 - **D5 = D5-B — APROBADA FUNCIONALMENTE:** la declaración del Repartidor al entregar un Pedido se imputa **exclusivamente a esa entrega**. El saldado de deudas anteriores/ajenas a dicha entrega se tramita aparte.
 - **D6 = D6-1 — APROBADA FUNCIONALMENTE:** la rendición de dinero de Repartidor se trata como **subflujo administrativo de UC-29**, exclusivamente autorizado al ADMINISTRADOR, conservando los permisos de Cobro manual general sin ampliarlos.
+- **D7 = D7-A — APROBADA FUNCIONALMENTE:** bloquear transitoriamente la anulación de Cobros **asociados a rendición de UC-05**, previa detección transaccional en servidor, sin afectar el resto de anulaciones manuales generales; conciliar con REV05 antes de implementar.
 - **Atomicidad D6 — regla a instrumentar:** el Cobro confirmado asociado a tránsito retira el mismo importe de reconocimiento provisional en **una transacción**; no hay doble imputación. Esta regla desarrolla RD-F04-003/004; el diseño específico requiere pruebas.
 
 **Asuntos que NO se infieren ni ratifican:**
 
 1. Monto exacto `V` de cada entrega, eventos que ajustan reconocimiento, pagos parciales/exceso y snapshots comerciales: requieren diseño compatible con D5-B y aprobación de sus criterios.
 2. Forma física PE-1/PE-2/PE-3, nombres de columnas, DDL/migraciones, consultas, endpoints, DTO y contratos de autorización: siguen propuestos/no autorizados.
-3. **D7:** qué hacer si se anula un Cobro aplicado al tránsito (contraaplicación/restitución) y cómo preservar simultáneamente el saldo confirmado y la exigibilidad.
+3. **D7-A APROBADA FUNCIONALMENTE:** prohibición temporal exclusivamente para Cobros asociados a rendición, sujeta a conciliación UC-29/REV05. **D7-B no aprobada**: contraaplicación y restitución de V permanecen para un corte futuro.
 4. **D9/D10/D12:** vista administrativa, diferencias y CR física; requieren resolución aparte.
 5. RD-I302-001 PR #44 sigue DRAFT y no queda ratificada integralmente por elegir D5/D6.
 
 **Siguiente corte:** auditar este asiento junto con PR #44 y REV05; diseñar opciones de cálculo de `V` **solo para la entrega actual**, mecanismo transaccional de aplicación/cese, contraaplicación D7 y controles de seguridad; después preparar CR física propuesta para revisión separada. Mantener toda implementación deshabilitada.
 
-**Dictamen:** D5-B/D6-1 **funcionalmente definidas**. Pendientes de diseño técnico y ratificación de las partes correspondientes; **no habilita código, Flyway, migraciones, merges ni despliegue**.
+**Dictamen:** D5-B/D6-1/D7-A **funcionalmente definidas**. Pendientes de diseño técnico y ratificación de las partes correspondientes; **no habilita código, Flyway, migraciones, merges ni despliegue**.
