@@ -11,6 +11,7 @@
 ## 1. Decisiones ratificadas funcionalmente que debe cumplir el diseño
 
 - **D5-B (15/11):** el dinero declarado en una entrega se imputa **solo a esa entrega**, nunca a deudas anteriores ni a otro Pedido. Saldar deuda de otro Pedido exige circuito separado.
+- **D5-B / ANT-01 (15/11, decisión complementaria aprobada funcionalmente):** todo anticipo o Cobro previo **confirmado y efectivamente imputado al mismo Pedido/obligación de entrega** reduce el importe pendiente elegible para reconocimiento al entregar. No se descuenta por pertenencia al mismo Cliente ni solo por aparecer `COBRO.idPedido`, sin evidencia de imputación a esa obligación. No autoriza fórmula definitiva ni nueva estructura.
 - **D6-1 (15/11):** la rendición al finalizar cada recorrido es **subflujo administrativo de UC-29, exclusivo ADMINISTRADOR**; el Cobro manual general conserva sus permisos actuales.
 - **D7-A (15/11):** bloqueo **temporal de anulación de Cobros vinculados a rendición** hasta aprobar contraaplicación. **Sujeto a conciliación expresa del contrato UC-29/REV05.** La anulación manual general ajena a rendición no se restringe.
 - RD-F04-002/003/004/005/006/007 y RD-F01: declaración íntegra; validación central antes de efecto provisional; nada a Caja o `COBRO` por declarar; faltante no restablece deuda automáticamente; nuevo Pedido evalúa exigible provisional sin recategorizar; `COBRO` solo `CONFIRMADO` o `ANULADO`.
@@ -47,7 +48,7 @@ Los identificadores siguientes son **nombres candidatos, no objetos existentes, 
 
 **Elección P1-A/P1-B pendiente:** preferir P1-A para el primer corte solo si se ratifica que el reconocimiento no necesita corrección posterior; si se necesitan correcciones administrativas, P1-B con historial es más fiel. Ninguna opción autoriza la fórmula `min(D_e,C_e)` ni otra.
 
-**Pregunta bloqueante:** `C_e` representa cargo de las **cantidades efectivamente entregadas** a precios/ajustes históricos con adicionales autorizados; `P_e` representa únicamente Cobros previos **demostrablemente aplicados a esa misma entrega**, no el saldo global ni el mero `COBRO.idPedido`. Se necesita decidir y probar cómo se determina el disponible por entrega antes de fijar `V_e`.
+**Decisión D5-B / ANT-01 ya aprobada funcionalmente:** `C_e` representa el cargo de las **cantidades efectivamente entregadas**, a precios/ajustes históricos y con adicionales autorizados; `P_e` comprende anticipos/Cobros **confirmados y demostrablemente imputados a la obligación de ese Pedido/entrega**. Estos importes deben **descontarse del pendiente elegible para reconocimiento en UC-05**, sin afectar deudas ajenas. La **identificación de imputaciones, distribución de anticipos entre líneas o entrega parcial y la cuantificación exacta de `V_e` siguen pendientes de diseño, autorización y pruebas**. Un `COBRO.idPedido` informado por sí solo no establece una imputación válida.
 
 ### PE-2 — Rendición, aplicaciones definitivas y protección D7-A
 
@@ -98,7 +99,7 @@ Los identificadores siguientes son **nombres candidatos, no objetos existentes, 
 | ID | Riesgo / decisión pendiente | Gate |
 |---|---|---|
 | F01 | Cálculo exacto de `C_e` con parciales, precio congelado, adicional UC-07 y cargos históricos | RD de cálculo antes de implementar |
-| F02 | Tratamiento de `P_e` previamente imputado a esa misma entrega y anti-sobrepago | Vínculo canónico y test de elegibilidad |
+| F02 | **Regla aprobada D5-B/ANT-01:** anticipos y Cobros previos confirmados imputados a esa entrega **reducen** el pendiente reconocible; falta diseño de evidencia/vínculo y anti-sobrepago | Vinculación canónica por obligación, cálculo con parciales y prueba de elegibilidad |
 | F03 | Congelamiento o historial de `V_e` y cambios posteriores | Elegir P1-A o P1-B, revisión de D9 y D10 |
 | F04 | Materialización de recorrido y unidad atómica de rendición | Decidir si cabecera + aplicaciones, y qué pasa si una de N aplicaciones falla |
 | F05 | Distinción entre efectivo realmente recibido vs declarado vs aplicado; diferencia sin cobro | F04-002/005, casos parciales, cero y exceso |
@@ -115,7 +116,7 @@ Los identificadores siguientes son **nombres candidatos, no objetos existentes, 
 - UUID repetido con igual contenido, UUID distinto para mismo Pedido, UUID con otro contenido y replay tras respuesta perdida.
 - Declaración `D_e > C_e` y `V_e` no determinado por saldo global.
 - Cliente con deudas anteriores y entrega nueva: la declaración no cancela deudas históricas.
-- Cobro previo vinculado y Cobro general no vinculado: no imputar por conjetura.
+- Anticipo/Cobro previo **confirmado y efectivamente imputado** al mismo Pedido: debe disminuir el reconocimiento elegible de esa entrega. Cobro solo referido por `idPedido`, Cobro de otro Pedido y Cobro general no vinculado: no imputar por conjetura.
 - Rendición total/parcial, varios Clientes, faltantes y exceso físico.
 - Dos Administradores rindiendo la misma declaración simultáneamente y dos Cobros sobre el mismo reconocimiento.
 - `anularCobroManual` sobre Cobro de rendición: **rechazo D7-A sin efectos**; sobre Cobro general no vinculado: anulación vigente conserva contraasientos.
@@ -125,10 +126,27 @@ Los identificadores siguientes son **nombres candidatos, no objetos existentes, 
 - Privilegios de base, llamadas HTTP 401/403, ámbito de Repartidor y proyección administrativa, sin conceder UC-14.
 - Diferencia pendiente F04-005 sin reclasificar automáticamente EN_MORA ni restablecer deuda.
 
+### 5.1 Nuevo asiento funcional: D5-B / ANT-01 (15/11/2026)
+
+**Decisión expresa del responsable:** “un anticipo o Cobro previo, asociado explícitamente a ese mismo Pedido, debe descontarse del importe que el Repartidor puede reconocer al entregar”. Interpretación estricta de ingeniería: solo importes **confirmados y cuya aplicación a la obligación de esa entrega se pueda demostrar**. Deben ser deducidos al calcular el **pendiente elegible por entrega**, no al reescribir el cargo histórico `C_e`, que permanece como valor de venta efectivamente entregada.
+
+**Invariantes obligatorias de negocio:**
+- Nunca aplicar un anticipo de otro Pedido, una deuda antigua o un Cobro general no imputado para reducir la obligación de esta entrega.
+- No reconocer provisionalmente una porción de la misma entrega que ya esté cubierta por pago definitivo previo.
+- Conservar íntegra la declaración de efectivo del Repartidor; cualquier exceso es asunto de conciliación, no crédito/cobro automático.
+- Mantener la distinción entre **cargo de la entrega**, **pagos confirmados atribuibles**, **declaración íntegra**, **reconocimiento provisional** y **aplicaciones definitivas**.
+- Si solo existe `COBRO.idPedido` sin una imputación acreditable, el diseño debe resolver el vínculo o bloquear la atribución; no inferir un descuento comercial por ese campo aisladamente.
+
+**Ejemplo únicamente ilustrativo:** cargo de la entrega 10.000 ARS; anticipo confirmado y atribuible a esa obligación de 3.000 ARS; pendiente comercial antes de la declaración 7.000 ARS. Si el Repartidor declara 8.000 ARS, la declaración debe persistirse por 8.000 ARS, pero **no se puede reconocer automáticamente todo ese importe**. Este ejemplo no fija `V_e` ni su tope algorítmico, redondeos ni tratamiento final del exceso.
+
+**Criterio de prueba a incorporar:** cobro previo válido de igual Pedido, pagos parciales con entrega parcial, pago de deuda histórica, mismo Cliente con dos Pedidos, pago general sin atribución, pago anulado, respuesta perdida, concurrencia UC-29/UC-05 y reintento idempotente. Ninguna prueba de esta decisión fue ejecutada en R08.3.
+
+**Próximos subcortes propuestos (desglose de R08–R09; no modifica G0):** R08.4 contrato de cálculo `C_e/P_e/V_e` → R08.5 conciliación de UC-05/UC-29 y decisiones D1/D2/D3/D9/D10/D12 → R08.6 CR física y autorización/ensayo PostgreSQL efímero → R09 implementación online UC-05 y rendición D6-1 por incrementos revisables. El plazo objetivo del 12/12 exige paralelismo prudente, no anticipar gates.
+
 ## 6. Ruta de autorización y relación con el Roadmap
 
 1. Conservar las decisiones funcionales **D5-B/D6-1/D7-A** en PR #50 y R08.2 PR #51; **conciliar REV05/UC-29 antes de codificar D7-A**.
-2. Elegir y ratificar el diseño de `C_e`/`V_e`, el vínculo de Cobros previos y la granularidad de rendición; no inferir estos parámetros por elegir D5-B.
+2. Aplicar la **decisión funcional D5-B/ANT-01** (anticipos/Cobros previos del mismo Pedido reducen el pendiente reconocible), y luego especificar/ratificar el diseño de `C_e`/`V_e`, el **vínculo verificable de imputación** y la granularidad de rendición. No convertir la aceptación de la regla en aprobación de una fórmula o de nuevas columnas.
 3. Conciliar RD-I302-001 PR #44, D1/D2/D3/D9/D10/D12 y la división CR-B0-F04-001 en PE-1 online, PE-2 rendición, PE-3 offline.
 4. Presentar el diseño físico/contrato SQL candidato con su prueba de compatibilidad, SQL de prueba y plan de migración **por una aprobación separada**. Este documento NO contiene SQL ejecutable.
 5. **Solo después de autorización expresa:** testear en PostgreSQL efímero, incorporar diseño definitivo a implementación, crear migraciones, realizar CI y revisar. No rebase, amend o force-push.
