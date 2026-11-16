@@ -1,4 +1,9 @@
 # Índice de documentación
+> **G-COM — ratificación comercial 16/11/2026:** [ACT-G-COM-001 ratificada con salvedades](01-gobierno/ACTA_G_COM_001_RATIFICADA_CON_SALVEDADES_2026-11-16.md). **G-COM cerrada funcionalmente.** El estado **DRAFT/sin integrar** corresponde al corte de creación del acta; consultar [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) para la integración efectiva. Solo se habilita preparar el lote editorial E-01..E-10 para revisión. El [borrador y verificación previa](01-gobierno/ACTA_G_COM_BORRADOR_Y_VERIFICACION_TRAZABILIDAD_2026-11-16.md) permanece como antecedente histórico, **no es el acta ratificada**.
+
+> **Revisión de gobierno 16/11/2026:** [Acta G-COM revisada y verificación de trazabilidad](01-gobierno/ACTA_G_COM_BORRADOR_Y_VERIFICACION_TRAZABILIDAD_2026-11-16.md) — borrador pendiente de ratificación; 21 trazas, ocho hallazgos y SHAs de PR verificadas. **NO RATIFICADA**.
+
+> **Entrada vigente — 15/11/2026:** [Vigencia documental y precedencia canónica](01-gobierno/VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md). **G0 64 CU/67 operaciones + RD ratificadas por alcance**, esquema de aplicación **62 tablas por V1/V2/V3**. Los inventarios de **49 CU** y **59 tablas** se clasifican **HISTÓRICOS / NO VIGENTES** para nuevos cambios, no se borran. `ESTADO_ACTUAL.md` es un snapshot de 09/11; para el seguimiento de 15/11 consultar [Roadmap I3–I7](01-gobierno/ROADMAP_OPERATIVO_I3_I7_2026-11-15.md). [Auditoría E2](01-gobierno/AUDITORIA_E2_INVARIANTES_DOMINIO_2026-11-15.md) — matriz inicial de 16 invariantes; verificación de servicios pendiente. [Etapa 3 — Contrato comercial consolidado](01-gobierno/AUDITORIA_E3_CONTRATO_COMERCIAL_CONSOLIDADO_2026-11-15.md) — decisiones ya aprobadas, siete paquetes comerciales abiertos y diseño técnico delegable; **DRAFT, no altera contratos G0**.
 
 | Ruta | Finalidad | Autoridad |
 |---|---|---|
