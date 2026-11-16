@@ -1,4 +1,5 @@
 # Auditoría — Etapa 3. Contrato comercial consolidado y separación de decisiones
+> **ACTUALIZACIÓN DE GOBIERNO (16/11/2026):** el responsable ratificó el conjunto **RCG-01..RCG-08 con salvedades explícitas**. Ver [acta ACT-G-COM-001 ratificada](ACTA_G_COM_001_RATIFICADA_CON_SALVEDADES_2026-11-16.md). Este documento de auditoría E3 preserva sus propuestas y estados históricos originales; donde dicen «pendiente de ratificación» se refieren al **corte previo a dicha acta**. La ratificación no representa merge de la PR ni permiso de DDL, código o despliegue.
 
 **ID provisional:** AUD-E3-COM-001 · **Corte:** 15/11/2026 (Argentina; actualización 16/11 UTC).  
 **Estado:** **PROPUESTA DE CONSOLIDACIÓN NORMATIVA — DRAFT / NO RATIFICADA COMO CONTRATO INTEGRAL / NO MERGE**.
