@@ -335,3 +335,71 @@ La preparación documental de `R08.6` puede ser **condicionada** con marcadores 
 - **Evidencia:** **ninguno de los casos RCM/FIN se ejecutó aquí**. Los ejemplos R1–R4 son razonamiento de contrato; R3 fue calculado con aritmética decimal, no prueba de servicio.
 
 **Dictamen actualizado:** cuatro unidades de decisión comercial, BT-05/06 técnicos y BT-07 diferido. La principal amenaza de implementación prematura sigue siendo activar V_e^0 / P_e sin imputación explícita validada, doble ajuste comercial de UC-07, o convertir una diferencia de rendición en Caja/Cobro sin identificación y autorización. **Estado global: propuesta lista para revisión, NO ratificada**.
+
+
+---
+
+## 10. Contraste independiente del informe recibido el 16/11 — G-COM
+
+**Origen:** revisión técnica externa proporcionada por el responsable el 16/11/2026, originalmente realizada sobre una **copia local de** `ale-milanesas-app` y el documento AUD-E3. **Naturaleza:** hallazgos del informe recibidos como evidencia a verificar; **no** son una instrucción de ratificar paquetes ni sustituyen la inspección del GitHub remoto. Las rutas locales `file:///` del informe no son referencias canónicas compartibles.
+
+**Método de verificación:** contraste directo, en esta sesión, con `main` de ambos repositorios y PR #64; lectura de migraciones V1–V3, `source-lock.md`, `RD-MR-PARTIDAS-001`, `AplicarAjusteComercialService`, `CobroManualService`, `EvaluadorCategoriaComercialInterno`, REV04B, REV05, F04. **No** se ejecutó PostgreSQL, JUnit, Testcontainers ni CI en esta revisión.
+
+### 10.1 Tabla de hallazgos y dictamen
+
+| Hallazgo del informe | Dictamen contrastado | Acción de gobierno |
+|---|---|---|
+| I-01 — «V1/V2 son únicas migraciones; V3 reservada, no aplicada» | **DESACTUALIZADO / INCORRECTO PARA `main` REMOTO:** existe [V3__trazabilidad_partidas_insumo.sql](https://github.com/leandrito369/ale-milanesas-app/blob/main/src/main/resources/db/migration/V3__trazabilidad_partidas_insumo.sql), con dos nuevas tablas; [source-lock](https://github.com/leandrito369/ale-milanesas-app/blob/main/docs/traceability/source-lock.md) incluye adenda RD-MR-PARTIDAS-001; gobierno [RD-MR-PARTIDAS-001](b0/RD_MR_PARTIDAS_001_AMPLIACION_MR_PARTIDA_INSUMO_2026-11-06.md) ratifica MR-6. **62 tablas = esquema definido por cadena V1→V2→V3**. No hay evidencia aquí de aplicación en producción; despliegue pausado. El antiguo documento 05/11 era un snapshot «propuesta». | Mantener redacción 62 tablas y V3 existente; la **próxima migración candidata es V4**, previa verificación de secuencia y gate, **no crearla aquí**. Corregir notas históricas si se utilizan como estado actual. |
+| I-02 — UC-16 redondea en dos fases y consulta política/categoría actual | **CONFIRMADO** en [AplicarAjusteComercialService.java](https://github.com/leandrito369/ale-milanesas-app/blob/main/src/main/java/ar/edu/unam/alemilanesas/finanzas/AplicarAjusteComercialService.java). | Arquitectura podrá extraer cálculo puro con atributos congelados; no invocar el servicio UC-16 actual para recalcular una Entrega histórica. Tests de paridad centavo a centavo. |
+| I-03 — UC-15 mantiene FIFO global de créditos sin atribución por obligación | **CONFIRMADO COMO LIMITACIÓN DEL SERVICIO ACTUAL** en [EvaluadorCategoriaComercialInterno.java](https://github.com/leandrito369/ale-milanesas-app/blob/main/src/main/java/ar/edu/unam/alemilanesas/finanzas/EvaluadorCategoriaComercialInterno.java), antes de implementar IMP-B. | Contrato DC05-04-B requiere «explícitas vigentes primero, FIFO solo libre». Diseñar transición y regresión; no declarar bug ya ejecutado en UC-05 ausente. |
+| I-04 — Anulación: Java filtra origen, SQL no veta por `REPARTO` ni aplicación/rendición | **CONFIRMADO:** [CobroManualService.java](https://github.com/leandrito369/ale-milanesas-app/blob/main/src/main/java/ar/edu/unam/alemilanesas/finanzas/CobroManualService.java) exige `ADMINISTRACION`; función `fn_mr3_anular_cobro_manual` en [V1](https://github.com/leandrito369/ale-milanesas-app/blob/main/src/main/resources/db/migration/V1__baseline_mr5.sql) veta `ONLINE/MERCADOPAGO` pero no `REPARTO` ni IMP-B (inexistente). | Extender guardas transaccionales en **migración futura nueva**, con vínculo explícito, sin editar V1; preservar anulación general válida y D7-A. Revisar idempotencia de anulación. |
+| I-05 — OFERTA_EXCEDENTE no conserva precio base; adicional apunta a DETALLE_ENTREGA | **CONFIRMADO EN V1.** Pero la sugerencia «crear DETALLE_ENTREGA ficticio con cantidad cero» **NO ES SUFICIENTE** si no existe `DETALLE_PEDIDO` de ese producto: hay FK `DETALLE_ENTREGA(idPedido,numeroDetalle)→DETALLE_PEDIDO`. En V1, `DETALLE_PEDIDO.cantidadOriginal=0` es estructuralmente posible con precio nulo, pero **crear una línea original técnica nueva** puede alterar semántica del Pedido y requiere decisión/CR. | CR-C/CR-F deben cerrar representación de producto adicional ausente en Pedido receptor, vínculo de producto, cantidad entregada, importe y costo, sin líneas «originales» ficticias ni cambio a totalOriginal por inferencia. |
+| I-06 — advisory locks y MAX+1 deben armonizarse | **RIESGO TÉCNICO REAL, NO DEFECTO GLOBAL AUTOMÁTICAMENTE DEMOSTRADO.** Cobro tiene advisory global propio; UC-15 y anulaciones tienen orden de filas cruzado; otros escritores futuros no están cubiertos por ese único mutex. | Diseñar **grafo real** de adquisición de locks con todos los escritores y probar intercalados PG; **no ratificar** el orden ejemplo del informe (CLIENTE→PEDIDO→COBRO→POLITICA) sin test y sin comprobar orden en las funciones SQL. No cambiar solo por preferencia `MAX+1` a secuencias sin análisis de compatibilidad. |
+| I-07 — Informe recomienda aprobar RC-01..04 y BT-05..07 | **RECOMENDACIÓN, NO ACTO DE APROBACIÓN.** Los acuerdos anteriores se conservan, nuevas decisiones siguen propuestas. | Preparar una resolución G-COM para aprobación expresa del responsable; no marcar `APROBADO` ni modificar G0/REV/BC07/CR o app por esta revisión. |
+
+### 10.2 Bloqueante semántico adicional no resuelto por el informe: saldo libre confirmado y `V_e^0`
+
+**CRÍTICO — CONTRAEJEMPLO DE CONSISTENCIA COMERCIAL A DECIDIR DENTRO DE RC-03.**
+
+**Hechos expresos ya aprobados:** DC05-04-B: las aplicaciones monetarias explícitas se atienden primero; los créditos confirmados **libres** entran a FIFO para evaluar deuda/mora por obligación. DC05-01/02-A: la reserva del anticipo no equivale a `P_e` hasta su consolidación. R08.4 y AUD-E3 definen `P_e` como **aplicación explícita efectiva, probada y atribuida** a la Entrega.
+
+**Escenario de prueba SEM-01 (no ejecutado):**
+1. Cliente sin deuda pendiente y con **ARS 100** de crédito general confirmado y **libre**, no reservado a ningún Pedido.
+2. Al registrar una nueva Entrega, el cargo real congelado es `C_e=ARS 100` y el Repartidor declara `D_e=ARS 100`.
+3. No hay reserva/imputación explícita a esa Entrega, por lo que, bajo la definición estricta de R08.4, `P_e=0`.
+4. La fórmula candidata V1 produce `E_e=100` y `V_e^0=100`.
+5. Sin embargo, si conforme a DC05-04-B el FIFO libre de ARS 100 **efectivamente cubre la obligación comercial de esta Entrega** al crear su cargo, el pendiente de e ya es `0` y el reconocimiento provisional `100` le atribuye un nuevo pago al Cliente sin deuda elegible, a pesar de que D2=B impide crédito automático por exceso. El `saldoConfirmado` global tras el cargo sería `0` y `saldoExigibleProvisional` proyectado podría aparecer artificialmente a favor.
+
+**No es un fallo de código demostrado:** la condición depende de **qué significa jurídicamente que el FIFO «cubra» una obligación**: aplicación comercial efectiva vs mera herramienta de categoría/mora. **No aprobar todavía RC-03/V1 sin aclararlo.**
+
+**Subdecisión RC-03-FIFO (responsable):** ¿El crédito confirmado libre aplicado por FIFO a una obligación de Entrega reduce también su pendiente elegible para reconocimiento provisional?
+
+- **A — Consistencia por obligación (RECOMENDADA, NO APROBADA):** sí. La fórmula requiere tomar el **total de cobertura confirmada y acreditada a esa Entrega**, incluidas aplicaciones explícitas y porciones libres realmente consumidas por FIFO, sin doble conteo. El algoritmo y evidencia canónica deben distinguir `P_e^expl` y `F_e^FIFO` (nombres de trabajo, no columnas): `E_e = max(0, C_e - P_e^expl - F_e^FIFO)`; `V_e^0=min(D_e,E_e)`. `F_e^FIFO` no es un nuevo Cobro ni crédito: es una atribución auditable del **mismo importe confirmado libre**, y debe ser compatible con el evaluador UC-15, anticipo y anulación. **No persistir un segundo movimiento PAGO por atribuirlo**. Si ya está comprendido en P_e, no restarlo otra vez.
+- **B — Separación jurídica explícita:** FIFO sirve **solo** para categoría/mora, y no cancela obligación individual a efectos de elegibilidad de `V_e`. Entonces se debe documentar que el «saldo deudor por obligación» y la categoría comercial difieren por diseño, con casos de saldo general a favor, y justificar por qué D_e puede reconocerse mientras hay crédito libre. No inferir esta opción solo desde el servicio actual.
+
+**Controles:** SEM-01 crédito libre de igual importe, SEM-02 crédito libre menor, SEM-03 crédito libre ya destinado a deuda anterior, SEM-04 crédito reservado a otro Pedido, SEM-05 liberación automática RC-01 con FIFO y actualización simultánea de UC-15, SEM-06 anulación/reembolso, SEM-07 dos Entregas concurrentes de un mismo Cliente. Si se ratifica A, ajustar DC-06 y RC-03 preservando el alcance de `ANT-01` y `DC05-04-B`; si B, justificar explícitamente su coexistencia y la visualización de exigibilidad.
+
+### 10.3 Otras reservas necesarias antes de ratificar
+
+1. **Legado (BT-06):** encontrar en preflight un Cobro `CONFIRMADO` anterior **no prueba automáticamente un anticipo vivo** ni justifica bloquear toda la base. La condición es **existencia de imputación/obligación viva ambigua con efectos posibles**. Verificar saldos y trazas sin reconstruir imputación por `COBRO.idPedido` o FIFO. No afirmar que la base real está vacía: solo se sabe que el despliegue está pausado.
+2. **C-08 / RD-F04-006:** su postergación es admisible **solo mientras no se active el tránsito provisional que debe considerarse en UC-03**. Una vez activado ese tránsito, UC-03 deberá contemplarlo según su RD aprobada; no tratar el caso como deuda técnica sin fecha indefinida.
+3. **UC-07 y nueva cotización:** el método de cotización histórica de CR-C #47 permite no aplicar el porcentaje dos veces, pero su **autorización integral sigue pendiente**. La modificación de cantidad aceptada/entregada y la eventual creación de líneas técnicas deben superar primero el contrato, la seguridad y la consistencia física con CR-F y RT-UC07-04.
+4. **Dinero excedente recibido físicamente:** no basta registrar solo una diferencia virtual. Debe existir trazabilidad de recepción, custodia, responsable y posterior devolución o atribución; el instrumento contable exacto no está ratificado. No afirmar «fuera de toda contabilidad» como norma: distinguir **Caja de ventas** de **custodia de fondos pendiente de clasificación**, sometiendo su tratamiento a decisión comercial/contable.
+5. **Anulación de Cobro:** la función SQL V1 **sí contiene** enmiendas MR3-07 anteriores al trigger, que amplían `MOVIMIENTO_CUENTA` a `ANULACION_COBRO`, agregan `idCobroAnulado` y amplían el catálogo de origen de Caja. Leer la migración **completa** antes de afirmar que el trigger generaría un movimiento rechazado por el CHECK inicialmente declarado. La brecha confirmada es la falta de guardas sobre relación de rendición/IMP, no incompatibilidad de tipo en su propia V1.
+
+### 10.4 Acta G-COM: **borrador de resolución, pendiente de ratificación expresa**
+
+| Entrada | Estado tras contraste | Recomendación para voto de negocio |
+|---|---|---|
+| RC-01 — remanente parcial | **PROPUESTA** | A, liberar remanente no elegible atómicamente y volverlo libre bajo reglas de reembolso/FIFO |
+| RC-02 — cotización/adicional UC-07 | **PROPUESTA** | A, una cotización final aceptada con ajuste histórico una sola vez; cantidades realmente entregadas y traza de no entregadas; CR-C/CR-F pendientes |
+| RC-03 — fórmula V1 | **RETENIDA POR SEM-01** | Adoptar solo después de resolver **RC-03-FIFO**; D2=B, cargo cero y Q tipada pueden ratificarse por separado |
+| RC-04 — rendición/custodia/BC07 | **PROPUESTA** | Cabecera por recorrido, imputación por Entrega y Cliente, no prorratear faltantes, custodiar exceso con registro y proyección acotada ADMIN |
+| BT-05 — idempotencia | **CONTRATO OBSERVABLE, PENDIENTE** | Reintento mismo payload/clave devuelve recibo, clave distinta es operación distinta; idempotencia de anulación sin alterar permisos |
+| BT-06 — legado | **PRECONDICIÓN DE ARQUITECTURA** | No inferir imputaciones, preflight selectivo por compromisos vivos, contención ante ambigüedad |
+| BT-07 — diferimiento | **CONTENCIÓN DOCUMENTADA** | Mantener D7-A y PE-3 diferida; C-08 pasa a requisito antes de activar tránsito provisional |
+| E-01..E-07 | **NO AUTORIZADAS PARA EDICIÓN CANÓNICA** | Aprobación editorial específica tras resolver RC-01/02/03/04 y sus dependencias |
+
+**Puertas explícitas:** G-COM no alcanzada; G-CON (enmiendas REV04B/REV05) no autorizada; G-ARQ solo revisión documental/escenarios; G-FIS (DDL, migración, datos) y G-DEV (código) no autorizadas. Ningún consentimiento para reanudar el despliegue: [app Issue #28](https://github.com/leandrito369/ale-milanesas-app/issues/28) **abierta**.
+
+**Cómo aprobar correctamente:** el responsable debe confirmar por escrito las cláusulas comerciales, **incluida RC-03-FIFO**, y aceptar expresamente los límites de RC-02/04. Una recomendación de un informe cargado al chat no sustituye esa aprobación. Tras ello, elaborar acta G-COM con fecha/autoridad/alternativas descartadas, aprobar el único paquete E-01..07 y mantener CR física independiente.
