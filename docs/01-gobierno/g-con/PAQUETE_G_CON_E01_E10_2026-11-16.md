@@ -53,14 +53,14 @@
 |---|---|---|
 | **GC-01** | Ratificación de ACT-G-COM-001 en fuente accesible desde main o formalmente integrada antes de merge G-CON | **CUMPLIDA: PR #64 MERGED** (commit `9076570ff3329864fe85c990bcc6f4ff7a63d6e5`); falta autorización editorial autónoma de PR #65 |
 | **GC-02** | Verificar fuente preferente de cada operación en manifiesto G0 | **VERIFICADA estáticamente** |
-| **GC-03** | E-01..E-10 completos, con actor, pre/post, excepciones y limitación de implementación | **ADENDAS REDACTADAS; revisión editorial pendiente** |
-| **GC-04** | Contrastar los adendos con CR-C/CR-F, RT-UC07-04, notas REV05/F01 y RD-F04-002/005/006/007 | **REVISIÓN de conflicto pendiente** |
-| **GC-05** | No cambiar G0, RBAC, BC07 original, diagramas ni contratos en main | **A verificar por diff de PR** |
-| **GC-06** | No inventar nueva operación CU-65, permisos de UC-14, umbral de deuda ni política de contraaplicación D7-B | **Restricción explícita** |
+| **GC-03** | E-01..E-10 completos, con actor, pre/post, excepciones y limitación de implementación | **REDACCIÓN E01..10 REVISADA (GC-03, §7); autorización editorial pendiente** |
+| **GC-04** | Contrastar los adendos con CR-C/CR-F, RT-UC07-04, notas REV05/F01 y RD-F04-002/005/006/007 | **CONTRASTADA (§7): incompatibilidad física CR-F §15.12 abierta y señalizada en E-02; no autoriza CR-F** |
+| **GC-05** | No cambiar G0, RBAC, BC07 original, diagramas ni contratos en main | **VERIFICADA ESTÁTICAMENTE (§7): diff exclusivo de 7 archivos nuevos Markdown G-CON** |
+| **GC-06** | No inventar nueva operación CU-65, permisos de UC-14, umbral de deuda ni política de contraaplicación D7-B | **VERIFICADA ESTÁTICAMENTE (§7): firmas/roles G0, sin CU-65 ni nuevas autorizaciones** |
 | **GC-07** | No aprobar CR/DDL/V4, desarrollo, CI no ejecutado ni levantar Issue #28 | **Restricción explícita** |
 | **GC-08** | Diseñar tests SEM/CON/FIN, E2E, caso centavos, 409 y negatividad RBAC en etapa posterior | **NO EJECUTADOS** |
 | **GC-09** | Revisar cambios en SHA de HEAD de #64/#47/#48/#44 y cualquier nueva RD antes de firma editorial | **Pendiente al gate de merge** |
-| **GC-10** | Aprobar adendas versionadas como un solo paquete, con resolución editorial explícita | **PR DRAFT, sin aprobar merge** |
+| **GC-10** | Aprobar adendas versionadas como un solo paquete, con resolución editorial explícita | **PENDIENTE autorización editorial del responsable; PR DRAFT, sin merge** |
 
 **Puertas:** G-COM **cerrada funcionalmente e integrada en `main`** por PR #64; G-CON **preparada para revisión**; G-ARQ permite solo analizar/diseñar; G-FIS, G-DEV y despliegue permanecen bloqueados. `PE-3` offline y contraaplicaciones D7-B diferidas. Issue app #28 abierta.
 
