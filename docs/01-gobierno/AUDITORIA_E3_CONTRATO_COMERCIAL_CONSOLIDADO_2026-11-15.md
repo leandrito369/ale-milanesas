@@ -1,7 +1,8 @@
 # Auditoría — Etapa 3. Contrato comercial consolidado y separación de decisiones
 
 **ID provisional:** AUD-E3-COM-001 · **Corte:** 15/11/2026 (Argentina; actualización 16/11 UTC).  
-**Estado:** **PROPUESTA DE CONSOLIDACIÓN NORMATIVA — DRAFT / NO RATIFICADA COMO CONTRATO INTEGRAL / NO MERGE**.  
+**Estado:** **PROPUESTA DE CONSOLIDACIÓN NORMATIVA — DRAFT / NO RATIFICADA COMO CONTRATO INTEGRAL / NO MERGE**.
+**Actualización 16/11 — resolución puntual:** `DC-COM-FIFO-001 / RC-03-FIFO` **APROBADA FUNCIONALMENTE** mediante confirmación expresa del responsable; regla y alcance en [§11](#11-resolución-expresa-del-responsable--rc-03-fifo-16112026). **No** implica aprobación integral de `RC-03`, del conjunto `RC-01..04` ni autorización para modificar la aplicación.  
 **Ámbito:** circuito Pedido → Preparación → Entrega (UC-05) → Cuenta Corriente (UC-14) → Cobro y rendición (UC-29), cancelación (UC-06), categoría/mora (UC-15/16), Excedentes (UC-07), seguridad, idempotencia y concurrencia.  
 **Propósito:** unificar decisiones comerciales ya expresadas; reducir el número de asuntos pendientes; distinguir políticas a ratificar por el responsable de mecanismos delegables a Arquitectura. **No cambiar** G0, 64 CU/67 operaciones, API, RBAC, DDL/Flyway, fuente de aplicación ni despliegue.
 
