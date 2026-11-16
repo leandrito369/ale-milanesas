@@ -9,7 +9,7 @@
 
 ## 0. Fuentes verificadas y precedencia temporal
 
-**Línea base vigente:** [G0/acta](b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) · [Manifiesto 67](b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) · [REV04B](../../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md) · [REV05](../../08-diagramas/consolidacion-b0/CONTRATOS_REV05_CORREGIDOS_B0_ACTUALIZADO.md) · [RD-F04 cierre](../../06-arquitectura/F04_CIERRE_FUNCIONAL_MAESTRO_2026-10-26.md) · [precedencia de versiones](VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md).
+**Línea base vigente:** [G0/acta](b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md) · [Manifiesto 67](b0/G0_MANIFIESTO_CANONICO_67_OPERACIONES_2026-10-29.csv) · [REV04B](../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md) · [REV05](../08-diagramas/consolidacion-b0/CONTRATOS_REV05_CORREGIDOS_B0_ACTUALIZADO.md) · [RD-F04 cierre](../06-arquitectura/F04_CIERRE_FUNCIONAL_MAESTRO_2026-10-26.md) · [precedencia de versiones](VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md).
 
 **Propuestas históricas en PR separadas:** [RD-I302-001 #44](https://github.com/leandrito369/ale-milanesas/pull/44), [D5/D6/D7 #50](https://github.com/leandrito369/ale-milanesas/pull/50), [R08.2 #51](https://github.com/leandrito369/ale-milanesas/pull/51), [R08.3 #52](https://github.com/leandrito369/ale-milanesas/pull/52), [R08.4 #53](https://github.com/leandrito369/ale-milanesas/pull/53), [R08.5 #54](https://github.com/leandrito369/ale-milanesas/pull/54).
 
