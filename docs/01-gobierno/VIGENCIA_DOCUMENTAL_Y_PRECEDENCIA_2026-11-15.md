@@ -1,7 +1,7 @@
 # Vigencia documental y precedencia canónica — Ale Milanesas
 
 **Corte de control:** 15/11/2026 (Argentina).  
-**Estado:** DECLARACIÓN DE VIGENCIA Y CLASIFICACIÓN DE FUENTES solicitada por el responsable; integración en `main` pendiente de revisión de la PR.  
+**Estado de la clasificación:** DECLARACIÓN DE VIGENCIA Y PRECEDENCIA solicitada por el responsable. **Estado de integración al corte de redacción:** pendiente de revisión; consultar [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) para comprobar integración posterior.  
 **Naturaleza:** exclusivamente documental. **No** modifica el alcance, aprueba nuevos contratos, cambia decisiones de negocio, valida la empresa ni autoriza implementación, migraciones o despliegue.
 
 ## 1. Regla principal de lectura
@@ -53,6 +53,6 @@ Por acuerdo expreso del responsable del **15/11/2026**, la **reconstrucción E1*
 
 **Modifica solamente la señalización de fuentes y su índice.** No se actualiza `source-lock` ni se renumera un CU. No se crean tablas/migraciones ni se cambian flags, RBAC, contratos o pruebas.
 
-**Pendiente de integración:** revisión del diff y aprobación para merge de esta PR documental. Si se ratifican nuevos contratos después de este corte, agregar referencia y evidencia en un nuevo cambio; conservar esta fecha como corte histórico.
+**Control de integración posterior:** constatar en [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) el resultado de revisión y eventual merge; el presente apartado describe la condición al corte 15/11. Si se ratifican nuevos contratos después de este corte, agregar referencia y evidencia en un nuevo cambio; conservar esta fecha como corte histórico.
 
 **Despliegue:** PAUSADO; Issue [app #28](https://github.com/leandrito369/ale-milanesas-app/issues/28) abierta.
