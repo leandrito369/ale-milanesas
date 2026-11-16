@@ -103,7 +103,7 @@ Cada paquete se aprueba o queda abierto **en conjunto**, no por decenas de micro
 | Grupo | IDs originales | Pregunta de negocio residual | Alternativa preferente para revisión | Bloqueo |
 |---|---|---|---|---|
 | **B-01 Anticipo en Entrega parcial** | `DC05-08` | Si la reserva supera `C_e`, ¿se libera automáticamente el excedente a crédito libre o exige decisión posterior? | `P_e` consolidado `<= C_e` y remanente liberado con evento trazable; nunca aplicación a otra obligación por inferencia. | **P0** para parciales con anticipos |
-| **B-02 Adicionales UC-07** | `DC-03`, parte UC-07 de `DC05-08` | ¿Adicional aceptado lleva precio/cotización propia sin ajuste/promoción histórica del Pedido o entra a esa base? ¿Qué ocurre si aún no está habilitada UC-07? | Valorar adicional por snapshot/aceptación propia; evaluar política de ajuste separada sin presumirla. Si no autorizado, excluir **solo escenarios con adicional** del corte técnico inicial, sin declarar UC-07 completo. | **P0** para Entrega con adicionales; diferible en flujo sin UC-07 |
+| **B-02 Adicionales UC-07** | `DC-03`, parte UC-07 de `DC05-08` | ¿Adicional aceptado lleva precio/cotización propia sin ajuste/promoción histórica del Pedido o entra a esa base? ¿Qué ocurre si aún no está habilitada UC-07? | Valorar adicional mediante cotización aceptada que incorpora el ajuste histórico congelado según CR-C (todavía DRAFT); no reaplicar ese ajuste en Entrega. Resolver la fracción efectivamente entregada y autorizar CR-C/CR-F. Si no autorizado, excluir **solo escenarios con adicional** del corte técnico inicial, sin declarar UC-07 completo. | **P0** para Entrega con adicionales; diferible en flujo sin UC-07 |
 | **B-03 Reconocimiento de declaración y anomalías** | `DC-06`, `DC-07`, `DC-08`, asiento `D2=B` | ¿Regla de `V_e^0` con `C_e/P_e/D_e` probados? ¿Aceptar declaración positiva si `C_e=0`? ¿Diferencias tipadas sin compensación? | Fórmula V1 **solo tras IMP-01** + evidencia V3; aceptar declaración íntegra con `V_e^0=0` ante cargo cero y registrar diferencia; Q tipado. Sin evidencia, IMP-C. | **P0** antes de reconocer tránsito |
 | **B-04 Rendición y diferencias** | `D4`, `D9`, `D10`, `DEC-GRAN-D6`, `D56-09` | ¿Cómo rinde ADMIN: recorrido, entregas/Cliente, parciales? ¿Qué evidencia mínima recibe? ¿Quién ve cada campo? ¿Qué sucede si se recibe más o menos que lo reconocible? | Cabecera por recorrido + aplicaciones atómicas por Entrega/Cliente, evidencia digital mínima RD-F04-002, diferencias sin compensar; excedente no aplicado automáticamente. Requiere autorización explícita de proyección BC07. | **P0** antes de PE-2 |
 | **B-05 Políticas visibles de reintentos y anulación** | `D3`, `DEC-UC29-ANUL/C-04` | ¿Se permite corregir y reenviar tras rechazo previo? ¿Debe devolución de anulación exponer los IDs de contraasiento? | Rechazo previo sin confirmar comando/consumir clave; reenvío idéntico tras éxito devuelve mismo resultado; anulación con recibo idempotente trazable. Arquitectura decide UUID/almacenamiento. | **P1**, requisito de contrato observable |
@@ -193,3 +193,145 @@ La preparación documental de `R08.6` puede ser **condicionada** con marcadores 
 - Despliegue permitido: **Issue app #28 abierta / PAUSADO**.
 
 **Siguiente tarea:** revisión editorial/funcional de este contrato, ratificación dirigida de **grupos B-01 a B-06** según alcance y habilitación de un **paquete único** E-01..E-07. Mantener B-07 diferido salvo decisión expresa. El cotejo posterior de implementación de invariantes continúa como etapa técnica específica, no debe confundirse con esta etapa 3 de consolidación de gobierno.
+
+
+---
+
+## 9. Etapa 4 — Dictamen de cierre contractual y paquete para decisión
+
+**Corte analítico:** 15/11/2026 (Argentina) / 16/11 UTC. **Estado:** PROPUESTA TÉCNICO-COMERCIAL PARA REVISIÓN; NO RATIFICADA. Se incorpora al **mismo expediente de contrato** para evitar micro-PR adicionales. Este apartado **precisa** la priorización preliminar §3 y, donde hay discrepancia, prevalece solo como recomendación de auditoría, nunca como sustituto de decisiones ratificadas.
+
+### 9.1 Segregación revisada: cuatro grupos comerciales, dos técnicos y uno diferido
+
+| Grupo de §3 | Naturaleza y dictamen revisado | Autoridad |
+|---|---|---|
+| B-01 (DC05-08) | **DECISIÓN COMERCIAL NECESARIA:** destino de reserva no consolidada después de Entrega única y parcial | Responsable |
+| B-02 (DC-03 / UC-07) | **DECISIÓN COMERCIAL NECESARIA PARA ADICIONALES:** importe final aceptado, ajuste ya incorporado en cotización, prorrateo de entrega parcial de cantidad aceptada | Responsable; CR-C/CR-F sin autorización |
+| B-03 (DC-06/07/08, D2=B) | **DECISIÓN COMERCIAL NECESARIA:** fórmula de reconocimiento, cargo cero y diferencias sin compensación; formalizar D2=B | Responsable |
+| B-04 (D4, D9, D10, D6-1 granularidad) | **DECISIÓN OPERATIVA NECESARIA**, pero respetando RD-F04-002 (momento y evidencia mínima YA aprobados); selección de campos visibles = gobierno BC07 | Responsable |
+| B-05 (D3, C-04) | **DISEÑO TÉCNICO + contrato observable**, no nuevo principio económico: reintentos deterministas, claves, recibos, idempotencia de anulación | Arquitectura bajo revisión de contrato; autoridad de cambio de firma si procede |
+| B-06 (DC05-11/12) | **COMPATIBILIDAD TÉCNICA + preflight de legado**: prohibición de deducir imputación ya surge de ANT-01/DC05-01/02-A; si hay datos reales ambiguos, conciliación explícita de responsable | Arquitectura para migración; responsable ante excepciones comerciales reales |
+| B-07 (D7-B, DC-09) | **DIFERIDO**: mantener D7-A hasta una nueva autorización; no habilitar contraaplicación futura por conjetura | Responsable posterior |
+
+**Rectificación de la recomendación inicial B-02:** decir «adicional sin ajuste histórico» sería incorrecto o, como mínimo, equívoco. [REV04B §6](../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md) impide **volver a ejecutar** UC-15/UC-16 y modificar los atributos originales del Pedido; **no prohíbe** usar el tipo/porcentaje histórico congelado para calcular la cotización del adicional. La [CR-C #47, §4](https://github.com/leandrito369/ale-milanesas/pull/47) ya propone precisamente ese cálculo y describe D2-A como ratificada, pero la CR permanece **DRAFT y NO AUTORIZADA integralmente**. La regla final debe ser **un único precio final aceptado**, sin aplicar nuevamente el ajuste al contabilizar Entrega. Distinguir la fuerza normativa del contrato G0 de la propuesta de CR-C.
+
+### 9.2 Paquete recomendado R-COM-04, cláusulas sometidas a decisión del responsable
+
+**Naturaleza:** propuestas concretas que **NO quedan aprobadas por publicar este documento**, ni por continuar la auditoría. Solo una ratificación expresa con IDs y alcance puede cambiar su estado. No reabrir DC-01-C1, DC-02-A, DC-04-A, D5-B, ANT-01, D6-1, D7-A, DC05-01/02/03/04/05/06/07/09 ni D12-C.
+
+#### RC-01 — Remanente de reserva al confirmar una Entrega única y parcial (B-01 / DC05-08)
+
+**Propuesta preferente A (no aprobada):**
+
+1. La Entrega valida un cargo real único **C_e**; la porción confirmada y reservada para el Pedido se consolida como **P_e = mínimo(reserva elegible y cargo atribuible real)**, sujeto a que no exista otra aplicación efectiva a esa obligación y a preservación de importes.
+2. Si la reserva superaba la porción legalmente imputable al cargo, el remanente **se libera automáticamente** mediante evento IMP-B causado por la misma aceptación de UC-05, **no** mediante nuevo Cobro/Pago/Caja. Conserva su origen y queda como **crédito libre** del mismo Cliente, **solo si** no se encuentra reembolsado, inmovilizado por reembolso o sujeto a otra restricción válida. Si falta evidencia, bloquear/contener sin inventar disponibilidad.
+3. No reasignar **explícitamente** el remanente a otro Pedido de manera oculta. Distinguir: al quedar libre, la **política FIFO previamente aprobada DC05-04-B sí puede aplicarlo a deudas existentes**, que es un efecto comercial observable. Si el negocio quiere retenerlo sin FIFO, eso es **alternativa B** que necesita aprobación expresa y un estado diferente, no una simple variante de SQL.
+4. La transición reserva→consolidación/liberación se confirma atómicamente con UC-05; si UC-05 falla, todas las porciones vuelven al estado anterior. No se debe crear una «segunda Entrega futura» para consumir la reserva remanente: el modelo G0 usa Entrega definitiva **una por Pedido**.
+5. Un Cobro manual general sin reserva continúa conservando su tratamiento; no crear P_e a partir de su idPedido.
+
+**Ejemplo R1:** cobro confirmado de ARS 8.000, reserva explícita a Pedido B ARS 8.000 y cargo real de Entrega definitiva de B ARS 5.000. Aceptando la propuesta A: P_e=5.000; el evento de liberación acredita 3.000 a **disponibilidad libre preexistente**, no crea ingreso ni crédito contable nuevo; podrían consumirse bajo FIFO para deuda A si A existe y cumple reglas vigentes. Una asignación explícita de ese remanente a otro Pedido requeriría acción autorizada.
+
+**Alternativa B:** retener los 3.000 comprometidos hasta liberación ADMIN; reduce automatismo y preserva intención original, pero deja reserva huérfana en Pedido ENTREGADO y exige política de cierre. No confundir con DC05-03-A (liberación ADMIN **excepcional**).
+
+**Pruebas obligatorias:** RCM-01 parcial; RCM-02 Entrega completa; RCM-03 remanente con deuda A; RCM-04 importe reembolsado/pendiente de reembolso; RCM-05 UC-05/UC-06/anulación concurrentes. Reconciliar por Cobro origen: **libre + reservado + aplicado + restricciones/compensaciones = remanente efectivo verificable**, sin doble atribución.
+
+#### RC-02 — Adicional UC-07 aceptado, precio final y entrega parcial (B-02 / DC-03)
+
+**Propuesta preferente A (no aprobada):**
+
+1. Cada adicional está respaldado por la **cotización versionada concreta aceptada** y por su evidencia verificable; la cotización utiliza el **precio base capturado de la oferta** y los **tipo/porcentaje de ajuste históricos del Pedido receptor**, sin reevaluar categoría ni invocar otra vez UC-15/UC-16. Este método está descrito en CR-C #47/CR-F #48; las CR requieren revisión y autorización integral antes de implementarse.
+2. **importeAceptado** es el importe comercial final para la **cantidad efectivamente aceptada** de esa versión. **No aplicar de nuevo** el porcentaje comercial histórico ni una promoción sobre dicho importe al formar C_e: equivaldría a duplicar el ajuste, salvo otra política promocional expresamente pactada y versionada para ese adicional.
+3. En UC-05, el componente adicional facturable es **solo la cantidad adicional físicamente entregada**, con vínculo a oferta, versión cotizada, evidencia, movimiento de Excedente e imputación técnica; nunca usar íntegro el precio aceptado para unidades no entregadas.
+4. Si lo entregado del adicional es **menor** que la cantidad aceptada, **no facturar la fracción faltante**. Propuesta preferente: valorar la fracción entregada **por el mismo precio base histórico y ajuste congelado de la cotización aceptada**, replicando su secuencia de subtotal→ajuste HALF_UP a 2 decimales, sin recalcular precios actuales. Registrar explícitamente la diferencia respecto del importe originalmente aceptado como disminución de unidades entregadas, no como descuento inventado. Para un cambio comercial **previo a la aceptación**, emitir cotización parcial nueva O1 y exigir conformidad del nuevo importe; tras aceptación, una disminución exclusivamente de lo realmente entregado nunca puede aumentar el cargo.
+5. Se conserva trazabilidad física de unidades adicionales aceptadas pero **no entregadas**: no desaparecer, no volver a prepararlas ni reutilizarlas automáticamente sin Excedente/movimiento autorizado.
+6. **Si CR-C/CR-F y RT-UC07-04 no están autorizadas**, el primer experimento técnico de UC-05 podrá limitarse **a escenarios sin adicionales**, de forma explícita y transitoria. Esto no constituye cierre funcional de UC-05 completo ni reducción permanente de G0.
+
+**Ejemplo R2:** la cotización aceptada de un adicional incluye ARS 125 por su cantidad total y el Cliente lo aceptó. Si se entrega íntegro, el componente adicional es exactamente **125**, sin descuento adicional sobre esos 125. Si se entrega solo una parte, el importe debe derivarse de los datos congelados y la cantidad real, no de precios actuales ni prorrateando ciegamente 125 si ello altera el método de dos redondeos.
+
+**Alternativa B:** exigir nueva cotización y reconfirmación ante cualquier menor cantidad efectiva de adicional, incluso en la Entrega final. Aporta consentimiento explícito, pero puede bloquear la operatoria de reparto; elegir por negocio, no por DDL.
+
+**Riesgo residual:** cotización original con redondeos en 2 decimales y cantidades fraccionarias puede dar resultados distintos al prorratear importe total; la fuente de verdad es la **versión cotizada y fórmula ratificada**, no dividir dinero redondeado. Para adicionales exactamente entregados mantener **igualdad al centavo** con importeAceptado. Pruebas RCM-06..10: cantidad completa, fracción, cotización anterior VERIFICADA y nueva emisión, falta de evidencia, concurrencia de stock/UC-05.
+
+#### RC-03 — Reconocimiento provisional, cargo cero y diferencias (B-03 / DC-06/07/08)
+
+**Propuesta preferente A (no aprobada):**
+
+1. Definir **C_e** por DC-01-C1 + DC-02-A + DC-04-A (cargo sobre cantidades reales y historia, redondeo por base y ajuste agregados). Definir **P_e** exclusivamente como aplicaciones efectivas canónicas de Cobros CONFIRMADOS no ANULADOS, con evidencia IMP-B de la misma obligación, congeladas en el punto transaccional de UC-05.
+2. **E_e = max(0, C_e - P_e)**; **V_e^0 = min(D_e, E_e)**, siempre en ARS con escala monetaria 2, una vez probado que P_e, C_e y D_e están completos/coherentes y la operación es serializable. Esta es la variante **V1 de R08.4**, ahora propuesta como política; **NO estaba ratificada**.
+3. **D_e** se conserva íntegro incluso cuando supera E_e; **Q_e^decl = max(0, D_e - V_e^0)** como diferencia de declaración no reconocida; sin Cobro, Caja, crédito nuevo ni pago a otra deuda por el excedente.
+4. Si **C_e=0 y D_e>0**, propuesta preferente: aceptar la **Entrega comercialmente válida** (cantidades válidas), guardar D_e completo, calcular V_e^0=0 y registrar diferencia D_e, sin contabilizar un Cobro ni reclasificarlo a otra deuda. La recepción física real se resolverá en rendición; alternativa B es rechazar la operación y exige política expresa.
+5. Mantener el reconocimiento provisional **solo cuando** el servidor aceptó la Entrega y exista evidencia segura para P_e. Sin evidencia, aplicar **IMP-C** conservando D_e y no generar V_e^0 por conjetura; documentar que el flujo queda pendiente de conciliación y no marcar UC-05 plenamente aceptada.
+6. **DC-08 propuesta:** diferencias clasificadas por causa (declarado no reconocido, reconocido pendiente de rendir, faltante constatado y exceso físico recibido); no compensar entre entregas ni Clientes; **no sumar Q_e^rend y Q_e^falt** como si fueran necesariamente conjuntos disjuntos: el faltante puede ser **subconjunto** de lo reconocido aún pendiente. Exigir estados/transiciones que eviten doble exhibición como pérdida total. Arquitectura define estructura de eventos y proyecciones.
+7. **V_e^vig = V_e^0 - A_e** para primer corte sin correcciones posteriores autorizadas; cada A_e corresponde a una porción real rendida y confirmada. Al confirmar A_e, **en la misma transacción** retirar igual efecto provisional y registrar los asientos definitivos una vez. Bajo F04-005, un faltante observado no elimina V_e^vig ni restaura deuda al Cliente automáticamente.
+
+**Ejemplo R3 verificado con aritmética decimal:**
+- Dos unidades de producto a precio histórico ARS 333,3350 → subtotal exacto 666,6700; base agregada HALF_UP(2)=ARS **666,67**.
+- Descuento histórico 10% → ajuste HALF_UP(2)=ARS **66,67**; cargo por unidades originales **600,00**.
+- Si un adicional **válidamente aceptado y efectivamente entregado** ya cotizado en **125,00** está autorizado (B-02), el cargo total **C_e=725,00**. No descontar otro 10% sobre los 125,00.
+- Anticipo confirmado y aplicado a esta obligación **P_e=650,00**; la declaración de Repartidor **D_e=100,00**.
+- **E_e=75,00**; reconocimiento provisional **V_e^0=75,00**; diferencia de declaración **Q_e^decl=25,00**. No crear un Cobro nuevo de 100 al confirmar UC-05.
+- Si en rendición el Administrador confirma realmente **50,00** vinculados a esta Entrega, entonces **A_e=50,00**, **V_e^vig=25,00**, y existe un faltante parcial de rendición **25,00** pendiente de conciliación. El saldo confirmado tras Cobro final de 50 y el saldo exigible provisional deben reconciliar, sin recuperar automáticamente esa deuda del Cliente por el faltante.
+
+**Alternativa B:** diferir todo V_e^0 hasta conciliación manual, aun con C_e/P_e demostrados. Menos riesgo ante implementación incompleta, pero incumple la expectativa de reconocimiento provisional automático ya establecida por F04 cuando existen datos válidos. Preferir B solo como **contención no certificada**, no como resultado final funcional.
+
+**Pruebas RCM-11..17:** sin anticipo; total y parcial; V_e=0; D_e superior al pendiente; Cobro anulado; dos Pedidos del Cliente; rendición parcial e intercalado de anulación. El supuesto matemático **0<=P_e<=C_e** debe comprobarse a partir de eventos, no forzarse recortando en silencio una reserva incompatible.
+
+#### RC-04 — Rendición al fin del recorrido, asignación de efectivo, custodia y diferencias (B-04)
+
+**Restricciones aprobadas que NO se vuelven a votar:** RD-F04-002 dispone rendir **al finalizar cada recorrido**; solo ADMINISTRADOR recibe y autoriza. La evidencia mínima **ya está aprobada**: Repartidor, recorrido, instante, importe esperado, importe recibido, diferencia, Administrador; ante diferencia, observación obligatoria y solo ADMIN puede resolver/cerrar con motivo. RD-F04-005 prohíbe restaurar automáticamente deuda del Cliente por faltante. D6-1 sitúa rendición como subflujo de UC-29.
+
+**Propuesta preferente A (no aprobada):**
+
+1. Una **cabecera de rendición por recorrido** agrupa el evento administrativo al finalizar el recorrido, con el mínimo RD-F04-002. Las **aplicaciones de dinero son trazables por Entrega/Cliente**, cada una con autorización y resultado transaccional, sin que un mismo Cobro abarque Clientes diferentes. Admitir **aplicaciones parciales por Entrega dentro del cierre de recorrido**, no declarar nuevos actos independientes de rendición después de cada Entrega.
+2. Para una entrega e, importe definitivo por nueva aplicación **a_e,k** debe satisfacer **0<a_e,k<=V_e^vig** y estar respaldado por **efectivo realmente recibido y atribuido verificablemente** a esa entrega, bajo autorización ADMIN. Un importe atribuido a otra entrega/cliente no puede cubrir su V_e.
+3. Si el dinero entregado al Administrador es **inferior** a lo esperado, solo la parte efectivamente recibida y atribuible se transforma en Cobro/Caja; el faltante queda pendiente, con evidencia. **No restaurar automáticamente deuda exigible del Cliente**, por RD-F04-005.
+4. Si se recibe físicamente **más** que el tramo V_e^vig elegible, **no se convierte el exceso automáticamente** en Cobro, crédito ni Caja por venta. El evento debe distinguir (a) conteo físico/custodia del excedente (b) importe efectivamente aplicado a la obligación (c) causa/destino en conciliación administrativa. **La custodia de efectivo no clasificado no puede quedar invisible**: documentar lugar/responsable de custodia y registrar diferencia, sin inventar una nueva cuenta o movimiento contable hasta regla y CR autorizadas. No declarar «Caja cuadrada» cuando el conteo y los asientos difieren.
+5. **Faltante conjunto de recorrido sin atribución por Entrega:** prohibir FIFO/prorrateo automático entre Entregas o Clientes; solicitar detalle y evidencia. La porción no atribuible **no** genera Cobros por persona hasta que ADMIN identifique y autorice su origen. Si la empresa requiere una regla diferente de atribución forzosa, necesita aprobación expresa y trazabilidad.
+6. **D9 (BC-07)**: aprobar proyección específica de rendición para ADMIN con cabecera, entregas del recorrido, importes declarados/validados, diferencias, montos aplicados y evidencia mínima; REPARTIDOR ve solo su declaración/acuse; VENDEDOR mantiene exclusivamente UC-14 según G0. **NO conceder UC-14 al ADMIN** ni acceso indiscriminado a Cuenta Corriente.
+7. La decisión de **cerrar administrativamente diferencias** deberá distinguir «rendición presentada», «importe aplicado», «diferencia pendiente», «diferencia resuelta con motivo» y «recorrido finalizado». El cierre de recorrido **no** autoriza cerrar sin motivo diferencias monetarias o registrar faltantes como efectivo real.
+8. El literal técnico **COBRO.origen** debe pertenecer al CHECK V1 ('REPARTO','ONLINE','ADMINISTRACION'). Arquitectura puede elegir el literal que identifica rendición, pero debe documentar que el vínculo **Cobro↔Rendición** es independiente y no se infiere únicamente del literal.
+
+**Ejemplo R4:** recorrido con Entrega A de Cliente X (V_x^vig=100) y Entrega B de Cliente Y (V_y^vig=150); esperado de reconocimiento 250, efectivo contado físicamente 230. Sin desglose/evidencia de atribución, **no crear arbitrariamente** dos Cobros por 100 y 130, o 92 y 138: eso sería una regla nueva sobre qué Cliente se considera pagado. Se registra diferencia y se exige atribución verificable antes de confirmar las porciones definitivas. La suma de aplicaciones confirmadas nunca puede superar efectivo recibido atribuible y elegible.
+
+**Alternativa B:** rendimiento monolítico indivisible por recorrido. Simplifica ingreso global pero dificulta diferencias por Entrega y viola la necesidad de un vínculo financiero preciso al Cliente si no hay distribución demostrada. No recomendada.
+
+**Subdecisión operativa material aún imprescindible:** ¿Qué hacer físicamente con los importes **recibidos pero no imputables** al finalizar el recorrido? Propuesta conservadora: mantener **custodia y registro administrativo de diferencia no aplicada**, hasta devolverlos contra constancia o atribuirlos mediante acto ADMIN independiente autorizado; no se inventa una cuenta contable ni un estado de Cobro hasta aprobar el mecanismo correspondiente. La empresa debe autorizar explícitamente el procedimiento de custodia/devolución, ya que la seguridad operativa de fondos no es un detalle SQL.
+
+**Pruebas RCM-18..25:** recorrido único, clientes distintos, efectivo parcial atribuido, sin atribución, exceso físicamente recibido, un faltante no revierte automáticamente exigibilidad, visibilidad por rol, repetición e intercalado con Cobro/anulación.
+
+### 9.3 Paquetes sin nueva decisión comercial de fondo
+
+**BT-05 — Reintentos y anulación**: diseño por defecto recomendado (sujeto a revisión contractual) — error **antes de COMMIT** revierte efecto y no consume idempotencia de un comando aceptado; tras COMMIT una solicitud idéntica con la misma identidad y payload obtiene **respuesta histórica** sin segunda escritura; misma identidad con payload distinto responde conflicto; para **anularCobroManual**, reenvío con misma identidad posterior a anulación confirma el recibo original, mientras **nueva intención** de anulación sobre Cobro ya ANULADO sigue rechazada como REV05 A1. Rechazos de seguridad pueden quedar auditados por un canal separado sin consumir clave de operación. No confundir política de seguridad ante abuso con prueba de identidad/idempotencia. Si se cambia firma pública/errores observables o cobertura contractual, revisar contrato y RBAC; Arquitectura decide estructura de recibos, huellas y locks.
+
+**BT-06 — Datos anteriores a IMP-B**: mantener COBRO.idPedido como **referencia informativa**, nunca como prueba de importe aplicado; no inventar registros históricos ni reconstruir importes desde FIFO. Exigir preflight de base destino: conteos de Cobros previos CONFIRMADOS no ANULADOS, pagos/prepagos vivos, referencias idPedido y aplicación verificable por otras evidencias; si el preflight identifica montos heredados con ambigüedad, **detener la transición que los aplicaría** y solicitar conciliación humana/documental, sin inventar datos ni activar V_e^0 con ambigüedad. Si la base está vacía o no tiene compromisos vivos, no forzar migración ficticia de imputaciones. Sin acceso a una BD de destino no se afirma ausencia de datos históricos.
+
+**BT-07 — Futuro**: D7-B/contraaplicación de Cobros de rendición y PE-3/offline **diferidos** conforme D7-A/D12-C; compatibilidad del libro append-only, fuente de aplicación y reintentos se conserva, sin adelantar privilegios ni estados.
+
+### 9.4 Matriz de no-regresión y condiciones de cierre formal
+
+| Control | Invariante exigida | Evidencia futura; NO ejecutada en esta auditoría |
+|---|---|---|
+| FIN-01 | Un solo Cargo C_e por Entrega real; DC-04-A idéntica a UC-16 | Test decimal de agregado (2,4)→2 HALF_UP, promociones, 100% y entrega completa |
+| FIN-02 | Cobro CONFIRMADO genera PAGO/Caja una sola vez; reserva/aplicación no | Asientos por idCobro antes y después de reservar/liberar |
+| FIN-03 | Cobro previo no se atribuye a dos Pedidos y reserva no entra al FIFO libre | IMP-T01..20, especialmente T15 y dos Clientes |
+| FIN-04 | P_e solo aplica obligación de e; reserva excedente no crea nuevo crédito | RCM-01..05, ajuste de estado y suma de porciones |
+| FIN-05 | V_e^0 nunca supera declaración ni pendiente de esa entrega | RCM-11..17, saldo confirmado/provisional |
+| FIN-06 | UC-05 no genera Cobro/Caja; rendición convertida extingue provisional mismo tramo | D6-1, pagos parciales, fallo después de cada escritura con rollback |
+| FIN-07 | Faltante constatado no restaura automáticamente deuda al Cliente | RCM-18..25; control RD-F04-005 |
+| FIN-08 | Exceso D_e preservado no equivale a ingreso o crédito automático | E=0, D>0, rendición con exceso, custodia evidenciada |
+| FIN-09 | Adicional UC-07 en C_e exactamente una vez y sin doble ajuste histórico | Cotización V1, O1, aceptación, parcial y C_e; CR-C/CR-F solo tras aprobación |
+| FIN-10 | Un mismo comando no duplica efectos; concurrente no rompe serialización | Replays 2 requests, nuevo payload, Testcontainers PG 17.11 y locks C3 |
+| FIN-11 | Administrador no obtiene UC-14 y Vendedor no puede rendir | Matriz G0/BC07 y tests HTTP 403 por campo/objeto |
+| FIN-12 | Rendición en el cierre de recorrido, sin asignación arbitraria entre Clientes | RD-F04-002, auditoría por recorrido/Entrega/Cliente |
+| FIN-13 | Modelo inicial no altera D7-A ni permite D7-B por inercia | Anulación de Cobro general con/sin vínculos, Cobro de rendición siempre protegido |
+| FIN-14 | Ningún dato heredado se aplica por conjetura | Preflight, base vacía, Cobro legacy, refund en curso, contención IMP-C |
+
+**Requisitos de revisión antes de aprobar el paquete:**
+
+- **Aprobación comercial:** aceptación/rechazo/modificación expresas de RC-01, RC-02, RC-03 y RC-04 y del procedimiento de custodia. Son **un lote de decisión**, no un lote de implementación.
+- **Aprobación editorial:** integrar en paquete E-01..E-07 las cláusulas ya ratificadas y las nuevas **solo después** de aprobación, manteniendo fuentes originales, SHAs, historial y RD/CR.
+- **Gate de contrato:** si alguna cláusula contradice CR-C/CR-F o RD-F04, **detener únicamente el área afectada** y conciliar antes de autorizar DDL. El cálculo UC-07 parcial tras aceptación no debe asumirse autorizado por el solo texto de la CR-C.
+- **Gate físico:** decisiones comerciales no autorizan V4, migraciones, nuevos permisos, implementación de UC-05/07/29 ni despliegue. La CR-B0-F04-001 online requiere aprobación física independiente.
+- **Evidencia:** **ninguno de los casos RCM/FIN se ejecutó aquí**. Los ejemplos R1–R4 son razonamiento de contrato; R3 fue calculado con aritmética decimal, no prueba de servicio.
+
+**Dictamen actualizado:** cuatro unidades de decisión comercial, BT-05/06 técnicos y BT-07 diferido. La principal amenaza de implementación prematura sigue siendo activar V_e^0 / P_e sin imputación explícita validada, doble ajuste comercial de UC-07, o convertir una diferencia de rendición en Caja/Cobro sin identificación y autorización. **Estado global: propuesta lista para revisión, NO ratificada**.
