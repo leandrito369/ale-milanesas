@@ -1,5 +1,7 @@
 # Ale Milanesas — Sistema de Gestión
 
+> **Vigencia documental (corte 15/11/2026):** la autoridad de construcción es **G0 de 64 CU/67 operaciones más RD posteriores ratificadas por operación**. El esquema aplicado consta de **62 tablas** mediante Flyway V1/V2/V3 (MR-5 + F01 + ampliación de partidas). Los catálogos de 49 CU y el esquema original de 59 tablas son **históricos y no vigentes** para nuevos cambios; conservarlos como evidencia. Los resúmenes históricos de este README describen su fecha, no reemplazan la [matriz de vigencia y precedencia](docs/01-gobierno/VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md). La auditoría [E2](docs/01-gobierno/AUDITORIA_E2_INVARIANTES_DOMINIO_2026-11-15.md) está en verificación estática inicial, sin cierre de implementación.
+
 Repositorio colaborativo de **análisis, documentación y diseño** del Sistema de Gestión para Ale Milanesas.
 
 > **Estado: documentación en evolución.** Los 64 casos de uso están consolidados en un documento Word de Fase 4; el diseño relacional MR-5 es una **propuesta ejecutada en PostgreSQL 17 de laboratorio con alcance de pruebas parcial, no certificada para producción**. No equiparar estos archivos con software listo para producción.
