@@ -195,7 +195,7 @@ Las siguientes cláusulas serán normativas **solo después de aprobación expre
 | H-GCOM-08 | **ALTA — concurrencia** | Orden inverso de filas entre Cobro/anulación y futuros escritores, aunque los Cobros actuales comparten advisory lock | T-05: grafo de recursos y pruebas PostgreSQL; no afirmar deadlock demostrado |
 
 
-### 4.3 Identificadores de fuente verificados en este corte
+### 4.2 Identificadores de fuente verificados en este corte
 
 Esta tabla congela el **HEAD de referencia inspeccionado** de las PR de gobierno que todavía pueden modificarse. Las PR están **OPEN/DRAFT/NO MERGE** y estos valores **no son SHAs de contratos ratificados integrados en main**. Ante cualquier cambio posterior a este corte, revisar el diff de nueva punta antes de usarlo como fundamento.
 
@@ -219,7 +219,7 @@ Esta tabla congela el **HEAD de referencia inspeccionado** de las PR de gobierno
 
 **Archivos específicos contrastados:** roadmap `b2a8db21659b6bb343a5e89bc798370859213c72`; RD-F04-002 `1b84bba458c012fe140c9eb6a96a9cd6f88453c8`; RD-F04-005 `c9c171b3946c5aa23faa98bfc85fd5854301d55b`; RD-F04-006 `ada45f59ae3b8766ac022381a9eb4f138e554f2a`; REV05 `fd6af871224f23b4a0a545de9155f07bfdbd991a`. Esos son **blob SHA de archivo**, no commit de merge. Para ejecución futura, registrar también el SHA de main y checks de CI **al momento del gate**, que aquí no se ejecutaron.
 
-### 4.2 Veredicto de verificación y próximos gates
+### 4.3 Veredicto de verificación y próximos gates
 
 - **Trazabilidad documental:** **APTITUD CONDICIONADA** para ratificación del contenido **RCG-01..RCG-08**; los antecedentes que constan en main y PR drafts se separaron de las nuevas decisiones. La equivalencia entre los nombres del roadmap y las cláusulas nuevas **no está demostrada palabra por palabra**; la ratificación deberá mencionar ambos IDs y el alcance exacto.
 - **Trazabilidad de implementación:** **PARCIAL**; varios servicios/gates ya existen, pero el circuito completo UC-05 ↔ UC-29 ↔ IMP-B/PE-1/PE-2 no está integrado ni certificado. La identificación de rutas, clases y restricciones **no es ejecución de tests**.
