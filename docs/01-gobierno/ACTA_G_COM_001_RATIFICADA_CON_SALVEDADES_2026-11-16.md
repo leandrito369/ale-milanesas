@@ -229,7 +229,7 @@
 - **Fecha de ratificación:** 16/11/2026 (Argentina).
 - **Resolución:** [ ] Aprobar íntegramente · [x] **Aprobar con salvedades explícitas** · [ ] Devolver para ajustes · [ ] Rechazar.
 - **Salvedades expresas por cláusula:** **RCG-01 a RCG-08 ratificadas con las condiciones expresadas en §2, resumidas sin reemplazarlas en §3.3.** Se reconocen decisiones anteriores, especialmente `DC-COM-FIFO-001`, sin volver a votarlas. No se consideran dispensadas las validaciones técnicas, los límites de autorización ni los gates.
-- **PR / commit de incorporación del acta ratificada:** [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) · commit de **incorporación inicial**: `<COMMIT_INCORPORACION_PENDIENTE>` (se completará con SHA real en un segundo commit de trazabilidad). **PR OPEN/DRAFT, NO MERGEADA.**
+- **PR / commit de incorporación del acta ratificada:** [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) · commit de **incorporación inicial**: [`0a414600a17ceba1d75548ad5e22263a63480a95`](https://github.com/leandrito369/ale-milanesas/commit/0a414600a17ceba1d75548ad5e22263a63480a95) (commit de creación de esta acta; la presente anotación de trazabilidad constituye un commit documental posterior). **PR OPEN/DRAFT, NO MERGEADA.**
 - **Fundamento del asiento:** mensaje expreso del responsable: «Cierro aquí, ratifico ya con estas salvedades», acompañado de la identificación de autoridad, fecha y documento consolidado. La presente constancia **no implica verificación criptográfica de firma o identidad**.
 
 
