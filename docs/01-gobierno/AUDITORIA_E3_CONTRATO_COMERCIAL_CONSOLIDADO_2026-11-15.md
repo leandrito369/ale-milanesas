@@ -461,3 +461,12 @@ La notación mantiene **separada** la definición previa `P_e` de R08.4/AUD-E3 c
 - **G-FIS / G-DEV:** **NO AUTORIZADAS** por esta resolución. No crear/modificar V4, V1–V3, producción, credenciales, RBAC ni desplegar. Issue app #28 sigue abierta; entorno pausado.
 
 **Trazabilidad:** propuesta inicial SEM-01 §10.2 y alternativas A/B; resolución A expresamente confirmada por el responsable el 16/11/2026. **Alternativa B descartada funcionalmente:** usar FIFO solo como criterio de mora **cuando ese mismo crédito ya fue aplicado de manera efectiva** a la Entrega; no habilita un segundo reconocimiento provisional por la misma obligación.
+
+
+---
+
+## 12. Referencia al acta G-COM corregida (16/11/2026)
+
+[Acta G-COM corregida y verificación de trazabilidad — 16/11/2026](ACTA_G_COM_BORRADOR_Y_VERIFICACION_TRAZABILIDAD_2026-11-16.md): propuesta pendiente de ratificación; no sustituye acuerdos previos ni autoriza G-CON/G-FIS/G-DEV.
+
+**La matriz §10.4 de este documento conserva su valor como fotografía anterior al nuevo asiento §11 y al acta propuesta.** Los estados actuales se consultan en el acta corregida; no inferir aprobación global de la PR #64.
