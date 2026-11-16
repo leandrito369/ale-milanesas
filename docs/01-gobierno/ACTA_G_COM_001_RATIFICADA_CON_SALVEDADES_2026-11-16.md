@@ -6,7 +6,7 @@
 
 **Corte de verificación:** 16 de noviembre de 2026 (Argentina)  
 
-**Estado:** **RATIFICADA FUNCIONALMENTE CON SALVEDADES EXPRESAS (16/11/2026) — PR #64 OPEN/DRAFT, AÚN NO INTEGRADA EN MAIN — SIN AUTORIZACIÓN FÍSICA NI DE DESPLIEGUE.**  
+**Estado de la decisión:** **RATIFICADA FUNCIONALMENTE CON SALVEDADES EXPRESAS EL 16/11/2026.** **Estado de integración al corte de preparación del acta:** PR #64 OPEN/DRAFT y aún no integrada en `main`; para comprobar una integración posterior consultar el historial de GitHub. **Esta ratificación no autoriza ejecución física, desarrollo ni despliegue.**  
 
 **Base normativa y técnica:** G0 ratificado (`RD-B0-G0-001`, manifiesto 67 operaciones / 64 CU, `source-lock` G0 + adendas MR-6), `AUD-E3-COM-001`, Roadmap I3–I7 §9.2, `RD-F04-002/003/005/006/007`, PRs de gobierno `#44`, `#47`, `#48`, `#50`, `#52`–`#63` (en estado `OPEN/DRAFT`) y esquema `V1`–`V3` (62 tablas) de `ale-milanesas-app/main`.
 
@@ -37,23 +37,14 @@
 ## 1. Decisiones Previas Reconocidas (No se vuelven a votar)
 
 | Bloque / ID | Alcance ya definido | Estado / Evidencia |
-
 |---|---|---|
-
 | **D5-B, ANT-01, D6-1, D7-A** | Declaración solo para Entrega actual; anticipo confirmado aplicado; rendición `UC-29` por `ADMINISTRADOR`; bloqueo de anulación de Cobros de rendición | PR `#50`, `#52` (`OPEN/DRAFT`), `RD-F04-002` |
-
 | **DC05-01..07-A** | Reservas explícitas por Pedido; roles; explícitas antes de FIFO libre; liberación al cancelar; bloqueo de anulación con vínculos activos | PR `#55`–`#59` (`OPEN/DRAFT`) |
-
 | **DC05-09-A** | `IMP-B` append-only canónico, `IMP-A` derivada, `IMP-C` contención (no diseño físico) | PR `#60` (`OPEN/DRAFT`) |
-
 | **D12-C** | `PE-1` + `PE-2` + `IMP-01` online integradas; `PE-3` offline diferida | PR `#61` (`OPEN/DRAFT`) |
-
 | **DC-01-C1, DC-02-A, DC-04-A** | Cargos sobre cantidad realmente entregada; porcentaje histórico; base agregada `HALF_UP(2)` y ajuste `HALF_UP(2)` para tramo original | PR `#62`, `#63` (`OPEN/DRAFT`) |
-
 | **D2=B / EX-01** | Conservar declaración completa incluso excedente; no crear Cobro, Caja ni crédito contable automático por exceso | Roadmap §9.2, PR `#53` (`OPEN/DRAFT`) |
-
 | **RC-03-FIFO / DC-COM-FIFO-001** | Crédito confirmado **libre y efectivamente aplicado por FIFO** reduce también el pendiente elegible; no sumar doble explícito + FIFO | Confirmación expresa 16/11/2026 (`AUD-E3 §11`); **APROBADA FUNCIONALMENTE** |
-
 | **RD-F04-002/003/005/006/007** | Rendición fin de recorrido por `ADMINISTRADOR`; datos mínimos; saldo provisional separado; faltante no restaura exigibilidad; `UC-03` evalúa saldo provisional; tránsito no recategoriza | **Integradas como decisiones normativas en `ale-milanesas/main`; la implementación del circuito completo F04 en `ale-milanesas-app/main` continúa pendiente de verificación e integración** |
 
 > **Cierre de discrepancia Roadmap vs AUD-E3:** por ratificación expresa de esta Acta quedan formalmente conciliadas **`DC05-08-A` con `RCG-01`** y **`DC-03-B` con `RCG-02`**, fijando en §2 el alcance exacto vinculante para ambas (incluida la política de entrega parcial de adicionales posterior a `UC-07`).
@@ -179,47 +170,28 @@
 ### 3.1 Qué ratifica negocio vs qué diseña Arquitectura (`G-ARQ` / `G-FIS`)
 
 | Cláusula | Ratificación comercial vinculante | Delegado a `G-ARQ` / `G-FIS` (con prueba exigida) |
-
 |---|---|---|
-
 | **RCG-01** | «Reserva más antigua primero»; liberación atómica; filtro de reembolso por estado/importe | Mecanismo total de desempate; locks/tablas `IMP-B`; prueba multi-reserva y `REEMBOLSO` `RECHAZADO` vs activo |
-
 | **RCG-02** | Valoración por oferta/versión (ARS 27,08); parcial en puerta sin nueva conformidad; rechazo inicial | Representación física sin `DETALLE_PEDIDO(cantidad=0)` ni tocar `V1`/trigger; código HTTP `409` en `G-CON` |
-
 | **RCG-03** | `F_e^{FIFO}` vinculante; `V_e^0`; `C_e=0` solo con unidades > 0; `Q_e` no aditivas | Persistencia atómica en `IMP-B`, estados de tramos y contención `IMP-C`; pruebas `SEM-01..07`, `Q` y `C_e=0` |
-
 | **RCG-04** | `origen='REPARTO'`; arqueo en 3 vistas; custodia separada sin doble ingreso; `BC-07` `D9` | FK a rendición/aplicaciones; ecuación filtrada de arqueo efectivo; matriz negativa de roles/campos |
-
 | **RCG-05** | Huella semántica completa (decimales normalizados, sin timestamp); `409` distinto payload; adenda `anularCobroManual` | Esquema de almacenamiento de claves, auditoría de rechazos pre-COMMIT, firma de anulación y tests de replay |
-
 | **RCG-06** | `idPedido` informativo; preflight 5 señales (no suficiente); reserva ONLINE `IMP-B` | Script/reporte de preflight por BD destino; mecanismo de recuperación de reserva `UC-21` y prueba ante fallos |
-
 | **RCG-07** | `UC-03` evalúa `saldoExigibleProvisional` antes de `V_e`; **sin umbral nuevo** (`409` inactivo) | Cálculo/auditoría de evaluación en servidor y revalidación offline; prueba `EN_MORA` y sincronización repetida |
-
 | **RCG-08** | Lote editorial `E-01..E-10` en PR revisable manteniendo G0 intacto | Revisión cruzada `G-CON/G-ARQ`, grafo `T-05` en PG efímero; puertas `G-FIS/G-DEV` permanecen cerradas |
 
 ### 3.2 Resolución formal por cláusula (ratificada con salvedades el 16/11/2026)
 
 | Cláusula | Síntesis de resolución | Estado actual |
-
 |---|---|---|
-
 | `DC-COM-FIFO-001` | FIFO libre aplicado reduce pendiente elegible (confirmada 16/11/2026) | **APROBADA FUNCIONALMENTE** |
-
 | **`RCG-01` (`DC05-08-A`)** | Remanente de reserva, orden «más antigua primero», filtro `REEMBOLSO` | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-02` (`DC-03-B`)** | Valoración por oferta/versión, parcial en puerta, prohibición DDL ficticia, gate corte | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-03`** | `F_e^{FIFO}` vinculante en `IMP-B`, `V_e^0`, `C_e=0` con unidades > 0, `Q_e` tipadas | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-04`** | `origen='REPARTO'`, arqueo 3 vistas, custodia conciliable, `BC-07` `D9` | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-05`** | Huella semántica completa, invariante pos-mutación, adenda `anularCobroManual` | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-06`** | `idPedido` no imputativo, preflight 5 señales, reserva `IMP-B` en `UC-21` ONLINE | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-07`** | Diferimiento `D7-B`/`PE-3`; `RD-F04-006` sin umbral ni `409` nuevo | **RATIFICADA CON SALVEDADES (§3.3)** |
-
 | **`RCG-08`** | Preparación editorial única `E-01..E-10` en `G-CON` (sin merge/DDL/código) | **RATIFICADA CON SALVEDADES (§3.3)** |
 
 
@@ -229,7 +201,7 @@
 - **Fecha de ratificación:** 16/11/2026 (Argentina).
 - **Resolución:** [ ] Aprobar íntegramente · [x] **Aprobar con salvedades explícitas** · [ ] Devolver para ajustes · [ ] Rechazar.
 - **Salvedades expresas por cláusula:** **RCG-01 a RCG-08 ratificadas con las condiciones expresadas en §2, resumidas sin reemplazarlas en §3.3.** Se reconocen decisiones anteriores, especialmente `DC-COM-FIFO-001`, sin volver a votarlas. No se consideran dispensadas las validaciones técnicas, los límites de autorización ni los gates.
-- **PR / commit de incorporación del acta ratificada:** [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) · commit de **incorporación inicial**: [`0a414600a17ceba1d75548ad5e22263a63480a95`](https://github.com/leandrito369/ale-milanesas/commit/0a414600a17ceba1d75548ad5e22263a63480a95) (commit de creación de esta acta; la presente anotación de trazabilidad constituye un commit documental posterior). **PR OPEN/DRAFT, NO MERGEADA.**
+- **PR / commit de incorporación del acta ratificada:** [PR #64](https://github.com/leandrito369/ale-milanesas/pull/64) · commit de **incorporación inicial**: [`0a414600a17ceba1d75548ad5e22263a63480a95`](https://github.com/leandrito369/ale-milanesas/commit/0a414600a17ceba1d75548ad5e22263a63480a95) (commit de creación de esta acta; la presente anotación de trazabilidad constituye un commit documental posterior). **Estado histórico de la PR al asentar el acta (16/11/2026): OPEN/DRAFT, no mergeada. Verificar integraciones posteriores en GitHub.**
 - **Fundamento del asiento:** mensaje expreso del responsable: «Cierro aquí, ratifico ya con estas salvedades», acompañado de la identificación de autoridad, fecha y documento consolidado. La presente constancia **no implica verificación criptográfica de firma o identidad**.
 
 
@@ -259,17 +231,11 @@ Estas salvedades son condiciones **integrantes de la ratificación comercial del
 > PRs en estado `OPEN/DRAFT / NO MERGED` y blobs inspeccionados únicamente como referencia de este corte (no implican integración en `main`):
 
 | Origen | Identificador / Blob SHA verificado | Alcance principal |
-
 |---|---|---|
-
 | **`PR #44`** | HEAD `e5e82f843f8a579e3201a332c645f62680d56832` · `docs/01-gobierno/b0/RD_I302_001_PROPUESTA_ENTREGA_EFECTIVO_TRANSITO_IDEMPOTENCIA_2026-11-09.md` (`a181abaeb4225a4c20fc9f63b0aaf7fe8ff86fcf`) | Propuesta entrega, efectivo en tránsito e idempotencia (`OPEN/DRAFT`) |
-
 | **PRs `#47`, `#48`** | `#47`: `9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b` · `#48`: `fda51c929258dc42e71c40c95bbcd89d0324c306` | `CR-C` / `CR-F` `UC-07` (`OPEN/DRAFT`) |
-
 | **PRs `#50`, `#52`–`#54`** | `#50`: `c36920e09f6ea57a96e246592ffa01be72c65e56` · `#52`: `adf77bc2c4f3d7e88a1c301926bdd607dd6a4a78` · `#53`: `7448e123c3c43c51d48def6a22d10b58679efb2d` · `#54`: `cc948fcde1ac2dbfe0a78febff6fd2326b8de258` | `D5-B/D6-1/D7-A`, `ANT-01`, `R08.4`, `R08.5` (`OPEN/DRAFT`) |
-
 | **PRs `#55`–`#63`** | `#55`: `9aa8a48ca936dcc9244fcb4da2de6d6262d276ed` · `#56`: `3047e1a327c5447cae3a6538a2712d29a303f4ff` · `#57`: `bffb510658bb7d0916426165a714446a9fb59812` · `#58`: `4a72197a626e840ba9e81547f9e5571ee73d9c08` · `#59`: `84ea674df6f151792b628b7cd7ca6317814c3f10` · `#60`: `3bbb6187141255c472e246aa5fcfdb836c0a6dcb` · `#61`: `3abfff88ff3744fb02f4336c60ce17c65653a765` · `#62`: `a3bd12d552f2f45baffca147f6cafdaa84284bcb` · `#63`: `78f9dd6b6a3cb2e9caa193f5bc2b483cfd9ed6be` | `DC05-01..09-A`, `D12-C`, `DC-01-C1`, `DC-02/04-A` (`OPEN/DRAFT`) |
-
 | **Blobs `main` / G0** | Roadmap: `b2a8db21659b6bb343a5e89bc798370859213c72` · `RD-F04-002`: `1b84bba458c012fe140c9eb6a96a9cd6f88453c8` · `RD-F04-005`: `c9c171b3946c5aa23faa98bfc85fd5854301d55b` · `RD-F04-006`: `ada45f59ae3b8766ac022381a9eb4f138e554f2a` · `REV05`: `fd6af871224f23b4a0a545de9155f07bfdbd991a` · `REV06B` G0 (`CONTRATOS_REV06B_TRECE_CORREGIDOS.md`): `af5dae3e09562f925092a44784152ec552d855b2` | Fuentes contrastadas en repo documental |
 
 ### 4.2 Alcance técnico de concurrencia (`T-05`) y próximos gates
