@@ -6,7 +6,7 @@
 
 ## 1. Fuentes y regla de precedencia
 
-[Plan Rector](PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md), [roadmap 15/11](ROADMAP_OPERATIVO_I3_I7_2026-11-15.md), [G0](b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md), [REV04B](../../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md), [REV05](../../08-diagramas/consolidacion-b0/CONTRATOS_REV05_CORREGIDOS_B0_ACTUALIZADO.md). Nuevas propuestas financieras [R08.4 PR #53](https://github.com/leandrito369/ale-milanesas/pull/53), [R08.5 PR #54](https://github.com/leandrito369/ale-milanesas/pull/54) y [CR-C/CR-F UC-07 #47/#48](https://github.com/leandrito369/ale-milanesas/pull/47) son **borradores** y se citan como investigación, no norma integrada. Leer [vigencia documental](VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md).
+[Plan Rector](PLAN_RECTOR_IMPLEMENTACION_2026-10-29.md), [roadmap 15/11](ROADMAP_OPERATIVO_I3_I7_2026-11-15.md), [G0](b0/RD_B0_G0_001_CIERRE_LINEA_BASE_2026-10-29.md), [REV04B](../08-diagramas/consolidacion-b0/CONTRATOS_REV04B_CORREGIDOS_B0_ACTUALIZADO.md), [REV05](../08-diagramas/consolidacion-b0/CONTRATOS_REV05_CORREGIDOS_B0_ACTUALIZADO.md). Nuevas propuestas financieras [R08.4 PR #53](https://github.com/leandrito369/ale-milanesas/pull/53), [R08.5 PR #54](https://github.com/leandrito369/ale-milanesas/pull/54) y [CR-C/CR-F UC-07 #47/#48](https://github.com/leandrito369/ale-milanesas/pull/47) son **borradores** y se citan como investigación, no norma integrada. Leer [vigencia documental](VIGENCIA_DOCUMENTAL_Y_PRECEDENCIA_2026-11-15.md).
 
 ## 2. Cadena de eventos
 
