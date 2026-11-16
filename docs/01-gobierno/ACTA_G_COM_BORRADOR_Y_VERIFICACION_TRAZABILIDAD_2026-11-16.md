@@ -76,6 +76,7 @@ Las siguientes cláusulas serán normativas **solo después de aprobación expre
 3. Si `C_e=0` **o** `E_e=0` y `D_e>0`, aceptar la **Entrega únicamente si cumple todas las demás precondiciones comerciales y operativas de UC-05**, conservar `D_e`, y reconocer `V_e^0=0`; registrar declaración no reconocida para posterior conciliación. **No** validar como Entrega real un pedido sin cantidades/identidad/asignación válidas.
 4. **D2=B/EX-01:** registrar **todo** efectivo declarado, aun excedente, pero nunca convertir exceso automáticamente en `COBRO`, Caja de ventas, crédito definitivo ni compensación de otra Entrega.
 5. **DC-08 — diferencias tipadas, vinculadas por origen y evento:** distinguir `Q_e^{decl}` (declaración no reconocible), `Q_e^{rend}` (importe reconocido **aún pendiente** de rendir, no pérdida), `Q_e^{falt}` (faltante físico constatado respecto al esperado) y `Q_e^{exc}` (exceso físico recibido respecto a lo atribuible). **No son cuatro sumandos de pérdida.** Un mismo tramo puede aparecer temporalmente en `Q^{decl}` y `Q^{exc}`, o un faltante puede ser subconjunto de `Q^{rend}`; se exige identificación/estados que permitan conciliación **sin doble conteo ni compensación automática** entre Clientes/Entregas.
+   - **Ecuaciones de la primera transición (sin correcciones posteriores):** `Q_e^{decl}=max(0,D_e-V_e^0)` y `V_e^{vig}(t)=V_e^0-A_e(t)`. `Q_e^{rend}` es una **vista de exposición pendiente**, no un cargo contable adicional. Para correcciones posteriores, `V_e^{vig}` se proyecta desde eventos inmutables en vez de recalcularlo suprimiendo historia.
 6. Conversión confirmada: `A_e` de efectivo realmente recibido, autorizado y atribuido a e extingue **en la misma transacción** igual porción de `V_e^{vig}` y genera **una sola vez** Cobro/Pago/Caja definitivo. La diferencia RD-F04-005 no restaura automáticamente deuda exigible del Cliente. No establecer pérdidas definitivas, sanciones o recuperos no aprobados.
 7. Nombres «fórmula candidata de R08.4» y «snapshot inmutable» sustituyen a «V1/V3» en este contrato para no confundirlos con migraciones **Flyway V1/V3**.
 
@@ -192,6 +193,31 @@ Las siguientes cláusulas serán normativas **solo después de aprobación expre
 | H-GCOM-06 | **MEDIA — documental** | RD-F04-002 aprobó evidencia mínima, pero no prohibición general de fotografía | RCG-04 declara «sin P2b obligatorio» como propuesta adicional |
 | H-GCOM-07 | **ALTA — dependencias** | UC-07 parciales no cubiertos por tabla original; CR-C/CR-F/RT-UC07-04 draft | RCG-02 gate 409 candidato; no declarar H3/UC-05 completos |
 | H-GCOM-08 | **ALTA — concurrencia** | Orden inverso de filas entre Cobro/anulación y futuros escritores, aunque los Cobros actuales comparten advisory lock | T-05: grafo de recursos y pruebas PostgreSQL; no afirmar deadlock demostrado |
+
+
+### 4.3 Identificadores de fuente verificados en este corte
+
+Esta tabla congela el **HEAD de referencia inspeccionado** de las PR de gobierno que todavía pueden modificarse. Las PR están **OPEN/DRAFT/NO MERGE** y estos valores **no son SHAs de contratos ratificados integrados en main**. Ante cualquier cambio posterior a este corte, revisar el diff de nueva punta antes de usarlo como fundamento.
+
+| PR (gobierno) | HEAD verificado 16/11/2026 | Función en la matriz |
+|---|---|---|
+| #47 | `9c0a54e4a2147f5f048f7827f26a21b1bfeecf1b` | CR-C UC-07, borrador |
+| #48 | `fda51c929258dc42e71c40c95bbcd89d0324c306` | CR-F UC-07, borrador |
+| #50 | `c36920e09f6ea57a96e246592ffa01be72c65e56` | D5-B/D6-1/D7-A |
+| #52 | `adf77bc2c4f3d7e88a1c301926bdd607dd6a4a78` | ANT-01/R08.3 |
+| #53 | `7448e123c3c43c51d48def6a22d10b58679efb2d` | R08.4, alternativas de cálculo |
+| #54 | `cc948fcde1ac2dbfe0a78febff6fd2326b8de258` | R08.5, auditoría E-01..07 |
+| #55 | `9aa8a48ca936dcc9244fcb4da2de6d6262d276ed` | DC05-04-B |
+| #56 | `3047e1a327c5447cae3a6538a2712d29a303f4ff` | DC05-01/02-A |
+| #57 | `bffb510658bb7d0916426165a714446a9fb59812` | DC05-03-A |
+| #58 | `4a72197a626e840ba9e81547f9e5571ee73d9c08` | DC05-05/06-A |
+| #59 | `84ea674df6f151792b628b7cd7ca6317814c3f10` | DC05-07-A |
+| #60 | `3bbb6187141255c472e246aa5fcfdb836c0a6dcb` | DC05-09-A |
+| #61 | `3abfff88ff3744fb02f4336c60ce17c65653a765` | D12-C |
+| #62 | `a3bd12d552f2f45baffca147f6cafdaa84284bcb` | DC-01-C1 |
+| #63 | `78f9dd6b6a3cb2e9caa193f5bc2b483cfd9ed6be` | DC-02/DC-04-A |
+
+**Archivos específicos contrastados:** roadmap `b2a8db21659b6bb343a5e89bc798370859213c72`; RD-F04-002 `1b84bba458c012fe140c9eb6a96a9cd6f88453c8`; RD-F04-005 `c9c171b3946c5aa23faa98bfc85fd5854301d55b`; RD-F04-006 `ada45f59ae3b8766ac022381a9eb4f138e554f2a`; REV05 `fd6af871224f23b4a0a545de9155f07bfdbd991a`. Esos son **blob SHA de archivo**, no commit de merge. Para ejecución futura, registrar también el SHA de main y checks de CI **al momento del gate**, que aquí no se ejecutaron.
 
 ### 4.2 Veredicto de verificación y próximos gates
 
