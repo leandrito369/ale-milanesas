@@ -169,3 +169,54 @@ Las firmas siguientes proceden de los contratos **preferentes en el manifiesto G
 **No hay permiso de merge aún:** `GC-10` necesita la aprobación editorial independiente del responsable; antes del acto deben reconfirmarse diff, HEAD, estado real de revisiones y checks (`GC-09`). **La autorización editorial, si llegara, debe mencionar que no ratifica CR-C/CR-F, ni la línea técnica `cantidadOriginal=0`, y que mantiene cerradas G-FIS/G-DEV y el despliegue.**
 
 **Pendiente técnico separado:** resolver CR-F §15.12/§13.6/F8 y RT-UC07-04 con evidencia PostgreSQL/Java/autorizaciones; documentar cambios de firmas adaptadoras y nueva proyección mediante G-ARQ/CR posterior; completar pruebas semánticas de dinero, cantidades, costo, concurrencia, RBAC y devolución de custodia antes de habilitar ejecución. **No crear nuevas decisiones comerciales por defecto.**
+
+---
+
+## 8. Resolución editorial única propuesta para G-CON — protección de la Demo existente
+
+**Identificador:** PROP-G-CON-001 · **Corte:** 16/11/2026 (Argentina).  
+**Estado:** **CANDIDATA A RATIFICACIÓN EDITORIAL; NO RATIFICADA, SIN PERMISO DE MERGE DE PR #65**.  
+**Autoridad:** responsable del proyecto. El acta `ACT-G-COM-001`, ya integrada en main, aprobó la política comercial pero **RCG-08 solo habilitó preparar/revisar G-CON**, no autoriza su integración automática.
+
+**Premisa operativa aportada por el responsable:** hay una **Demo actualmente en producción**. La Issue app [#28](https://github.com/leandrito369/ale-milanesas-app/issues/28) documenta una aceptación/infraestructura pendiente, pero **no acredita ni invalida** que exista esa Demo distinta. **URL, plataforma, SHA desplegado y disparadores externos de la Demo no se inspeccionaron.** En consecuencia, protegerla es una obligación de abstención y un gate de verificación, no una garantía técnica presumida.
+
+### 8.1 Resolución agrupada: seis salvedades indivisibles
+
+| ID | Decisión editorial candidata | Exclusión vinculante |
+|---|---|---|
+| **DGCON-01** | Aprobar **exclusivamente la incorporación editorial** de los **7 documentos Markdown nuevos** de PR #65, como adendas versionadas E-01..E-10 al repositorio `leandrito369/ale-milanesas`, subordinadas a G0 y `ACT-G-COM-001`. | No alterar la base G0 (64 CU/67 operaciones), contratos originales, RD históricas, source-lock, RBAC original, BC07 original, app ni migraciones. Documentación publicada **no equivale a servicio implementado**. |
+| **DGCON-02** | Mantener **CR-C #47 y CR-F #48 FUERA de esta autorización**. Conservar A–C previamente ratificadas en su alcance; D/E no ratificadas; F/G candidatas; F8 identidad/gateway y H/RT-UC07-04 pendientes. **No aprobar el DDL candidato de CR-F §15.12 que inserta `DETALLE_PEDIDO(cantidadOriginal=0)`**, incompatible con `RCG-02`. | Antes de habilitar UC-07 físico: rediseñar representación sin dependencia de línea cero, respetar trigger, unicidad, FK, histórico de productos inactivos y ofertas múltiples; resolver CR-F/CR-C, SQL/identidad, concurrencia y pruebas en procesos **separados**. No relajar V1. |
+| **DGCON-03** | Reconocer íntegramente las decisiones previas vigentes y propagar las ocho cláusulas RCG del acta, **sin reabrir** FIFO vinculante, anticipo, valoración por oferta, transitoriedad de efectivo, custodia, idempotencia y diferencias no aditivas. Mantener las **11 firmas canónicas cotejadas** y los include según G0. | No crear nuevas operaciones principales, endpoints, firmas HTTP, `claveIdempotenciaAnulacion` ni auxiliares CR-C como si ya estuvieran autorizados. D7-B contraaplicación y PE-3 offline diferidas. |
+| **DGCON-04** | E-10 es **adenda mínima por contexto**, no ampliación RBAC: UC-14 VENDEDOR exclusivo; rendición UC-29 solo ADMIN; Cobro general UC-29 VENDEDOR/ADMIN; REPARTIDOR declara en UC-05 su Entrega; UC-06 VENDEDOR/REPARTIDOR; UC-03 VENDEDOR; UC-21 CLIENTE_ONLINE; UC-15/16 AUTOMATISMO interno. | Conservar 15 filas BC07 y matriz 67×8 de origen. No otorgar lectura financiera general a ADMIN/REPARTIDOR, ni abrir rutas, UI o datos sensibles por inferencia. Pruebas negativas siguen pendientes. |
+| **DGCON-05** | **Congelar la Demo hoy en servicio**: este expediente no cambia versión, datos, disponibilidad, dominio ni configuración de la Demo, y **no autoriza ninguna operación sobre ella**. | Prohibido por esta autorización: PR/commit/merge a `ale-milanesas-app`, deploy, release, build para promoción, reinicio, rollback operativo, cambios de flags/perfiles, BD/fixtures reales, Flyway, Docker, host/DNS/TLS/Nginx, credenciales, secretos, webhooks o automatismos. **Si el merge de gobierno/main puede disparar acciones sobre la Demo, NO fusionar #65 sin demostrar aislamiento previo.** |
+| **DGCON-06** | Solo tras **ratificación editorial expresa del responsable** y PRE-01..07 conformes, permitir **merge commit normal** de PR #65, sin rebase/amend/force-push. Registrar commit exacto y evidencias del diff. | `mergeable=true` no prueba aprobación ni ausencia de desplegadores externos; si falta evidencia de aislamiento, cambia el diff o no se satisfacen controles obligatorios de GitHub, conservar **DRAFT/NO MERGE**. Sin auto-merge. |
+
+### 8.2 Efectos permitidos y prohibidos después de una eventual fusión documental
+
+- **Permitido en G-CON:** incorporar adendas de referencia para el diseño futuro, sin reemplazar ni reescribir las fuentes G0.
+- **No autorizado:** aprobación integral CR-C/CR-F; D/E/F/G/H; permisos efectivos, API, representación física `DETALLE_PEDIDO(cantidadOriginal=0)`, CR-B0-F04, Flyway V4, G-FIS, G-DEV, G-VAL, pruebas en datos reales, despliegue ni cualquier acción sobre la Demo.
+- **GC-04:** el conflicto **está detectado y etiquetado**, no resuelto; no impide **publicar advertencias editoriales** con consentimiento expreso, pero **sí impide aprobar CR-F/UC-07 físico**.
+- **G-ARQ:** puede **analizar y proponer** soluciones sin ejecutar código o base. Ningún merge documental equivale a promover la Demo.
+- **Issue #28:** permanece independiente, sin cierre ni autorización implícita de entorno. Para un eventual despliegue futuro distinto a G-CON habrá que documentar versión en servicio, plataforma, DB, flags, rollback y aprobación separada.
+
+### 8.3 Preflight obligatorio de la eventual integración
+
+| Control | Evidencia exigible | Estado inicial |
+|---|---|---|
+| **PRE-01** | Declaración explícita de aprobación **editorial** del responsable para DGCON-01..06, sin ratificar CR-C/F ni despliegue | **PENDIENTE** |
+| **PRE-02** | Comprobar HEAD/base actuales, 7 archivos `.md` nuevos exclusivamente bajo `docs/01-gobierno/g-con/`, diff sin otros cambios | **REVALIDAR antes de merge** |
+| **PRE-03** | Mantener visible y no autorizado el conflicto CR-F §15.12 vs RCG-02, A–H y RT-UC07-04 sin aprobación implícita | **DOCUMENTADO; FÍSICO BLOQUEADO** |
+| **PRE-04** | Verificar 11 firmas G0, roles por operación, BC07 contextual, E-01..10, RCG-01..08 y enlaces | **VERIFICADO ESTÁTICAMENTE; revalidar** |
+| **PRE-05** | Verificar **workflow/webhook/app externo/pipeline** que observe un push a gobierno `main` y demostrar que no acciona la Demo. En ausencia de inventario o certeza, aplicar **fail-closed** | **NO CERTIFICADO / BLOQUEA MERGE** |
+| **PRE-06** | Cumplir revisiones y checks requeridos por protección GitHub del HEAD final; no inventar CI exitoso | **PENDIENTE** |
+| **PRE-07** | Ejecutar **únicamente** merge documental normal ya autorizado, registrar SHA y confirmar que no se tocó app/entorno; sin tareas de desplegado | **NO EJECUTADO** |
+
+### 8.4 Texto único para autorización posterior — no completado
+
+> Apruebo **solo la integración documental** de G-CON, PR #65, E-01..E-10, con todas las salvedades **DGCON-01..06** y controles **PRE-01..07**. No autorizo CR-C #47, CR-F #48, la representación física incompatible de UC-07, nuevas firmas/permisos ni G-FIS/G-DEV/G-VAL, SQL/Flyway o despliegues. La **Demo actualmente en producción permanecerá sin ninguna intervención**. Si no puede demostrarse que el merge documental no activa sus automatismos, la PR #65 **no debe fusionarse**.
+
+- **Autoridad:** [PENDIENTE].
+- **Fecha:** [PENDIENTE].
+- **Resolución:** [ ] **Aprobar integración editorial con salvedades y preflight** · [ ] Devolver para corrección · [ ] Rechazar.
+- **PR/commit de merge:** **no existe**; PR #65 en DRAFT hasta autorización y preflight.
+- **Constancia:** solicitar abordar decisiones **no equivale** a autorizar su ejecución; no atribuir aprobación al responsable hasta que la declare expresamente.
