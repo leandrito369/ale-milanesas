@@ -1,4 +1,5 @@
 # Índice de documentación
+> **G-COM — ratificación comercial 16/11/2026:** [ACT-G-COM-001 ratificada con salvedades](01-gobierno/ACTA_G_COM_001_RATIFICADA_CON_SALVEDADES_2026-11-16.md). **G-COM cerrada funcionalmente; PR #64 DRAFT, sin integrar a main.** Solo se habilita preparar el lote editorial E-01..E-10 para revisión. El [borrador y verificación previa](01-gobierno/ACTA_G_COM_BORRADOR_Y_VERIFICACION_TRAZABILIDAD_2026-11-16.md) permanece como antecedente histórico, **no es el acta ratificada**.
 
 > **Revisión de gobierno 16/11/2026:** [Acta G-COM revisada y verificación de trazabilidad](01-gobierno/ACTA_G_COM_BORRADOR_Y_VERIFICACION_TRAZABILIDAD_2026-11-16.md) — borrador pendiente de ratificación; 21 trazas, ocho hallazgos y SHAs de PR verificadas. **NO RATIFICADA**.
 
