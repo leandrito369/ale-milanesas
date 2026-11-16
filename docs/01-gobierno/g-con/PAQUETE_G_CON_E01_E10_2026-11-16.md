@@ -72,3 +72,25 @@
 4. **Nunca** presumir que un merge documental habilita app, migraciones, permisos, E2E o producción.
 
 **No se ejecutaron pruebas Java/PostgreSQL/CI/E2E en esta creación documental.** Toda evidencia técnica futura tendrá resultado, fecha, SHA y entorno específico.
+
+
+---
+
+## 6. Cotejo contra ACT-G-COM-001 ya integrada en main
+
+**Fuente comprobada:** [ACT-G-COM-001 en main](https://github.com/leandrito369/ale-milanesas/blob/main/docs/01-gobierno/ACTA_G_COM_001_RATIFICADA_CON_SALVEDADES_2026-11-16.md) de PR [#64](https://github.com/leandrito369/ale-milanesas/pull/64), merge `9076570ff3329864fe85c990bcc6f4ff7a63d6e5`. Se contrastó la **sustancia** de cada salvedad ratificada con las seis adendas; esto **no** es un dictamen de compatibilidad del DDL/servicio ni reemplaza la revisión editorial de la #65.
+
+| Acta | Cláusulas ratificadas a preservar | Adendas que las propagan | Dictamen de cotejo |
+|---|---|---|---|
+| RCG-01 | Reserva elegible más antigua, liberación atómica, rechazo de reembolso no bloquea por sí solo y FIFO solo libre | E-02, E-03, E-04, E-08 | **Cubierto documentalmente**; transacciones/locks y filtros SQL pendientes |
+| RCG-02 | Por oferta+versión; dos ofertas 15,05⇒27,08; antes/después de aceptación; sin línea original ficticia | E-02, E-08, E-07 | **Cubierto documentalmente**; CR-C/CR-F, trigger y FKs por validar |
+| RCG-03 | `P_e^{exp}`+`F_e^{FIFO}` disjuntos, IMP-B vinculante, `V_e^0=min(D_e,E_e)`, `IMP-C`, diferencias no aditivas | E-02, E-04, E-06, E-08 | **Cubierto documentalmente**; pruebas financieras y datos heredados pendientes |
+| RCG-04 | Rendición ADMIN, `COBRO.origen='REPARTO'`, custodia y arqueo en tres vistas, campos BC07 mínimos | E-01, E-04, E-06, E-10 | **Cubierto documentalmente**; modelo físico de custodia/visibilidad aún no autorizado |
+| RCG-05 | Huella completa, replay del recibo histórico tras ANULADO, anulación idempotente y no duplicación | E-02, E-05, E-09 | **Cubierto documentalmente**; la implementación actual de UC-03/anulación no se considera conforme |
+| RCG-06 | `COBRO.idPedido` no prueba imputación; preflight por cinco señales no exhaustivas y reserva ONLINE explícita | E-04, E-07, E-09 | **Cubierto documentalmente**; reconcile/contención de legados y webhook sin ACID pendiente |
+| RCG-07 | UC-03 evalúa saldo exigible provisional, categoría sin variación por tránsito, sin veto nuevo/409; D7-B y PE-3 diferidos | E-06, E-07, E-08, E-09 | **Cubierto documentalmente**; ejecutar RD-F04-006 antes de activar tránsito |
+| RCG-08 | Lote único E-01..10, preservar G0/RBAC/BC07/SHAs; no merge/DDL/V4/DEV automático | Índice G-CON, E-01..E-10, E-10 | **Cubierto documentalmente**, sujeto a autorización editorial específica |
+
+**Resultado:** **8/8 cláusulas cubiertas en el diseño editorial, 10/10 enmiendas redactadas, 0 servicios certificados y 0 migraciones autorizadas**. No se detectó contradicción comercial bloqueante respecto al **texto de ACT-G-COM-001**. Persisten como **obstáculos para aprobar ejecución o integrar contratos de forma definitiva**: cotejo CR-C/CR-F, confirmación de todas las garantías de identidad/costo de UC-07, compatibilidad de firmas API, alcance BC07, concurrencia global C3 y pruebas negativas RBAC. El análisis no autoriza usar el mecanismo técnico de propuesta como implementación validada.
+
+**Estado G-CON:** listo para **revisión editorial** en PR #65, **DRAFT / SIN MERGE**. El merge de PR #64 satisface GC-01, **no** implica aprobar automáticamente GC-03..10 ni G-FIS/G-DEV.
