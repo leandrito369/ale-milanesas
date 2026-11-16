@@ -403,3 +403,60 @@ La preparación documental de `R08.6` puede ser **condicionada** con marcadores 
 **Puertas explícitas:** G-COM no alcanzada; G-CON (enmiendas REV04B/REV05) no autorizada; G-ARQ solo revisión documental/escenarios; G-FIS (DDL, migración, datos) y G-DEV (código) no autorizadas. Ningún consentimiento para reanudar el despliegue: [app Issue #28](https://github.com/leandrito369/ale-milanesas-app/issues/28) **abierta**.
 
 **Cómo aprobar correctamente:** el responsable debe confirmar por escrito las cláusulas comerciales, **incluida RC-03-FIFO**, y aceptar expresamente los límites de RC-02/04. Una recomendación de un informe cargado al chat no sustituye esa aprobación. Tras ello, elaborar acta G-COM con fecha/autoridad/alternativas descartadas, aprobar el único paquete E-01..07 y mantener CR física independiente.
+
+---
+
+## 11. Resolución expresa del responsable — RC-03-FIFO (16/11/2026)
+
+**ID de decisión:** `DC-COM-FIFO-001` (identificador de seguimiento dentro de **AUD-E3-COM-001**; no crea nuevo CU ni renumera G0).  
+**Fecha:** 16/11/2026 (Argentina).  
+**Autoridad:** confirmación expresa del responsable del proyecto en conversación, ante la pregunta: «¿Confirmás que, cuando el crédito confirmado libre se aplica mediante FIFO a una Entrega, también debe reducir el importe pendiente elegible para reconocer el efectivo declarado por el Repartidor?».  
+**Respuesta:** «Lo confirmo».  
+**Estado:** **APROBADA FUNCIONALMENTE POR EL RESPONSABLE — PENDIENTE DE INTEGRACIÓN DOCUMENTAL**, sin autoridad física. Se registra **solo esta subdecisión** dentro de la PR #64 OPEN/DRAFT. La versión previa, §10.2/10.4, queda como **historial del problema antes de la resolución**, no como estado vigente de esta subdecisión.
+
+### 11.1 Regla comercial aprobada
+
+**El crédito confirmado y libre que se aplica de forma efectiva y demostrable mediante FIFO a la obligación de una Entrega también reduce el saldo elegible de esa Entrega para reconocer dinero declarado por el Repartidor.** Los créditos explícitamente aplicados o reservados para **otra** obligación no integran el FIFO libre de esta Entrega.
+
+Reglas de alcance:
+
+1. **Sin doble cobertura.** Una misma porción de un Cobro confirmado, no anulado y no reembolsado nunca puede aplicarse por reserva/imputación explícita y por FIFO simultáneamente, ni cubrir dos Entregas. Los importes bloqueados por reserva, aplicación previa o reembolso no se consideran crédito libre.
+2. **Identidad por obligación.** Solo cuenta el FIFO **realmente atribuido y registrado con evidencia auditada a la Entrega e**, no el saldo global del Cliente, una simple simulación en `UC-15`, `COBRO.idPedido`, una consulta FIFO sin asiento vinculante o la existencia de un Cobro confirmado. La decisión comercial **no convierte automáticamente el evaluador global existente en evidencia financiera canónica**.
+3. **Precedencia.** Mantener `DC05-04-B`: primero las imputaciones explícitas vigentes; FIFO únicamente sobre remanente libre realmente elegible, según la misma política determinista. No alterar la histórica condición comercial del Pedido ni recalcular su precio.
+4. **Naturaleza del hecho.** Aplicar por FIFO una porción de crédito **ya cobrado** no crea un Cobro, no genera segundo `MOVIMIENTO_CUENTA(PAGO)` ni nuevo `MOVIMIENTO_CAJA`. Debe conservarse su procedencia y el vínculo a obligación/importe/instante.
+5. **Anulación y carreras.** Si un Cobro se anula o restringe antes del punto transaccional válido, su porción deja de ser elegible; anulación, refund, reservas, Entrega y rendición deben serializarse para evitar reconstruir una situación monetaria obsoleta.
+6. **Sin evidencia, sin reconocimiento inventado.** Si la atribución concreta del FIFO o el origen de los fondos es ambiguo, aplicar contención `IMP-C` y registrar la discrepancia. Ningún algoritmo puede deducir aplicación a partir de `idPedido` o de saldos agregados.
+
+### 11.2 Notación propuesta para contrato integrado — alcance matemático de la decisión
+
+La notación mantiene **separada** la definición previa `P_e` de R08.4/AUD-E3 como porciones explícitas acreditadas; no se redefine silenciosamente:
+
+- `P_e^{exp}`: importe confirmado **explícitamente aplicado** a la obligación de Entrega `e` (incluida consolidación de una reserva previa, cuando corresponda).
+- `F_e^{FIFO}`: importe de crédito confirmado **libre** atribuido **efectivamente y de manera auditable** por FIFO a la misma obligación `e`, sin superponerse con `P_e^{exp}` ni con otras aplicaciones.
+- `K_e = P_e^{exp} + F_e^{FIFO}`: cobertura confirmada efectiva total de esa obligación. Invariante: `0 <= K_e <= C_e`, con no superposición de importes.
+- `E_e = max(0, C_e - K_e)`: pendiente elegible comercial tras cobertura confirmada.
+
+**Efecto aprobado:** para reconocer efectivo en tránsito **no puede utilizarse una base de pendiente mayor que `E_e` que ignore `F_e^{FIFO}` efectivamente aplicado**.
+
+**Importante:** `V_e^0 = min(D_e,E_e)` sigue siendo **la fórmula completa candidata** de `RC-03/DC-06`, no ratificada integralmente por esta respuesta. También siguen abiertas `DC-07` (cargo cero) y `DC-08` (diferencias tipadas); `D2=B/EX-01` requiere el asiento editorial correspondiente. No inferir aprobación de `RC-01`, `RC-02`, `RC-04` ni de `BT-05/BT-06`/paquete `E-01..E-07`.
+
+### 11.3 Casos normativos de contraste (diseñados; no ejecutados)
+
+| Caso | `C_e` | `P_e^{exp}` | `F_e^{FIFO}` acreditado | `D_e` | `E_e` correcto | Límite de reconocimiento provisional |
+|---|---:|---:|---:|---:|---:|---|
+| **SEM-01**: crédito general libre cubre todo | 100,00 | 0,00 | 100,00 | 100,00 | 0,00 | 0,00; no reconocer el mismo dinero dos veces |
+| SEM-02: crédito libre cubre parte | 100,00 | 0,00 | 40,00 | 80,00 | 60,00 | Como máximo 60,00 |
+| SEM-03: explícito y FIFO, sin superposición | 100,00 | 30,00 | 20,00 | 70,00 | 50,00 | Como máximo 50,00 |
+| SEM-04: crédito ajeno reservado, no libre | 100,00 | 0,00 | 0,00 | 70,00 | 100,00 | Como máximo 70,00, sujeto a RC-03 |
+| SEM-05: consulta FIFO estimativa sin aplicación real probada | 100,00 | 0,00 | **no acreditado** | 70,00 | **no acreditable** | `IMP-C`, sin reconocimiento automático |
+
+**No contabilizar valores candidatos como Cobro.** La cobertura del caso SEM-01 no significa que los ARS 100 físicamente declarados deban ocultarse: `D_e` se conserva íntegro y la diferencia requiere clasificación y rendición aún pendientes.
+
+### 11.4 Dependencias y acciones autorizadas
+
+- **G-COM:** la **subdecisión RC-03-FIFO se considera resuelta funcionalmente**. Quedan abiertos los demás extremos de RC-03 y las restantes cláusulas comerciales. En el acta integral G-COM se incluirá esta decisión por referencia, **sin volver a someterla a aprobación**.
+- **G-CON:** preparar enmiendas a las operaciones `UC-05`, `UC-15`, `UC-29`, y las proyecciones derivadas `UC-14/BC07`, para que su contrato distinga aplicaciones explícitas, FIFO efectivamente aplicado y saldo confirmado/provisional. **No editar aún documentos canónicos por esta sola decisión.**
+- **G-ARQ:** seleccionar y probar representación de `F_e^{FIFO}` en la fuente canónica `IMP-B` y la proyección `IMP-A`, con secuencia explícita de locks y replay determinista. La aprobación funcional no fija columnas, SQL, ni el formato de la API.
+- **G-FIS / G-DEV:** **NO AUTORIZADAS** por esta resolución. No crear/modificar V4, V1–V3, producción, credenciales, RBAC ni desplegar. Issue app #28 sigue abierta; entorno pausado.
+
+**Trazabilidad:** propuesta inicial SEM-01 §10.2 y alternativas A/B; resolución A expresamente confirmada por el responsable el 16/11/2026. **Alternativa B descartada funcionalmente:** usar FIFO solo como criterio de mora **cuando ese mismo crédito ya fue aplicado de manera efectiva** a la Entrega; no habilita un segundo reconocimiento provisional por la misma obligación.
