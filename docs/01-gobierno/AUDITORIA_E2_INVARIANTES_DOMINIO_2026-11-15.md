@@ -84,7 +84,7 @@ Una PK de `ENTREGA` controla cardinalidad de cabecera, **no** la respuesta a un 
 
 - **E2 realizada como evaluación estática inicial:** 16 invariantes trazadas a contratos/datos y 5 focos de prueba.
 - **NO cerrada como verificación de implementación:** sin inspección exhaustiva de cada servicio, ni ejecución de la suite PostgreSQL/HTTP/E2E en este corte.
-- **Propuesta de continuación:** E3 — cotejo de servicios y esquema real por invariantes, empezando por INV-09/10/11/12; registrar una matriz única de discrepancias y propuestas de corrección **sin abrir micro-PR por cada regla**.
+- **Secuencia acordada de continuación:** antes del cotejo exhaustivo de servicios, la [Etapa 3](AUDITORIA_E3_CONTRATO_COMERCIAL_CONSOLIDADO_2026-11-15.md) consolida decisiones comerciales existentes y separa pendientes normativos de soluciones técnicas (borrador en esta PR). Luego se hará el **cotejo técnico de servicios y esquema real por invariantes** (INV-09/10/11/12 prioritarias), registrando una matriz única de discrepancias **sin abrir micro-PR por cada regla**.
 - **Despliegue pausado:** Issue app #28 permanece abierta. Ninguna prueba/CI futura autoriza levantarla sin decisión del responsable.
 
 **Nota de versiones:** el [informe MR-6 del 26/10](../05-modelo-relacional/MR6_INFORME_EJECUCION_2026-10-26.md) documenta pruebas PostgreSQL del esquema de **60 tablas**; la **ampliación a 62 tablas** adoptada el 06/11 también recibe la denominación MR-6 y está implementada como Flyway **V3**. No confundir versión de ampliación con nombre de campaña histórica de pruebas.
