@@ -1,4 +1,5 @@
 # Acta G-COM — propuesta corregida para ratificación y verificación de trazabilidad
+> **ESTADO HISTÓRICO — SUPERADO EN SU CARÁCTER DE PROPUESTA (16/11/2026):** este archivo documenta la versión **anterior a la ratificación**. La decisión vigente del responsable y las salvedades aprobadas constan en [ACT-G-COM-001 ratificada con salvedades](ACTA_G_COM_001_RATIFICADA_CON_SALVEDADES_2026-11-16.md). **Esta versión se conserva sin reescribir su contenido como evidencia de auditoría.** La ratificación es funcional; la PR #64 sigue draft/no mergeada y no habilita G-FIS/G-DEV/despliegue.
 
 **Expediente:** AUD-E3-COM-001 · **Acta candidata:** ACT-G-COM-001 (identificador documental provisional).  
 **Corte de verificación:** 16/11/2026 (Argentina).  
