@@ -34,8 +34,8 @@
 ## 3. Puertas y prohibiciones expresas
 
 1. **PR documental independiente:** esta rama/PR solo puede proponer los dos nuevos archivos de la presente resolución y del anexo de chat. No alterar G0, fuente contractual original, app, migraciones ni PR #65.
-2. **PRE-05 — aislamiento de Demo: NO CERTIFICADO.** Antes de cualquier integración de gobierno/main, inventariar y verificar GitHub Actions, webhooks, GitHub Apps, integraciones CI/CD y automatismos externos capaces de observar push/merge, incluyendo disparadores indirectos hacia la Demo. Una inspección documental parcial **no constituye evidencia de aislamiento**.
-3. **FAIL-CLOSED:** en ausencia de evidencia completa de que la fusión documental no afecta la Demo, **NO MERGE** de esta PR ni de #65. Toda autorización posterior debe ser expresa y específica para el acto correspondiente.
+2. **PRE-05 — aislamiento de Demo (registro cronológico):** al redactarse originalmente esta constancia, **NO CERTIFICADO**. El dictamen posterior del 17/11/2026 establece **PRE-05 CONFORME PARA EL ALCANCE EVALUADO**, a partir de 34 workflows auditados, declaraciones administrativas del responsable y evidencia de Demo local/temporal. Ver la propuesta documental independiente [PR #67](https://github.com/leandrito369/ale-milanesas/pull/67), **DRAFT / NO MERGEADA**. No se afirma certificación absoluta de integraciones futuras; revisar cambios de automatismos antes de integrar documentos.
+3. **FAIL-CLOSED y autorización independiente:** el dictamen favorable de PRE-05 **no autoriza el merge** de esta PR ni de #65 o #67. Si aparecen nuevas rutas o cambia el inventario, revalidar el aislamiento. Toda autorización editorial de integración deberá ser expresa, específica y posterior a las revisiones correspondientes.
 4. No ejecutar ni autorizar Flyway `V4`, DDL, cambios en `V1–V3`, G-FIS, G-DEV, CR-C/CR-F, G-VAL, tests en datos reales, despliegue, cambios de configuración, reinicio, rollback operativo, webhooks ni trabajo sobre la Demo.
 5. `ART-GCON-C2`, T1/T2, cardinalidad Cobro–Aplicación, orden global de locks, namespaces y generadores continúan **sin ratificación**. Ningún prototipo se considera evidencia de aciclicidad global.
 6. La aprobación contractual de la firma candidata de anulación **no modifica por sí sola la firma implementada ni las firmas históricas G0**. Publicación de adenda, adaptación de API y autorización física se tramitan separadamente.
@@ -44,7 +44,7 @@
 
 - Revisión humana del texto normalizado frente al anexo de declaración primaria.
 - Comprobar diff limitado a **estos dos Markdown nuevos**, HEAD/base y estado de la PR, revisiones y checks reales; sin rebase, amend ni force-push.
-- **Certificar PRE-05** sobre todos los mecanismos pertinentes y documentar evidencia verificable de que ningún push/merge documental produce efectos en la Demo. Si queda incertidumbre: conservar DRAFT/NO MERGE.
+- **Revalidar el dictamen PRE-05 CONFORME del 17/11/2026** y la evidencia asociada a la [PR documental #67](https://github.com/leandrito369/ale-milanesas/pull/67). Su publicación en gobierno/main continúa pendiente. Ante cambios de workflows, GitHub Apps, webhooks o hosting, repetir el control; en cualquier caso, conservar DRAFT/NO MERGE hasta autorización editorial específica.
 - Obtener aprobación expresa del responsable para la **integración documental de esta PR específica**; la firma de los artículos no implica permiso automático para su merge.
 - Después de una integración autorizada, anotar SHA exacto del merge y referencias de revisión sin modificar retroactivamente G0.
 
@@ -56,6 +56,15 @@
 | Firma digital certificada / validación externa | **NO APORTADA** |
 | Incorporación en gobierno/main | **NO** |
 | Revisión editorial de esta propuesta | **PENDIENTE** |
-| Verificación integral de automatismos de Demo (PRE-05) | **NO CERTIFICADA / BLOQUEA MERGE** |
+| PRE-05 — aislamiento Demo (cronología) | **NO CERTIFICADA al abrir esta PR; posteriormente CONFORME para el alcance evaluado según dictamen del 17/11/2026**. Acta de respaldo en [PR #67](https://github.com/leandrito369/ale-milanesas/pull/67), DRAFT |
 | Autorización específica de merge de esta propuesta | **NO CONCEDIDA** |
 | CR-C/CR-F, G-FIS/G-DEV, V4, Demo | **NO AUTORIZADOS** |
+
+## 6. Actualización posterior de PRE-05 — 17/11/2026
+
+Esta sección agrega **un hecho posterior** a la creación de la propuesta; no altera la declaración original del responsable conservada en el ANEXO, ni atribuye retroactivamente el dictamen a la fecha de firma G-CON.
+
+- **PRE-05:** `DICTAMEN_PRE05_AISLAMIENTO_DEMO_2026-11-17` concluyó **CONFORME para el alcance evaluado**, con reservas sobre webhooks, Netlify y teardown distinguidas según su fuente. La [PR #67](https://github.com/leandrito369/ale-milanesas/pull/67) propone su acta versionada; aún **no** está integrada en `main`.
+- **Disparadores documentales:** `.github/workflows/b0-documental.yml` filtra rutas y no incluye este documento de `docs/01-gobierno/resoluciones/`. La ausencia del check B0 por no dispararse **no es un fallo**. Verificar los checks y políticas realmente exigibles, sin modificar G0 ni forzar workflows innecesarios.
+- **Estado de esta PR:** permanece **DRAFT / NO MERGE**, a falta de revisión humana y autorización expresa para **esta** integración. PRE-05 favorable no constituye `GC-10` para PR #65 ni autorización editorial para #66.
+- **Invariantes:** ningún cambio a G0, source-lock, RBAC, BC07, CR-C/CR-F, aplicación, V4, G-FIS, G-DEV o Demo; C2/T1/T2 siguen diferidos.
