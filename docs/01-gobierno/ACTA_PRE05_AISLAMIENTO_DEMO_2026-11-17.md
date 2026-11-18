@@ -57,7 +57,7 @@ El HEAD de la aplicación avanzó desde `26996e82…` hasta `cc11611d…`, inclu
 1. Webhooks no inspeccionados directamente mediante API por permisos insuficientes; su ausencia está declarada por el responsable.
 2. Dashboard de Netlify no inspeccionado independientemente; falta de proyecto e intención de no utilizarlo declaradas por el responsable.
 3. Teardown documentado, sin comprobación independiente del host de ejecución.
-4. PR #66 contiene el **estado histórico anterior** «PRE-05 NO CERTIFICADO», correcto al momento de redactarse; debe incorporarse una nota posterior con el nuevo dictamen **sin borrar ni falsificar la cronología**.
+4. PR #66 conserva el **estado histórico anterior** «PRE-05 NO CERTIFICADO» y **ya incorporó**, mediante el commit documental `e923332096c40620fa4f88f34e76a5d0c2e9213f`, una actualización posterior al dictamen favorable, sin borrar ni falsificar la cronología. La revisión y autorización de integración de PR #66 permanecen independientes.
 5. PR #98/#99 app: documentar referencia de autorización de B5/G4, sin presumir incumplimiento.
 6. Ante cualquier cambio futuro en workflows, webhooks, GitHub Apps, hosting o entorno protegido, **revalidar PRE-05** antes de integrar documentos.
 
@@ -71,7 +71,7 @@ El HEAD de la aplicación avanzó desde `26996e82…` hasta `cc11611d…`, inclu
 
 - Revalidar PRE-01..07 y GC-10 propios de PR #65.
 - Obtener autorización editorial **expresa y específica para cada PR**, incluida la presente y la #66.
-- Incorporar una actualización temporal de PRE-05 en PR #66, sin alterar el hecho histórico de que inicialmente no estaba certificado.
+- Verificar la actualización cronológica de PRE-05 **ya incorporada** en PR #66 y que continúe preservando el hecho histórico de que inicialmente no estaba certificado.
 - Conservar la declaración de firma del responsable como declarativa, no firma digital certificada.
 - Revalidar HEAD/base, diff, revisiones y checks **realmente aplicables**; no ejecutar workflows no exigidos ni sumar modificaciones a G0 para provocarlos.
 - Mantener cerrados G-FIS, G-DEV, V4 y despliegue.
