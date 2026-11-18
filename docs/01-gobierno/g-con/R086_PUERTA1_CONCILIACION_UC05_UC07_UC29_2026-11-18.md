@@ -62,9 +62,9 @@ No se utilizaron datos, contraseñas o instancias de la Demo. La PR #65 no forma
 | CX-11 | REV06B UC-15 prevé FIFO global y UC-16 congelación; RCG-03 exige FIFO vinculado de cobros elegibles y redondeos históricos particulares | Desfase de categorías, centavos y saldos provisionales | E-08 adenda fuente REV06B, sin editar G0 |
 | CX-12 | REV05 permite registrar Cobro por Admin/Vendedor, mientras RCG-04 restringe rendición a Admin y BC07 contextual; no se habilita UC-14 al Admin | Escalada de privilegios y exposición de cuentas | E-04/E-10 y matriz campo/rol contextual futura |
 | CX-13 | CR-B0-F04-001 mantiene bloqueo físico; R09-PRE app #92 sigue DRAFT; G-FIS, G-DEV, V4 y PR #65 no aprobadas editorialmente | Código/DDL basados en propuestas | Mantener cuatro gates independientes; solo documentación |
-| CX-14 | ART-GCON-C2 T1/T2/caridinalidad aún diferidos, pese a C1-a cierre único ratificado por declaración | Indefinición de transacción/confirmación por etapa | Analizar alternativas sin cerrar la decisión ni inventar cardinalidad |
+| CX-14 | ART-GCON-C2 T1/T2/cardinalidad aún diferidos, pese a C1-a cierre único ratificado por declaración | Indefinición de transacción/confirmación por etapa | Analizar alternativas sin cerrar la decisión ni inventar cardinalidad |
 
-**Nota:** CX-14 usa "cardinalidad" (sin corrección de contratos por este documento). Cada riesgo se documenta, no demuestra una falla ejecutada en producción. El análisis sobre V1 es estático; la eventual aplicabilidad en una base destino requiere preflight de esquema y datos.
+**Nota:** Cada riesgo se documenta, no demuestra una falla ejecutada en producción. El análisis sobre V1 es estático; la eventual aplicabilidad en una base destino requiere preflight de esquema y datos.
 
 ## 4. Propuestas de persistencia — no DDL y sin autoridad física
 
