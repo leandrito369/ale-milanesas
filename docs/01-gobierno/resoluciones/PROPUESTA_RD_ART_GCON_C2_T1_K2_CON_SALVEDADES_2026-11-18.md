@@ -3,17 +3,17 @@
 **Fecha de propuesta:** 18/11/2026 (Argentina).  
 **Proyecto:** Sistema de Gestión para Ale Milanesas.  
 **Autoridad reservada:** responsable del proyecto.  
-**ESTADO:** **BORRADOR PARA RESOLUCIÓN EXPRESA / NO RATIFICADA / PR DRAFT / NO MERGE**. Las casillas de decisión permanecen sin marcar. No existe una firma del responsable para esta propuesta; no atribuir aprobación hasta recibirla expresamente.  
+**ESTADO CONTRACTUAL:** **RATIFICADA POR DECLARACIÓN EXPRESA EN CONVERSACIÓN** el 19/11/2026 02:49:39 UTC (18/11/2026 23:49:39 Argentina), **T1-C2 + K2 CON LAS DIEZ SALVEDADES S01–S10**. **ESTADO EDITORIAL:** PR DRAFT / SIN MERGE / NO INCORPORADA A GOBIERNO MAIN. La declaración en chat no es GitHub Review APPROVED ni firma digital certificada; tampoco certifica G-ARQ/G-FIS.  
 **Puerta de elaboración:** R08.6 Puerta 1 (18/11/2026), solo análisis/documentación, sin cambios físicos.  
 **Línea base de gobierno consultada:** `leandrito369/ale-milanesas` main @ `9076570ff3329864fe85c990bcc6f4ff7a63d6e5`.  
 **Línea base de app consultada (solo lectura):** `leandrito369/ale-milanesas-app` main @ `f5c9af3f76723d5364d44647cfd43ea13a9fd7b5`.  
 **Source-lock inmutable:** source_commit `1263ffc17bd0eb7f3c69faaa9ff5ae556cf9de7e`; governance_commit `27738b089afdd2698cdae915f75c0e8089a6248a`.
 
-> Esta RD **solo será vinculante si el responsable la aprueba expresamente**. Al aprobarla, escogería una **política arquitectónica conceptual** para ART-GCON-C2; no certificaría el diseño físico, migraciones, pruebas, merge, API, despliegue ni corrección del código existente.
+> El responsable **aprobó expresamente T1 + K2 con las diez salvedades**. La decisión es vinculante en su **alcance conceptual** y queda pendiente de incorporación editorial con preflight y autorización de merge independiente. No certifica diseño físico, migraciones, pruebas, API, despliegue ni corrección del código existente.
 
 ## 1. Objeto, autoridad y diagnóstico
 
-**Decisión en revisión:** seleccionar para la rendición administrativa del recorrido `T1-C2` (confirmación financiera agregada en una sola transacción) frente a `T2-C2` (aplicaciones financieras con COMMIT individual), y seleccionar `K2` (Cobro por Cliente/cierre y aplicaciones trazables a sus Entregas) frente a `K1` (Cobro por Entrega). `K3`, Cobro único multicliente, está descartado por RCG-04.
+**Decisión ratificada en alcance conceptual:** seleccionar para la rendición administrativa del recorrido `T1-C2` (confirmación financiera agregada en una sola transacción) frente a `T2-C2` (aplicaciones financieras con COMMIT individual), y seleccionar `K2` (Cobro por Cliente/cierre y aplicaciones trazables a sus Entregas) frente a `K1` (Cobro por Entrega). `K3`, Cobro único multicliente, está descartado por RCG-04.
 
 **No confundir:** `T1-C2/T2-C2` son alternativas de ART-GCON-C2. Las etiquetas `T1=UC-05`, `T2=UC-29`, `T3=anularCobroManual` utilizadas en R08.5 son **operaciones concurrentes**, no alternativas de este voto.
 
@@ -44,9 +44,9 @@
 
 **Dictamen de revisión:** T1-C2 + K2 es una opción **arquitectónicamente preferible para el primer corte ONLINE**, si y solo si se respetan S01–S10. El diseño no está probado: S01/S02 delimitan comportamiento y S03–S10 se elevan a contratos, diseño físico y C3. El ejemplo de PR #69 es una **ilustración económica**, nunca evidencia de que una rendición con diferencias quedó lícitamente cerrada.
 
-## 3. Texto propuesto de resolución — para votación del responsable
+## 3. Texto de resolución — ratificado en alcance conceptual por declaración del responsable
 
-**ART-GCON-C2-001 / Opción propuesta: APROBAR CON SALVEDADES EXPRESAS (T1-C2 + K2).**
+**ART-GCON-C2-001 / Decisión declarada: APROBAR CON SALVEDADES EXPRESAS (T1-C2 + K2, S01–S10).**
 
 **C2-R01 — Elección transaccional.** Adoptar para el **primer incremento online de rendición UC-29** la alternativa `T1-C2`: el acto de cierre **autorizado** de un recorrido confirma dentro de una **sola transacción ACID** el conjunto completo de aplicaciones definitivas, sus Cobros `REPARTO`, movimientos de Cuenta, ingresos de Caja de venta, reducción equivalente de `V_e^{vig}`, huella y recibo de cierre. Un error anterior al COMMIT revierte **todos esos efectos del intento**, sin considerar la clave como aplicada. Esta decisión no exige que la validación de interfaz o la preparación documental ocurran dentro de la transacción, pero exige revalidación vinculante al confirmar.
 
@@ -101,19 +101,20 @@
 
 ## 6. Voto reservado al responsable y condiciones de publicación
 
-**Resolución propuesta para marcar expresamente al decidir:**
+**Registro de decisión posterior a la redacción inicial:**
 
-- [ ] **APROBAR CON SALVEDADES** `T1-C2 + K2`, incluyendo íntegramente C2-R01..C2-R10 y S01..S10, sin autorizar trabajo físico.
-- [ ] **DEVOLVER PARA AJUSTES**, indicando las cláusulas/casos que necesitan modificación.
-- [ ] **RECHAZAR T1/K2**, indicando la alternativa que debe reevaluarse, sin activar T2 por defecto.
-- [ ] **DIFERIR**, manteniendo ART-GCON-C2 no votado y R08.6 físico bloqueado.
+- [x] **APROBAR CON SALVEDADES** `T1-C2 + K2`, comprendiendo la propuesta C2-R01..C2-R10 y las **diez salvedades S01..S10**, sin autorizar trabajo físico.
+- [ ] **DEVOLVER PARA AJUSTES**.
+- [ ] **RECHAZAR T1/K2**.
+- [ ] **DIFERIR**.
 
-**Observaciones del responsable:** [PENDIENTE DE COMPLETAR].  
-**Fecha/hora y canal de la decisión:** [PENDIENTE DE COMPLETAR].  
-**Transcripción literal o comentario de autorización:** [PENDIENTE DE COMPLETAR].  
-**Firma:** [PENDIENTE; ninguna firma atribuida a este borrador].
+**Declaración textual del responsable:** «Apruebo T1 + K2 con las diez salvedades. Con que seguimos ahora?» (se transcribe sin formato Markdown).  
+**Fecha/hora del mensaje fuente:** `2026-11-19T02:49:39Z` (Argentina: 18/11/2026 23:49:39, UTC−03:00).  
+**Canal y autoridad:** conversación del responsable con ChatGPT; ratificación declarativa, no firma digital ni revisión aprobatoria en GitHub.  
+**Observación:** esta declaración resuelve **ART-GCON-C2** conceptualmente y mantiene todas las reservas **S01–S10**. No declara resuelto G-ARQ Nivel 1 ni pruebas C3/RT-UC07-04.
+**Incorporación editorial:** pendiente de preflight, revisión y autorización específica de ejecución de merge. **No hay autorización de merge en esta declaración.**
 
-**Efectos SOLO si hay aprobación expresa:** documentar la opción en una RD/acta versionada, referenciar el comentario o mensaje fuente, actualizar la matriz de R08.6 en una nueva PR editorial sujeta a preflight y autorización, y preparar G-ARQ Nivel 2. La aprobación conceptual **no equivale** a aprobación de esa futura PR ni a autorizar experimentos físicos, migraciones, app o deployment.
+**Efectos de la aprobación expresa ya recibida:** este archivo registra la opción T1-C2 + K2 con S01–S10, debe enlazarse a la constancia del mensaje fuente y conciliarse con la matriz R08.6 en un corte documental independiente. El siguiente trabajo autorizado es **análisis/diseño conceptual G-ARQ Nivel 2** dentro de Puerta 1; la aprobación conceptual **no equivale** a autorización editorial de merge ni a ejecutar experimentos físicos, migraciones, app o deployment.
 
 **Puertas bloqueadas hasta actos distintos:** PR #69 y este borrador DRAFT; PR #65 GC-10, #66, #67, #68; UC-07 CR-C #47/CR-F #48; RT-UC07-04/C3; CR-B0-F04-001; G-FIS/V4; G-DEV/R09; G-VAL; B9. La aprobación documental previa de #66/#67 no constituye ejecución de merge ni habilitación de estos gates.
 
@@ -130,4 +131,4 @@
 - Roadmap operativo `ROADMAP_OPERATIVO_I3_I7_2026-11-15.md`; implementación futura R09-PRE (app PR #92), sin ejecución habilitada.
 - Gobierno G-ARQ Nivel 1: **estado reportado, documento original/commit SHA no acreditados** en la fuente PR #66; esta propuesta no afirma cierre Nivel 1.
 
-**Alcance de auditoría:** revisión estática de documentación, código fuente y esquema versionado. No hubo pruebas SQL, migraciones, seguridad, runtime, rendimiento ni acceso a Demo. El texto constituye un documento decisorio propuesto y requiere evaluación humana previa.
+**Alcance de auditoría:** revisión estática de documentación, código fuente y esquema versionado. No hubo pruebas SQL, migraciones, seguridad, runtime, rendimiento ni acceso a Demo. El texto fue preparado como propuesta y **ratificado posteriormente por declaración expresa** en el alcance indicado; permanecen pendientes la revisión e incorporación editoriales, las validaciones técnicas y las puertas físicas.
