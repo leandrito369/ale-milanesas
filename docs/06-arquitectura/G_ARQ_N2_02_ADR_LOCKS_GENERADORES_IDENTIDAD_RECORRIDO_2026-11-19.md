@@ -70,6 +70,32 @@
 
 **Otros triggers existentes revisados por categoría:** promoción, plazo/unidad, cotización, invitación/orden/solicitud de compra, primera ronda, reembolso terminal, evento de resultado aplicable. El inventario completo de 38 nombres se obtiene de V1–V3; no se elimina ni sustituye ninguno en este ADR. Deben inventariarse también **FKs e índices de bloqueo efectivo** de cada nueva migración y los ejecutores SQL externos antes de certificar C3.
 
+### 3.2. Registro nominal completo de declaraciones SQL auditadas
+
+Este registro enumera **cada definición `CREATE TRIGGER`** de la línea base fuente V1–V3; los nombres no representan triggers de una base viva ni cubren triggers creados manualmente fuera de Flyway.
+
+| Migración / clase | Triggers declarados |
+|---|---|
+| **V1 MR3 directos (9)** | `tg_mr3_promocion_estado`, `tg_mr3_proteger_plazo_episodio`, `tg_mr3_proteger_unidad_insumo`, `tg_mr3_validar_respuesta_cotizacion`, `tg_mr3_validar_pedido_nuevo`, `tg_mr3_validar_producto_detalle_nuevo`, `tg_mr3_validar_invitacion_nueva`, `tg_mr3_validar_orden_nueva`, `tg_mr3_proteger_solicitud_emitida` |
+| **V1 MR3 diferidos (3)** | `ct_mr3_cobro_anulado`, `ct_mr3_caja_anulacion`, `ct_mr3_origen_anulacion` |
+| **V1 MR5 contabilidad e inventario (8)** | `tg_mr5_movimiento_cuenta_inmutable`, `tg_mr5_origen_movimiento_cuenta_inmutable`, `tg_mr5_movimiento_caja_inmutable`, `tg_mr5_guardar_cobro`, `tg_mr5_validar_apertura_insumo`, `tg_mr5_movimiento_insumo_inmutable`, `tg_mr5_proteger_costo_usado`, `tg_mr5_reembolso_terminal` |
+| **V1 MR5 diferidos financieros y de roles (7)** | `ct_mr5_reembolso_completo`, `ct_mr5_reembolso_caja`, `ct_mr5_reembolso_cuenta`, `ct_mr5_usuario_roles`, `ct_mr5_asignacion_roles`, `ct_mr5_usuario_proveedor`, `ct_mr5_evento_aplicable` |
+| **V1 MR5 sesiones, elegibilidad y faltantes (9)** | `tg_mr5_revocar_sesiones_usuario`, `tg_mr5_revocar_sesiones_roles`, `tg_mr5_revocar_sesiones_proveedor`, `tg_mr5_validar_pedido_cambio_cliente`, `tg_mr5_validar_detalle_cambio_producto`, `tg_mr5_validar_invitacion_cambio`, `tg_mr5_validar_orden_cambio_decision`, `tg_mr5_validar_primera_ronda`, `tg_mr5_validar_cierre_episodio` |
+| **V2 F01 (1)** | `tg_f01_transicion_cobro` |
+| **V3 Partidas (1)** | `tg_detalle_movimiento_partida_actualiza_disponible` |
+
+**Control aritmético:** 9+3+8+7+9=**36** triggers V1, +1 V2, +1 V3 = **38**.
+
+**Funciones SQL definidas, por grupo (nombres únicos):**
+
+- **V1 MR3 (11):** `fn_mr3_promocion_estado`, `fn_mr3_proteger_plazo_episodio`, `fn_mr3_proteger_unidad_insumo`, `fn_mr3_validar_respuesta_cotizacion`, `fn_mr3_anular_cobro_manual`, `fn_mr3_validar_pedido_nuevo`, `fn_mr3_validar_producto_detalle_nuevo`, `fn_mr3_validar_invitacion_nueva`, `fn_mr3_validar_orden_nueva`, `fn_mr3_proteger_solicitud_emitida`, `fn_mr3_verificar_contraasiento`.
+- **V1 MR5 (12):** `fn_mr5_bloquear_mutacion_asiento`, `fn_mr5_guardar_cobro`, `fn_mr5_validar_apertura_insumo`, `fn_mr5_proteger_costo_usado`, `fn_mr5_validar_reembolso_financiero`, `fn_mr5_reembolso_estado_terminal`, `fn_mr5_validar_invariantes_usuarios`, `fn_mr5_revocar_sesiones_usuario`, `fn_mr5_revocar_sesiones_roles`, `fn_mr5_validar_primera_ronda`, `fn_mr5_validar_cierre_episodio`, `fn_mr5_validar_evento_aplicable`.
+- **V2 (1):** `fn_f01_transicion_cobro`. **V3 (1):** `fn_actualizar_cantidad_disponible`.
+- **Redefiniciones dentro de V1 (5 nombres; no son funciones distintas):** `fn_mr3_promocion_estado`, `fn_mr3_validar_pedido_nuevo`, `fn_mr3_validar_producto_detalle_nuevo`, `fn_mr3_validar_invitacion_nueva`, `fn_mr3_validar_orden_nueva`. Por eso hay **28 sentencias CREATE OR REPLACE FUNCTION** V1, pero solo **23 funciones distintas**.
+- **Secuencia física declarada:** `seq_partida_insumo` en V3. No se acreditó otra definición CREATE SEQUENCE en V1–V3.
+
+**Pendiente de G-FIS (no de otro subcorte de este ADR):** ejecutar inventario runtime `pg_trigger`/`pg_proc`/`pg_constraint`, incluyendo pertenencia al esquema, DDL efectivo y deferrability, contra una **base de destino autorizada**, para detectar deriva externa y los locks FK/trigger no visibles por mera lectura estática.
+
 ## 4. Recomendación A2-GLOBAL: namespaces, orden y transición
 
 **Alternativas evaluadas:** A1 conservar exclusivamente `A1(2929001)` + orden local (menor diff pero contención global e insuficiente ante escritores fuera del guard); A2 namespaces por recurso y precedencia común con compatibilidad temporal. **DECISIÓN TÉCNICA RECOMENDADA: A2.** No aprobar lock IDs físicos.
